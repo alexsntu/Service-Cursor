@@ -1,0 +1,552 @@
+<section class="mm-block mm-footer-block mm-footer-block--premium">
+  <style>
+    .mm-block.mm-footer-block.mm-footer-block--premium {
+      margin-top: 20px;
+      padding: 0;
+      background: transparent;
+    }
+
+    .mm-block .mm-footer-premium {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      background: linear-gradient(165deg, #f4fff8 0%, #edfafa 45%, #eef6ff 100%);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+      color: #2C2C2C;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .mm-block .mm-footer-premium::before {
+      content: "";
+      position: absolute;
+      inset: -120px auto auto -120px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(74, 229, 128, 0.28) 0%, rgba(74, 229, 128, 0) 72%);
+      pointer-events: none;
+    }
+
+    .mm-block .mm-footer-premium::after {
+      content: "";
+      position: absolute;
+      inset: auto -120px -120px auto;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(32, 204, 190, 0.24) 0%, rgba(32, 204, 190, 0) 72%);
+      pointer-events: none;
+    }
+
+    .mm-block .mm-footer-premium-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 20px 24px 0;
+    }
+
+    .mm-block .mm-footer-premium-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+      align-items: stretch;
+      position: relative;
+      z-index: 2;
+    }
+
+    .mm-block .mm-footer-glass {
+      padding: 12px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(20px) saturate(170%);
+      min-height: 150px;
+    }
+
+    .mm-block .mm-footer-brand {
+      display: grid;
+      grid-template-columns: 172px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+    }
+
+    .mm-block .mm-footer-brand-main {
+      min-width: 0;
+    }
+
+    .mm-block .mm-footer-brand-note {
+      margin: 6px 0 0;
+      grid-column: 2;
+      font-size: 12px;
+      line-height: 1.35;
+      color: #555555;
+      text-align: left;
+    }
+
+    .mm-block .mm-footer-logo-svg {
+      display: block;
+      width: 164px;
+      height: auto;
+    }
+
+    .mm-block .mm-footer-title {
+      margin: 0 0 4px;
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 700;
+      color: #2C2C2C;
+    }
+
+    .mm-block .mm-footer-meta {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.35;
+      color: #555555;
+    }
+
+    .mm-block .mm-footer-phone {
+      display: inline-flex;
+      margin-top: 5px;
+      font-size: 21px;
+      line-height: 1.1;
+      font-weight: 700;
+      color: #2C2C2C;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .mm-block .mm-footer-phone:hover {
+      color: #20CCBE;
+    }
+
+    .mm-block .mm-footer-address {
+      display: inline-flex;
+      margin-top: 4px;
+      color: #20CCBE;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .mm-block .mm-footer-address:hover {
+      color: #2C2C2C;
+    }
+
+    .mm-block .mm-footer-cta {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 20px;
+      background: #2C2C2C;
+      color: #ffffff;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+      min-height: 150px;
+    }
+
+    .mm-block .mm-footer-cta h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      line-height: 1.3;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .mm-block .mm-footer-cta p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.35;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .mm-block .mm-footer-cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .mm-block .mm-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 32px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #4AE580, #20CCBE);
+      color: #ffffff;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .mm-block .mm-btn-primary:hover {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .mm-block .mm-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 32px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: transparent;
+      color: #ffffff;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .mm-block .mm-btn-secondary:hover {
+      border-color: #ffffff;
+      color: #ffffff;
+    }
+
+    .mm-block .mm-footer-premium-nav {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mm-block .mm-footer-nav-card {
+      padding: 14px 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.05);
+      backdrop-filter: blur(18px) saturate(160%);
+    }
+
+    .mm-block .mm-footer-nav-title {
+      margin: 0 0 8px;
+      font-size: 14px;
+      line-height: 1.3;
+      font-weight: 700;
+      color: #2C2C2C;
+    }
+
+    .mm-block .mm-footer-nav-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 12px;
+    }
+
+    .mm-block .mm-footer-nav-list a {
+      color: #2C2C2C;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
+    .mm-block .mm-footer-nav-list a:hover {
+      color: #20CCBE;
+    }
+
+    .mm-block .mm-footer-categories-premium {
+      margin-top: 14px;
+      padding: 14px 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.05);
+      backdrop-filter: blur(18px) saturate(160%);
+    }
+
+    .mm-block .mm-footer-categories-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .mm-block .mm-footer-categories-list a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #F3F3F3;
+      border: 1px solid #e5e5e5;
+      color: #2C2C2C;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .mm-block .mm-footer-categories-list a:hover {
+      border-color: rgba(74, 229, 128, 0.55);
+      color: #20CCBE;
+    }
+
+    .mm-block .mm-footer-legal-zone {
+      margin-top: 14px;
+      background: #2C2C2C;
+      color: rgba(255, 255, 255, 0.9);
+      padding: 12px 24px 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px 14px;
+      align-items: start;
+    }
+
+    .mm-block .mm-footer-legal {
+      margin: 0;
+      font-size: 11px;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .mm-block .mm-footer-policy {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      justify-content: flex-end;
+    }
+
+    .mm-block .mm-footer-policy a {
+      color: #4AE580;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .mm-block .mm-footer-policy a:hover {
+      color: #20CCBE;
+    }
+
+    @media (max-width: 1100px) {
+      .mm-block .mm-footer-premium-top {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .mm-block .mm-footer-premium-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .mm-block .mm-footer-premium-inner {
+        padding: 14px 10px 0;
+      }
+
+      .mm-block .mm-footer-premium-top,
+      .mm-block .mm-footer-premium-nav {
+        gap: 10px;
+      }
+
+      .mm-block .mm-footer-brand {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .mm-block .mm-footer-brand-note {
+        grid-column: auto;
+        text-align: left;
+      }
+
+      .mm-block .mm-footer-glass,
+      .mm-block .mm-footer-cta {
+        min-height: 0;
+      }
+
+      .mm-block .mm-footer-glass,
+      .mm-block .mm-footer-cta,
+      .mm-block .mm-footer-nav-card,
+      .mm-block .mm-footer-categories-premium {
+        padding: 12px;
+        border-radius: 14px;
+      }
+
+      .mm-block .mm-footer-nav-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 10px;
+      }
+
+      .mm-block .mm-footer-legal-zone {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 12px 10px 12px;
+      }
+
+      .mm-block .mm-footer-policy {
+        justify-content: flex-start;
+        gap: 6px 10px;
+      }
+
+      .mm-block .mm-footer-phone {
+        margin-top: 6px;
+        font-size: 18px;
+      }
+
+      .mm-block .mm-footer-title,
+      .mm-block .mm-footer-cta h3 {
+        font-size: 16px;
+      }
+
+      .mm-block .mm-footer-meta,
+      .mm-block .mm-footer-cta p,
+      .mm-block .mm-footer-nav-list a {
+        font-size: 13px;
+      }
+
+      .mm-block .mm-btn-primary,
+      .mm-block .mm-btn-secondary {
+        min-height: 38px;
+        padding: 9px 14px;
+        font-size: 13px;
+      }
+
+      .mm-block .mm-footer-categories-list {
+        gap: 7px;
+      }
+
+      .mm-block .mm-footer-categories-list a {
+        padding: 8px 11px;
+        font-size: 12px;
+      }
+
+      .mm-block .mm-footer-legal {
+        font-size: 11px;
+        line-height: 1.45;
+      }
+
+      .mm-block .mm-footer-policy a {
+        font-size: 12px;
+      }
+
+      .mm-block .mm-footer-logo-svg {
+        width: 146px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .mm-block .mm-footer-nav-list {
+        grid-template-columns: 1fr;
+      }
+
+      .mm-block .mm-footer-categories-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .mm-block .mm-footer-categories-list a {
+        justify-content: center;
+        text-align: center;
+        white-space: normal;
+      }
+    }
+  </style>
+
+  <footer class="mm-footer-premium">
+    <div class="mm-footer-premium-inner">
+      <div class="mm-footer-premium-top">
+        <div class="mm-footer-glass">
+          <div class="mm-footer-brand">
+            <a href="https://irepair.ru/" aria-label="iRepair - главная страница">
+              <svg class="mm-footer-logo-svg" viewBox="0 0 197 54" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <path d="M24.9998 2C11.1928 2 0 13.1931 0 27C0 40.8069 11.1928 52 24.9998 52C38.8072 52 50 40.8069 50 27C50 13.1931 38.8072 2 24.9998 2ZM40.6766 27.8099C38.9175 30.0008 38.021 32.7594 38.1569 35.5658L38.3295 39.1435C38.839 42.4417 35.4056 44.9358 32.4266 43.4319L29.0774 42.1623C26.4505 41.166 23.5495 41.166 20.9222 42.1623L17.5734 43.4319C14.594 44.9358 11.1606 42.4417 11.6705 39.1435L11.8431 35.5658C11.9786 32.7594 11.0822 30.0008 9.32336 27.8099L7.08112 25.0173C4.72981 22.648 6.04116 18.6122 9.33598 18.0779L12.7912 17.1367C15.5023 16.3983 17.849 14.6931 19.3889 12.3437L21.3521 9.34786C22.8785 6.37994 27.1222 6.37994 28.6487 9.34786L30.6115 12.3433C32.151 14.6935 34.4985 16.3987 37.2092 17.1367L40.6644 18.0779C43.9588 18.6122 45.2702 22.6476 42.9193 25.0173L40.6766 27.8099Z" fill="#010306"></path>
+                <text x="58" y="38" fill="#010306" font-size="24" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-weight="700">iRepair</text>
+              </svg>
+            </a>
+            <div class="mm-footer-brand-main">
+              <h3 class="mm-footer-title">Сервисный центр iRepair</h3>
+              <p class="mm-footer-meta">Ежедневно с 10:00 до 20:00</p>
+              <a class="mm-footer-phone" href="tel:+79395550890">+7 (939) 555-08-90</a><br>
+              <a class="mm-footer-address" href="https://irepair.ru/kontakty/">Москва, м. Маяковская</a>
+            </div>
+            <p class="mm-footer-brand-note">Ремонт за 30 минут, гарантия до 1 года, курьер по Москве.</p>
+          </div>
+        </div>
+
+        <div class="mm-footer-cta">
+          <div>
+            <h3>Нужна помощь с ремонтом Apple?</h3>
+            <p>Проконсультируем по стоимости, срокам и подберем удобный формат обращения.</p>
+          </div>
+          <div class="mm-footer-cta-actions">
+            <a class="mm-btn-primary" href="tel:+79395550890">Позвонить сейчас</a>
+            <a class="mm-btn-secondary" href="https://irepair.ru/kontakty/">Контакты</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mm-footer-premium-nav">
+        <nav class="mm-footer-nav-card" aria-label="Основные разделы">
+          <h4 class="mm-footer-nav-title">Разделы сайта</h4>
+          <ul class="mm-footer-nav-list">
+            <li><a href="https://irepair.ru/catalog/">Ремонт</a></li>
+            <li><a href="https://irepair.ru/services/">Услуги</a></li>
+            <li><a href="https://irepair.ru/prices/">Цены</a></li>
+            <li><a href="https://irepair.ru/diagnostics/">Диагностика</a></li>
+            <li><a href="https://irepair.ru/garanties/">Гарантия</a></li>
+          </ul>
+        </nav>
+
+        <nav class="mm-footer-nav-card" aria-label="Информация">
+          <h4 class="mm-footer-nav-title">Информация</h4>
+          <ul class="mm-footer-nav-list">
+            <li><a href="https://irepair.ru/o-kompanii/">О компании</a></li>
+            <li><a href="https://irepair.ru/delivery/">Доставка</a></li>
+            <li><a href="https://irepair.ru/payment/">Оплата</a></li>
+            <li><a href="https://irepair.ru/o-kompanii/">О сервисе</a></li>
+            <li><a href="https://irepair.ru/kontakty/">Контакты</a></li>
+            <li><a href="https://irepair.ru/map/">Карта сайта</a></li>
+            <li><a href="https://irepair.ru/programma-loyalnosti/">Программа лояльности</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="mm-footer-categories-premium" aria-label="Ремонт по категориям">
+        <h4 class="mm-footer-nav-title">Ремонт по категориям</h4>
+        <ul class="mm-footer-categories-list">
+          <li><a href="https://irepair.ru/catalog/remont-iphone/">iPhone</a></li>
+          <li><a href="https://irepair.ru/catalog/remont-macbook/">MacBook</a></li>
+          <li><a href="https://irepair.ru/catalog/remont-ipad/">iPad</a></li>
+          <li><a href="https://irepair.ru/catalog/remont-apple-watch/">Apple Watch</a></li>
+          <li><a href="https://irepair.ru/catalog/remont-imac/">iMac</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mm-footer-legal-zone">
+      <p class="mm-footer-legal">
+        © 2011-2025 Сервисный центр iRepair (Айрепэйр). Название и логотип являются товарным знаком на территории РФ.
+        Все права защищены. ИП Бакши Т.А. | ИНН: 920456797608 | ОГРНИП: 316920400075641
+      </p>
+
+      <ul class="mm-footer-policy">
+        <li><a href="https://irepair.ru/polzovatelskoe-soglashenie/">Пользовательское соглашение</a></li>
+        <li><a href="https://irepair.ru/privacy/">Политика конфиденциальности</a></li>
+        <li><a href="https://irepair.ru/map/">Карта сайта</a></li>
+      </ul>
+    </div>
+  </footer>
+</section>

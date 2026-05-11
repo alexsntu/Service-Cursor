@@ -1,0 +1,545 @@
+User-agent: *
+Allow: /
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+Allow: /catalog/view/javascript/
+Allow: /catalog/view/theme/*/
+Allow: /catalog
+Allow: /image
+Disallow: /personal/
+Disallow: /*backurl=
+Disallow: /admin/
+Disallow: /system/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /download/
+Disallow: /cgi-bin/
+Disallow: /config.php
+Disallow: /*route=account/
+Disallow: /*route=affiliate/
+Disallow: /*route=checkout/
+Disallow: /*route=product/search
+Disallow: /index.php?route=product/product*&manufacturer_id=
+Disallow: /*compare-products
+Disallow: /*search
+Disallow: /*cart
+Disallow: /*checkout
+Disallow: /*login
+Disallow: /*logout
+Disallow: /*vouchers
+Disallow: /*wishlist
+Disallow: /*my-account
+Disallow: /*order-history
+Disallow: /*newsletter
+Disallow: /*return-add
+Disallow: /*forgot-password
+Disallow: /*downloads
+Disallow: /*returns
+Disallow: /*transactions
+Disallow: /*create-account
+Disallow: /*recurring
+Disallow: /*address-book
+Disallow: /*reward-points
+Disallow: /*affiliate-forgot-password
+Disallow: /*create-affiliate-account
+Disallow: /*affiliate-login
+Disallow: /*affiliates
+Disallow: /*?filter_tag=
+Disallow: /*brands
+Disallow: /*specials
+Disallow: /*simpleregister
+Disallow: /*simplecheckout
+Disallow: *utm=
+Disallow: /*?page=
+Disallow: /*&page=
+Disallow: /*PAGEN_
+Disallow: /*erid=
+Disallow: /*yclid=
+Disallow: /*yclid
+Disallow: /cache/
+Disallow: /image/cache/
+Disallow: /*/cache/
+Disallow: /*cache
+Disallow: /local/
+Disallow: /local/templates/
+Disallow: /local/templates/main/
+Disallow: /local/templates/main/components/
+Disallow: /local/components/
+Disallow: /components/
+Disallow: /*.default/
+Disallow: /templates/
+Disallow: /main/
+Disallow: /*/[0-9].html$
+Disallow: /abuse/
+Disallow: /angel/
+Disallow: /appreciate/
+Disallow: /asleep/
+Disallow: /athletic/
+Disallow: /beat/
+Disallow: /bicycle/
+Disallow: /bite/
+Disallow: /blanket/
+Disallow: /border/
+Disallow: /bureau/
+Disallow: /cancel/
+Disallow: /century/
+Disallow: /chapter/
+Disallow: /chip/
+Disallow: /choose/
+Disallow: /commodity/
+Disallow: /creation/
+Disallow: /criticism/
+Disallow: /cruel/
+Disallow: /different/
+Disallow: /discuss/
+Disallow: /disturb/
+Disallow: /drinking/
+Disallow: /effective/
+Disallow: /exercise/
+Disallow: /existence/
+Disallow: /faint/
+Disallow: /faith/
+Disallow: /gross/
+Disallow: /heaven/
+Disallow: /high-tech/
+Disallow: /horizon/
+Disallow: /hunt/
+Disallow: /immediately/
+Disallow: /intact/
+Disallow: /known/
+Disallow: /laugh/
+Disallow: /lean/
+Disallow: /level/
+Disallow: /match/
+Disallow: /mathematics/
+Disallow: /medium/
+Disallow: /metropolitan/
+Disallow: /newspaper/
+Disallow: /norm/
+Disallow: /partly/
+Disallow: /piece/
+Disallow: /print/
+Disallow: /range/
+Disallow: /recognize/
+Disallow: /requirement/
+Disallow: /ritual/
+Disallow: /secretary/
+Disallow: /seed/
+Disallow: /sheep/
+Disallow: /slave/
+Disallow: /slowly/
+Disallow: /somewhat/
+Disallow: /structural/
+Disallow: /stuff/
+Disallow: /suspicion/
+Disallow: /swell/
+Disallow: /switch/
+Disallow: /sword/
+Disallow: /tall/
+Disallow: /teacher/
+Disallow: /telescope/
+Disallow: /tightly/
+Disallow: /toreka/
+Disallow: /unknown/
+Disallow: /virtually/
+Disallow: /with/
+
+# Блокировка index.php спама
+Disallow: /index.php?route=product/product/getopt
+Disallow: /index.php?route=product/product/getoptn
+Disallow: /index.php?route=product/product/getprice
+
+# Дополнения по ТЗ (ЗАДАЧА 3)
+# Блокировка UTM-параметров Яндекс Директа
+Disallow: /*?utm_ya_campaign=
+Disallow: /*&utm_ya_campaign=
+Disallow: /*?utm_candidate=
+Disallow: /*?yabizcmpgn=
+
+# Блокировка технических URL OpenCart (дубли каталога)
+Disallow: /index.php?route=product/product&path=
+
+# Блокировка параметров Яндекс Метрики
+Disallow: /*?_ym_status-check=
+
+# Блокировка toreka
+Disallow: /toreka/
+
+# Блокировка js json
+Disallow: /js/
+
+# Блокировка personal
+Disallow: /personal/
+
+User-agent: Google
+Allow: /
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+Allow: /catalog/view/javascript/
+Allow: /catalog/view/theme/*/
+Allow: /catalog
+Allow: /image
+Disallow: /personal/
+Disallow: /*backurl=
+Disallow: /admin/
+Disallow: /system/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /download/
+Disallow: /cgi-bin/
+Disallow: /config.php
+Disallow: /*route=account/
+Disallow: /*route=affiliate/
+Disallow: /*route=checkout/
+Disallow: /*route=product/search
+Disallow: /index.php?route=product/product*&manufacturer_id=
+Disallow: /*compare-products
+Disallow: /*search
+Disallow: /*cart
+Disallow: /*checkout
+Disallow: /*login
+Disallow: /*logout
+Disallow: /*vouchers
+Disallow: /*wishlist
+Disallow: /*my-account
+Disallow: /*order-history
+Disallow: /*newsletter
+Disallow: /*return-add
+Disallow: /*forgot-password
+Disallow: /*downloads
+Disallow: /*returns
+Disallow: /*transactions
+Disallow: /*create-account
+Disallow: /*recurring
+Disallow: /*address-book
+Disallow: /*reward-points
+Disallow: /*affiliate-forgot-password
+Disallow: /*create-affiliate-account
+Disallow: /*affiliate-login
+Disallow: /*affiliates
+Disallow: /*?filter_tag=
+Disallow: /*brands
+Disallow: /*specials
+Disallow: /*simpleregister
+Disallow: /*simplecheckout
+Disallow: *utm=
+Disallow: /*?page=
+Disallow: /*&page=
+Disallow: /*PAGEN_
+Disallow: /*erid=
+Disallow: /*yclid=
+Disallow: /*yclid
+Disallow: /cache/
+Disallow: /image/cache/
+Disallow: /*/cache/
+Disallow: /*cache
+Disallow: /local/
+Disallow: /local/templates/
+Disallow: /local/templates/main/
+Disallow: /local/templates/main/components/
+Disallow: /local/components/
+Disallow: /components/
+Disallow: /*.default/
+Disallow: /templates/
+Disallow: /main/
+Disallow: /*/[0-9].html$
+Disallow: /abuse/
+Disallow: /angel/
+Disallow: /appreciate/
+Disallow: /asleep/
+Disallow: /athletic/
+Disallow: /beat/
+Disallow: /bicycle/
+Disallow: /bite/
+Disallow: /blanket/
+Disallow: /border/
+Disallow: /bureau/
+Disallow: /cancel/
+Disallow: /century/
+Disallow: /chapter/
+Disallow: /chip/
+Disallow: /choose/
+Disallow: /commodity/
+Disallow: /creation/
+Disallow: /criticism/
+Disallow: /cruel/
+Disallow: /different/
+Disallow: /discuss/
+Disallow: /disturb/
+Disallow: /drinking/
+Disallow: /effective/
+Disallow: /exercise/
+Disallow: /existence/
+Disallow: /faint/
+Disallow: /faith/
+Disallow: /gross/
+Disallow: /heaven/
+Disallow: /high-tech/
+Disallow: /horizon/
+Disallow: /hunt/
+Disallow: /immediately/
+Disallow: /intact/
+Disallow: /known/
+Disallow: /laugh/
+Disallow: /lean/
+Disallow: /level/
+Disallow: /match/
+Disallow: /mathematics/
+Disallow: /medium/
+Disallow: /metropolitan/
+Disallow: /newspaper/
+Disallow: /norm/
+Disallow: /partly/
+Disallow: /piece/
+Disallow: /print/
+Disallow: /range/
+Disallow: /recognize/
+Disallow: /requirement/
+Disallow: /ritual/
+Disallow: /secretary/
+Disallow: /seed/
+Disallow: /sheep/
+Disallow: /slave/
+Disallow: /slowly/
+Disallow: /somewhat/
+Disallow: /structural/
+Disallow: /stuff/
+Disallow: /suspicion/
+Disallow: /swell/
+Disallow: /switch/
+Disallow: /sword/
+Disallow: /tall/
+Disallow: /teacher/
+Disallow: /telescope/
+Disallow: /tightly/
+Disallow: /toreka/
+Disallow: /unknown/
+Disallow: /virtually/
+Disallow: /with/
+
+# Блокировка index.php спама
+Disallow: /index.php?route=product/product/getopt
+Disallow: /index.php?route=product/product/getoptn
+Disallow: /index.php?route=product/product/getprice
+
+# Дополнения по ТЗ (ЗАДАЧА 3)
+# Блокировка UTM-параметров Яндекс Директа
+Disallow: /*?utm_ya_campaign=
+Disallow: /*&utm_ya_campaign=
+Disallow: /*?utm_candidate=
+Disallow: /*?yabizcmpgn=
+
+# Блокировка технических URL OpenCart (дубли каталога)
+Disallow: /index.php?route=product/product&path=
+
+# Блокировка параметров Яндекс Метрики
+Disallow: /*?_ym_status-check=
+
+# Блокировка toreka
+Disallow: /toreka/
+
+# Блокировка js json
+Disallow: /js/
+
+# Блокировка personal
+Disallow: /personal/
+
+User-agent: Yandex
+Allow: /
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+Allow: /catalog/view/javascript/
+Allow: /catalog/view/theme/*/
+Allow: /catalog
+Allow: /image
+Disallow: /personal/
+Disallow: /*backurl=
+Disallow: /admin/
+Disallow: /system/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /download/
+Disallow: /cgi-bin/
+Disallow: /config.php
+Disallow: /*route=account/
+Disallow: /*route=affiliate/
+Disallow: /*route=checkout/
+Disallow: /*route=product/search
+Disallow: /index.php?route=product/product*&manufacturer_id=
+Disallow: /*compare-products
+Disallow: /*search
+Disallow: /*cart
+Disallow: /*checkout
+Disallow: /*login
+Disallow: /*logout
+Disallow: /*vouchers
+Disallow: /*wishlist
+Disallow: /*my-account
+Disallow: /*order-history
+Disallow: /*newsletter
+Disallow: /*return-add
+Disallow: /*forgot-password
+Disallow: /*downloads
+Disallow: /*returns
+Disallow: /*transactions
+Disallow: /*create-account
+Disallow: /*recurring
+Disallow: /*address-book
+Disallow: /*reward-points
+Disallow: /*affiliate-forgot-password
+Disallow: /*create-affiliate-account
+Disallow: /*affiliate-login
+Disallow: /*affiliates
+Disallow: /*?filter_tag=
+Disallow: /*brands
+Disallow: /*specials
+Disallow: /*simpleregister
+Disallow: /*simplecheckout
+Disallow: *utm=
+Disallow: /*?page=
+Disallow: /*&page=
+Disallow: /*PAGEN_
+Disallow: /*erid=
+Disallow: /*yclid=
+Disallow: /*yclid
+Disallow: /cache/
+Disallow: /image/cache/
+Disallow: /*/cache/
+Disallow: /*cache
+Disallow: /local/
+Disallow: /local/templates/
+Disallow: /local/templates/main/
+Disallow: /local/templates/main/components/
+Disallow: /local/components/
+Disallow: /components/
+Disallow: /*.default/
+Disallow: /templates/
+Disallow: /main/
+Disallow: /*/[0-9].html$
+Disallow: /abuse/
+Disallow: /angel/
+Disallow: /appreciate/
+Disallow: /asleep/
+Disallow: /athletic/
+Disallow: /beat/
+Disallow: /bicycle/
+Disallow: /bite/
+Disallow: /blanket/
+Disallow: /border/
+Disallow: /bureau/
+Disallow: /cancel/
+Disallow: /century/
+Disallow: /chapter/
+Disallow: /chip/
+Disallow: /choose/
+Disallow: /commodity/
+Disallow: /creation/
+Disallow: /criticism/
+Disallow: /cruel/
+Disallow: /different/
+Disallow: /discuss/
+Disallow: /disturb/
+Disallow: /drinking/
+Disallow: /effective/
+Disallow: /exercise/
+Disallow: /existence/
+Disallow: /faint/
+Disallow: /faith/
+Disallow: /gross/
+Disallow: /heaven/
+Disallow: /high-tech/
+Disallow: /horizon/
+Disallow: /hunt/
+Disallow: /immediately/
+Disallow: /intact/
+Disallow: /known/
+Disallow: /laugh/
+Disallow: /lean/
+Disallow: /level/
+Disallow: /match/
+Disallow: /mathematics/
+Disallow: /medium/
+Disallow: /metropolitan/
+Disallow: /newspaper/
+Disallow: /norm/
+Disallow: /partly/
+Disallow: /piece/
+Disallow: /print/
+Disallow: /range/
+Disallow: /recognize/
+Disallow: /requirement/
+Disallow: /ritual/
+Disallow: /secretary/
+Disallow: /seed/
+Disallow: /sheep/
+Disallow: /slave/
+Disallow: /slowly/
+Disallow: /somewhat/
+Disallow: /structural/
+Disallow: /stuff/
+Disallow: /suspicion/
+Disallow: /swell/
+Disallow: /switch/
+Disallow: /sword/
+Disallow: /tall/
+Disallow: /teacher/
+Disallow: /telescope/
+Disallow: /tightly/
+Disallow: /toreka/
+Disallow: /unknown/
+Disallow: /virtually/
+Disallow: /with/
+
+# Блокировка index.php спама
+Disallow: /index.php?route=product/product/getopt
+Disallow: /index.php?route=product/product/getoptn
+Disallow: /index.php?route=product/product/getprice
+
+# Дополнения по ТЗ (ЗАДАЧА 3)
+# Блокировка UTM-параметров Яндекс Директа
+Disallow: /*?utm_ya_campaign=
+Disallow: /*&utm_ya_campaign=
+Disallow: /*?utm_candidate=
+Disallow: /*?yabizcmpgn=
+
+# Блокировка технических URL OpenCart (дубли каталога)
+Disallow: /index.php?route=product/product&path=
+
+# Блокировка параметров Яндекс Метрики
+Disallow: /*?_ym_status-check=
+
+# Блокировка toreka
+Disallow: /toreka/
+
+# Блокировка js json
+Disallow: /js/
+
+# Блокировка personal
+Disallow: /personal/
+
+Clean-Param: utm_source&utm_medium&utm_campaign irepair.ru
+Clean-Param: utm_referer&utm_source&utm_medium&utm_campaign irepair.ru
+Clean-Param: PAGEN irepair.ru
+Clean-Param: PAGEN_1&PAGEN_2&PAGEN_3 irepair.ru
+Clean-Param: utm_ya_campaign&utm_candidate&yabizcmpgn irepair.ru
+
+Sitemap: https://irepair.ru/sitemap.xml
+Sitemap: https://irepair.ru/index.php?route=feed/advanced_sitemap

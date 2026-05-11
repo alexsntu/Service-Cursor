@@ -1,0 +1,738 @@
+---
+description: Стандарт генерации SEO HTML-страниц для OpenCart (iRepair) — версия со скрытием/раскрытием контента (collapse). Применяется при создании/редактировании HTML-страниц для категорий ремонта Apple. Геолокация — Москва. Стили — внутри каждой страницы.
+globs: **/*.html
+alwaysApply: false
+---
+
+# SEO HTML-блоки для iRepair — стандарт OpenCart (с collapse)
+
+> **Версия:** контент изначально свёрнут до 400px, кнопка «Показать больше» раскрывает блок целиком.
+> Если нужна версия без скрытия — используй правило `seo--for-service-html-block.mdc`.
+
+**Платформа:** OpenCart. **Геолокация:** Москва. **Сервисный центр:** Apple — iRepair (irepair.ru).
+
+## Бренд и контакты
+
+- Название бренда всегда: `iRepair` (не IRepair, не IREPAIR)
+- Телефон: **только** `8 800 555-21-90` / `href="tel:+78005552190"` (ни один другой номер в контенте и JSON-LD не использовать)
+- **Alloka (подмена номеров):** во всём **HTML-теле страницы** каждый видимый номер и текст кликабельного номера оборачивать в `<span class="phone_alloka">…</span>`, чтобы сработал трекинг и подмена. Пример ссылки: `<a href="tel:+78005552190" …><span class="phone_alloka">8 800 555-21-90</span></a>`. Номер в **JSON-LD** и в **`href="tel:…"`** оставлять **без** этого span (канонический `+78005552190`); в `application/ld+json` только строка `telephone`, без HTML-тегов.
+- Адрес: `ул. Большая Садовая, д. 5, под. 2, этаж 1А, офис А25, Москва`
+- Часы работы: ежедневно 10:00–20:00 (Пн–Вс, без выходных)
+- Telegram-бот: `https://t.me/iRepair_Moscow_bot` (кнопка «Записаться на диагностику»)
+- Сайт: `https://irepair.ru`
+- Город: Москва (м. Маяковская)
+- **Диагностика: всегда бесплатно** — это ключевой факт о сервисе; использовать везде именно эту формулировку (бейдж, лид, FAQ, карточки преимуществ)
+
+## Анализ контента конкурентов
+
+Чтобы наша страница была **полной** и не уступала конкурентам по охвату запросов, перед генерацией выполняется **анализ страниц конкурентов** по той же теме (модель устройства / вид ремонта). Заказчик **при необходимости прикладывает ссылки на страницы конкурентов** для анализа — по ним собираются ключевые запросы и темы, которые нужно учесть у нас.
+
+**Если заказчик не прислал ссылок конкурентов** — шаг анализа можно **пропустить** и опираться только на базовый список конкурентов и SERP-исследование. Если ссылки есть — они обязательны к разбору.
+
+**Основные конкуренты (Москва, сервисы Apple):**
+
+| Конкурент | Сайт |
+|-----------|------|
+| ISUPPORT | https://www.isupport.ru/ |
+| KiberCentre | https://kibercentre.ru/ |
+| Планета iPhone | https://www.planetiphone.ru/ |
+| Apple Pro | https://apple-pro.ru/ |
+| dabro | https://dabro.center/ |
+
+**Что делать при наличии ссылок от заказчика (или при поиске страниц по списку выше):**
+1. Открыть каждую указанную страницу конкурента (или найти у каждого из списка страницу по той же теме).
+2. Собрать с этих страниц: заголовки (H1/H2/H3), ключевые фразы в лиде и подзаголовках, темы блоков, формулировки в FAQ, УТП и доводы.
+3. Сравнить с нашим планом контента: какие запросы и формулировки есть у них, но могут отсутствовать у нас.
+4. **Добавить в наш контент** релевантные ключи и темы — уникальным текстом, без копирования. Цель: наша страница покрывает все важные запросы и по полноте не уступает конкурентам.
+
+**Ссылки от заказчика:** если в запросе приложены **прямые URL страниц конкурентов** (разделы ремонта конкретной модели и т.п.) — в первую очередь анализировать именно их; при отсутствии ссылок этот шаг пропускается или выполняется только по базовому списку сайтов.
+
+## ⚡ Шаг 0 — обязательный вопрос перед генерацией
+
+**Перед тем как начать генерацию любой HTML-страницы, ВСЕГДА задай пользователю следующий вопрос:**
+
+> «Применить CSS дизайн-систему iRepair из `.cursor/rules/css-design-system.mdc` (изоляция от OpenCart, палитра, компоненты, брейкпоинты)?
+> — **Да** — использую стандартную систему (рекомендуется)
+> — **Нет** — опиши, какой стиль использовать»
+
+Если пользователь ответил **Да** или не ответил явно (подразумевается) → применяй `css-design-system.mdc` полностью: изоляция `.mm-block`, палитра, все компоненты, брейкпоинты.
+Если **Нет** → уточни стиль перед генерацией.
+
+---
+
+## Структура файла
+
+Каждая HTML-страница состоит из **четырёх частей** строго в этом порядке:
+1. JSON-LD (`<script type="application/ld+json">`)
+2. **CSS** — блок `<style>` со всеми стилями страницы (дизайн-система Apple, сетки, адаптивность)
+3. HTML-контент в обёртке collapse (`.mm-collapse-wrapper → .mm-collapse-content → .mm-block`)
+4. `<script>` с функцией `mmBlockToggle` и инициализацией
+
+> **ВАЖНО:** В данном проекте **все стили размещаются внутри каждой HTML-страницы** в теге `<style>`.
+> Внешний CSS-файл не используется — страница самодостаточна и корректно отображается в OpenCart.
+
+## Механизм collapse / expand (собственный)
+
+Используется собственный механизм collapse прямо в HTML-блоке (совместим с OpenCart).
+
+**Структура HTML:**
+```html
+<div class="mm-collapse-wrapper">
+  <div class="mm-collapse-content">
+
+    <div class="mm-block" itemscope ...>
+      <!-- весь контент страницы -->
+    </div>
+
+    <!-- Градиент-шторка (внутри overflow:hidden) -->
+    <div class="mm-collapse-fade"></div>
+
+  </div>
+
+  <div class="mm-collapse-trigger">
+    <button class="mm-collapse-btn" onclick="mmBlockToggle(this)" aria-expanded="false">
+      <span class="mm-collapse-btn-text">Показать больше</span>
+      <span class="mm-collapse-chevron" aria-hidden="true">
+        <svg width="14" height="9" viewBox="0 0 14 9" fill="none">
+          <path d="M1 1.5L7 7.5L13 1.5" stroke="#44CC55" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var allContents = document.querySelectorAll('.mm-collapse-content');
+  var content = allContents[allContents.length - 1];
+  if (!content) return;
+  content.style.maxHeight = '400px';
+  content.dataset.mmState = 'collapsed';
+  var fade = content.querySelector('.mm-collapse-fade');
+  if (fade) fade.style.opacity = '1';
+})();
+
+function mmBlockToggle(btn) {
+  var trigger = btn.parentElement;
+  var content = trigger.previousElementSibling;
+  var fade    = content.querySelector('.mm-collapse-fade');
+  var label   = btn.querySelector('.mm-collapse-btn-text');
+  var wrapper = trigger.parentElement;
+
+  if (content.dataset.mmState !== 'expanded') {
+    content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
+    content.style.maxHeight  = content.scrollHeight + 'px';
+    content.dataset.mmState  = 'expanded';
+    if (fade) { fade.style.transition = 'opacity 0.25s ease'; fade.style.opacity = '0'; }
+    btn.classList.add('mm-is-expanded');
+    btn.setAttribute('aria-expanded', 'true');
+    if (label) label.textContent = 'Скрыть';
+    setTimeout(function () {
+      if (content.dataset.mmState === 'expanded') {
+        content.style.transition = '';
+        content.style.maxHeight  = 'none';
+      }
+    }, 580);
+  } else {
+    content.style.transition = '';
+    content.style.maxHeight  = content.scrollHeight + 'px';
+    content.dataset.mmState  = 'collapsing';
+    void content.offsetHeight;
+    content.style.transition = 'max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1)';
+    content.style.maxHeight  = '400px';
+    content.dataset.mmState  = 'collapsed';
+    if (fade) { fade.style.transition = 'opacity 0.3s ease 0.2s'; fade.style.opacity = '1'; }
+    btn.classList.remove('mm-is-expanded');
+    btn.setAttribute('aria-expanded', 'false');
+    if (label) label.textContent = 'Показать больше';
+    setTimeout(function () {
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+  }
+}
+</script>
+```
+
+**Правила collapse:**
+- Начальная высота: **400px** (без анимации при загрузке)
+- Fade-шторка: находится **внутри** `.mm-collapse-content` (`position: absolute; bottom: 0`)
+- `transform` на hover **ЗАПРЕЩЁН** — вызывает баг Chrome с `overflow: hidden`
+- После раскрытия `max-height` снимается (`'none'`) через `setTimeout` 580ms
+- При сворачивании — плавная прокрутка к началу блока (`scrollIntoView`)
+
+## JSON-LD — обязательные типы
+
+```json
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "LocalBusiness" },
+    { "@type": "WebPage" },
+    { "@type": "FAQPage" }
+  ]
+}
+```
+
+### LocalBusiness — обязательные поля
+
+```json
+{
+  "@type": "LocalBusiness",
+  "@id": "https://irepair.ru/#business",
+  "name": "iRepair",
+  "alternateName": "Сервисный центр iRepair",
+  "description": "...",
+  "url": "https://irepair.ru",
+  "telephone": "+7 (800) 555-21-90",
+  "priceRange": "&#8381;&#8381;",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ул. Большая Садовая, д. 5, под. 2, этаж 1А, офис А25",
+    "addressLocality": "Москва",
+    "addressRegion": "Москва",
+    "addressCountry": "RU"
+  },
+  "areaServed": { "@type": "City", "name": "Москва" },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "10:00",
+    "closes": "20:00"
+  },
+  "hasOfferCatalog": { "...": "услуги страницы" },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "120",
+    "bestRating": "5",
+    "worstRating": "1"
+  }
+}
+```
+
+### WebPage — обязательные поля
+
+```json
+{
+  "@type": "WebPage",
+  "@id": "https://irepair.ru/servis-apple/remont-iphone/remont-МОДЕЛЬ/#webpage",
+  "name": "Ремонт [Модель] в Москве — iRepair",
+  "description": "...",
+  "url": "https://irepair.ru/servis-apple/remont-iphone/remont-МОДЕЛЬ/",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".mm-intro-text", ".mm-advantages-list"]
+  },
+  "about": { "@id": "https://irepair.ru/#business" }
+}
+```
+
+### FAQPage
+- 4–6 реальных вопросов из контента страницы; формулировки вопросов — как поисковые запросы пользователей
+- Для разделов по iPhone **обязательно** предусматривать вопросы вида «Что делать, если iPhone не включается?» и «Берёте ли в ремонт iPhone, который попал в воду?», если это релевантно категории
+- Ответы **краткие (2–4 предложения), по существу**, пригодные для нейроответов и цитирования; без вводных фраз («Конечно, …», «Да, …»)
+- `FAQPage` должен быть **только в JSON-LD**. В HTML-блоке FAQ не добавлять `itemscope/itemtype/itemprop` для `FAQPage/Question/Answer`, чтобы не было дублей в GSC.
+
+## Заголовки
+
+- Начинать с **H2** (H1 уже есть на странице OpenCart)
+- Иерархия: H2 → H3 → H4
+- H2 размер: **28px** на ПК, **24px** на мобильных (≤640px)
+- H3 размер: `clamp(19px, 2.8vw, 26px)`
+
+## Иконки и спецсимволы
+
+**Запрещено** использовать эмодзи-символы напрямую — только HTML-сущности:
+
+| Символ | Сущность |
+|--------|----------|
+| ⚡ молния | `&#x26A1;` |
+| 📱 телефон | `&#x1F4F1;` |
+| 💻 ноутбук | `&#x1F4BB;` |
+| ⌚ часы | `&#x231A;` |
+| 📷 камера | `&#x1F4F7;` |
+| 🛡 щит | `&#x1F6E1;` |
+| 🔍 лупа | `&#x1F50D;` |
+| 📦 коробка | `&#x1F4E6;` |
+| 💎 кристалл | `&#x1F48E;` |
+| 🔧 ключ | `&#x1F527;` |
+| ✔ галочка | `&#x2714;` |
+| ☎ телефон | `&#x260E;` |
+| — тире | `&#8212;` |
+| · точка | `&#183;` |
+| ₽ рубль | `&#8381;` |
+
+## Бейдж `.mm-stat-badge` — правила
+
+Бейдж выводится под лид-абзацем (`.mm-intro-text`) и содержит 1–2 тезиса.
+
+**Формулировки диагностики:**
+- ✅ «Диагностика бесплатно» — **правильная формулировка**: диагностика в iRepair всегда бесплатна
+- ✅ «Бесплатная диагностика» — допустимый вариант
+- ❌ «Диагностика входит в стоимость ремонта» — **устаревшая и неточная формулировка, не использовать**
+
+**Структура бейджа** (обязательная — иконка отдельно, текст в `mm-badge-text`):
+```html
+<span class="mm-stat-badge" role="listitem">
+  <span class="mm-badge-ico" aria-hidden="true">&#x2714;</span>
+  <span class="mm-badge-text"><strong>Диагностика</strong>&nbsp;бесплатно</span>
+</span>
+```
+Класс `mm-badge-text` получает `flex: 1` — текстовый блок занимает оставшуюся ширину и переносится чисто, без висящих слов.
+
+CSS для бейджа:
+```css
+.mm-badges    { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.mm-stat-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 14px;
+                 color: #2C2C2C; background: #F3F3F3; border: 1px solid #e5e5e5;
+                 padding: 10px 14px; border-radius: 999px; }
+.mm-stat-badge strong { font-weight: 700; }
+.mm-stat-badge .mm-badge-ico { width: 22px; height: 22px; border-radius: 50%;
+                                background: #44CC55; display: inline-flex;
+                                align-items: center; justify-content: center;
+                                color: #ffffff; flex-shrink: 0; }
+.mm-badge-text { flex: 1; }
+```
+
+## CSS — стиль Apple + палитра irepair.ru
+
+Все стили размещаются **внутри страницы** в блоке `<style>` в начале контента (после JSON-LD).
+Стили изолированы в `.mm-block` (не конфликтуют с темой OpenCart).
+
+**Стиль остаётся как у Apple:** типографика (SF Pro / system font), лаконичная вёрстка, сетки, отступы, структура секций, кнопки без лишнего декора — как в исходном правиле. Меняется только **цветовая гамма**: она должна совпадать с основным сайтом irepair.ru, чтобы блок не выглядел инородно. То есть: стиль Apple, цвета — с вашего сайта.
+
+**Палитра по скринам сайта:** заказчик может прислать скриншоты дизайна и цветов irepair.ru. По ним фиксируются точные значения для использования в блоках (см. таблицу ниже). Если скрины присланы — использовать только эти значения; если нет — сверять с живым сайтом https://irepair.ru.
+
+**Базовая палитра:** см. таблицу «Палитра по скринам» выше — значения зафиксированы по скрину irepair.ru. При расхождении с живым сайтом приоритет у актуального вида сайта.
+
+**Палитра по скринам irepair.ru (заполнено):**
+
+| Назначение | HEX / значение | Примечание |
+|------------|----------------|------------|
+| Основной текст | `#000000` или `#2C2C2C` | чёрный/тёмно-серый, заголовки и акцентный текст |
+| Вторичный текст | `#666666` | серый, неактивные пункты навигации |
+| Описание / подпись | `#6B6B6B` | средний серый, текст под блоками «Почему выбирают нас» |
+| Мелкий текст | `#999999` | светло-серый, время «от 60 минут» и т.п. |
+| Фон основного контента | `#FFFFFF` | белый |
+| Фон секций (альт.) | `#F3F3F3` | светло-серый, блоки типа «Почему выбирают нас» |
+| Акцент зелёный | `#44CC55` / `#4AE580` | выделение, кнопки; `#4AE580` — иконки в кружках |
+| Акцент бирюзовый | `#33CCFF` / `#20CCBE` | конец градиента кнопок; `#20CCBE` — теал в градиенте иконок |
+| Кнопка primary (градиент) | Как «Заказать звонок» на сайте: `linear-gradient(90deg, #4AE580, #20CCBE)` — яркий зелёный → бирюзовый, белый текст; везде, в т.ч. в `.mm-cta` | без декоративных пятен в CTA |
+| Градиент иконок (trust strip) | `linear-gradient(135deg, #4AE580, #20CCBE)` | кружки «Бесплатная диагностика», «Гарантия» и т.д. |
+| Акцент hover | `#3bb84d` / `#2bb8eb` | чуть темнее зелёного и бирюзового |
+| Кнопка вторичная (Telegram, WhatsApp) | фон `#F0F0F0` или `#EAEAEA`, бордер светло-серый, текст/иконки `#000000` | нейтральные кнопки рядом с основной CTA |
+| Разделитель | `#e5e5e5` | тонкие линии между блоками |
+| CTA / тёмный блок фон | `#000000` или `#2C2C2C` | как шапка сайта (charcoal на части страниц), текст белый |
+
+В блоках использовать **только эти значения**. Основная кнопка (Telegram, «Заказать звонок») — яркий градиент `#4AE580` → `#20CCBE`, белый текст, как на главной/прейсе. В тёмном блоке `.mm-cta` та же кнопка — тот же градиент, без затемнения. Блок `.mm-cta` — без декоративных пятен/радиальных градиентов справа. Вторая кнопка в CTA — обводка, белый текст. Иконки в trust strip — белые на градиенте `#4AE580` → `#20CCBE` или на `#44CC55`. SVG chevron «Показать больше» — `#44CC55`. Шрифт и структура — в стиле Apple.
+
+**Шрифт (стиль Apple, не менять):**
+```css
+font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+             "Helvetica Neue", Arial, sans-serif;
+-webkit-font-smoothing: antialiased;
+```
+
+**Кнопки — hover без transform:** по палитре irepair.ru основная кнопка — градиент зелёный → циан; hover — чуть темнее. Вторая кнопка на светлом фоне (типа Telegram/WhatsApp) — фон `#F0F0F0`, бордер, чёрный текст. В тёмном блоке `.mm-cta` вторичная — обводка, белый текст. Chevron «Показать больше» — `stroke: #44CC55`.
+```css
+/* transform на hover ЗАПРЕЩЁН — вызывает баг Chrome с overflow:hidden */
+/* Основная кнопка — как «Заказать звонок»: яркий градиент, везде одинаково; без ::after/пятна в .mm-cta */
+.mm-btn-primary {
+  background: linear-gradient(90deg, #4AE580, #20CCBE);
+  color: #ffffff;
+}
+.mm-btn-primary:hover {
+  background: #000000;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+/* Вторичная на светлом фоне (Telegram/WhatsApp-стиль) */
+.mm-btn-secondary { background: #F0F0F0; border: 1px solid #e5e5e5; color: #000000; }
+.mm-btn-secondary:hover {
+  background: #EAEAEA;
+  border-color: #ddd;
+  color: #000000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+/* Вторичная в тёмном блоке .mm-cta */
+.mm-cta .mm-btn-secondary { background: transparent; border-color: rgba(255,255,255,0.5); color: #ffffff; }
+.mm-cta .mm-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+```
+
+## Требования Google, Яндекс, нейроответы и ИИ-агенты
+
+Текст, блоки и изображения **обязательно** должны соответствовать требованиям поисковой оптимизации Google и Яндекса, а также быть пригодными для **нейроответов** (AI Overview, ответы в выдаче) и для **ИИ-агентов**, которые анализируют страницы и выбирают релевантные источники.
+
+### Поисковая оптимизация (Google, Яндекс)
+
+- **Структура:** чёткая иерархия H2 → H3 → H4; один тематический фокус страницы (модель/услуга + гео).
+- **Текст:** уникальный, полезный для пользователя; без воды и спама; ключевые запросы в заголовке, лиде и подзаголовках; естественное распределение LSI.
+- **Кириллические названия устройств (важно для SEO):** русскоязычные пользователи часто ищут «айфон», «макбук», «айпад», «эпл вотч» вместо латинских брендов. Для максимального охвата запросов необходимо:
+  - В **FAQ-вопросах** (текст вопроса в HTML FAQ + поле `name` в JSON-LD FAQPage) и **H3-заголовках**, сформулированных как поисковые запросы, использовать кириллическую форму: «айфон / айфона / айфоне», «макбук / макбука», «айпад / айпада», «эпл вотч».
+  - В **теле текста** (лид, описания карточек, симптомы) органично чередовать латинскую и кириллическую форму: как минимум 3–5 вхождений кириллицы на страницу.
+  - **H2 и официальные названия** (бренд, JSON-LD `name`) оставлять на латинице (iPhone, MacBook, iPad, Apple Watch) — это официальное написание.
+  - Примеры правильного использования: «Что делать, если **айфон** не включается?» (FAQ), «**Айфон** не включается после падения» (H4 симптом), «поэтому вы получаете рабочий **айфон** в день обращения» (лид).
+- **Изображения:** у каждого `<img>` обязателен осмысленный атрибут `alt` (описание для поиска и доступности); при возможности — `width`/`height` или aspect-ratio для стабильной отрисовки; первое изображение — `fetchpriority="high"`, остальные — `loading="lazy"`.
+- **Данные:** JSON-LD (LocalBusiness, WebPage, FAQPage) без ошибок. Для FAQ использовать один источник — `FAQPage` в JSON-LD; текст вопросов в JSON-LD `name` **строго совпадает** с видимыми заголовками вопросов в HTML FAQ (включая выбор кириллица/латиница).
+- **Поведенческие сигналы:** блоки с быстрыми ответами (FAQ), понятные CTA, контакты и адрес в явном виде.
+- **Внутренняя перелинковка:** по возможности добавлять 2–5 внутренних ссылок на реальные разделы OpenCart (подкатегории устройств, отдельные услуги, страницу записи/контактов); анкор — осмысленные фразы («ремонт iPhone 17 Pro», «замена дисплея айфона», «записаться на диагностику»), а не просто «подробнее». URL всегда предоставляет заказчик — **не придумывать** внутренних ссылок, если их нет.
+
+### Нейроответы (AI Overview, ответы в выдаче)
+
+- **Прямые ответы:** в лиде и в FAQ давать **чёткие, законченные ответы** на типичные вопросы (что, где, сколько времени, какие услуги). Текст должен быть пригоден для цитирования в нейроответе без доработки.
+- **Лид как мини-FAQ:** первые 2–3 предложения лид-абзаца `.mm-intro-text` должны сразу отвечать на три ключевых вопроса пользователя: **кто и где выполняет ремонт**, **сколько в среднем занимает ремонт по времени** (уровня «от 30 минут при наличии запчасти») и **какие базовые условия по диагностике и гарантии** (например, что диагностика всегда бесплатна, гарантия до 1 года).
+- **Speakable:** в JSON-LD WebPage указать `speakable` с селекторами для фрагментов, подходящих для озвучки и выдачи (например `.mm-intro-text`, `.mm-advantages-list`, блок FAQ). Эти фрагменты должны содержать **факты в виде коротких предложений**.
+- **FAQ:** формулировки вопросов — как реальные поисковые запросы; ответы — краткие (2–4 предложения), по существу, без вводных фраз вроде «Конечно, …».
+- **H3-вопросы:** часть подзаголовков уровня H3 внутри основного контента (не только в FAQ) оформлять в форме вопросов, близких к формулировкам поисковых запросов (например, «Сколько времени занимает ремонт [устройство] в Москве?», «Какие запчасти вы используете для ремонта [устройство]?»), чтобы эти блоки тоже могли попадать в нейроответы.
+- **Один факт — одно утверждение:** избегать длинных абзацев, где смешаны тема, цена, срок и гарантия; лучше отдельные предложения или маркированные пункты.
+
+### ИИ-агенты (краулеры, ассистенты, выбор релевантных страниц)
+
+- **Машиночитаемость:** структурированные данные (JSON-LD), семантика HTML (`<article>`, `<section>`, заголовки, списки), явные связи между сущностями (услуга — компания — место).
+- **Понятность для ИИ:** формулировки **однозначные и фактические**: «Ремонт iPhone 17 Pro Max в Москве выполняет сервисный центр iRepair», «Диагностика — бесплатно», «Гарантия до 1 года». Избегать только намёков и намётанного контекста без явного утверждения.
+- **Релевантность запросу:** в начале страницы (H2, лид) явно указать **устройство/модель + город + тип услуги**; в карточках услуг — конкретные названия (замена дисплея, замена аккумулятора и т.д.), чтобы агент мог сопоставить страницу с запросом пользователя.
+- **Без лишнего шума:** не дублировать длинные штампы; не скрывать главное в середине длинного абзаца. Ключевые факты (кто, что, где, какие условия) — в первых абзацах и в FAQ.
+
+### Краткий чеклист
+
+- [ ] JSON-LD корректен; speakable указывает на блоки с фактами; FAQ `name` в JSON-LD **точно совпадает** с видимыми заголовками вопросов в HTML FAQ
+- [ ] Все видимые номера в HTML обёрнуты в `<span class="phone_alloka">…</span>`; в JSON-LD и в `href="tel:…"` — без span
+- [ ] У всех изображений есть осмысленный `alt`
+- [ ] По блоку фото выполнена логика: сначала вопрос пользователю «Нужны ли картинки?», без ссылок — блок не добавляется
+- [ ] В лиде и FAQ — прямые ответы, пригодные для цитирования в нейроответе
+- [ ] Кириллические формы названия устройства («айфон», «макбук», «айпад») использованы в FAQ-вопросах, H3/H4-симптомах и теле текста (минимум 3–5 вхождений); H2 и JSON-LD `name` — латиница
+- [ ] Лид-абзац `.mm-intro-text` в первых 2–3 предложениях явно отвечает на вопросы: кто и где выполняет ремонт, в каком диапазоне по времени обычно выполняется ремонт, какие базовые условия по диагностике (бесплатно) и гарантии
+- [ ] Текст содержит явные фактические утверждения для ИИ-агентов
+- [ ] Заголовки и лид однозначно отражают тему страницы (модель + гео + услуга)
+- [ ] Внутри основного контента есть как минимум 2–3 H3-заголовка, сформулированных как вопросы, близкие к поисковым запросам пользователя
+- [ ] Если заказчик прислал URL для перелинковки — внутренние ссылки аккуратно расставлены по тексту; если нет — перелинковка пропущена (это допустимо)
+
+## Структура HTML-контента
+
+Обязательные секции в порядке:
+1. **Intro** — H2 + лид-абзац `.mm-intro-text` (2–4 предложения с **прямым ответом** на запрос: кто ремонтирует, что, где; пригодно для нейроответов) + `.mm-stat-badge`. В лидах по iPhone перечислять **диапазон моделей** (например, «от iPhone SE до iPhone 17 Pro Max»), явно указывая, что ремонтируются все актуальные поколения.
+2. **Stat strip** — `.mm-stat-strip` с **ровно 6 карточками** (`.mm-stat-card mm-glass`): Устройства, Срочный ремонт, Диагностика, Гарантия, Опыт с 2011, Запчасти. В карточке «Срочный ремонт» обязательно указывать ориентировочный срок формата «От 30 минут — при наличии запчасти».
+3. **Услуги** — карточки `.mm-services-grid` + `<article>` с `itemprop`
+4. **Как проходит ремонт** — блок из 3 шагов `.mm-step mm-glass` + **опциональный** `.mm-process-visual` (добавляется только если пользователь подтвердил, что нужны картинки, и прислал ссылки)
+5. **Преимущества** — список `.mm-features` (карточки `.mm-feature mm-glass`)
+6. **Частые неисправности** — сетка `.mm-symptoms` с 6–8 типовыми симптомами (не включается, разбит экран, не заряжается, попала вода, быстро садится батарея, не работает Face ID, не слышно собеседника, не работает камера). Все элементы — `.mm-symptom mm-glass`.
+7. **FAQ** — 4–6 видимых вопросов в HTML (без microdata `FAQPage/Question/Answer`; FAQ-разметка только в JSON-LD), обязательно вопросы про «не включается» и «после воды», если релевантно
+8. **CTA** — тёмный блок `.mm-cta` с двумя кнопками
+
+### Логика по картинкам перед генерацией (обязательно)
+
+Перед генерацией HTML всегда задавать вопрос:
+
+> «Нужны ли картинки для этой страницы?»
+
+Дальше строго по веткам:
+
+- **Да, нужны** → запросить у пользователя прямые URL изображений.
+- **Если URL присланы** → добавить `.mm-process-visual` (или другой релевантный фото-блок) с этими изображениями.
+- **Если пользователь отвечает «пропустить», «не нужны» или не даёт URL** → блок с картинками **не добавлять**.
+- **Нельзя** оставлять заглушки `src="#"` и TODO-комментарии в финальном HTML.
+
+### Отображение блока `.mm-process-visual` (если блок добавлен)
+
+- На десктопе: 2 изображения в ряд, визуально симметричные, одинакового размера.
+- На мобильном: горизонтальный scroll-snap, один кадр на ширину экрана (`flex-basis: 100%`), высота кадра не выше `50vh`.
+- Под мобильным скроллером: индикатор-полоски (`.mm-process-dots`), активная полоска обновляется при свайпе.
+
+## ARIA и доступность
+
+- Все секции: `aria-labelledby="id-заголовка"`
+- Декоративные иконки: `aria-hidden="true"`
+- Списки преимуществ/услуг: `role="list"` / `role="listitem"`
+- Кнопки: `aria-label` с полным описанием действия
+- Кнопка collapse: `aria-expanded="false"` / `"true"` (переключается JS)
+
+## Сетка карточек услуг `.mm-services-grid`
+
+Сетка всегда **3 колонки** на десктопе (≥901px). Количество карточек не должно быть меньше 3.
+
+```css
+/* ≥901px: 3 колонки */
+.mm-services-grid { grid-template-columns: repeat(3, 1fr); }
+
+/* Одна карточка в последней строке (4 шт → 3+1) — центрируется автоматически */
+.mm-services-grid > article:last-child:nth-child(3n + 1) { grid-column: 2; }
+
+/* 641–900px: 2 колонки */
+@media (max-width: 900px) and (min-width: 641px) {
+  .mm-services-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ≤640px: 1 колонка */
+@media (max-width: 640px) {
+  .mm-services-grid { grid-template-columns: 1fr; }
+}
+```
+
+**CSS карточки (обязательные базовые стили):**
+```css
+.mm-card-top {
+  display: flex;
+  align-items: flex-start; /* ВАЖНО: flex-start, не center — иначе иконки «прыгают» на разной высоте, когда заголовки разной длины */
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.mm-card-ico {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4AE580, #20CCBE);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+```
+
+**Правила наполнения:**
+- Допустимое количество карточек: **строго 3 или 6**
+- ❌ 4, 5 и любое другое количество — ЗАПРЕЩЕНО
+- 3 карточки → 1 полная строка ✓
+- 6 карточек → 2 строки по 3 ✓
+
+**Как выбрать количество:**
+- Если у модели 3–4 ключевые услуги → выбери 3 самые популярные
+- Если у модели 5–7 ключевых услуг → выбери 6 самых популярных
+- Критерий выбора: частота обращений (дисплей, стекло, аккумулятор — всегда топ)
+
+## Адаптивность
+
+Эталонный блок адаптивных стилей — копировать в каждую страницу без изменений (включая новые сетки `mm-symptoms`):
+
+```css
+/* ── Планшет ≤1000px ──────────────────────────────── */
+@media (max-width: 1000px) {
+  .mm-stat-strip    { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .mm-services-grid { grid-template-columns: repeat(2, 1fr); }
+  .mm-steps         { grid-template-columns: 1fr; gap: 14px; }
+  .mm-features      { grid-template-columns: 1fr; }
+  .mm-symptoms      { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── Мобильный ≤640px ─────────────────────────────── */
+@media (max-width: 640px) {
+  .mm-block         { border-radius: 0; }
+  .mm-container     { padding: 0 14px; }
+
+  /* Отступы секций */
+  .mm-section       { padding: 20px 0; }
+  .mm-section--soft { padding: 18px 14px; border-radius: 16px; }
+
+  /* Типографика */
+  .mm-h2            { font-size: 24px; }
+  .mm-h3            { font-size: 20px; }
+  .mm-intro-text    { font-size: 16px; line-height: 1.6; }
+  .mm-card-desc     { font-size: 15px; line-height: 1.55; }
+  .mm-faq-answer    { font-size: 15px; }
+
+  /* Сетки → 1 колонка */
+  .mm-services-grid { grid-template-columns: 1fr; }
+  .mm-steps         { grid-template-columns: 1fr; gap: 12px; }
+  .mm-features      { grid-template-columns: 1fr; }
+  .mm-stat-strip    { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .mm-symptoms      { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .mm-symptom       { padding: 14px 12px; min-width: 0; width: 100%; box-sizing: border-box; }
+  .mm-symptom-ico   { font-size: 22px; margin-bottom: 7px; }
+  .mm-symptom h4    { font-size: 13px; }
+  .mm-symptom p     { font-size: 12px; }
+
+  /* Карточки — увеличиваем внутренние отступы для пальца */
+  .mm-stat-ico      { width: 38px; height: 38px; }
+  .mm-stat-title    { font-size: 15px; }
+  .mm-stat-sub      { font-size: 14px; }
+  .mm-card          { padding: 20px 16px; }
+  .mm-card-ico      { width: 44px; height: 44px; }
+  .mm-card-top      { gap: 12px; margin-bottom: 12px; }
+  .mm-h4            { font-size: 17px; }
+  .mm-step          { padding: 22px 16px; }
+  .mm-step h4       { font-size: 17px; }
+  .mm-step p        { font-size: 15px; }
+  .mm-step-num      { width: 44px; height: 44px; font-size: 20px; }
+  .mm-feature       { padding: 18px 14px; gap: 14px; }
+  .mm-feature h4    { font-size: 17px; }
+  .mm-feature p     { font-size: 15px; }
+  .mm-feature-ico   { width: 46px; height: 46px; }
+  .mm-faq-item      { padding: 18px 16px; }
+  .mm-faq-item h4   { font-size: 16px; }
+
+  /* Бейджи — каждый на всю ширину, текст не рвётся */
+  .mm-badges        { gap: 8px; flex-direction: column; align-items: stretch; }
+  .mm-stat-badge    { font-size: 14px; width: 100%; border-radius: 14px; }
+
+  /* Плитки stat-strip — симметрия: иконка над заголовком, одинаковая высота строк */
+  .mm-stat-strip    { align-items: stretch; }
+  .mm-stat-card     { padding: 16px 12px 14px; min-height: auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .mm-stat-top      { flex-direction: column; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .mm-stat-sub      { font-size: 13px; }
+
+  /* CTA */
+  .mm-cta           { padding: 24px 16px; border-radius: 16px; }
+  .mm-cta h3        { font-size: 20px; }
+  .mm-cta p         { font-size: 15px; }
+  .mm-cta-buttons   { flex-direction: column; gap: 10px; }
+  .mm-cta-buttons a { width: 100%; justify-content: center; font-size: 16px; padding: 16px 20px; }
+
+  /* Картинки процесса: мобильный слайдер + полоски-индикатор */
+  .mm-process-visual {
+    display: flex; flex-wrap: nowrap; overflow-x: auto;
+    -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;
+    scrollbar-width: none; gap: 10px; margin: 16px -14px 0; padding: 10px 14px; border-radius: 0;
+  }
+  .mm-process-visual::-webkit-scrollbar { display: none; }
+  .mm-process-visual img {
+    flex: 0 0 100%; width: 100%; height: auto; max-height: 50vh;
+    scroll-snap-align: start; object-fit: contain; background: #ffffff;
+  }
+  .mm-process-dots {
+    display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 10px;
+  }
+  .mm-process-dot {
+    width: 8px; height: 8px; border-radius: 999px; background: #cfd6d3;
+    transition: width 0.2s ease, background-color 0.2s ease;
+  }
+  .mm-process-dot.is-active { width: 24px; background: #44CC55; }
+
+  .mm-divider       { margin: 18px 0; }
+}
+
+/* ── Очень маленький экран ≤380px ─────────────────── */
+@media (max-width: 380px) {
+  .mm-stat-strip    { grid-template-columns: 1fr; }
+  .mm-h2            { font-size: 22px; }
+}
+```
+
+## Цены в тексте — ЗАПРЕЩЕНО
+
+Конкретные цены в рублях **запрещено** указывать в HTML-тексте и в JSON-LD описаниях услуг.
+Цены меняются и управляются через прайс-лист OpenCart — дублировать их в SEO-блоке нельзя.
+
+**Запрещено:**
+- ❌ `17 900 ₽`, `57 500 ₽`, `от 8 800 ₽` — любые конкретные суммы в тексте
+- ❌ Упоминание цен в `itemprop="description"` карточек услуг
+- ❌ Упоминание цен в `description` полей JSON-LD
+
+**Допустимо:**
+- ✅ «Актуальные цены смотрите в прайс-листе выше» — отсылка к прайсу OpenCart
+- ✅ `"priceRange": "&#8381;&#8381;"` в JSON-LD `LocalBusiness` — диапазон без конкретики
+- ✅ Сравнительные формулировки без цифр: «обходится значительно дешевле замены модуля целиком»
+
+## Перелинковка iPhone — стандартный набор ссылок
+
+Для всех страниц категории **iPhone** (замена аккумулятора, дисплея, стекла и т.д.) используется стандартный набор внутренних ссылок на основные услуги:
+
+| Анкор | URL |
+|-------|-----|
+| Замена аккумулятора iPhone | `https://irepair.ru/vybor-modeli/zamena-akkumulyatora-na-iphone/` |
+| Замена дисплея iPhone | `https://irepair.ru/vybor-modeli/zamena-displeya-na-iphone/` |
+| Замена стекла iPhone | `https://irepair.ru/vybor-modeli/zamena-stekla-iphone/` |
+| Замена заднего стекла iPhone | `https://irepair.ru/vybor-modeli/zamena-zadnego-stekla-na-iphone/` |
+| Замена корпуса iPhone | `https://irepair.ru/vybor-modeli/zamena-korpusa-na-iphone/` |
+| Не включается iPhone | `https://irepair.ru/vybor-modeli/ne-vklyuchaetsya-iphone/` |
+
+**Правила применения:**
+- Ссылку на **текущую услугу** (ту, что описывает страница) из набора **исключать** — не ссылаться на себя.
+- Ссылки расставляются **в двух местах**: органично в тексте (лид, блок услуг, преимущества) + отдельная секция кнопок внизу страницы перед CTA.
+- Если тематика страницы связана с конкретными услугами из набора — приоритетно упоминать их в тексте.
+
+**Блок кнопок «Другие услуги по ремонту iPhone»** — обязательный раздел внизу страниц iPhone, оформляется как `.mm-related`:
+
+```html
+<section class="mm-section" aria-labelledby="mm-heading-related">
+  <h3 class="mm-h3" id="mm-heading-related">Другие услуги по ремонту iPhone в iRepair</h3>
+  <div class="mm-related" role="list">
+    <a href="https://irepair.ru/vybor-modeli/zamena-displeya-na-iphone/"
+       class="mm-related-link" role="listitem" aria-label="Замена дисплея iPhone">
+      <span aria-hidden="true">&#x1F4F1;</span>
+      Замена дисплея iPhone
+    </a>
+    <a href="https://irepair.ru/vybor-modeli/zamena-stekla-iphone/"
+       class="mm-related-link" role="listitem" aria-label="Замена стекла iPhone">
+      <span aria-hidden="true">&#x1F4F1;</span>
+      Замена стекла iPhone
+    </a>
+    <a href="https://irepair.ru/vybor-modeli/zamena-zadnego-stekla-na-iphone/"
+       class="mm-related-link" role="listitem" aria-label="Замена заднего стекла iPhone">
+      <span aria-hidden="true">&#x1F527;</span>
+      Замена заднего стекла iPhone
+    </a>
+    <a href="https://irepair.ru/vybor-modeli/zamena-korpusa-na-iphone/"
+       class="mm-related-link" role="listitem" aria-label="Замена корпуса iPhone">
+      <span aria-hidden="true">&#x1F4E6;</span>
+      Замена корпуса iPhone
+    </a>
+    <a href="https://irepair.ru/vybor-modeli/ne-vklyuchaetsya-iphone/"
+       class="mm-related-link" role="listitem" aria-label="Не включается iPhone — диагностика">
+      <span aria-hidden="true">&#x1F50D;</span>
+      Не включается iPhone
+    </a>
+  </div>
+</section>
+```
+*(Ссылка на текущую услугу из набора не включается)*
+
+**CSS для `.mm-related` и `.mm-related-link`** (добавлять в `<style>` каждой iPhone-страницы):
+
+```css
+.mm-block .mm-related {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px;
+}
+.mm-block .mm-related-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 999px;
+  background: #F3F3F3; border: 1px solid #e5e5e5;
+  color: #2C2C2C; font-size: 14px; font-weight: 500;
+  text-decoration: none; white-space: nowrap;
+  transition: background 0.18s, border-color 0.18s;
+}
+.mm-block .mm-related-link:hover {
+  background: #EAEAEA; border-color: #d0d0d0; color: #000;
+}
+@media (max-width: 640px) {
+  .mm-block .mm-related { gap: 8px; }
+  .mm-block .mm-related-link { font-size: 13px; padding: 9px 14px; }
+}
+```
+
+---
+
+## Именование файлов
+
+- Главная категория: `irepair-seo-block.html`
+- Модели устройств: `iphone-17-pro-max-repair.html`, `iphone-17-air-repair.html`,
+  `macbook-pro-repair.html` и т.д.
+
+---
+
+## Отличия от версии под другой проект (что запомнить)
+
+Правило адаптировано под текущий проект. Используются только эти данные:
+
+| Параметр | Значение |
+|----------|----------|
+| **Платформа** | OpenCart |
+| **Геолокация** | Москва |
+| **Бренд** | iRepair (сервисный центр Apple) |
+| **Сайт** | https://irepair.ru |
+| **Телефон** | 8 800 555-21-90, `tel:+78005552190`; в HTML — внутри `<span class="phone_alloka">…</span>` |
+| **Адрес** | ул. Большая Садовая, д. 5, под. 2, этаж 1А, офис А25, Москва |
+| **Часы** | ежедневно 10:00–20:00 |
+| **Telegram** | https://t.me/iRepair_Moscow_bot |
+| **Стили CSS** | внутри каждой HTML-страницы в `<style>`; **стиль Apple**, цвета — с irepair.ru или из скринов |
+| **Цвета/акценты** | по скринам дизайна сайта или по https://irepair.ru; блок не должен выделяться |
+| **Префикс имён файлов** | irepair-seo-block.html, irepair-* |
+| **В заголовках/JSON-LD** | «в Москве», «Москва», areaServed: Москва |
+| **Конкуренты** | isupport.ru, kibercentre.ru, planetiphone.ru, apple-pro.ru, dabro.center; плюс ссылки от заказчика по запросу |

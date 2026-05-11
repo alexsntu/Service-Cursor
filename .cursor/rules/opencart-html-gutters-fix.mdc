@@ -1,0 +1,44 @@
+---
+description: Гарантированные боковые отступы для HTML-страниц OpenCart (iRepair)
+alwaysApply: true
+---
+
+# OpenCart HTML Gutters Fix
+
+Для любых новых или редактируемых HTML-страниц iRepair в OpenCart:
+
+- Используй изоляцию через `.mm-block` и не допускай прилипания контента к краям экрана.
+- Всегда задавай устойчивые боковые отступы на уровне корневого блока:
+  - desktop: `width: min(1300px, calc(100% - 48px))`, `margin: 16px auto`
+  - mobile (`max-width: 640px`): `width: calc(100% - 20px)`, `margin: 10px auto`
+- У корневого блока явно ставь `box-sizing: border-box`.
+- Если тема OpenCart перебивает отступы, добавляй финальный guard-блок CSS в конце документа с `!important` для:
+  - `.mm-block` (ширина/отступы)
+  - `.mm-block .mm-container` (внутренние `padding-left/right`)
+- Избегай конфликтующих дублей: не оставляй несколько emergency-override блоков одновременно.
+- После правок проверяй, что у корневого `.mm-block` нет дублирующихся атрибутов `style`.
+
+Минимальный рабочий guard:
+
+```css
+.mm-block{
+  max-width:1300px!important;
+  width:min(1300px,calc(100% - 48px))!important;
+  margin:16px auto!important;
+  box-sizing:border-box!important;
+}
+.mm-block .mm-container{
+  padding-left:24px!important;
+  padding-right:24px!important;
+}
+@media (max-width:640px){
+  .mm-block{
+    width:calc(100% - 20px)!important;
+    margin:10px auto!important;
+  }
+  .mm-block .mm-container{
+    padding-left:12px!important;
+    padding-right:12px!important;
+  }
+}
+```

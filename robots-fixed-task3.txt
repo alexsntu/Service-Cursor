@@ -1,0 +1,31 @@
+# Готовый блок исправлений по ТЗ: "ЗАДАЧА 3 — Дополнения в robots.txt"
+# Вставьте этот блок в КАЖДУЮ секцию:
+# - User-agent: *
+# - User-agent: Google
+# - User-agent: Yandex
+#
+# Рекомендуемое место: сразу после блока
+# "# Блокировка index.php спама"
+
+# Блокировка UTM-параметров Яндекс Директа
+Disallow: /*?utm_ya_campaign=
+Disallow: /*&utm_ya_campaign=
+Disallow: /*?utm_candidate=
+Disallow: /*?yabizcmpgn=
+
+# Блокировка технических URL OpenCart (дубли каталога)
+Disallow: /index.php?route=product/product&path=
+
+# Блокировка параметров Яндекс Метрики
+Disallow: /*?_ym_status-check=
+
+
+# ДОПОЛНИТЕЛЬНО ТОЛЬКО ДЛЯ СЕКЦИИ "User-agent: Yandex"
+# (добавьте, если строки еще нет)
+Clean-Param: utm_ya_campaign&utm_candidate&yabizcmpgn irepair.ru
+
+
+# Примечание по текущему robots:
+# У вас уже есть:
+# Clean-Param: utm_source&utm_medium&utm_campaign irepair.ru
+# Это нормально, оставьте как есть.

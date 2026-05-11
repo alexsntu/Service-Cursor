@@ -1,0 +1,110 @@
+---
+description: Оформление статей блога в HTML (стиль Apple): структура, стили, SEO
+globs: "**/*.html"
+alwaysApply: false
+---
+
+# Правило оформления блога (Apple Style + SEO)
+
+При запросе оформить статью для блога в HTML используй эту структуру и стили. Не меняй и не переписывай текст пользователя — только разметка и очистка.
+
+---
+
+## 1. Общая структура HTML
+
+- В начале блока: `<!-- START: Apple-style Article Block (Clean HTML) -->`
+- В конце блока: `<!-- END: Apple-style Article Block -->`
+- Весь контент внутри одного контейнера: `<div class="apple-blog-container">`
+- Внутри контейнера: блок `<style>` (изолированные стили только для `.apple-blog-container`), затем разметка.
+- Разметка контента: `<article>` → `<header>` с одним `<h1>` (название статьи) → `<section>` с остальным текстом.
+
+Пример каркаса:
+
+```html
+<!-- START: Apple-style Article Block (Clean HTML) -->
+<div class="apple-blog-container">
+  <!-- ISOLATED CSS STYLES -->
+  <style>...</style>
+  <!-- CONTENT START -->
+  <article>
+    <header>
+      <h1>Название статьи</h1>
+    </header>
+    <section>
+      ... контент ...
+    </section>
+  </article>
+  <!-- CONTENT END -->
+</div>
+<!-- END: Apple-style Article Block -->
+```
+
+---
+
+## 2. Стили (копировать в блок &lt;style&gt;)
+
+- Шрифт: `-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif`
+- Контейнер: `color: #1d1d1f`, `line-height: 1.47059`, `letter-spacing: -0.022em`, `max-width: 800px`, `margin: 0 auto`, `padding: 40px 20px`, `background-color: #ffffff`, `box-sizing: border-box`
+- **h1:** `48px`, `line-height: 1.08349`, `font-weight: 700`, `letter-spacing: -0.003em`, `margin-top: 0`, `margin-bottom: 30px`
+- **h2:** `32px`, `line-height: 1.125`, `font-weight: 600`, `letter-spacing: 0.004em`, `margin-top: 50px`, `margin-bottom: 20px`
+- **h3:** `24px`, `line-height: 1.16`, `font-weight: 600`, `margin-top: 35px`, `margin-bottom: 12px`
+- **p:** `font-size: 19px`, `line-height: 1.58`, `margin-bottom: 1.4em`
+- **ul, ol:** `font-size: 19px`, `line-height: 1.58`, `margin-bottom: 1.4em`, `padding-left: 25px`; **li:** `margin-bottom: 10px`, `padding-left: 5px`
+- **Ссылки:** `color: #0066cc`, `text-decoration: none`, hover — `text-decoration: underline`
+- **Таблицы:** оборачивать в `<div class="apple-table-wrapper">`. Стили для wrapper: `overflow-x: auto`, `margin: 40px 0`, `border-radius: 18px`, `border: 1px solid #d2d2d7`, `box-shadow: 0 4px 6px rgba(0,0,0,0.02)`. Таблица: `width: 100%`, `border-collapse: collapse`, `min-width: 600px`, `font-size: 17px`. **th:** `text-align: left`, `font-weight: 600`, `padding: 16px 24px`, `border-bottom: 1px solid #d2d2d7`, `background-color: #f5f5f7`. **td:** `padding: 16px 24px`, `border-bottom: 1px solid #e5e5e5`, `vertical-align: top`, `line-height: 1.4`. **tr:last-child td:** `border-bottom: none`
+- **Callout (`.apple-callout`):** `background-color: #f5f5f7`, `border-radius: 18px`, `padding: 32px`, `margin: 40px 0`. Внутри заголовок — **только через `<h4>`**: `margin-top: 0`, `margin-bottom: 10px`, `font-size: 21px`, `font-weight: 600`. **.apple-callout p:last-child:** `margin-bottom: 0`
+- **Разделитель (`.apple-divider`):** для `<hr class="apple-divider">` — `border: 0`, `height: 1px`, `background: #d2d2d7`, `margin: 50px 0`
+- **Адаптивность:** `@media (max-width: 768px)` — h1 `34px`, h2 `26px` и `margin-top: 40px`, p и li `17px`, `.apple-callout` `padding: 24px`
+
+Все селекторы должны быть с префиксом `.apple-blog-container` (или вложены внутри него), чтобы стили не затрагивали остальную страницу.
+
+**Готовый блок &lt;style&gt; для вставки** (всё внутри `.apple-blog-container`):
+
+```css
+.apple-blog-container { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1d1d1f; line-height: 1.47059; font-weight: 400; letter-spacing: -0.022em; max-width: 800px; margin: 0 auto; padding: 40px 20px; background-color: #ffffff; box-sizing: border-box; }
+.apple-blog-container h1 { font-size: 48px; line-height: 1.08349; font-weight: 700; letter-spacing: -0.003em; margin-top: 0; margin-bottom: 30px; color: #1d1d1f; }
+.apple-blog-container h2 { font-size: 32px; line-height: 1.125; font-weight: 600; letter-spacing: 0.004em; margin-top: 50px; margin-bottom: 20px; color: #1d1d1f; }
+.apple-blog-container h3 { font-size: 24px; line-height: 1.16; font-weight: 600; margin-top: 35px; margin-bottom: 12px; color: #1d1d1f; }
+.apple-blog-container p { font-size: 19px; line-height: 1.58; margin-bottom: 1.4em; color: #1d1d1f; }
+.apple-blog-container ul, .apple-blog-container ol { font-size: 19px; line-height: 1.58; margin-bottom: 1.4em; padding-left: 25px; color: #1d1d1f; }
+.apple-blog-container li { margin-bottom: 10px; padding-left: 5px; }
+.apple-blog-container a { color: #0066cc; text-decoration: none; transition: opacity 0.2s; }
+.apple-blog-container a:hover { text-decoration: underline; }
+.apple-table-wrapper { overflow-x: auto; margin: 40px 0; border-radius: 18px; border: 1px solid #d2d2d7; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+.apple-blog-container table { width: 100%; border-collapse: collapse; min-width: 600px; font-size: 17px; }
+.apple-blog-container th { text-align: left; font-weight: 600; padding: 16px 24px; border-bottom: 1px solid #d2d2d7; background-color: #f5f5f7; color: #1d1d1f; }
+.apple-blog-container td { padding: 16px 24px; border-bottom: 1px solid #e5e5e5; vertical-align: top; line-height: 1.4; }
+.apple-blog-container tr:last-child td { border-bottom: none; }
+.apple-callout { background-color: #f5f5f7; border-radius: 18px; padding: 32px; margin: 40px 0; }
+.apple-callout h4 { margin-top: 0; margin-bottom: 10px; font-size: 21px; font-weight: 600; color: #1d1d1f; }
+.apple-callout p:last-child { margin-bottom: 0; }
+.apple-divider { border: 0; height: 1px; background: #d2d2d7; margin: 50px 0; }
+@media (max-width: 768px) { .apple-blog-container h1 { font-size: 34px; } .apple-blog-container h2 { font-size: 26px; margin-top: 40px; } .apple-blog-container p, .apple-blog-container li { font-size: 17px; } .apple-callout { padding: 24px; } }
+```
+
+---
+
+## 3. Семантика и элементы
+
+- Один **h1** на статью — в `<header>`, формулировка как заголовок статьи.
+- Подзаголовки разделов — **h2**, подпункты — **h3**.
+- Списки — **ul** / **ol** и **li**; не заменять абзацы списками без причины.
+- Сравнения, «что можно / чего нельзя», варианты решений — оформлять **таблицей** внутри `div.apple-table-wrapper`.
+- Важные выводы, предупреждения, краткие тезисы — в блок **`<div class="apple-callout">`** с заголовком **`<h4>`** (например: «Практический вывод», «Коротко, что важно»).
+- Перед финальным блоком «Резюме» (если он есть) вставлять **`<hr class="apple-divider">`**.
+- В конце при необходимости — блок **«Резюме»** с **h2** и 1–3 абзацами; в последнем абзаце можно оставить одну ссылку на сайт (например iRepair.ru) как обычную ссылку `<a href="...">...</a>`.
+
+---
+
+## 4. Правила работы с текстом (SEO)
+
+1. **Не менять** формулировки и ключевые слова. Не сокращать и не переписывать смысл.
+2. **Очищать** от мусорного HTML: удалять `<span style="...">`, inline-атрибуты типа `font-family`, `color`, `background` в тегах.
+3. **Удалять** академические сноски в виде ссылок и квадратных скобок: `[1]`, `[2]`, `<a href="...">1</a>` и т.п., а также отдельный блок «Источники» в конце.
+4. **Сохранять** один осмысленный внешний переход в конце (например на сайт сервиса), если он был в исходнике или уместен по смыслу.
+
+---
+
+## 5. Результат
+
+На выходе давать **готовый HTML-код** статьи (целиком, с комментариями START/END), без лишнего текста вокруг, если пользователь не попросил иное.

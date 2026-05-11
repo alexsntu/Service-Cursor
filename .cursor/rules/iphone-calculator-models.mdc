@@ -1,0 +1,107 @@
+---
+description: Правило добавления новых моделей iPhone в калькулятор (iphone-calculator.html / iphone-calculator-dynamic.html)
+globs: Калькуляторы/iphone-calculator*.html
+alwaysApply: false
+---
+
+# Добавление моделей в iPhone-калькулятор
+
+## Расположение файлов
+
+- `Калькуляторы/iphone-calculator.html` — статические цены (захардкожены)
+- `Калькуляторы/iphone-calculator-dynamic.html` — цены загружаются из CS-Cart при открытии страницы
+
+Оба файла обновляются параллельно. Структура одинаковая, различие только в `prices: {}` (dynamic) vs `prices: { ...данные }` (static).
+
+## Порядок добавления новой модели
+
+### Шаг 1 — Запросить у пользователя
+
+1. **Ссылку на категорию CS-Cart** — например `https://irepair-store.ru/iphone/iphone-17/`
+2. **Фото для каждого цвета** — по одной ссылке на изображение для каждого цвета модели
+
+### Шаг 2 — Извлечь данные из категории
+
+Выполнить curl на страницу категории (`?items_per_page=128`), парсить:
+- **Слоги вариантов и цены** со страницы списка товаров:
+  - ссылки: `a.product-title`
+  - slug берём из `href` (последний сегмент), убираем возможный завершающий `/`
+  - контейнер цены: ближайший `.ty-grid-list__item`
+  - цена: элемент `[id^="sec_discounted_price_"]`, число парсим из `textContent` (через `\D`)
+- **Слоги SIM** из URL-слагов:
+  - `nano-simesim` → `simSlugs['nano-SIM и eSIM']`
+  - `esimesim` → `simSlugs['eSIM']`
+- **Слоги памяти** из URL-слагов: `256gb`, `512gb`, `1024gb`, `2048gb` → значения в `storageSlugs[...]`
+- **Слоги цветов**: последняя часть slug после storage → значение в `colorSlugs[colorId]`
+- Если `model.sim` содержит один элемент (например только `['eSIM']`) → в UI SIM-кнопки не переключаются, `state.sim` фиксируется в `m.sim[0]`.
+
+### Шаг 3 — Определить hex-коды цветов
+
+Стандартные Apple-цвета:
+- Black: `#2C2C2C` / `#666666`
+- White: `#F0EDE5` / `#FAF8F5`
+- Blue/Ultramarine: `#3D5BA9` / `#B0C4DE`
+- Pink: `#F4C2C2` / `#FDE8E8`
+- Teal: `#5ABFAD` / `#C2E8E0`
+- Lavender: `#B8A9D4` / `#DDD4EC`
+- Gold: `#D4B883` / `#F0E4CC`
+
+### Шаг 4 — Добавить объект в MODELS
+
+Вставить в массив `MODELS` в JS перед закрывающей `];` (или в нужной позиции по сортировке):
+
+```javascript
+{
+  id: 'iphone-XX',                    // URL-slug
+  name: 'iPhone XX',                  // Отображаемое имя
+  storage: ['128 ГБ', '256 ГБ'],     // Варианты памяти
+  sim: ['nano-SIM и eSIM', 'eSIM'],   // Типы SIM (или ['eSIM'])
+  colors: [
+    { id: 'black', name: 'Black', hex: '#2C2C2C', hexLight: '#666666' }
+  ],
+  urlBase: 'https://irepair-store.ru/iphone/iphone-XX/apple-iphone-XX',
+  categoryUrl: '/iphone/iphone-XX/?items_per_page=128',  // только dynamic
+  simSlugs:     { 'nano-SIM и eSIM': 'nano-simesim', 'eSIM': 'esimesim' },
+  storageSlugs: { '128 ГБ': '128gb', '256 ГБ': '256gb' },
+  colorSlugs:   { 'black': 'chernyy-black' },           // key = colors[].id, value = slug
+  prices: {
+    '128 ГБ|nano-SIM и eSIM|black': 73990   // static: заполнить, dynamic: {}
+  },
+  images: {
+    'black': 'https://irepair-store.ru/images/.../photo.jpg' // string или массив строк (карусель)
+  }
+}
+```
+
+### Шаг 5 — Обновить оба файла
+
+- `iphone-calculator.html`: добавить модель с заполненным `prices`
+- `iphone-calculator-dynamic.html`: добавить модель с `prices: {}`
+
+### Шаг 6 — Проверить
+
+- Все табы моделей отображаются
+- Переключение опций работает
+- Цены корректны
+- Фото меняются по цветам
+- Кнопка «Оформить заказ» открывает модалку с правильными данными
+
+## Важные инварианты (чтобы внешний вид и логика не ломались)
+1. **state по умолчанию:** после `selectModel(index)` задаётся `storage=m.storage[0]`, `sim=m.sim[0]`, `colorId=m.colors[0].id`. Если `prices`/загруженные цены не содержат ни одного валидного варианта — сработает `findFirstAvailable()`.
+2. **Ключ варианта для цен:** `variantKey = storage + '|' + sim + '|' + colorId` (то есть ключ использует `storage[]`, `sim[]` и `colors[].id`).
+3. **Логика disabled:** кнопки становятся неактивными, если `hasVariant(storage, sim, colorId)` возвращает `false` (нет соответствующего ключа в `prices`).
+4. **urlBase и порядок slug-варианта в dynamic:**
+   - `slugBase = model.urlBase.split('/').pop()`
+   - slug варианта собирается так: `slugBase + '-' + simSlug + '-' + storageSlug + '-' + colorSlug`
+   - `urlBase` — это префикс до `-nano-simesim|esimesim-...-...` и он должен совпадать с тем, что стоит в URL карточек товара в CS-Cart.
+5. **images формат:**
+   - `images[colorId]` может быть строкой (1 фото) или массивом строк (карусель);
+   - `renderImage()` добавляет единый фон `#f6f5f8` и включает карусель/точки только при `images.length > 1`.
+
+## Формат variant key
+
+`'{storage}|{sim}|{colorId}'` — например `'256 ГБ|eSIM|black'`
+
+## Отправка формы CS-Cart
+
+Механизм: `dispatch=pages.send_form`, `page_id=55`, через hidden iframe с `security_hash` из `Tygh.security_hash`.

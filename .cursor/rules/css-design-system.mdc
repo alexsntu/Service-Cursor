@@ -1,0 +1,335 @@
+---
+description: CSS дизайн-система iRepair для HTML-страниц на OpenCart. Применяется при создании или редактировании любых SEO HTML-блоков сервиса. Содержит изоляцию, палитру, типографику, компоненты и брейкпоинты.
+globs: Категории/**/*.html
+alwaysApply: false
+---
+
+# CSS дизайн-система iRepair (OpenCart)
+
+Все стили встраиваются в `<style>` внутри каждой HTML-страницы.  
+**Правило изоляции:** каждый CSS-селектор обязан начинаться с `.mm-block` (кроме модальных окон вне `.mm-block`). Это защищает от глобальных стилей темы OpenCart.
+
+---
+
+## Изоляция от OpenCart (обязательный блок в начале `<style>`)
+
+```css
+.mm-block {
+  position: relative; max-width: 1300px; margin: 0 auto;
+  border-radius: 24px;
+  background: linear-gradient(160deg, #f4fff8 0%, #edfafa 40%, #f0f8ff 80%, #f5fff6 100%);
+  padding: 28px 0 30px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  color: #2C2C2C; -webkit-font-smoothing: antialiased;
+}
+.mm-block *  { box-sizing: border-box; }
+.mm-block h1,.mm-block h2,.mm-block h3,.mm-block h4,.mm-block h5,.mm-block h6 {
+  margin: 0; padding: 0; font-weight: 700; line-height: 1.2; border: 0;
+  font-family: inherit; color: #2C2C2C; background: none; text-transform: none; float: none;
+}
+.mm-block p  { margin: 0; padding: 0; }
+.mm-block ul,.mm-block ol { margin: 0; padding: 0; list-style: none; }
+.mm-block img { max-width: 100%; height: auto; border: 0; vertical-align: bottom; box-shadow: none; }
+.mm-block section,.mm-block article { margin: 0; border: 0; }
+.mm-block a  { text-decoration: none; background: none; }
+.mm-block button { font-family: inherit; box-sizing: border-box; }
+```
+
+---
+
+## Цветовая палитра
+
+| Назначение | Значение |
+|---|---|
+| Основной акцент (зелёный) | `#4AE580` |
+| Вторичный акцент (бирюзовый) | `#20CCBE` |
+| Градиент иконок/кнопок | `linear-gradient(135deg, #4AE580, #20CCBE)` |
+| Фон блока | `linear-gradient(160deg, #f4fff8, #edfafa, #f0f8ff, #f5fff6)` |
+| Основной текст | `#2C2C2C` |
+| Вторичный текст | `#555555` |
+| Мuted / meta | `#999999`, `#6B6B6B` |
+| CTA-фон (тёмный) | `#2C2C2C` |
+| Ссылки внутри текста | `#20CCBE` |
+| Hover кнопки primary | `#000000` |
+
+---
+
+## Типографика
+
+```css
+.mm-block .mm-h2 { font-size: 28px; line-height: 1.25; font-weight: 700; letter-spacing: -.02em; margin: 0 0 14px; }
+.mm-block .mm-h3 { font-size: clamp(19px, 2.8vw, 26px); line-height: 1.35; font-weight: 650; letter-spacing: -.01em; margin: 0 0 14px; }
+.mm-block .mm-h4 { font-size: 18px; line-height: 1.35; font-weight: 600; margin: 0 0 8px; }
+.mm-block .mm-intro-text { font-size: 17px; line-height: 1.7; color: #333333; }
+.mm-block .mm-card-desc  { font-size: 15px; line-height: 1.55; color: #555555; }
+.mm-block .mm-muted      { font-size: 13px; color: #999999; }
+.mm-block .mm-card-meta  { font-size: 13px; color: #999999; }
+```
+
+---
+
+## Структура страницы
+
+```css
+.mm-block .mm-container   { max-width: 100%; margin: 0 auto; padding: 0 32px; }
+.mm-block .mm-section     { padding: 26px 0; }
+.mm-block .mm-section--soft { padding: 22px 20px; border-radius: 20px; background: rgba(255,255,255,0.72); }
+.mm-block .mm-divider     { height: 1px; background: #e5e5e5; margin: 26px 0; }
+```
+
+---
+
+## Компоненты
+
+### Liquid Glass карточка (`.mm-glass`)
+```css
+.mm-block .mm-glass {
+  background: rgba(255,255,255,0.62); border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.9);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.06), 0 0 0 1px rgba(255,255,255,0.6) inset;
+  backdrop-filter: blur(22px) saturate(180%);
+}
+```
+
+### Кнопки
+```css
+/* Primary — зелёный градиент */
+.mm-block .mm-btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 13px 20px; border-radius: 999px;
+  font-size: 15px; font-weight: 600; text-decoration: none;
+  background: linear-gradient(90deg, #4AE580, #20CCBE); color: #ffffff;
+  border: 1px solid transparent; cursor: pointer; white-space: nowrap;
+}
+.mm-block .mm-btn-primary:hover { background: #000; color: #fff; }
+
+/* Secondary — светлый */
+.mm-block .mm-btn-secondary {
+  /* те же базовые стили */
+  background: #F0F0F0; border-color: #e5e5e5; color: #000000;
+}
+/* Secondary внутри .mm-cta */
+.mm-block .mm-cta .mm-btn-secondary { background: transparent; border-color: rgba(255,255,255,0.5); color: #fff; }
+
+/* Ссылка-карточка */
+.mm-block .mm-card-link { color: #20CCBE; font-size: 14px; font-weight: 500; margin-top: auto; }
+```
+
+### Карточка контента (`.mm-card`)
+```css
+.mm-block .mm-services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.mm-block .mm-card { padding: 20px 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+.mm-block .mm-card-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+.mm-block .mm-card-ico {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: linear-gradient(135deg, #4AE580, #20CCBE);
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 22px; flex-shrink: 0; min-width: 46px;
+}
+```
+> Иконка + заголовок `.mm-h4` + мета `.mm-card-meta` + текст `.mm-card-desc` + ссылка `.mm-card-link`
+
+### Stat-strip (контактные плитки)
+```css
+.mm-block .mm-stat-strip { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+.mm-block .mm-stat-card  { padding: 18px 16px 16px; display: flex; flex-direction: column;
+                            justify-content: space-between; min-height: 110px;
+                            overflow-wrap: break-word; min-width: 0; }
+/* Кликабельная карточка */
+.mm-block a.mm-stat-card { text-decoration: none; color: inherit; cursor: pointer; }
+.mm-block a.mm-stat-card:hover { border-color: rgba(74,229,128,0.55); }
+.mm-block .mm-stat-ico { width: 40px; height: 40px; border-radius: 50%;
+                         background: linear-gradient(135deg, #4AE580, #20CCBE);
+                         display: inline-flex; align-items: center; justify-content: center;
+                         color: #fff; flex-shrink: 0; }
+```
+> Stat-strip всегда использует `minmax(0,1fr)` — не просто `1fr` — чтобы длинный текст не растягивал колонку.
+
+### CTA-блок
+```css
+.mm-block .mm-cta { background: #2C2C2C; color: #fff; padding: 26px 22px; border-radius: 22px; }
+.mm-block .mm-cta h3 { color: #ffffff; margin: 0 0 8px; }
+.mm-block .mm-cta p  { color: rgba(255,255,255,0.88); margin: 0; }
+```
+
+### FAQ
+```css
+.mm-block .mm-faq-list { display: flex; flex-direction: column; gap: 12px; }
+.mm-block .mm-faq-item { padding: 18px 16px; }
+.mm-block .mm-faq-question { font-size: 16px; font-weight: 600; margin: 0 0 6px; }
+.mm-block .mm-faq-answer   { font-size: 15px; line-height: 1.55; color: #555555; }
+.mm-block .mm-faq-answer a { color: #20CCBE; }
+```
+
+### Бейджи
+```css
+.mm-block .mm-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.mm-block .mm-stat-badge {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 14px;
+  color: #2C2C2C; background: #F3F3F3; border: 1px solid #e5e5e5;
+  padding: 10px 14px; border-radius: 999px;
+}
+.mm-block .mm-stat-badge .mm-badge-ico {
+  width: 22px; height: 22px; border-radius: 50%; background: #44CC55;
+  display: inline-flex; align-items: center; justify-content: center; color: #fff;
+}
+```
+
+---
+
+## Адаптивность (брейкпоинты)
+
+Все правила внутри `@media` **тоже** должны начинаться с `.mm-block`:
+
+```css
+@media (max-width: 1000px) {
+  .mm-block .mm-stat-strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 900px) {
+  .mm-block .mm-services-grid { grid-template-columns: repeat(2,1fr); }
+  .mm-block .mm-features      { grid-template-columns: 1fr; }
+  .mm-block .mm-scheme-grid   { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .mm-block                   { border-radius: 0; }
+  .mm-block .mm-container     { padding: 0 14px; }       /* ← обязательно, иначе 32px останутся */
+  .mm-block .mm-section       { padding: 20px 0; }
+  .mm-block .mm-section--soft { padding: 18px 14px; border-radius: 16px; }
+  .mm-block .mm-h2  { font-size: 24px; }
+  .mm-block .mm-h3  { font-size: 20px; }
+  .mm-block .mm-services-grid { grid-template-columns: 1fr; }
+  .mm-block .mm-stat-strip    { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+}
+@media (max-width: 380px) {
+  .mm-block .mm-stat-strip    { grid-template-columns: 1fr; }
+  .mm-block .mm-h2            { font-size: 22px; }
+}
+```
+
+---
+
+## Критические правила специфичности
+
+> OpenCart-тема использует селекторы вида `.container h2`, `.row p` с специфичностью (0,1,1).  
+> Наши одиночные классы `.mm-h2` имеют (0,1,0) и **проигрывают**.  
+> Поэтому **абсолютно все** CSS-правила — включая `@media` — обязаны писаться как `.mm-block .mm-ClassName`, что даёт (0,2,0) и гарантированно побеждает тему.
+
+❌ Неправильно:
+```css
+.mm-h2 { font-size: 28px; }
+@media (max-width: 640px) { .mm-container { padding: 0 14px; } }
+```
+
+✅ Правильно:
+```css
+.mm-block .mm-h2 { font-size: 28px; }
+@media (max-width: 640px) { .mm-block .mm-container { padding: 0 14px; } }
+```
+
+---
+
+## Горизонтальный скроллер (фото-шаги, слайдеры)
+
+На мобильных секции с несколькими фото переключаются в нативный scroll-snap:
+
+```css
+/* Десктоп: скрываем кнопки/точки */
+.mm-block .mm-slider-btn  { display: none; }
+.mm-block .mm-slider-dots { display: none; }
+
+@media (max-width: 640px) {
+  .mm-block .mm-slider-wrap { position: relative; margin: 0 -14px; }
+  .mm-block .mm-photo-steps {
+    display: flex; flex-wrap: nowrap;
+    overflow-x: scroll; scroll-snap-type: x mandatory;
+    scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; gap: 12px; padding: 4px 14px 12px;
+  }
+  .mm-block .mm-photo-steps::-webkit-scrollbar { display: none; }
+  .mm-block .mm-photo-step { flex: 0 0 76%; min-width: 76%; scroll-snap-align: start; }
+  .mm-block .mm-slider-btn { display: flex; position: absolute; top: calc(50% - 38px);
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.95); border: 1px solid rgba(0,0,0,0.08);
+    align-items: center; justify-content: center; cursor: pointer; z-index: 10; }
+  .mm-block .mm-slider-btn--prev { left: 18px; }
+  .mm-block .mm-slider-btn--next { right: 18px; }
+  .mm-block .mm-slider-dots { display: flex; justify-content: center; gap: 7px; margin-top: 12px; }
+  .mm-block .mm-dot { width: 7px; height: 7px; border-radius: 50%; background: #c8c8c8; }
+  .mm-block .mm-dot--active { width: 22px; border-radius: 4px; background: #44CC55; }
+}
+```
+> Ширина слайда `76%` (не `100%`) — чтобы следующий слайд был виден и пользователь понимал что можно листать.
+
+### Паттерн для блока процесса `.mm-process-visual`
+
+Если в странице используется блок «Как проходит ремонт» с двумя фото, применять этот вариант:
+
+```css
+/* Десктоп: 2 картинки симметрично и одинаково по размеру */
+.mm-block .mm-process-visual {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+  margin: 16px auto 0;
+  padding: 14px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 16px;
+}
+.mm-block .mm-process-visual img {
+  display: block;
+  width: 100%;
+  height: clamp(220px, 24vw, 320px);
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.mm-block .mm-process-dots { display: none; }
+
+/* Мобильный: слайдер на всю ширину кадра + полоски индикатора */
+@media (max-width: 640px) {
+  .mm-block .mm-process-visual {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    gap: 10px;
+    margin: 16px -14px 0;
+    padding: 10px 14px;
+    border-radius: 0;
+  }
+  .mm-block .mm-process-visual::-webkit-scrollbar { display: none; }
+  .mm-block .mm-process-visual img {
+    flex: 0 0 100%;
+    width: 100%;
+    height: auto;
+    max-height: 50vh;
+    scroll-snap-align: start;
+    object-fit: contain;
+    background: #ffffff;
+  }
+
+  .mm-block .mm-process-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .mm-block .mm-process-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #cfd6d3;
+    transition: width 0.2s ease, background-color 0.2s ease;
+  }
+  .mm-block .mm-process-dot.is-active {
+    width: 24px;
+    background: #44CC55;
+  }
+}
+```
+
+Правило для UX: на мобильном после блока с фото всегда выводить `.mm-process-dots`, чтобы было видно, что есть следующий слайд.

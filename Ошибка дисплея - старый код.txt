@@ -1,0 +1,850 @@
+<main class="indexPage">
+      <div class="errorPage__index" style="background: url(/images/errorPage__index.png) 50% 50% no-repeat; background-size: cover;">
+        <div class="g-wrapper"> 
+          <div class="errorPage__index__wrapper"> 
+            <div class="errorPage__index__wrapper-left">
+              <h1>
+                <div class="errorPage__title">
+                  <div class="title__row"><span>Почему<br class="tablet"></span><span>не надо бояться</span></div>
+                  <div class="title__row"><span class="green">ошибки дисплея<br class="tablet"></span><span>при</span></div>
+                  <div class="title__row"><span>замене экрана?</span></div>
+                </div>
+                <div class="errorPage__title-t"> <span>Почему<br class="tablet"></span><span>не надо бояться<br class="tablet"></span><span class="green">ошибки дисплея<br class="tablet"></span><span>при замене экрана?</span></div>
+              </h1>
+              <p>Если вы видите на экране своего iPhone<br> уведомление об ошибке дисплея, не стоит<br> переживать — это абсолютно нормально.<br> А ниже мы расскажем почему</p>
+            </div>
+            <div class="errorPage__index__wrapper-right"> 
+              <p>На моделях iPhone 11,<br class="mob"> 11 Pro,<br> 11 Pro Max, 12,<br class="mob"> 12 Pro можно<br> убрать<br class="mob"> системную ошибку<br><br class="mob"> путем перепайки<br class="mob"> микросхемы</p><span>за 3000 ₽</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="errorPage__info"> 
+        <div class="g-wrapper"> 
+          <div class="errorPage__info__wrapper"> 
+            <div class="errorPage__info__wrapper-image"> <img src="/images/errorPage__phone.png"></div>
+            <div class="errorPage__info__wrapper-content">
+              <h2>Ошибка дисплея <span>не влияет</span> на<br class="mob"> работу<br> самого iPhone. После<br class="mob"> замены стекла<br> вы можете видеть<br class="mob"> это уведомление:</h2>
+              <p>после включения или перезагрузки первые 3 дня;</p>
+              <p>на <span>4-й день</span> эта информация уходит в Настройки;</p>
+              <p>на <span>15-й</span> день данные останутся только в меню<br> Настройки — Основные — Об этом устройстве</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="errorPage__reason"> 
+        <div class="g-wrapper"> 
+          <div class="errorPage__reason__wrapper"> 
+            <h2>Причина ошибки</h2>
+            <p>Ошибка возникает при замене стекла или<br class="mob"> дисплея<br class="tablet"> в неавторизованном<br> сервисном<br class="mob"> центре Apple и<br class="tablet"> означает, что устройство<br class="mob"> не может проверить<br> дисплей<br class="tablet"> на<br class="mob"> подлинность. Другими словами, система<br class="mob"> iPhone<br class="tablet"> сообщает,<br> что установлен не<br class="mob"> родной* дисплей.</p>
+            <blockquote>* Сообщение об ошибке возникает даже<br class="mob"> в том случае, если<br class="tablet"> вам был установлен<br><br class="mob"> оригинальный дисплейный модуль,<br class="tablet"> снятый<br class="mob"> с такого же iPhone</blockquote>
+            <p>Причина заключается в микросхеме, которая содержит<br> информацию о серийных номерах и идентификатор. Эти данные<br> считывает процессор и сопоставляет с теми, которые в нем<br> записаны. То есть микросхема привязана к процессору.</p>
+          </div>
+        </div>
+      </div>
+      <div class="errorPage__models"> 
+        <div class="g-wrapper"> 
+          <div class="errorPage__models__wrapper"> 
+            <h2>На каких моделях<br class="mob"> можно<br> убрать ошибку</h2>
+            <div class="errorPage__models__wrapper-text">На некоторых моделях убрать сообщение<br class="mob"> об ошибке<br> нельзя, так как на них<br class="mob"> контроллер тачскрина находится<br><br class="mob"> непосредственно на шлейфе дисплея.</div>
+            <div class="errorPage__models__wrapper-text">Системную ошибку можно убрать путем<br class="mob"> <span>перепайки</span><br> микросхемы<br class="mob"> с <span>идентификатором</span> на новый тачскрин<br><br class="mob"> на следующих моделях:</div>
+            <div class="errorPage__models__wrapper-items">
+              <div class="errorPage__models__wrapper-item"> <img src="/images/models1.png">
+                <p>iPhone 12 Pro</p>
+              </div>
+              <div class="errorPage__models__wrapper-item"> <img src="/images/models2.png">
+                <p>iPhone 12 </p>
+              </div>
+              <div class="errorPage__models__wrapper-item"> <img src="/images/models3.png">
+                <p>iPhone 11 Pro Max</p>
+              </div>
+              <div class="errorPage__models__wrapper-item"> <img src="/images/models4.png">
+                <p>iPhone 11 Pro</p>
+              </div>
+              <div class="errorPage__models__wrapper-item"> <img src="/images/models5.png">
+                <p>iPhone 11</p>
+              </div>
+              <div class="errorPage__models__wrapper-price">
+                <p>Стоимость BGA-пайки</p><span>3000 ₽</span>
+              </div>
+            </div>
+            <div class="errorPage__models__wrapper-price-mob">
+              <p>Стоимость BGA-пайки</p><span>3000 ₽</span>
+            </div>
+            <div class="errorPage__models__wrapper-blocks">
+              <div class="errorPage__models__wrapper-block"><img src="/images/errorPage__model1.png">
+                <p>Микросхема на iPhone 12 Pro Max/Mini и iPhone 13-й серии<br> находится на самом дисплее. Дисплейный модуль всегда<br> меняется в сборе</p>
+              </div>
+              <div class="errorPage__models__wrapper-block"><img src="/images/errorPage__model2.png">
+                <p>Микросхему на данном смартфоне можно перепаять, так<br> как она находится на шлейфе тачскрина. Однако время<br> ремонта увеличивается минимум на 3 часа</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="faceidPage__callback">
+        <div class="g-wrapper">
+          <div class="faceidPage__callback__wrapper"> 
+            <h2>Свяжитесь с нами или<br> оставьте заявку на сайте!</h2>
+            <p>Наш менеджер свяжется с вами в течение 10 минут<br> и проконсультирует по всем вопросам</p>
+            <button type="button"  onclick="viewallert();" class="tradeopen">Оформить заявку</button>
+          </div>
+        </div>
+      </div>
+      <div class="errorPage__video"> 
+        <div class="g-wrapper"> 
+          <div class="errorPage__video__wrapper"> 
+            <div class="fadeidpage__video__wrapper-video">
+              <div class="fadeidpage__video__wrapper-video__poster"><img src="/images/errorPage__banner.png"></div>
+              <div id="presentation"><div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/518108079?controls=0&amp;loop=false&amp;muted=true" style="position:absolute;top:0;left:0;width:100%;height:100%;max-width:100%;" frameborder="0" allow="autoplay" allowfullscreen="" data-ready="true"></iframe></div></div>
+              <div class="fadeidpage__video__wrapper-video__button"><svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="40" fill="#59B561"></circle><path d="M55 39.5L33.25 52.0574L33.25 26.9426L55 39.5Z" fill="white"></path></svg></div>
+              <div class="fadeidpage__video__wrapper-video__stop"> </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="about-stock">
+        <div class="g-wrapper"> 
+          <div class="about-stock__wrapper">
+            <h2>У нас вы найдете<br class="tablet mob"> постоянные<br class="mob"> и&nbsp;временные<br class="tablet"> акции,<br class="mob"> а&nbsp;также <span>выгодные</span><br class="tablet mob"> предложения </h2>
+            <div class="about-stock__wrapper-block"> <img src="/images/about-stock.png"><img class="mob" src="/images/about-stock-mob.png">
+              <h3>Счастливые часы</h3>
+              <p>Ежедневно с 10:00 до 12:00 в нашем<br class="mob"> сервисе действует<br class="tablet"> скидка -17% на все<br class="mob"> типы услуг </p>
+            </div>
+            <div class="about-stock__wrapper-blocks">
+              <div class="about-stock__wrapper-blocks-block"><img src="/images/about-stock1.png">
+                <h3>Trade-in</h3>
+                <p>Что может быть лучше iPhone?<br class="tablet"> Только<br class="mob"> новый iPhone! Обменяйте<br class="tablet"> старый<br class="mob"> телефон на новый<br class="tablet"> с минимальной<br class="mob"> доплатой</p>
+              </div>
+              <div class="about-stock__wrapper-blocks-block"><img src="/images/about-stock2.png">
+                <h3>Курьер Dostavista</h3>
+                <p>Самые быстрые курьеры в вашем<br class="tablet mob"> распоряжении! А еще можно<br class="tablet mob"> отслеживать их местоположение<br class="tablet mob"> в&nbsp;приложении</p>
+              </div>
+              <div class="about-stock__wrapper-blocks-block"><img class="pc" src="/images/about-stock3.png"><img class="tablet" src="/images/about-stock3-tablet.png"><img class="mob" src="/images/about-stock3-mob.png">
+                <h3>Гарантии на ремонт</h3>
+                <p>После успешно выполненной работы<br class="mob"> мы выдаем<br class="tablet"> гарантийные чеки от<br class="mob"> 3&nbsp;месяцев до года на все виды услуг<br class="tablet mob"> и любые запчасти</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+       <div class="reviews">
+        <div class="g-wrapper">
+          <div class="reviews__wrapper">
+            <div class="reviews__wrapper-title">
+              <h3 class="like_h2">Видео-отзывы<br> клиентов</h3><span class="callReviewsPopup">20 отзывов</span>
+            </div>
+            <div class="reviews__wrapper-slider"> 
+              <div class="reviews__wrapper-slider-inner slick-initialized slick-slider">
+				                <div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 8800px; transform: translate3d(0px, 0px, 0px);"><div class="reviews__wrapper-slider-slide slick-slide slick-current slick-active" data-slide="1" data-slick-index="0" aria-hidden="false" style="width: 420px;" tabindex="0"><div style="display:none"><div itemscope="" itemtype="http://schema.org/VideoObject">
+    <a itemprop="url" href="https://www.youtube.com/watch?v=HqT3qjYM51I" tabindex="0">
+    <h1 itemprop="name">Благодарим Вас за то, что выбираете iRepair!</h1></a>
+    <p itemprop="description">Лучший сервисный центр по ремонту техники Apple: https://i-repair.ru/</p>
+    <meta itemprop="duration" content="PT0M55S">
+    <meta itemprop="isFamilyFriendly" content="true">
+    <p>Дата загрузки:<span itemprop="uploadDate">2018-05-18</span></p>
+    <link itemprop="thumbnailUrl" href="https://i.ytimg.com/vi/HqT3qjYM51I/hqdefault.jpg">
+	<link itemprop="embedUrl" href="https://www.youtube.com/embed/HqT3qjYM51I">
+	<span itemprop="thumbnail" itemscope="" itemtype="http://schema.org/ImageObject"> 
+	<link itemprop="contentUrl" href="https://i.ytimg.com/vi/HqT3qjYM51I/hqdefault.jpg">
+    <meta itemprop="width" content="480">
+    <meta itemprop="height" content="360">
+	    </span>
+</div></div>                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/63b/%D0%BC%D0%B0%D1%80%D0%B8%D1%8F.jpg" alt="Мария"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Мария</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Ребята бесплатно восстановили мне работоспособность моего телефона! Не работал микрофон, я думала нужно будет менять запчасти. По факту сделали чистку, еще и кнопку поправили!!!))) Спасибо вам огро...</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-HqT3qjYM51I" data-id="HqT3qjYM51I" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide slick-active" data-slide="2" data-slick-index="1" aria-hidden="false" style="width: 420px;" tabindex="0"><div style="display:none"><div itemscope="" itemtype="http://schema.org/VideoObject">
+    <a itemprop="url" href="https://www.youtube.com/watch?v=0LXVy8pNSS4" tabindex="0">
+    <h1 itemprop="name">Евгений Шевченко в iRepair!</h1></a>
+    <p itemprop="description">Хотел сказать большое спасибо ребятам из  iRepair, они отремонтировали мой iPhone который по всем правилам не должен был жить, так же у них есть скидка 20%, но она деуствует если вы скажете волшебное слово "ШЕФФ"</p>
+    <meta itemprop="duration" content="PT0M15S">
+    <meta itemprop="isFamilyFriendly" content="true">
+    <p>Дата загрузки:<span itemprop="uploadDate">2018-12-10</span></p>
+	<link itemprop="thumbnailUrl" href="https://i.ytimg.com/vi/8NogwDabkIA/hqdefault.jpg">
+    <link itemprop="embedUrl" href="https://www.youtube.com/embed/0LXVy8pNSS4">
+    <span itemprop="thumbnail" itemscope="" itemtype="http://schema.org/ImageObject"> 
+    <link itemprop="contentUrl" href="https://i.ytimg.com/vi/8NogwDabkIA/hqdefault.jpg">
+    <meta itemprop="width" content="480">
+    <meta itemprop="height" content="360">
+    </span>
+</div></div>                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/875/%D0%B5%D0%B2%D0%B3%D0%B5%D0%BD%D0%B8%D0%B9.jpg" alt="Шевченко Евгений"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Шевченко Евгений</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Хотел сказать большое спасибо ребятам из&nbsp;&nbsp;iRepair, они отремонтировали мой iPhone который по всем правилам не должен был жить, так же у них есть скидка 20%, но она деуствует если вы с...</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-0LXVy8pNSS4" data-id="0LXVy8pNSS4" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide slick-active" data-slide="3" data-slick-index="2" aria-hidden="false" style="width: 420px;" tabindex="0"><div style="display:none"><div itemscope="" itemtype="http://schema.org/VideoObject">
+    <a itemprop="url" href="https://www.youtube.com/embed/Dp7NHCu4_qk" tabindex="0">
+    <h1 itemprop="name">Благодарим за отзыв о сервисном центре iRepair!</h1></a>
+    <p itemprop="description">Всем привет, пришла в компанию iRepair. Нравятся сотрудники, выполняют качественно свою работу. Прихожу не первый раз, советую друзьям и знакомым.</p>
+    <meta itemprop="duration" content="PT0M13S">
+    <meta itemprop="isFamilyFriendly" content="true">
+    <p>Дата загрузки:<span itemprop="uploadDate">2019-02-13</span></p>
+	<link itemprop="thumbnailUrl" href="https://i.ytimg.com/vi/Dp7NHCu4_qk/hqdefault.jpg">
+    <link itemprop="embedUrl" href="https://www.youtube.com/embed/Dp7NHCu4_qk">
+    <span itemprop="thumbnail" itemscope="" itemtype="http://schema.org/ImageObject"> 
+    <link itemprop="contentUrl" href="https://i.ytimg.com/vi/Dp7NHCu4_qk/hqdefault.jpg">
+    <meta itemprop="width" content="480">
+    <meta itemprop="height" content="360">
+    </span>
+</div></div>                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/8e6/Mask%20Group.png" alt="Анастасия"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Анастасия</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Всем привет, пришла в компанию iRepair. Нравятся сотрудники, выполняют качественно свою работу. Прихожу не первый раз, советую друзьям и знакомым.7</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-Dp7NHCu4_qk" data-id="Dp7NHCu4_qk" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="4" data-slick-index="3" aria-hidden="true" style="width: 420px;" tabindex="-1"><div style="display:none"><div itemscope="" itemtype="http://schema.org/VideoObject">
+    <a itemprop="url" href="https://www.youtube.com/embed/xVN86umcP1w" tabindex="-1">
+    <h1 itemprop="name">Еще больше довольных клиентов в iRepair!</h1></a>
+    <p itemprop="description">Очень быстро заменили аккумулятор на моем телефоне! Рекомендую.</p>
+    <meta itemprop="duration" content="PT0M10S">
+    <meta itemprop="isFamilyFriendly" content="true">
+    <p>Дата загрузки:<span itemprop="uploadDate">2018-05-07</span></p>
+	<link itemprop="thumbnailUrl" href="https://i.ytimg.com/vi/xVN86umcP1w/hqdefault.jpg">
+    <link itemprop="embedUrl" href="https://https://www.youtube.com/embed/xVN86umcP1w">
+    <span itemprop="thumbnail" itemscope="" itemtype="http://schema.org/ImageObject"> 
+    <link itemprop="contentUrl" href="https://i.ytimg.com/vi/xVN86umcP1w/hqdefault.jpg">
+    <meta itemprop="width" content="480">
+    <meta itemprop="height" content="360">
+    </span>
+</div></div>                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/9dc/4.jpg" alt="Екатерина"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Екатерина</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Очень быстро заменили аккумулятор на моем телефоне! Рекомендую!</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-xVN86umcP1w" data-id="xVN86umcP1w" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="5" data-slick-index="4" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/e95/5.jpg" alt="Дмитрий"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Дмитрий</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Решили мою проблему с телефоном быстро и бесплатно! Спасибо!</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-O0ACP3YWiJM" data-id="O0ACP3YWiJM" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="6" data-slick-index="5" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/907/6.jpg" alt="Людмила"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Людмила</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Честные и очень приятные сотрудники. Ремонт обошелся малой кровью, всего лишь заменой защитного стекла. Буду всем знакомым рекомендовать данную организацию!</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-MA2aN32vC4s" data-id="MA2aN32vC4s" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="7" data-slick-index="6" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/c6a/7.jpg" alt="Олег"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Олег</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Ремонт сделали при мне. Очень быстро и качественно! Благодарю</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-EIqgxhvaWH4" data-id="EIqgxhvaWH4" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="8" data-slick-index="7" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/38b/8.jpg" alt="Надежда"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Надежда</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Все объяснили и рассказали, сделали ремонт очень быстро. Буду рекомендовать</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-EMta4DNAqeM" data-id="EMta4DNAqeM" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="9" data-slick-index="8" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/f53/9.jpg" alt="Евгений"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Евгений</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Отличный сервисный центр. Ребята были на высшем уровне.</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-fq3R4OvgEi4" data-id="fq3R4OvgEi4" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="10" data-slick-index="9" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/6b7/10.jpg" alt="Глеб"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Глеб</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Ребята сделали нам быстро два телефона. Спасибо им огромное!) </p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-mobG1Y1VZW8" data-id="mobG1Y1VZW8" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="11" data-slick-index="10" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/aed/11.jpg" alt="Юрий"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Юрий</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Всем привет! Рекомендую данный сервис! быстро сделали телефон, замени стекло дисплея + еще и экскурсию по сервису провели!!!! СПАСИБО</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-srDuwC17JM4" data-id="srDuwC17JM4" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="12" data-slick-index="11" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/815/12.jpg" alt="Ольга"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Ольга</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Я постоянный клиент данной организации! Делают быстро и качественно.</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-Bahu1IFUXzY" data-id="Bahu1IFUXzY" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="13" data-slick-index="12" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/6ab/13.jpg" alt="Владимир"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Владимир</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Сотрудники сервисного центра отнеслись ко мне с профессионализмом, быстро заменили батарею на моем телефоне и потом еще в течении двух часов помогали мне настраивать телефон (программы, логины ...</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-bsgEWJR0g4s" data-id="bsgEWJR0g4s" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="14" data-slick-index="13" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/1bd/14.jpg" alt="Максим"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Максим</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Ребята заменили стекло на айфоне быстро и качественно. Рекомендую</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-MbRFyL-PfrU" data-id="MbRFyL-PfrU" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="15" data-slick-index="14" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/84c/15.jpg" alt="Елизавета"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Елизавета</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Сотрудники очень приятные и внимательные, помогли мне очень быстро!)</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-N269ZbmLXK0" data-id="N269ZbmLXK0" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="16" data-slick-index="15" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/98d/16.jpg" alt="Оксана"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Оксана</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Заменили экран на айфоне, быстро и не дорого))) + подарили подарок! Спасибо вам ребята, особенно мастеру Дмитрию!</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-IcPzIIC2WKI" data-id="IcPzIIC2WKI" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="17" data-slick-index="16" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/365/17.jpg" alt="Мария"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Мария</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Неоднократно обращаюсь в данный сервис, делают быстро и качественно!</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-pE2j_DEZk7Y" data-id="pE2j_DEZk7Y" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="18" data-slick-index="17" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/49f/18.jpg" alt="Любовь"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Любовь</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Мастера сделали очень быстро и качественно мой телефон) Цена очень приемлемая </p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-HO8YULVKObI" data-id="HO8YULVKObI" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="19" data-slick-index="18" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/308/19.jpg" alt="Юлия"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Юлия</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Сервисный центр отличный, рекомендую его своим знакомым. Все на высшем уровне!</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-b_-zRNBvSCg" data-id="b_-zRNBvSCg" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div><div class="reviews__wrapper-slider-slide slick-slide" data-slide="20" data-slick-index="19" aria-hidden="true" style="width: 420px;" tabindex="-1">                  <div class="reviews__wrapper-slider-slide-front">
+                    <div class="reviews__wrapper-slider-slide-header"><div class="image_block_review"><img src="/upload/iblock/294/20.jpg" alt="Людмила"></div>
+                      <div class="reviews__wrapper-slider-slide-header-content"> 
+                        <span class="like_h3">Людмила</span>                      </div>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-body"> 
+                                            <p>Очень удобный и гостеприимный сервисный центр. Ремонтирую быстро и рассказывают процесс ремонта. Было приятно здесь находиться!</p><span class="callReviewsPopupThis">читать полностью</span>
+                    </div>
+                    <div class="reviews__wrapper-slider-slide-footer"><span>Смотреть отзыв</span><svg width="47" height="47" viewBox="0 0 47 47" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="23.5" cy="23.5" r="23.5" fill="#59B561"></circle><path d="M31.9592 23.5L19.2692 30.8266L19.2692 16.1735L31.9592 23.5Z" fill="white"></path></svg></div>
+                  </div>
+                  <div class="reviews__wrapper-slider-slide-back"><div id="player-OfgHri7JvwA" data-id="OfgHri7JvwA" class="here_video_review"></div>
+<svg class="pause-button" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="13" cy="13" r="13" fill="white"></circle><path d="M7.3667 7.37036L18.631 18.6347" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.3667 18.6296L18.6323 7.36651" stroke="#010306" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div></div></div>
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				                
+				               
+              </div>
+              <div class="reviews__wrapper-slider-prev slick-arrow slick-disabled" aria-disabled="true" style="">
+                 <svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75814 1.51763C8.8354 1.43176 8.8958 1.33075 8.93589 1.22035C8.97598 1.10996 8.99497 0.992359 8.99179 0.874257C8.98861 0.756154 8.96332 0.639866 8.91735 0.532032C8.87138 0.424198 8.80564 0.32693 8.72389 0.245781C8.64213 0.164633 8.54596 0.101193 8.44086 0.0590835C8.33576 0.0169742 8.2238 -0.00297972 8.11136 0.000361214C7.99892 0.00370214 7.8882 0.0302724 7.78554 0.0785549C7.68288 0.126837 7.59027 0.195887 7.51301 0.28176L0.234074 8.37701C0.0837545 8.54401 -1.52744e-06 8.76512 -1.56749e-06 8.99495C-1.60754e-06 9.22477 0.0837543 9.44588 0.234074 9.61288L7.51301 17.709C7.58976 17.7968 7.68234 17.8676 7.78538 17.9175C7.88843 17.9674 7.99987 17.9952 8.11324 17.9994C8.22662 18.0037 8.33967 17.9842 8.44582 17.9421C8.55197 17.9001 8.6491 17.8363 8.73159 17.7545C8.81407 17.6727 8.88026 17.5745 8.9263 17.4656C8.97234 17.3567 8.99732 17.2392 8.99979 17.1201C9.00226 17.001 8.98217 16.8825 8.94069 16.7716C8.8992 16.6607 8.83715 16.5596 8.75814 16.4741L2.03411 8.99495L8.75814 1.51763Z" fill="#59B561"></path></svg></div>
+              <div class="reviews__wrapper-slider-next slick-arrow" aria-disabled="false" style=""><svg width="9" height="18" viewBox="0 0 9 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.24186 16.4824C0.164602 16.5682 0.104204 16.6693 0.0641138 16.7796C0.0240232 16.89 0.00502604 17.0076 0.00820652 17.1257C0.011387 17.2438 0.0366841 17.3601 0.0826512 17.468C0.128619 17.5758 0.194357 17.6731 0.276114 17.7542C0.357869 17.8354 0.454042 17.8988 0.559141 17.9409C0.664239 17.983 0.776204 18.003 0.888644 17.9996C1.00108 17.9963 1.1118 17.9697 1.21446 17.9214C1.31712 17.8732 1.40973 17.8041 1.48699 17.7182L8.76593 9.62299C8.91625 9.45599 9 9.23488 9 9.00505C9 8.77523 8.91625 8.55412 8.76593 8.38712L1.48699 0.290967C1.41024 0.203213 1.31766 0.132351 1.21462 0.0824991C1.11157 0.0326448 1.00013 0.00479558 0.886755 0.000565059C0.77338 -0.00366737 0.660334 0.0158066 0.554183 0.0578541C0.448034 0.0998997 0.350896 0.16368 0.268412 0.245491C0.185929 0.327303 0.119743 0.425513 0.0737001 0.534418C0.0276577 0.643324 0.00267615 0.760752 0.000206116 0.879885C-0.00226392 0.999016 0.0178262 1.11748 0.059311 1.22838C0.100796 1.33929 0.162848 1.44044 0.241862 1.52594L6.96589 9.00505L0.24186 16.4824Z" fill="#59B561"></path></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reviewsPopup__bg"></div>
+      <div class="reviewsPopup">
+        <div class="reviewsPopup__wrapper">
+          <div class="reviewsPopup__close">
+             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="white"></circle><path d="M13.9131 13.9148L26.0855 26.0872" stroke="#59B561" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.9131 26.0852L26.0855 13.9128" stroke="#59B561" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          <div class="reviewsPopup__wrapper-left">
+            <div class="reviewsPopup__wrapper-left-inner slick-initialized slick-slider">
+              <div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 13920px; transform: translate3d(0px, 0px, 0px);"><div class="reviewsPopup__wrapper-left-item slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" style="width: 696px;" tabindex="0"><div id="player2-HqT3qjYM51I" data-id="HqT3qjYM51I" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="1" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-0LXVy8pNSS4" data-id="0LXVy8pNSS4" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="2" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-Dp7NHCu4_qk" data-id="Dp7NHCu4_qk" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="3" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-xVN86umcP1w" data-id="xVN86umcP1w" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="4" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-O0ACP3YWiJM" data-id="O0ACP3YWiJM" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="5" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-MA2aN32vC4s" data-id="MA2aN32vC4s" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="6" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-EIqgxhvaWH4" data-id="EIqgxhvaWH4" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="7" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-EMta4DNAqeM" data-id="EMta4DNAqeM" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="8" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-fq3R4OvgEi4" data-id="fq3R4OvgEi4" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="9" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-mobG1Y1VZW8" data-id="mobG1Y1VZW8" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="10" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-srDuwC17JM4" data-id="srDuwC17JM4" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="11" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-Bahu1IFUXzY" data-id="Bahu1IFUXzY" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="12" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-bsgEWJR0g4s" data-id="bsgEWJR0g4s" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="13" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-MbRFyL-PfrU" data-id="MbRFyL-PfrU" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="14" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-N269ZbmLXK0" data-id="N269ZbmLXK0" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="15" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-IcPzIIC2WKI" data-id="IcPzIIC2WKI" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="16" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-pE2j_DEZk7Y" data-id="pE2j_DEZk7Y" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="17" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-HO8YULVKObI" data-id="HO8YULVKObI" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="18" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-b_-zRNBvSCg" data-id="b_-zRNBvSCg" class="here_go_to_yotube"></div></div><div class="reviewsPopup__wrapper-left-item slick-slide" data-slick-index="19" aria-hidden="true" style="width: 696px;" tabindex="-1"><div id="player2-OfgHri7JvwA" data-id="OfgHri7JvwA" class="here_go_to_yotube"></div></div></div></div>
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			              </div>
+            <div class="reviewsPopup__wrapper-left-bottom slick-initialized slick-slider"> 
+              <div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 13920px;"><div class="reviewsPopup__wrapper-left-bottom-item slick-slide slick-current slick-active" itemscope="" itemtype="https://schema.org/Review" data-slick-index="0" aria-hidden="false" style="width: 696px; position: relative; left: 0px; top: 0px; z-index: 999; opacity: 1;" tabindex="0"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Мария"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Мария</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Мария"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Ребята бесплатно восстановили мне работоспособность моего телефона! Не работал микрофон, я думала нужно будет менять запчасти. По факту сделали чистку, еще и кнопку поправили!!!))) Спасибо вам огромное!
+</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="1" aria-hidden="true" style="width: 696px; position: relative; left: -696px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Шевченко Евгений"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Шевченко Евгений</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Шевченко Евгений"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Хотел сказать большое спасибо ребятам из&nbsp;&nbsp;iRepair, они отремонтировали мой iPhone который по всем правилам не должен был жить, так же у них есть скидка 20%, но она деуствует если вы скажете волшебное слово "ШЕФФ"</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="2" aria-hidden="true" style="width: 696px; position: relative; left: -1392px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Анастасия"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Анастасия</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Анастасия"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Всем привет, пришла в компанию iRepair. Нравятся сотрудники, выполняют качественно свою работу. Прихожу не первый раз, советую друзьям и знакомым.7</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="3" aria-hidden="true" style="width: 696px; position: relative; left: -2088px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Екатерина"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Екатерина</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Екатерина"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Очень быстро заменили аккумулятор на моем телефоне! Рекомендую!</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="4" aria-hidden="true" style="width: 696px; position: relative; left: -2784px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Дмитрий"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Дмитрий</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Дмитрий"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Решили мою проблему с телефоном быстро и бесплатно! Спасибо!</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="5" aria-hidden="true" style="width: 696px; position: relative; left: -3480px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Людмила"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Людмила</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Людмила"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Честные и очень приятные сотрудники. Ремонт обошелся малой кровью, всего лишь заменой защитного стекла. Буду всем знакомым рекомендовать данную организацию!</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="6" aria-hidden="true" style="width: 696px; position: relative; left: -4176px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Олег"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Олег</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Олег"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Ремонт сделали при мне. Очень быстро и качественно! Благодарю</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="7" aria-hidden="true" style="width: 696px; position: relative; left: -4872px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Надежда"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Надежда</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Надежда"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Все объяснили и рассказали, сделали ремонт очень быстро. Буду рекомендовать</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="8" aria-hidden="true" style="width: 696px; position: relative; left: -5568px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Евгений"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Евгений</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Евгений"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Отличный сервисный центр. Ребята были на высшем уровне.</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="9" aria-hidden="true" style="width: 696px; position: relative; left: -6264px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Глеб"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Глеб</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Глеб"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Ребята сделали нам быстро два телефона. Спасибо им огромное!) </p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="10" aria-hidden="true" style="width: 696px; position: relative; left: -6960px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Юрий"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Юрий</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Юрий"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Всем привет! Рекомендую данный сервис! быстро сделали телефон, замени стекло дисплея + еще и экскурсию по сервису провели!!!! СПАСИБО</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="11" aria-hidden="true" style="width: 696px; position: relative; left: -7656px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Ольга"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Ольга</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Ольга"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Я постоянный клиент данной организации! Делают быстро и качественно.</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="12" aria-hidden="true" style="width: 696px; position: relative; left: -8352px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Владимир"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Владимир</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Владимир"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Сотрудники сервисного центра отнеслись ко мне с профессионализмом, быстро заменили батарею на моем телефоне и потом еще в течении двух часов помогали мне настраивать телефон (программы, логины и тд)! Спасибо вам огромное! p.s. взяли деньги только за батарею.</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="13" aria-hidden="true" style="width: 696px; position: relative; left: -9048px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Максим"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Максим</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Максим"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Ребята заменили стекло на айфоне быстро и качественно. Рекомендую</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="14" aria-hidden="true" style="width: 696px; position: relative; left: -9744px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Елизавета"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Елизавета</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Елизавета"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Сотрудники очень приятные и внимательные, помогли мне очень быстро!)</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="15" aria-hidden="true" style="width: 696px; position: relative; left: -10440px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Оксана"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Оксана</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Оксана"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Заменили экран на айфоне, быстро и не дорого))) + подарили подарок! Спасибо вам ребята, особенно мастеру Дмитрию!</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="16" aria-hidden="true" style="width: 696px; position: relative; left: -11136px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Мария"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Мария</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Мария"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Неоднократно обращаюсь в данный сервис, делают быстро и качественно!</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="17" aria-hidden="true" style="width: 696px; position: relative; left: -11832px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Любовь"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Любовь</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Любовь"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Мастера сделали очень быстро и качественно мой телефон) Цена очень приемлемая </p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="18" aria-hidden="true" style="width: 696px; position: relative; left: -12528px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Юлия"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Юлия</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Юлия"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Сервисный центр отличный, рекомендую его своим знакомым. Все на высшем уровне!</p>
+                  </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-left-bottom-item slick-slide" itemscope="" itemtype="https://schema.org/Review" data-slick-index="19" aria-hidden="true" style="width: 696px; position: relative; left: -13224px; top: 0px; z-index: 998; opacity: 0;" tabindex="-1"><div itemprop="itemReviewed" itemscope itemtype="https://schema.org/LocalBusiness" style="display:none;"><meta itemprop="name" content="iRepair"></div><meta itemprop="author" content="Людмила"> 
+                <div class="reviewsPopup__wrapper-left-bottom-item-header"> 
+                  <span class="like_h2" itemprop="name">Людмила</span>                </div>
+                <div class="reviewsPopup__wrapper-left-bottom-item-comment"> 
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-header"><img src="/local/templates/main/assets/images/comment.png" alt="Людмила"><span></span></div>
+                  <div class="reviewsPopup__wrapper-left-bottom-item-comment-body" itemprop="reviewBody"> 
+                    <p>Очень удобный и гостеприимный сервисный центр. Ремонтирую быстро и рассказывают процесс ремонта. Было приятно здесь находиться!</p>
+                  </div>
+                </div>
+              </div></div></div>
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			  
+			                
+            </div>
+            <div class="reviewsPopup__wrapper-left-more"> <span>Смотреть все 20 отзывов</span></div>
+          </div>
+          <div class="reviewsPopup__wrapper-right">
+            <div class="reviewsPopup__wrapper-right-header"> 
+              <h3>Видео-отзывы клиентов</h3>
+              <p> <span class="currentNumber">1 </span><span>видео из</span><span class="totalNumber">20</span></p>
+            </div>
+            <div class="reviewsPopup__wrapper-right-body slick-initialized slick-slider slick-vertical">
+              			  <div class="slick-list draggable" style="height: 3.29997e+06px;"><div class="slick-track" style="opacity: 1; height: 660px; transform: translate3d(0px, 0px, 0px);"><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>1</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/HqT3qjYM51I/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Мария.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="1" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>2</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/0LXVy8pNSS4/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Шевченко Евгений.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="2" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>3</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/Dp7NHCu4_qk/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Анастасия.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="3" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>4</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/xVN86umcP1w/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Екатерина.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="4" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>5</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/O0ACP3YWiJM/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Дмитрий.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="5" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>6</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/MA2aN32vC4s/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Людмила.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="6" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>7</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/EIqgxhvaWH4/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Олег.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="7" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>8</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/EMta4DNAqeM/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Надежда.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="8" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>9</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/fq3R4OvgEi4/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Евгений.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="9" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>10</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/mobG1Y1VZW8/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Глеб.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="10" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>11</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/srDuwC17JM4/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Юрий.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="11" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>12</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/Bahu1IFUXzY/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Ольга.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="12" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>13</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/bsgEWJR0g4s/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Владимир.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="13" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>14</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/MbRFyL-PfrU/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Максим.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="14" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>15</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/N269ZbmLXK0/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Елизавета.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="15" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>16</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/IcPzIIC2WKI/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Оксана.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="16" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>17</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/pE2j_DEZk7Y/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Мария.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="17" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>18</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/HO8YULVKObI/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Любовь.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="18" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>19</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/b_-zRNBvSCg/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Юлия.   </div>
+                </div>
+              </div><div class="reviewsPopup__wrapper-right-body-item slick-slide slick-active" data-slick-index="19" aria-hidden="false" style="width: 370px;" tabindex="0">
+                <div class="reviewsPopup__wrapper-right-body-item-left"><span>20</span><svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6L4.64275e-07 11.1962L9.18537e-07 0.803847L9 6Z" fill="#010306"></path></svg></div>
+                <div class="reviewsPopup__wrapper-right-body-item-center"><img style="object-fit: cover;" class="youtubeimg" data-src="https://i.ytimg.com/vi/OfgHri7JvwA/hqdefault.jpg" alt="youtubevideo"></div>
+                <div class="reviewsPopup__wrapper-right-body-item-right">	
+                  <div class="h3">Людмила.   </div>
+                </div>
+              </div></div></div>			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			  			                
+            </div>
+          </div>
+        </div>
+      </div>
+     </main>
