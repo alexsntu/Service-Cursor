@@ -1,0 +1,14 @@
+{
+  "name": "cscart-mcp-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "pixelplus": "node src/pixelplus.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "axios": "^1.16.1"
+  }
+}

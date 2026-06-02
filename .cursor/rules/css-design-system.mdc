@@ -148,7 +148,7 @@ alwaysApply: false
 ### CTA-блок
 ```css
 .mm-block .mm-cta { background: #2C2C2C; color: #fff; padding: 26px 22px; border-radius: 22px; }
-.mm-block .mm-cta h3 { color: #ffffff; margin: 0 0 8px; }
+.mm-block .mm-cta h2,.mm-block .mm-cta h3,.mm-block .mm-cta h4 { color: #ffffff; margin: 0 0 8px; }
 .mm-block .mm-cta p  { color: rgba(255,255,255,0.88); margin: 0; }
 ```
 
