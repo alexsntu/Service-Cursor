@@ -3,7 +3,7 @@
     "pixelplus": {
       "command": "/opt/homebrew/bin/node",
       "args": [
-        "/Users/a0000/Desktop/Мое/Сервис/Service Cursor/cscart-mcp-server/src/pixelplus.js"
+        "/Users/a0000/Документы/Cursor/Service-Cursor/cscart-mcp-server/src/pixelplus.js"
       ],
       "env": {
         "PIXELPLUS_API_TOKEN": "8d40ddf534248b37b51de4ced3ae58c4"
