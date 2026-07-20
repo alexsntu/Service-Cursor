@@ -8,15 +8,26 @@ This is the content and SEO workspace for **iRepair** (irepair.ru) — an Apple 
 
 - SEO HTML pages for OpenCart categories (iPhone, MacBook, iPad, Apple Watch repairs)
 - Cursor rules and skills for AI-assisted page generation
-- A CS-Cart MCP server (`cscart-mcp-server/`) — Node.js MCP server, run with `npm start`
+- A PixelPlus MCP server (`cscart-mcp-server/src/pixelplus.js`) for SEO rank tracking — see MCP Servers below
 - Blog articles, calculators, and utility scripts
 
-## MCP Server (`cscart-mcp-server/`)
+## MCP Servers
+
+`.mcp.json` (repo root) registers one project-scoped server:
+
+```json
+"pixelplus": { "command": "node", "args": ["cscart-mcp-server/src/pixelplus.js"], "env": { "PIXELPLUS_API_TOKEN": "..." } }
+```
+
+- **`pixelplus` (project server, tools prefixed `mcp__pixelplus__*`)** — the only server actually wired to this repo. Talks to the PixelPlus SEO API (`https://tools.pixelplus.ru/projects/api/v1/`) for the iRepair project (`project_id = 63755`, domain `irepair.ru`). Tools: `pixelplus_get_project`, `pixelplus_get_groups`, `pixelplus_get_queries`, `pixelplus_add_queries`, `pixelplus_get_positions`, `pixelplus_get_updates`. Source: `cscart-mcp-server/src/pixelplus.js` (also duplicated at repo-root `pixelplus.js` — keep both in sync if edited, or remove the duplicate).
+- **`pixelplus-mcp` (global, tools prefixed `mcp__pixelplus-mcp__*`)** — a *different* PixelPlus account (GOODMi/Maxmobiles), configured outside this repo. Do **not** use it for iRepair work — `project_id = 63755` will not resolve there. Always use the project-scoped `pixelplus` server for iRepair.
+- **`wordstat-mcp` (global, tools prefixed `mcp__wordstat-mcp__*`)** — Yandex Wordstat keyword-frequency lookups (`wordstat_bulk`, `wordstat_top`, `wordstat_regions`, `wordstat_dynamics`), used by the `seo-service-meta-tags-builder-v2` skill. Configured globally, not in this repo's `.mcp.json`.
+
+`cscart-mcp-server/` is otherwise a mostly-unused boilerplate: `src/index.js` (the `npm start` entry point, and the CS-Cart product/order/category tools described in `cscart-mcp-server/README.md`) is an empty stub, as are `src/wordstat.js`, `Dockerfile*`, `docker-compose.yml`, and `project.config.js`. Don't trust that README for current behavior — only `src/pixelplus.js` is real.
 
 ```bash
 cd cscart-mcp-server
-npm start          # runs src/index.js
-node src/pixelplus.js  # pixelplus integration
+node src/pixelplus.js  # run the PixelPlus MCP server directly (normally launched by the MCP client via .mcp.json)
 ```
 
 ## HTML Page Generation Workflow
@@ -33,6 +44,10 @@ All HTML pages for OpenCart are **self-contained**: every page includes its own 
 > «Нужны ли картинки для этой страницы?»
 
 If images are needed, collect URLs first. Never leave `src="#"` placeholders.
+
+This confirmation is enforced by an `alwaysApply: true` rule, `.cursor/rules/page-generation-hook.mdc` — skip asking only when the user already said "как обычно"/"в нашем стиле", pointed at an existing page as the template, or the task is editing (not creating) a page.
+
+A second `alwaysApply: true` rule, `.cursor/rules/opencart-html-gutters-fix.mdc`, mandates stable side gutters on the root `.mm-block` (desktop `width: min(1300px, calc(100% - 48px))`; mobile `≤640px`: `calc(100% - 20px)`) with `box-sizing: border-box`, plus an `!important` guard block at the end of the document if the OpenCart theme overrides them. Don't leave duplicate guard blocks or duplicate `style` attributes on `.mm-block`.
 
 ### CSS isolation rule (critical)
 Every CSS selector must start with `.mm-block` to avoid conflicts with OpenCart theme selectors (specificity (0,1,1)). Single-class selectors like `.mm-h2` lose to theme styles.
@@ -111,16 +126,26 @@ Use the **blogger** Cursor agent (`.cursor/agents/blogger.md`) or the rule `.cur
 | Skill | Purpose |
 |---|---|
 | `seo-service-page-builder` | Generates full SEO HTML page for a repair category |
-| `seo-service-meta-tags-builder` | Generates H1/title/description/og tags |
+| `seo-service-meta-tags-builder` | Generates H1/title/description/og tags (v1, SERP-heuristic only) |
+| `seo-service-meta-tags-builder-v2` | v1 + Wordstat frequency-cluster keyword analysis (`mcp__wordstat-mcp__*`, region Москва=213), USP demand-filtering, neural-answer (Яндекс Нейро/AI Overviews) strategy, hub/model/repair-type cannibalization checks, and an optional final step that sends the resulting semantic core to PixelPlus (`mcp__pixelplus__pixelplus_add_queries`, `project_id = 63755`). Prefer this over v1 when Wordstat/PixelPlus MCP access is available. |
 | `seo-service-page-workflow` | Overview of the page generation process |
 
-Skills live in `.cursor/skills/`.
+Skills live in `.cursor/skills/`. There is also a Cursor **agent** (not a skill) at `.cursor/agents/blogger.md` — formats raw blog article text into the `apple-blog-formatting-seo.mdc` HTML structure without rewriting the source text.
 
 ## File Naming
 
 - Main category block: `irepair-seo-block.html`
 - Device model pages: `iphone-17-pro-max-repair.html`, `macbook-pro-repair.html`
-- All output in `Категории/` subfolders: `iPhone/`, `MacBook/`, `iPad/`, `AppleWatch/`
+- All output in `Категории/` subfolders: `iPhone/`, `MacBook/`, `iPad/`, `AppleWatch/` (each has a `Старые/старые` subfolder for superseded page versions — don't edit those, don't treat them as current)
+
+## Repository Layout
+
+- `Категории/` — the actual OpenCart HTML output (see File Naming above); `Категории/Страницы/` holds non-repair pages (contacts, company info, error page)
+- `Блоги/`, `Калькуляторы/`, `Служебные страницы/` — blog articles, the iPhone repair-price calculator, and shared page fragments (e.g. footer variants)
+- `Работа по СЕО/`, `SEO-план/` — working SEO docs (competitor analysis, growth/action plans, GSC/Wordstat data exports) — reference material, not page output
+- `cscart-mcp-server/` — Node MCP servers, see MCP Servers below
+
+These top-level folder names are Cyrillic — quote paths with the shell tools when scripting against them.
 
 ## Competitors (Moscow Apple services)
 
