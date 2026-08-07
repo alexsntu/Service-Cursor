@@ -76,79 +76,6 @@ Disallow: /*.default/
 Disallow: /templates/
 Disallow: /main/
 Disallow: /*/[0-9].html$
-Disallow: /abuse/
-Disallow: /angel/
-Disallow: /appreciate/
-Disallow: /asleep/
-Disallow: /athletic/
-Disallow: /beat/
-Disallow: /bicycle/
-Disallow: /bite/
-Disallow: /blanket/
-Disallow: /border/
-Disallow: /bureau/
-Disallow: /cancel/
-Disallow: /century/
-Disallow: /chapter/
-Disallow: /chip/
-Disallow: /choose/
-Disallow: /commodity/
-Disallow: /creation/
-Disallow: /criticism/
-Disallow: /cruel/
-Disallow: /different/
-Disallow: /discuss/
-Disallow: /disturb/
-Disallow: /drinking/
-Disallow: /effective/
-Disallow: /exercise/
-Disallow: /existence/
-Disallow: /faint/
-Disallow: /faith/
-Disallow: /gross/
-Disallow: /heaven/
-Disallow: /high-tech/
-Disallow: /horizon/
-Disallow: /hunt/
-Disallow: /immediately/
-Disallow: /intact/
-Disallow: /known/
-Disallow: /laugh/
-Disallow: /lean/
-Disallow: /level/
-Disallow: /match/
-Disallow: /mathematics/
-Disallow: /medium/
-Disallow: /metropolitan/
-Disallow: /newspaper/
-Disallow: /norm/
-Disallow: /partly/
-Disallow: /piece/
-Disallow: /print/
-Disallow: /range/
-Disallow: /recognize/
-Disallow: /requirement/
-Disallow: /ritual/
-Disallow: /secretary/
-Disallow: /seed/
-Disallow: /sheep/
-Disallow: /slave/
-Disallow: /slowly/
-Disallow: /somewhat/
-Disallow: /structural/
-Disallow: /stuff/
-Disallow: /suspicion/
-Disallow: /swell/
-Disallow: /switch/
-Disallow: /sword/
-Disallow: /tall/
-Disallow: /teacher/
-Disallow: /telescope/
-Disallow: /tightly/
-Disallow: /toreka/
-Disallow: /unknown/
-Disallow: /virtually/
-Disallow: /with/
 
 # Блокировка index.php спама
 Disallow: /index.php?route=product/product/getopt
@@ -255,79 +182,6 @@ Disallow: /*.default/
 Disallow: /templates/
 Disallow: /main/
 Disallow: /*/[0-9].html$
-Disallow: /abuse/
-Disallow: /angel/
-Disallow: /appreciate/
-Disallow: /asleep/
-Disallow: /athletic/
-Disallow: /beat/
-Disallow: /bicycle/
-Disallow: /bite/
-Disallow: /blanket/
-Disallow: /border/
-Disallow: /bureau/
-Disallow: /cancel/
-Disallow: /century/
-Disallow: /chapter/
-Disallow: /chip/
-Disallow: /choose/
-Disallow: /commodity/
-Disallow: /creation/
-Disallow: /criticism/
-Disallow: /cruel/
-Disallow: /different/
-Disallow: /discuss/
-Disallow: /disturb/
-Disallow: /drinking/
-Disallow: /effective/
-Disallow: /exercise/
-Disallow: /existence/
-Disallow: /faint/
-Disallow: /faith/
-Disallow: /gross/
-Disallow: /heaven/
-Disallow: /high-tech/
-Disallow: /horizon/
-Disallow: /hunt/
-Disallow: /immediately/
-Disallow: /intact/
-Disallow: /known/
-Disallow: /laugh/
-Disallow: /lean/
-Disallow: /level/
-Disallow: /match/
-Disallow: /mathematics/
-Disallow: /medium/
-Disallow: /metropolitan/
-Disallow: /newspaper/
-Disallow: /norm/
-Disallow: /partly/
-Disallow: /piece/
-Disallow: /print/
-Disallow: /range/
-Disallow: /recognize/
-Disallow: /requirement/
-Disallow: /ritual/
-Disallow: /secretary/
-Disallow: /seed/
-Disallow: /sheep/
-Disallow: /slave/
-Disallow: /slowly/
-Disallow: /somewhat/
-Disallow: /structural/
-Disallow: /stuff/
-Disallow: /suspicion/
-Disallow: /swell/
-Disallow: /switch/
-Disallow: /sword/
-Disallow: /tall/
-Disallow: /teacher/
-Disallow: /telescope/
-Disallow: /tightly/
-Disallow: /toreka/
-Disallow: /unknown/
-Disallow: /virtually/
-Disallow: /with/
 
 # Блокировка index.php спама
 Disallow: /index.php?route=product/product/getopt
@@ -434,79 +288,6 @@ Disallow: /*.default/
 Disallow: /templates/
 Disallow: /main/
 Disallow: /*/[0-9].html$
-Disallow: /abuse/
-Disallow: /angel/
-Disallow: /appreciate/
-Disallow: /asleep/
-Disallow: /athletic/
-Disallow: /beat/
-Disallow: /bicycle/
-Disallow: /bite/
-Disallow: /blanket/
-Disallow: /border/
-Disallow: /bureau/
-Disallow: /cancel/
-Disallow: /century/
-Disallow: /chapter/
-Disallow: /chip/
-Disallow: /choose/
-Disallow: /commodity/
-Disallow: /creation/
-Disallow: /criticism/
-Disallow: /cruel/
-Disallow: /different/
-Disallow: /discuss/
-Disallow: /disturb/
-Disallow: /drinking/
-Disallow: /effective/
-Disallow: /exercise/
-Disallow: /existence/
-Disallow: /faint/
-Disallow: /faith/
-Disallow: /gross/
-Disallow: /heaven/
-Disallow: /high-tech/
-Disallow: /horizon/
-Disallow: /hunt/
-Disallow: /immediately/
-Disallow: /intact/
-Disallow: /known/
-Disallow: /laugh/
-Disallow: /lean/
-Disallow: /level/
-Disallow: /match/
-Disallow: /mathematics/
-Disallow: /medium/
-Disallow: /metropolitan/
-Disallow: /newspaper/
-Disallow: /norm/
-Disallow: /partly/
-Disallow: /piece/
-Disallow: /print/
-Disallow: /range/
-Disallow: /recognize/
-Disallow: /requirement/
-Disallow: /ritual/
-Disallow: /secretary/
-Disallow: /seed/
-Disallow: /sheep/
-Disallow: /slave/
-Disallow: /slowly/
-Disallow: /somewhat/
-Disallow: /structural/
-Disallow: /stuff/
-Disallow: /suspicion/
-Disallow: /swell/
-Disallow: /switch/
-Disallow: /sword/
-Disallow: /tall/
-Disallow: /teacher/
-Disallow: /telescope/
-Disallow: /tightly/
-Disallow: /toreka/
-Disallow: /unknown/
-Disallow: /virtually/
-Disallow: /with/
 
 # Блокировка index.php спама
 Disallow: /index.php?route=product/product/getopt
@@ -535,6 +316,42 @@ Disallow: /js/
 # Блокировка personal
 Disallow: /personal/
 
+# Явное разрешение AI-краулерам (GEO/AEO) — irepair.ru
+# До этого AI-боты подпадали под общую секцию "User-agent: *" (тоже разрешено),
+# но без явного упоминания. Секции ниже фиксируют это явно.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 Clean-Param: utm_source&utm_medium&utm_campaign irepair.ru
 Clean-Param: utm_referer&utm_source&utm_medium&utm_campaign irepair.ru
 Clean-Param: PAGEN irepair.ru
@@ -543,3 +360,4 @@ Clean-Param: utm_ya_campaign&utm_candidate&yabizcmpgn irepair.ru
 
 Sitemap: https://irepair.ru/sitemap.xml
 Sitemap: https://irepair.ru/index.php?route=feed/advanced_sitemap
+Sitemap: https://irepair.ru/sitemap2.xml

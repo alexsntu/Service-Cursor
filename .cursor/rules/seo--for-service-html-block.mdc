@@ -122,10 +122,10 @@ alwaysApply: false
 ```json
 {
   "@type": "WebPage",
-  "@id": "https://irepair.ru/servis-apple/remont-iphone/remont-МОДЕЛЬ/#webpage",
+  "@id": "https://irepair.ru/catalog/remont-iphone/remont-МОДЕЛЬ/#webpage",
   "name": "Ремонт [Модель] в Москве — iRepair",
   "description": "...",
-  "url": "https://irepair.ru/servis-apple/remont-iphone/remont-МОДЕЛЬ/",
+  "url": "https://irepair.ru/catalog/remont-iphone/remont-МОДЕЛЬ/",
   "speakable": {
     "@type": "SpeakableSpecification",
     "cssSelector": [".mm-intro-text", ".mm-advantages-list"]
