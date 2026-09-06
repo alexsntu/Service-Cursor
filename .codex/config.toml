@@ -1,0 +1,6 @@
+[mcp_servers.pixelplus]
+command = "/opt/homebrew/bin/node"
+args = ["/Users/a0000/Документы/Cursor/Service-Cursor/cscart-mcp-server/src/pixelplus.js"]
+
+[mcp_servers.pixelplus.env]
+PIXELPLUS_API_TOKEN = "8d40ddf534248b37b51de4ced3ae58c4"

@@ -1,0 +1,11 @@
+---
+description: Use Claude Code memory as the canonical iRepair project state and progress log
+alwaysApply: true
+---
+
+# Shared project memory
+
+Read `/Users/a0000/.claude/projects/-Users-a0000-----------Cursor-Service-Cursor/memory/MEMORY.md` and relevant linked files before project work.
+This is the user's canonical project memory. Save all meaningful progress, decisions, verified results, unresolved issues and next steps into its existing topic files; maintain the index.
+Do not create competing memory stores. Distinguish live observations from historical notes and correct disproved conclusions.
+Never copy credentials into the repository or reports. Respect filesystem approval requirements for writes outside the workspace.
