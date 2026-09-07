@@ -1,0 +1,4 @@
+# Локальные доступы/креды — никогда не коммитить
+credentials.local.md
+*.local.md
+*credentials*
