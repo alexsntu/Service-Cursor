@@ -1,0 +1,794 @@
+<div class="irepair-old-header">
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="oh-chevron" viewBox="0 0 8 5">
+      <path d="M1.57175 0.678131L4.00229 3.03517L6.43283 0.678131C6.49083 0.621889 6.55968 0.577275 6.63545 0.546837C6.71123 0.516399 6.79244 0.500732 6.87446 0.500732C6.95648 0.500732 7.0377 0.516399 7.11347 0.546837C7.18925 0.577275 7.2581 0.621889 7.31609 0.678131C7.37409 0.734373 7.42009 0.801142 7.45148 0.874626C7.48287 0.94811 7.49902 1.02687 7.49902 1.10641C7.49902 1.18595 7.48287 1.26471 7.45148 1.33819C7.42009 1.41167 7.37409 1.47844 7.31609 1.53469L4.44079 4.32304C4.19648 4.55996 3.80183 4.55996 3.55752 4.32304L0.682219 1.53469C0.624146 1.47848 0.578074 1.41173 0.546639 1.33824C0.515204 1.26475 0.499023 1.18597 0.499023 1.10641C0.499023 1.02685 0.515204 0.948066 0.546639 0.874577C0.578074 0.801087 0.624146 0.734331 0.682219 0.678131C0.926526 0.447286 1.32744 0.441211 1.57175 0.678131Z" fill="#939393"></path>
+    </symbol>
+    <symbol id="oh-back" viewBox="0 0 9 17">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.82731 0.173693C9.05756 0.405282 9.05756 0.780764 8.82731 1.01235L1.38274 8.5L8.82731 15.9876C9.05756 16.2192 9.05756 16.5947 8.82731 16.8263C8.59705 17.0579 8.22373 17.0579 7.99347 16.8263L0.201475 8.98922C-0.0671582 8.71903 -0.0671586 8.28097 0.201475 8.01078L7.99347 0.173693C8.22373 -0.0578975 8.59705 -0.0578975 8.82731 0.173693Z" fill="black"></path>
+    </symbol>
+  </defs>
+</svg>
+<div class="additional-header">
+    <div class="g-wrapper">
+        <div class="additional-header__wrapper">
+            <div class="additional-header__wrapper-left"><a href="/catalog/">Ремонт</a><a href="/services/">Услуги</a><a
+                        href="/prices/">Цены</a>
+
+                <a
+                        href="https://irepair-store.ru/" target="_blank">Магазин</a>
+
+                <div class="additional-header__wrapper-left-more"><span>Еще <svg width="6" height="6" viewBox="0 0 6 6"
+                                                                                 fill="none"
+                                                                                 xmlns="http://www.w3.org/2000/svg"><path
+                                    d="M0.919477 2.31449L3.0028 4.27869L5.08612 2.31449C5.13583 2.26762 5.19485 2.23044 5.2598 2.20508C5.32475 2.17971 5.39436 2.16666 5.46466 2.16666C5.53496 2.16666 5.60458 2.17971 5.66953 2.20508C5.73448 2.23044 5.79349 2.26762 5.8432 2.31449C5.89291 2.36136 5.93235 2.417 5.95925 2.47823C5.98615 2.53947 6 2.6051 6 2.67139C6 2.73767 5.98615 2.8033 5.95925 2.86454C5.93235 2.92577 5.89291 2.98142 5.8432 3.02828L3.37865 5.35192C3.16925 5.54935 2.83098 5.54935 2.62157 5.35192L0.157025 3.02828C0.107248 2.98145 0.0677581 2.92582 0.0408134 2.86458C0.0138693 2.80334 0 2.73769 0 2.67139C0 2.60508 0.0138693 2.53943 0.0408134 2.47819C0.0677581 2.41695 0.107248 2.36132 0.157025 2.31449C0.366431 2.12212 0.710071 2.11706 0.919477 2.31449Z"
+                                    fill="#A7A6A9"></path></svg></span>
+                    <div class="additional-header__wrapper-left-menu">
+                        <div class="additional-header__wrapper-left-menu-link"><a href="/diagnostics/">Диагностика</a>
+                        </div>
+                        <div class="additional-header__wrapper-left-menu-link"><a href="/garanties/">Гарантия</a></div>
+                        <div class="additional-header__wrapper-left-menu-link"><a href="/delivery/">Доставка</a></div>
+                        <div class="additional-header__wrapper-left-menu-link"><a href="/payment/">Оплата</a></div>
+                        <div class="additional-header__wrapper-left-menu-link"><a href="/o-kompanii/">О сервисе</a>
+                        </div>
+                        <div class="additional-header__wrapper-left-menu-link"><a href="/kontakty/">Контакты</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="additional-header__wrapper-right"><span>Ежедневно с 10:00 до 20:00</span><a
+                        href="/kontakty/"><span><svg width="13" height="14" viewBox="0 0 13 14" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg"><path
+                                    d="M9.35561 3.02212L0.700981 7.11501C0.514202 7.20334 0.567668 7.48238 0.773869 7.49541L5.38674 7.78695L6.23965 12.3297C6.27778 12.5327 6.56126 12.5517 6.62611 12.3555L9.63101 3.2657C9.6862 3.09875 9.51457 2.94695 9.35561 3.02212Z"
+                                    fill="#D9D9D9"></path></svg> Москва, м. Маяковская</span></a></div>
+        </div>
+    </div>
+</div>
+
+<header class="header header__isBg ">
+    <div class="g-wrapper">
+        <div class="header__wrapper">
+            <div class="header__wrapper-left">
+                <div class="header__wrapper-left-logo">
+
+                    <a href="/">
+
+                        <svg width="185" height="50" viewBox="0 0 185 50" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24.9998 0C11.1928 0 0 11.1931 0 25C0 38.8069 11.1928 50 24.9998 50C38.8072 50 50 38.8069 50 25C50 11.1931 38.8072 0 24.9998 0ZM40.6766 25.8099C38.9175 28.0008 38.021 30.7594 38.1569 33.5658L38.3295 37.1435C38.839 40.4417 35.4056 42.9358 32.4266 41.4319L29.0774 40.1623C26.4505 39.166 23.5495 39.166 20.9222 40.1623L17.5734 41.4319C14.594 42.9358 11.1606 40.4417 11.6705 37.1435L11.8431 33.5658C11.9786 30.7594 11.0822 28.0008 9.32336 25.8099L7.08112 23.0173C4.72981 20.648 6.04116 16.6122 9.33598 16.0779L12.7912 15.1367C15.5023 14.3983 17.849 12.6931 19.3889 10.3437L21.3521 7.34786C22.8785 4.37994 27.1222 4.37994 28.6487 7.34786L30.6115 10.3433C32.151 12.6935 34.4985 14.3987 37.2092 15.1367L40.6644 16.0779C43.9588 16.6122 45.2702 20.6476 42.9193 23.0173L40.6766 25.8099Z"
+                                  fill="#010306"></path>
+                            <g clip-path="url(#clip0_4696_7947)">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M120.475 10.8125L121.39 10.1563C122.137 9.64603 122.98 9.28152 123.847 9.03852C124.329 8.89272 124.811 8.77121 125.317 8.72261C126.184 8.60111 127.051 8.62541 127.918 8.74691C128.159 8.77121 128.376 8.81982 128.617 8.89272C129.074 9.01422 129.532 9.16002 129.989 9.33013C130.423 9.52453 130.808 9.69463 131.194 9.91334C134.397 11.8331 136.373 15.3324 136.348 19.0989C136.348 21.529 135.433 24.1291 134.06 25.7816C133.771 26.1218 133.53 26.4134 133.217 26.7293C131.555 28.3574 129.387 29.3538 127.075 29.5239C125.991 29.5725 124.931 29.451 123.895 29.1593C123.028 28.892 122.209 28.5275 121.439 28.0415C121.15 27.8714 120.475 27.3368 120.379 27.3368V37.1542H115.224L115.248 9.06282C115.296 9.06282 119.873 9.01422 120.258 9.06282C120.258 9.06282 120.355 9.06282 120.379 9.11142V9.13572C120.427 9.37873 120.331 10.4966 120.403 10.8611C120.427 10.8611 120.499 10.7882 120.475 10.8125ZM122.956 13.9715C121.776 14.7491 121.101 15.8184 120.668 17.1549C120.355 18.2484 120.306 19.3905 120.523 20.4841C120.764 21.4561 121.318 22.7197 122.065 23.4244C122.522 23.9104 123.052 24.2992 123.655 24.5665C124.377 24.8825 125.172 25.004 125.943 24.9068C126.184 24.8582 126.304 24.8582 126.521 24.8096C128.352 24.3235 129.749 22.744 130.23 21.0187C130.399 20.4355 130.495 19.8522 130.519 19.2447C130.543 17.7624 130.062 16.3044 129.171 15.1136C129.074 14.9921 128.93 14.8706 128.833 14.7491C127.99 13.7771 126.28 13.0238 124.907 13.2668C124.233 13.3397 123.558 13.5827 122.956 13.9715Z"
+                                      fill="#010306"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M91.5948 14.5789C92.0284 13.7041 92.5824 12.9021 93.2327 12.1731C95.0633 10.0833 98.2428 8.43085 101.639 8.43085C105.18 8.43085 108.263 9.91318 110.166 12.0516C110.672 12.5619 111.105 13.1451 111.467 13.7527C111.515 13.8256 111.563 13.9228 111.611 14.02C111.659 14.1172 111.707 14.1415 111.756 14.2387C112.021 14.749 112.237 15.2593 112.43 15.7939C112.719 16.5958 112.888 17.422 112.96 18.2726C113.056 19.196 113.008 20.1194 112.815 21.0428H96.7013C96.6531 21.3587 97.2553 22.4036 97.3998 22.6223C98.845 24.7608 101.422 25.7814 103.855 24.6393C104.144 24.5178 104.409 24.3477 104.674 24.1776C105.011 23.9589 105.204 23.6673 105.445 23.6673H111.9C111.707 24.1047 111.467 24.5421 111.178 24.9309C111.033 25.101 110.889 25.344 110.744 25.5141C110.021 26.316 109.178 27.288 108.143 27.8713C107.902 28.0171 107.757 28.1386 107.516 28.2601C106.866 28.6246 106.192 28.9162 105.493 29.1592L104.072 29.5237C104 29.5237 103.951 29.5237 103.879 29.548C103.157 29.6938 102.434 29.7667 101.711 29.7424C95.81 29.7667 90.5832 25.1496 90.5832 19.1717V18.9773C90.5591 17.4463 90.9204 15.9397 91.5948 14.5789ZM106.794 16.9117C106.77 16.5715 106.119 15.4537 105.854 15.1378C105.758 15.0406 105.662 14.9434 105.589 14.8462C105.421 14.6518 105.228 14.4574 105.011 14.2873C103.735 13.1208 101.543 12.732 99.8807 13.4611C98.9173 13.8742 98.0742 14.5546 97.472 15.4294C97.2793 15.6967 96.7494 16.5958 96.7494 16.936L106.794 16.9117Z"
+                                      fill="#010306"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M139.311 13.3635C140.66 11.1278 142.924 9.37818 145.478 8.81927C146.995 8.50336 148.705 8.45476 150.174 8.94077C150.632 9.06227 151.066 9.20808 151.499 9.40248C151.909 9.57258 152.294 9.79129 152.655 10.0343C152.848 10.1558 152.993 10.2287 153.185 10.3745C153.474 10.5689 153.547 10.7147 153.739 10.739V9.01367H158.87V29.0616H153.715V27.312C153.619 27.2877 153.523 27.4092 153.45 27.4578C152.077 28.527 150.464 29.2074 148.729 29.4261C146.513 29.6691 144.779 29.2317 142.924 28.2354C142.178 27.8223 141.479 27.2877 140.877 26.6801C140.588 26.3642 140.299 26.0969 140.034 25.7567C138.54 23.8613 137.746 21.4798 137.77 19.0498C137.77 17.0571 138.3 15.0888 139.311 13.3635ZM147.019 13.5579C144.683 14.6028 143.478 16.9599 143.671 19.7545C143.791 21.1639 144.394 22.4762 145.357 23.4968C148.199 26.3885 152.487 24.6632 153.498 20.9452C154.101 18.7339 153.643 16.3038 152.053 14.7C151.596 14.214 151.042 13.8495 150.439 13.5822C149.861 13.3392 148.826 13.0962 148.079 13.2663C147.718 13.3149 147.38 13.4121 147.019 13.5579Z"
+                                      fill="#010306"></path>
+                                <path d="M177.272 12.1483L177.248 9.06211H172.094V29.0857C173.515 29.11 175.803 29.11 177.248 29.0857C177.297 28.1623 177.248 27.1417 177.248 26.2183C177.248 24.9303 177.224 17.4458 177.272 17.2757L177.634 16.571C177.826 16.3037 178.091 16.0607 178.356 15.8663C179.248 15.2344 180.235 14.7727 181.295 14.5054C181.704 14.4082 181.993 14.311 182.427 14.2381C183.294 14.0923 184.161 13.9951 185.053 13.9951C185.125 13.7521 185.077 9.30512 185.077 8.6733C183.101 8.5518 181.126 9.03781 179.44 10.0827C179.127 10.2771 178.91 10.4715 178.621 10.6902C178.356 10.909 178.115 11.152 177.899 11.395L177.272 12.1483Z"
+                                      fill="#010306"></path>
+                                <path d="M162.941 29.1098H168.095V9.08618H162.941V29.1098Z" fill="#010306"></path>
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M68.785 29.134V5.10081C69.3149 5.02791 78.0826 5.07651 78.8775 5.07651C79.8169 5.07651 80.949 5.10081 81.8161 5.34381C82.2978 5.48962 82.6351 5.48962 83.2854 5.75692C84.4175 6.19433 85.4773 6.85045 86.3926 7.67666C88.2473 9.402 89.3794 11.8807 88.8977 15.0883C88.6086 16.6679 87.886 18.1502 86.8021 19.3409L86.1758 19.9727C85.5978 20.5316 85.116 20.7503 84.7547 21.0419C84.8029 21.2607 85.6459 22.0383 85.67 22.2327C85.7182 22.257 85.6941 22.2327 85.7423 22.2813L86.4167 23.1075C87.043 23.7879 87.886 24.9057 88.5605 25.6833C88.9699 26.1451 89.6444 27.0199 90.0057 27.4087C90.1502 27.5545 90.2225 27.7003 90.367 27.8461L91.2582 28.9153C91.4509 29.134 91.3786 29.0611 91.3546 29.0854C91.2823 29.1583 91.0896 29.134 90.9932 29.134H85.116L82.4905 25.8291C81.7198 24.8814 80.6358 23.4963 79.8891 22.5C79.5037 22.4514 78.8052 22.5 78.3957 22.5C77.7454 22.5 74.0601 22.4514 73.9637 22.5243C73.9397 22.5729 73.9637 22.5243 73.9397 22.5972V28.9639C73.9156 29.1826 73.9878 29.0611 73.8674 29.1097L68.785 29.134ZM73.9878 17.3969C74.4696 17.4212 76.541 17.3969 77.1914 17.3969C79.2147 17.3969 81.0212 17.7128 82.346 16.1332C83.9358 14.2621 83.4781 10.9815 80.3709 10.2039C79.6483 10.0338 76.7097 10.1067 75.6257 10.1067C75.1199 10.1067 74.4937 10.0581 73.9878 10.1067V17.3969Z"
+                                      fill="#010306"></path>
+                                <path d="M58.6445 9.08702C58.5963 9.45152 58.5963 27.5311 58.6204 29.1106H63.7991V9.08702C63.5101 9.03841 58.8372 9.03841 58.7168 9.06271C58.5963 9.08702 58.6927 9.06272 58.6445 9.08702Z"
+                                      fill="#010306"></path>
+                                <path d="M60.8843 0.216203C59.8726 0.362006 59.3427 0.629311 58.6683 1.35833C58.4033 1.67423 58.1865 2.01444 58.042 2.40325C58.0179 2.52475 57.9938 2.62195 57.9698 2.74346L57.8975 3.08366C57.7289 4.22579 58.1384 5.36791 59.0055 6.12123C59.6318 6.70444 60.4989 6.99605 61.5828 6.94745C62.4259 6.85024 63.2207 6.46144 63.7747 5.80532C64.955 4.44449 64.8586 2.16024 63.4134 0.993819C63.1003 0.726514 62.739 0.532109 62.3536 0.386306C61.8959 0.240503 61.3901 0.191902 60.8843 0.216203Z"
+                                      fill="#010306"></path>
+                                <path d="M165.542 0.216695C163.688 0.192394 162.17 1.67473 162.146 3.54587V3.57017C162.122 6.60773 165.687 8.11436 167.879 6.02452C169.95 4.03188 168.602 0.216695 165.542 0.216695Z"
+                                      fill="#010306"></path>
+                            </g>
+                            <defs>
+                                <clippath id="clip0_4696_7947">
+                                    <rect width="127" height="37" fill="white" transform="translate(58)"></rect>
+                                </clippath>
+                            </defs>
+                        </svg>
+                        <p>Сервисный центр Apple</p>
+
+                    </a>
+
+                </div>
+            </div>
+            <div class="header__wrapper-right">
+                <div class="header__wrapper-right-menu">
+                    <div class="header__wrapper-right-menu-link toggleMenuBlock" style="opacity: 1;">
+                        <div class="header__wrapper-right-menu-link-title"><a href="/catalog/remont-iphone/">iPhone</a>
+                        </div>
+                                                    <div class="header__wrapper-right-menu-list">
+
+
+                                <div>
+                                <a class="header__wrapper-right-menu-list-link"
+                                   href="/vybor-modeli/zamena-displeya-na-iphone/">Замена дисплея iPhone</a></div><br>
+
+                                <div>
+                                <a class="header__wrapper-right-menu-list-link"
+                                   href="https://irepair.ru/vybor-modeli/zamena-akkumulyatora-na-iphone/">Замена аккумулятора iPhone</a></div><br>
+
+                                <div>
+                                <a class="header__wrapper-right-menu-list-link"
+                                   href="https://irepair.ru/vybor-modeli/popala-zhidkost-v-iphone/">Попала вода</a></div><br>
+
+                                <div>
+                                <a class="header__wrapper-right-menu-list-link"
+                                   href="https://irepair.ru/vybor-modeli/ne-vklyuchaetsya-iphone/">Не включается iPhone</a></div><br>
+
+                                <div>
+                                <a class="header__wrapper-right-menu-list-link"
+                                   href="https://irepair.ru/vybor-modeli/zamena-stekla-iphone/">Замена стекла iPhone</a></div><br>
+
+                                <div>
+                                <a class="header__wrapper-right-menu-list-link"
+                                   href="https://irepair.ru/vybor-modeli/zamena-zadnego-stekla-na-iphone/">Замена заднего стекла iPhone</a></div><br>
+
+                                <div>
+                                <a class="header__wrapper-right-menu-list-link"
+                                   href="https://irepair.ru/vybor-modeli/zamena-korpusa-na-iphone/">Замена корпуса iPhone</a></div><br>
+
+                                <div>
+                                <a class="header__wrapper-right-menu-list-link"
+                                   href="https://irepair.ru/vybor-modeli/zamena-kamery-na-iphone/">Замена камеры iPhone</a></div><br>
+
+                                <div>
+                                <a class="header__wrapper-right-menu-list-link"
+                                   href="https://irepair.ru/vybor-modeli/zamena-dinamika-na-iphone/">Замена динамика iPhone</a></div><br>
+
+                                
+                            </div>
+
+                        
+                    </div>
+
+                    <div class="header__wrapper-right-menu-link toggleMenuBlock" style="opacity: 1;">
+                        <div class="header__wrapper-right-menu-link-title"><a
+                                    href="/catalog/remont-macbook/">MacBook</a></div>
+                                                    <div class="header__wrapper-right-menu-list">
+                                                                    <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-displeya-na-macbook/">Замена дисплея MacBook</a></div><br>
+
+                                                                    <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-akkumulyatora-macbook/">Замена аккумулятора MacBook</a></div><br>
+
+                                                                    <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-klaviatury-macbook/">Замена клавиатуры MacBook</a></div><br>
+
+                                                                    <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-touchpad-na-macbook-pro/">Замена тачпада MacBook</a></div><br>
+
+                                                                    <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/ne-vklyuchaetsya-macbook/">Не включается MacBook</a></div><br>
+
+                                                                    <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-hdd-ssd-macbook/">Замена SSD MacBook</a></div><br>
+
+                                                            </div>
+
+                                            </div>
+
+                    <div class="header__wrapper-right-menu-link toggleMenuBlock" style="opacity: 1;">
+                        <div class="header__wrapper-right-menu-link-title"><a href="/catalog/remont-ipad/">iPad</a>
+                        </div>
+                                                    <div class="header__wrapper-right-menu-list">
+                                                                <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/popala-zhidkost-ipad/">Попала жидкость iPad</a></div><br>
+
+                                                                <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-stekla-ipad/">Замена стекла iPad</a></div><br>
+
+                                                                <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-akumulyatora-ipad/">Замена аккумулятора iPad</a></div><br>
+
+                                                                <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/ne-vklyuchaetsya-ipad/">Не включается iPad</a></div><br>
+
+                                                            </div>
+
+                                            </div>
+
+                    <div class="header__wrapper-right-menu-link toggleMenuBlock" style="opacity: 1;">
+                        <div class="header__wrapper-right-menu-link-title"><a href="/catalog/remont-imac/">iMac</a>
+                        </div>
+                                                    <div class="header__wrapper-right-menu-list">
+                                
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-displeya-na-imac/">Замена дисплея iMac</a><br>
+
+                                                            </div>
+
+                                            </div>
+
+                    <div class="header__wrapper-right-menu-link toggleMenuBlock" style="opacity: 1;">
+                        <div class="header__wrapper-right-menu-link-title"><a
+                                    href="/catalog/remont-apple-watch/">Watch</a></div>
+                                                    <div class="header__wrapper-right-menu-list">
+                                <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-akkumulyatora-na-apple-watch/">Замена аккумулятора Watch</a></div><br>
+
+                                <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-displeya-na-apple-watch/">Замена дисплея Watch</a></div><br>
+
+                                <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/zamena-stekla-na-apple-watch/">Замена стекла Watch</a></div><br>
+
+                                <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/ne-vklyuchaetsya-apple-watch/">Не включаются Watch</a></div><br>
+
+                                <div>
+                                    <a class="header__wrapper-right-menu-list-link"
+                                       href="https://irepair.ru/vybor-modeli/remont-i-zamena-materinskoy-platy/">Ремонт материнской платы</a></div><br>
+
+                                                            </div>
+
+                                            </div>
+
+
+                    <div class="header__wrapper-right-menu-link toggleMenuBlock" style="opacity: 1;"><a
+                                class="header__wrapper-right-menu-link-title" href="/trade-in/">Trade-in</a></div>
+
+                </div>
+                <div class="header__wrapper-right-phone toggleMenuBlock" style="opacity: 1;"><a href="tel:88005552190">
+                        <span><span class="phone_alloka" data-phone="8%20800%20555%2021%2090">+7 (939) 555-08-90</span></span></a>
+                    <div class="header__wrapper-right-phone-menu">
+                        <div class="header__wrapper-right-phone-menu-link"><a href="tel:88005552190">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.27193 0.235212L7.69214 3.46939C7.61853 3.62006 7.646 3.79895 7.7617 3.92225L9.10231 5.35139C9.13568 5.43508 9.13354 5.82479 8.72612 6.64937C8.38362 7.34266 7.86634 8.11207 7.34245 8.70753C6.56618 9.58986 6.11671 9.72462 6.00626 9.70317L4.14664 8.98524C3.98692 8.92356 3.80463 8.96153 3.68508 9.08136L1.1193 11.6533C1.03272 11.7401 0.989848 11.8594 1.00204 11.9796C1.01421 12.0996 1.08026 12.2086 1.18261 12.2774L2.9813 13.4857C4.0002 14.1701 5.35676 14.1716 6.35698 13.4893C7.69437 12.5771 8.88429 11.489 9.89372 10.2554C11.3367 8.49183 12.3541 6.48818 12.9175 4.30002C13.206 3.17973 12.7222 1.97108 11.7127 1.29304L9.89659 0.0731737C9.79421 0.00443205 9.66589 -0.0172383 9.5456 0.0139614C9.42531 0.0451881 9.32524 0.126079 9.27193 0.235212Z"
+                                          fill="#939393"></path>
+                                </svg>
+                                Заказать звонок</a></div>
+                        <div class="header__wrapper-right-phone-menu-link"><a
+                                    href="https://api.whatsapp.com/send/?phone=79037222151&amp;text=%D0%9A%D0%BE%D0%B4%20%D0%B4%D0%BB%D1%8F%20%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%B1%D0%BE%D0%BD%D1%83%D1%81%D0%B0%20-13224%0A%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21+%D0%9C%D0%B5%D0%BD%D1%8F+%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82&amp;type=phone_number&amp;app_absent=0">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                          d="M12.8144 2.18014C12.1226 1.48701 11.2994 0.937411 10.3925 0.563184C9.48571 0.188957 8.51329 -0.00245934 7.5316 2.38538e-05C3.41513 2.38538e-05 0.0640598 3.33436 0.0623959 7.43294C0.0623959 8.74283 0.405989 10.0213 1.05907 11.149L0 15L3.95923 13.9658C5.05439 14.5592 6.28135 14.8703 7.52827 14.8708H7.5316C11.6472 14.8708 14.9983 11.5365 15 7.43791C15.0028 6.46128 14.8111 5.49377 14.436 4.59131C14.0608 3.68885 13.5097 2.86934 12.8144 2.18014ZM7.5316 13.6164H7.5291C6.41722 13.6165 5.32581 13.3188 4.36938 12.7545L4.14309 12.6203L1.79367 13.2339L2.42013 10.9544L2.27287 10.7209C1.65123 9.73595 1.32215 8.5961 1.32362 7.43294C1.32529 4.02657 4.10981 1.25527 7.53409 1.25527C8.34961 1.25346 9.15738 1.41265 9.91067 1.72362C10.664 2.03459 11.3478 2.49117 11.9226 3.06692C12.5005 3.63993 12.9585 4.32125 13.2703 5.0715C13.582 5.82175 13.7412 6.62605 13.7387 7.43791C13.7371 10.8443 10.9526 13.6164 7.5316 13.6164ZM10.9367 8.98875C10.7496 8.89519 9.83276 8.44641 9.66138 8.38431C9.49083 8.32221 9.36687 8.29158 9.24208 8.47705C9.11729 8.66252 8.75955 9.08066 8.65056 9.20486C8.54158 9.32905 8.43259 9.34396 8.24624 9.25122C8.05988 9.15849 7.45839 8.96225 6.74541 8.32966C6.1905 7.83701 5.81613 7.22926 5.70714 7.04296C5.59816 6.85666 5.6955 6.75647 5.78951 6.66374C5.87353 6.58094 5.97586 6.4468 6.06904 6.33833C6.16222 6.22987 6.193 6.15286 6.25539 6.02866C6.31779 5.90446 6.28701 5.796 6.23959 5.70326C6.193 5.6097 5.81946 4.69559 5.66388 4.32382C5.5133 3.96364 5.35939 4.01166 5.24458 4.0067C5.12568 4.00186 5.00668 3.99965 4.88768 4.00007C4.79305 4.00247 4.69994 4.0243 4.61418 4.0642C4.52843 4.10409 4.45188 4.16119 4.38934 4.23191C4.21796 4.41821 3.73627 4.86698 3.73627 5.78109C3.73627 6.6952 4.40515 7.57867 4.49833 7.70287C4.5915 7.82707 5.81446 9.70248 7.68634 10.5073C8.13226 10.6986 8.48001 10.8128 8.7504 10.8989C9.19715 11.0405 9.60397 11.0198 9.92594 10.9726C10.2845 10.9196 11.0299 10.5239 11.1855 10.09C11.3411 9.65611 11.3411 9.28434 11.2945 9.20651C11.2479 9.12868 11.1223 9.08148 10.9367 8.98875Z"
+                                          fill="#939393"></path>
+                                </svg>
+                                WhatsApp</a></div>
+                        <div class="header__wrapper-right-phone-menu-link"><a target="_blank"
+                                                                              href="https://t.me/iRepair_Moscow_bot?start=13224">
+                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12.9884 2.22739L0.650378 7.46402C-0.191642 7.83626 -0.186771 8.35325 0.495892 8.5838L3.66356 9.67141L10.9926 4.58184C11.3392 4.34977 11.6558 4.47461 11.3955 4.7289L5.45755 10.6273L5.23904 14.2218C5.55915 14.2218 5.70041 14.0602 5.87995 13.8694L7.41855 12.2227L10.6189 14.8245C11.209 15.1822 11.6328 14.9984 11.7797 14.2233L13.8805 3.32573C14.0956 2.37675 13.5514 1.94706 12.9884 2.22739Z"
+                                          fill="#939393"></path>
+                                </svg>
+                                Telegram</a></div>
+                    </div>
+                </div>
+                <div class="header__wrapper-right-search toggleMenuBlock" style="opacity: 1;">
+                    <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.2026 0C4.12834 0 0 4.18138 0 9.32089C0 14.4604 4.12838 18.6418 9.2026 18.6418C14.2768 18.6418 18.4052 14.4604 18.4052 9.32089C18.4052 4.18138 14.2769 0 9.2026 0ZM9.2026 17.1095C4.96009 17.1095 1.50862 13.6154 1.50862 9.32085C1.50862 5.02609 4.96009 1.53216 9.2026 1.53216C13.4451 1.53216 16.8966 5.02609 16.8966 9.32085C16.8966 13.6154 13.4452 17.1095 9.2026 17.1095Z"
+                              fill="#010306"></path>
+                        <path d="M20.6469 19.8352L15.6935 14.83C15.3981 14.5317 14.9206 14.533 14.6267 14.8328C14.333 15.1329 14.3343 15.6178 14.6294 15.9164L19.5828 20.9215C19.7301 21.0702 19.9222 21.1445 20.1148 21.1445C20.3087 21.1445 20.5023 21.0691 20.6496 20.9187C20.9433 20.6186 20.9421 20.1337 20.6469 19.8352Z"
+                              fill="#010306"></path>
+                    </svg>
+                </div>
+                <a href="/personal/" class="header__wrapper-right-login toggleMenuBlock" style="opacity: 1;">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M10 7.63889C11.7643 7.63889 13.1945 6.20869 13.1945 4.44444C13.1945 2.6802 11.7643 1.25 10 1.25C8.23577 1.25 6.80557 2.6802 6.80557 4.44444C6.80557 6.20869 8.23577 7.63889 10 7.63889ZM10 8.88889C12.4546 8.88889 14.4445 6.89904 14.4445 4.44444C14.4445 1.98985 12.4546 0 10 0C7.54542 0 5.55557 1.98985 5.55557 4.44444C5.55557 6.89904 7.54542 8.88889 10 8.88889Z"
+                              fill="#010306"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M5.66824 18.75H14.3318C15.4917 18.75 16.4263 18.1441 16.8861 17.3756C17.3245 16.643 17.3407 15.7754 16.6874 14.9921C14.5201 12.3938 12.1856 11.25 10 11.25C7.8144 11.25 5.47999 12.3938 3.31268 14.9921C2.65932 15.7754 2.67559 16.643 3.11395 17.3756C3.57374 18.1441 4.50832 18.75 5.66824 18.75ZM17.6473 14.1914C19.6976 16.6494 17.5327 20 14.3318 20H5.66824C2.46734 20 0.302457 16.6494 2.35278 14.1914C7.01433 8.60287 12.9857 8.60287 17.6473 14.1914Z"
+                              fill="#010306"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="menu">
+        <div class="menu__mobWrapper">
+            <div class="menu__mobWrapper-step menu__mobWrapper-step1">
+                <div class="menu__mobWrapper-item">
+                    <div class="menu__mobWrapper-item-link" data-id="56"><span>Ремонт iPhone</span></div>
+                    <div class="menu__mobWrapper-item-link" data-id="58"><span>Ремонт MacBook</span></div>
+                    <div class="menu__mobWrapper-item-link" data-id="57"><span>Ремонт iPad</span></div>
+                    <div class="menu__mobWrapper-item-link" data-id="107"><span>Ремонт iMac</span></div>
+                    <div class="menu__mobWrapper-item-link" data-id="59"><span>Ремонт Watch</span></div>
+
+                    <div class="menu__mobWrapper-item-services"><a href="/trade-in/">Trade-in</a></div>
+                    <div class="menu__mobWrapper-item-link"><a href="/services/">Услуги</a></div>
+                    <div class="menu__mobWrapper-item-link"><a href="https://irepair-store.ru" target="_blank">Магазин</a></div>
+                    <div class="menu__mobWrapper-item-link" data-id="7"><a href="/#">О компании</a></div>
+                    <div class="menu__mobWrapper-address">Москва, м. Маяковская, ул. Большая Садовая, д. 5, под. 2, этаж
+                        1А, офис А24
+                    </div>
+                    <div class="menu__mobWrapper-phone"><a href="tel:+79395550890"><span class="phone_alloka"
+                                                                                         data-phone="8%20800%20555%2021%2090">+7 (939) 555-08-90</span>
+                        </a></div>
+                    <div class="menu__mobWrapper-time">Ежедневно с 10:00 до 20:00</div>
+                    <a class="menu__mobWrapper-bigcontact" href="tel:8 800 555 21 90">
+                        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.0292 3.33602L12.9229 7.95628C12.8247 8.17151 12.8613 8.42707 13.0156 8.60322L14.8031 10.6448C14.8476 10.7644 14.8447 11.3211 14.3015 12.4991C13.8448 13.4895 13.1551 14.5887 12.4566 15.4393C11.4216 16.6998 10.8223 16.8923 10.675 16.8617L8.19552 15.8361C7.98256 15.7479 7.7395 15.8022 7.5801 15.9734L4.15907 19.6476C4.04363 19.7716 3.98646 19.942 4.00272 20.1137C4.01895 20.2852 4.10701 20.4409 4.24349 20.5392L6.64174 22.2652C8.00027 23.243 9.80901 23.2451 11.1426 22.2705C12.9258 20.9673 14.5124 19.4129 15.8583 17.6505C17.7823 15.1312 19.1387 12.2688 19.89 9.14288C20.2747 7.54247 19.6296 5.81582 18.2836 4.8472L15.8621 3.10453C15.7256 3.00633 15.5545 2.97537 15.3941 3.01994C15.2337 3.06455 15.1003 3.18011 15.0292 3.33602Z"
+                                  fill="#939393"></path>
+                        </svg>
+                        Заказать звонок</a><a class="menu__mobWrapper-bigcontact"
+                                              href="https://api.whatsapp.com/send/?phone=79037222151&amp;text=%D0%9A%D0%BE%D0%B4%20%D0%B4%D0%BB%D1%8F%20%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%B1%D0%BE%D0%BD%D1%83%D1%81%D0%B0%20-13224%0A%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21+%D0%9C%D0%B5%D0%BD%D1%8F+%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82&amp;type=phone_number&amp;app_absent=0">
+                        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.85" fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M22.2117 3.7789C21.0125 2.57748 19.5856 1.62485 18.0137 0.976186C16.4419 0.327526 14.7564 -0.00426286 13.0548 4.13467e-05C5.91957 4.13467e-05 0.111037 5.77956 0.108153 12.8838C0.108153 15.1542 0.703714 17.3702 1.83571 19.3249L0 26L6.86266 24.2074C8.76095 25.2359 10.8877 25.7752 13.049 25.7761H13.0548C20.1885 25.7761 25.9971 19.9966 25.9999 12.8924C26.0048 11.1995 25.6726 9.52254 25.0224 7.95827C24.3721 6.39401 23.4168 4.97352 22.2117 3.7789ZM13.0548 23.6018H13.0504C11.1232 23.602 9.2314 23.0859 7.57358 22.1078L7.18135 21.8753L3.10903 22.9387L4.19489 18.9876L3.93965 18.5829C2.86214 16.8757 2.29173 14.8999 2.29428 12.8838C2.29717 6.97939 7.12367 2.17579 13.0591 2.17579C14.4727 2.17267 15.8728 2.4486 17.1785 2.98761C18.4842 3.52663 19.6695 4.31802 20.6658 5.316C21.6675 6.30921 22.4615 7.49016 23.0018 8.7906C23.5421 10.091 23.8181 11.4852 23.8138 12.8924C23.8109 18.7968 18.9844 23.6018 13.0548 23.6018ZM18.957 15.5805C18.6326 15.4183 17.0434 14.6404 16.7464 14.5328C16.4508 14.4252 16.2359 14.3721 16.0196 14.6935C15.8033 15.015 15.1832 15.7398 14.9943 15.9551C14.8054 16.1704 14.6165 16.1962 14.2935 16.0355C13.9705 15.8747 12.9279 15.5346 11.692 14.4381C10.7302 13.5841 10.0813 12.5307 9.89238 12.2078C9.70347 11.8849 9.87219 11.7112 10.0351 11.5505C10.1808 11.407 10.3582 11.1745 10.5197 10.9864C10.6812 10.7984 10.7345 10.665 10.8427 10.4497C10.9508 10.2344 10.8975 10.0464 10.8153 9.88565C10.7345 9.72347 10.0871 8.13902 9.81739 7.49462C9.55639 6.87031 9.28961 6.95355 9.09061 6.94494C8.88451 6.93655 8.67824 6.93272 8.47197 6.93346C8.30795 6.93762 8.14656 6.97546 7.99792 7.04461C7.84928 7.11376 7.7166 7.21273 7.60819 7.33531C7.31113 7.65823 6.47619 8.43611 6.47619 10.0206C6.47619 11.605 7.63559 13.1364 7.7971 13.3516C7.95861 13.5669 10.0784 16.8176 13.323 18.2126C14.0959 18.5442 14.6987 18.7422 15.1674 18.8915C15.9417 19.1369 16.6469 19.101 17.205 19.0192C17.8265 18.9274 19.1185 18.2413 19.3882 17.4893C19.6579 16.7373 19.6579 16.0929 19.5771 15.958C19.4964 15.823 19.2786 15.7412 18.957 15.5805Z"
+                                  fill="#939393"></path>
+                        </svg>
+                        Написать в WhatsApp</a>
+                </div>
+            </div>
+
+            <div class="menu__mobWrapper-step menu__mobWrapper-step2">
+                <div class="menu__mobWrapper-item" data-id="56" style="overflow: scroll;
+    height: 100%;">
+                    <spans>iPhone
+                        <div class="menu__mobWrapper-back">
+                            <svg class="oh-ic-back" width="9" height="17" viewBox="0 0 9 17"><use href="#oh-back"></use></svg>
+                        </div>
+                    </spans>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 17</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list">
+
+                        <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone-air/">Iphone Air</a>
+                        <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone-17-pro/">17 Pro</a>
+                        <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone-17-pro-max/">17 Pro Max</a>
+                        <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone_17/">17</a>
+                    </div>
+
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 16</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list">
+                        <a href="/catalog/remont-iphone/16-/remont-iphone-16e/">16e</a>
+                        <a href="/catalog/remont-iphone/16-/remont-iphone-16-plus/">16
+                            Plus</a><a href="/catalog/remont-iphone/16-/remont-iphone-16-pro/">16 Pro</a>
+
+                        <a
+                                href="/catalog/remont-iphone/16-/remont-iphone-16-pro-max1782/">16 Pro Max</a><a
+                                href="/catalog/remont-iphone/16-/remont-iphone-167793/">16 </a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 15</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a href="/catalog/remont-iphone/iphone-15/15-pro-max5567/">15
+                            Pro Max</a><a href="/catalog/remont-iphone/iphone-15/15-pro/">15 Pro</a><a
+                                href="/catalog/remont-iphone/iphone-15/15-plus/">15 Plus</a><a
+                                href="/catalog/remont-iphone/iphone-15/15/">15</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 14</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-iphone/iphone-14/remont-iphone-14-pro-max/">14 Pro Max</a><a
+                                href="/catalog/remont-iphone/iphone-14/remont-iphone-14-pro/">14 Pro</a><a
+                                href="/catalog/remont-iphone/iphone-14/remont-iphone-14-plus/">14 Plus</a><a
+                                href="/catalog/remont-iphone/iphone-14/remont-iphone-14/">14</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 13</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-iphone/iPhone-13/remont-iphone-13-pro-max/">13 Pro Max</a><a
+                                href="/catalog/remont-iphone/iPhone-13/remont-iphone-13-pro/">13 Pro</a><a
+                                href="/catalog/remont-iphone/iPhone-13/remont-iphone-13-mini/">13 Mini</a><a
+                                href="/catalog/remont-iphone/iPhone-13/remont-iphone-13/">13</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 12</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-iphone/iphone-12/remont-iphone-12-pro-max/">12 Pro Max</a><a
+                                href="/catalog/remont-iphone/iphone-12/remont-iphone-12-pro/">12 Pro</a><a
+                                href="/catalog/remont-iphone/iphone-12/remont-iphone-12-mini/">12 Mini</a><a
+                                href="/catalog/remont-iphone/iphone-12/remont-iphone-12/">12</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 11</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-iphone/iphone-11/remont-iphone-11-pro-max/">11 Pro Max</a><a
+                                href="/catalog/remont-iphone/iphone-11/remont-iphone-11-pro/">11 Pro</a><a
+                                href="/catalog/remont-iphone/iphone-11/remont-iphone-11/">11</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone X</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-iphone/iphone-x/remont-iphone-xs-max/">XS Max</a><a
+                                href="/catalog/remont-iphone/iphone-x/remont-iphone-xs/">XS</a><a
+                                href="/catalog/remont-iphone/iphone-x/remont-iphone-xr/">XR</a><a
+                                href="/catalog/remont-iphone/iphone-x/remont-iphone-x/">X</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone SE</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-iphone/iphone-se/remont-iphone-se-3/">SE 3</a><a
+                                href="/catalog/remont-iphone/iphone-se/remont-iphone-se-2/">SE 2</a><a
+                                href="/catalog/remont-iphone/iphone-se/remont-iphone-se-1/">SE 1</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 8</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-iphone/iphone-8/remont-iphone-8-plus/">8 Plus</a><a
+                                href="/catalog/remont-iphone/iphone-8/remont-iphone-8/">8</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 7</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-iphone/iphone-7/remont-iphone-7-plus/">7 Plus</a><a
+                                href="/catalog/remont-iphone/iphone-7/remont-iphone-7/">7</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 6</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-iphone/iphone-6/remont-iphone-6s-plus/">6S Plus</a><a
+                                href="/catalog/remont-iphone/iphone-6/remont-iphone-6s/">6S</a><a
+                                href="/catalog/remont-iphone/iphone-6/remont-iphone-6-plus/">6 Plus</a><a
+                                href="/catalog/remont-iphone/iphone-6/remont-iphone-6/">6</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPhone 5</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a href="/catalog/remont-iphone/iphone-5/remont-iphone-5s/">5S</a><a
+                                href="/catalog/remont-iphone/iphone-5/remont-iphone-5/">5</a><a
+                                href="/catalog/remont-iphone/iphone-5/remont-iphone-5c/">5C</a></div>
+
+
+                </div>
+                <div class="menu__mobWrapper-item" data-id="58">
+                    <spans>MacBook
+                        <div class="menu__mobWrapper-back">
+                            <svg class="oh-ic-back" width="9" height="17" viewBox="0 0 9 17"><use href="#oh-back"></use></svg>
+                        </div>
+                    </spans>
+                    <div class="menu__mobWrapper-item-link"><span>MacBook Pro</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-13/">MacBook Pro 13"</a><a
+                                href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-14/">MacBook Pro 14"</a><a
+                                href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-15/">MacBook Pro 15"</a><a
+                                href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-16/">MacBook Pro 16"</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>MacBook Air</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-macbook/macbook-air/remont-macbook-air-13/">MacBook Air 13"</a><a
+                                href="/catalog/remont-macbook/macbook-air/remont-macbook-air-15/">MacBook Air 15"</a><a
+                                href="/catalog/remont-macbook/macbook-air/remont-macbook-air-11/">MacBook Air 11"</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>MacBook 12</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list"><a
+                                href="/catalog/remont-macbook/macbook-12/remont-macbook-12/">MacBook 12 12"</a></div>
+
+
+                </div>
+                <div class="menu__mobWrapper-item" data-id="57">
+                    <spans>iPad
+                        <div class="menu__mobWrapper-back">
+                            <svg class="oh-ic-back" width="9" height="17" viewBox="0 0 9 17"><use href="#oh-back"></use></svg>
+                        </div>
+                    </spans>
+                    <div class="menu__mobWrapper-item-link"><span>iPad</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list">
+                        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-10/">iPad
+                            10</a>
+                        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-9/">iPad
+                            9</a>
+                        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-8/">iPad 8</a><a
+                                href="/catalog/remont-ipad/apple-ipad/remont-ipad-7/">iPad 7</a><a
+                                href="/catalog/remont-ipad/apple-ipad/remont-ipad-6/">iPad 6</a><a
+                                href="/catalog/remont-ipad/apple-ipad/remont-ipad-5/">iPad 5</a><a
+                                href="/catalog/remont-ipad/apple-ipad/remont-ipad-4/">iPad 4</a><a
+                                href="/catalog/remont-ipad/apple-ipad/remont-ipad-3/">iPad 3</a><a
+                                href="/catalog/remont-ipad/apple-ipad/remont-ipad-2/">iPad 2</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPad Pro</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list">
+                        <a href="https://irepair.ru/catalog/remont-ipad/ipad-pro/remont-ipad-pro-13-m4/" data-p="123" data-sort="150" data-page=""> iPad Pro 13'' M4 </a>
+                        <a href="https://irepair.ru/catalog/remont-ipad/ipad-pro/remont-ipad-pro-13-m5/" data-p="123" data-sort="140" data-page=""> iPad Pro 13'' M5</a>
+                        <a
+                                href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-12-9/">iPad Pro 12.9</a><a
+                                href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-11/">iPad Pro 11</a><a
+                                href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-10-5/">iPad Pro 10.5</a><a
+                                href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-9-7/">iPad Pro 9.7</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPad Air</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list">
+                        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-7/">iPad Air 7</a>
+                        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-6/">iPad Air 6</a>
+                        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-5/">iPad
+                            Air 5</a><a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-4/">iPad Air 4</a><a
+                                href="/catalog/remont-ipad/ipad-air/remont-ipad-air-3/">iPad Air 3</a><a
+                                href="/catalog/remont-ipad/ipad-air/remont-ipad-air-2/">iPad Air 2</a><a
+                                href="/catalog/remont-ipad/ipad-air/remont-ipad-air-1/">iPad Air 1</a></div>
+                    <div class="menu__mobWrapper-item-link"><span>iPad Mini</span>
+                        <svg class="oh-ic-chevron" width="8" height="5" viewBox="0 0 8 5"><use href="#oh-chevron"></use></svg>
+                    </div>
+                    <div class="menu__mobWrapper-item-list">
+                        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-7/">iPad Mini 7</a>
+                        <a
+                                href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-6/">iPad Mini 6</a><a
+                                href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-5/">iPad Mini 5</a><a
+                                href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-4/">iPad Mini 4</a><a
+                                href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-3/">iPad Mini 3</a><a
+                                href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-2/">iPad Mini 2</a><a
+                                href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-1/">iPad Mini 1</a></div>
+
+
+                </div>
+                <div class="menu__mobWrapper-item" data-id="107">
+                    <spans>iMac
+                        <div class="menu__mobWrapper-back">
+                            <svg class="oh-ic-back" width="9" height="17" viewBox="0 0 9 17"><use href="#oh-back"></use></svg>
+                        </div>
+                    </spans>
+                    <div class="menu__mobWrapper-item-link"><a href="/catalog/remont-imac/remont-imac-27/">iMac 27"</a>
+                    </div>
+                    <div class="menu__mobWrapper-item-link"><a href="/catalog/remont-imac/remont-imac-24/">iMac 24"</a>
+                    </div>
+                    <div class="menu__mobWrapper-item-link"><a href="/catalog/remont-imac/remont-imac-21-5/">iMac
+                            21.5"</a></div>
+
+
+                </div>
+                <div class="menu__mobWrapper-item" data-id="59">
+                    <spans>Watch
+                        <div class="menu__mobWrapper-back">
+                            <svg class="oh-ic-back" width="9" height="17" viewBox="0 0 9 17"><use href="#oh-back"></use></svg>
+                        </div>
+                    </spans>
+
+                    <div class="menu__mobWrapper-item-link">
+                        <a href="https://irepair.ru/catalog/remont-apple-watch/apple-watch-ultra-3/" data-sort="320" data-page="725" data-aa="123">Apple Watch Ultra 3</a></div>
+                        <div class="menu__mobWrapper-item-link"><a href="https://irepair.ru/catalog/remont-apple-watch/apple-watch-ultra-2/" data-sort="310" data-page="724" data-aa="123">Apple Watch Ultra 2</a></div>
+                        <div class="menu__mobWrapper-item-link"><a href="https://irepair.ru/catalog/remont-apple-watch/remont-apple-watch-11/" data-sort="305" data-page="723" data-aa="123">Apple Watch 11</a></div>
+                        <div class="menu__mobWrapper-item-link"><a href="/catalog/remont-apple-watch/remont-apple-watch-10/">Watch
+                            10</a></div>
+                    <div class="menu__mobWrapper-item-link"><a href="/catalog/remont-apple-watch/apple-watch-ultra/">Watch
+                            Ultra</a></div>
+                    <div class="menu__mobWrapper-item-link"><a href="/catalog/remont-apple-watch/apple-watch-s9/">Watch
+                            9</a></div>
+                    <div class="menu__mobWrapper-item-link"><a href="/catalog/remont-apple-watch/apple-watch-s8/">Watch
+                            8</a></div>
+                    <div class="menu__mobWrapper-item-link"><a
+                                href="/catalog/remont-apple-watch/remont-apple-watch-s7/">Watch 7</a></div>
+                    <div class="menu__mobWrapper-item-link"><a
+                                href="/catalog/remont-apple-watch/remont-apple-watch-s6/">Watch 6</a></div>
+                    <div class="menu__mobWrapper-item-link"><a
+                                href="/catalog/remont-apple-watch/remont-apple-watch-s5/">Watch 5</a></div>
+                    <div class="menu__mobWrapper-item-link"><a href="/catalog/remont-apple-watch/apple-watch-se-2023/">Watch
+                            SE 2023</a></div>
+                    <div class="menu__mobWrapper-item-link"><a
+                                href="/catalog/remont-apple-watch/remont-apple-watch-s4/">Watch 4</a></div>
+                    <div class="menu__mobWrapper-item-link"><a
+                                href="/catalog/remont-apple-watch/remont-apple-watch-se/">Watch SE</a></div>
+                    <div class="menu__mobWrapper-item-link"><a
+                                href="/catalog/remont-apple-watch/remont-apple-watch-s3/">Watch 3</a></div>
+                    <div class="menu__mobWrapper-item-link"><a
+                                href="/catalog/remont-apple-watch/remont-apple-watch-s2/">Watch 2</a></div>
+
+
+                </div>
+
+
+
+
+
+
+                <div class="menu__mobWrapper-item" data-id="7">
+                    <spans>О компании
+                        <div class="menu__mobWrapper-back">
+                            <svg class="oh-ic-back" width="9" height="17" viewBox="0 0 9 17"><use href="#oh-back"></use></svg>
+                        </div>
+                    </spans>
+                    <div class="menu__mobWrapper-item-services"><a href="/prices/">Цены</a></div>
+                    <div class="menu__mobWrapper-item-services"><a href="/programma-loyalnosti/">Клубная карта</a></div>
+                    <div class="menu__mobWrapper-item-services"><a href="/garanties/">Гарантия</a></div>
+                    <div class="menu__mobWrapper-item-services"><a href="/payment/">Оплата</a></div>
+                    <div class="menu__mobWrapper-item-services"><a href="/kontakty/">Контакты</a></div>
+                    <div class="menu__mobWrapper-item-services"><a href="/o-kompanii/">О сервисе</a></div>
+                    <div class="menu__mobWrapper-item-services"><a href="/blog/">Блог</a></div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</header>
+<div class="headerMob">
+    <div class="g-wrapper">
+        <div class="headerMob__wrapper">
+            <div class="headerMob__wrapper-mobMenu">
+                <div class="headerMob__wrapper-mobMenu-burger">
+                    <svg width="20" height="20" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="19.9998" height="1" rx="0.5" fill="#010306"></rect>
+                        <rect y="5" width="19.9998" height="1" rx="0.5" fill="#010306"></rect>
+                        <rect y="10" width="14" height="1" rx="0.5" fill="#010306"></rect>
+                    </svg>
+                </div>
+                <div class="headerMob__wrapper-mobMenu-search">
+                    <svg width="15" height="17" viewBox="0 0 15 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="1.04024" height="4.50626" rx="0.520122"
+                              transform="matrix(0.819818 -0.572625 0.57262 0.819821 10.5352 12.9922)"
+                              fill="#010306"></rect>
+                        <path d="M14.0633 7.28174C14.0633 11.0272 11.0271 14.0635 7.28166 14.0635C3.53626 14.0635 0.5 11.0272 0.5 7.28174C0.5 3.53628 3.53626 0.5 7.28166 0.5C11.0271 0.5 14.0633 3.53628 14.0633 7.28174Z"
+                              stroke="#010306"></path>
+                    </svg>
+                </div>
+                <a href="/personal/" class="headerMob__wrapper-mobMenu-login  logged" style="">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M10 7.63889C11.7643 7.63889 13.1945 6.20869 13.1945 4.44444C13.1945 2.6802 11.7643 1.25 10 1.25C8.23577 1.25 6.80557 2.6802 6.80557 4.44444C6.80557 6.20869 8.23577 7.63889 10 7.63889ZM10 8.88889C12.4546 8.88889 14.4445 6.89904 14.4445 4.44444C14.4445 1.98985 12.4546 0 10 0C7.54542 0 5.55557 1.98985 5.55557 4.44444C5.55557 6.89904 7.54542 8.88889 10 8.88889Z"
+                              fill="#010306"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M5.66824 18.75H14.3318C15.4917 18.75 16.4263 18.1441 16.8861 17.3756C17.3245 16.643 17.3407 15.7754 16.6874 14.9921C14.5201 12.3938 12.1856 11.25 10 11.25C7.8144 11.25 5.47999 12.3938 3.31268 14.9921C2.65932 15.7754 2.67559 16.643 3.11395 17.3756C3.57374 18.1441 4.50832 18.75 5.66824 18.75ZM17.6473 14.1914C19.6976 16.6494 17.5327 20 14.3318 20H5.66824C2.46734 20 0.302457 16.6494 2.35278 14.1914C7.01433 8.60287 12.9857 8.60287 17.6473 14.1914Z"
+                              fill="#010306"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="headerMob__wrapper-center"><a class="headerMob__wrapper-center-logo" href="/">
+                    <svg width="118" height="25" viewBox="0 0 118 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.99993 2C4.0294 2 0 6.0295 0 11C0 15.9705 4.0294 20 8.99993 20C13.9706 20 18 15.9705 18 11C18 6.0295 13.9706 2 8.99993 2ZM14.6436 11.2916C14.0103 12.0803 13.6876 13.0734 13.7365 14.0837L13.7986 15.3716C13.982 16.559 12.746 17.4569 11.6736 16.9155L10.4679 16.4584C9.52217 16.0997 8.47783 16.0997 7.532 16.4584L6.32644 16.9155C5.25384 17.4569 4.01782 16.559 4.20136 15.3716L4.26351 14.0837C4.31229 13.0734 3.98958 12.0803 3.35641 11.2916L2.5492 10.2862C1.70273 9.43329 2.17482 7.98039 3.36095 7.78803L4.60483 7.44919C5.58083 7.18339 6.42565 6.56952 6.98 5.72374L7.68675 4.64523C8.23627 3.57678 9.764 3.57678 10.3135 4.64523L11.0201 5.7236C11.5743 6.56966 12.4194 7.18353 13.3953 7.44919L14.6392 7.78803C15.8252 7.98039 16.2973 9.43315 15.4509 10.2862L14.6436 11.2916Z"
+                              fill="#010306"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M69.4395 7.23873L70.0581 6.79755C70.5627 6.45441 71.1325 6.20932 71.7185 6.04592C72.0441 5.94788 72.3697 5.86618 72.7116 5.8335C73.2976 5.7518 73.8837 5.76814 74.4697 5.84984C74.6325 5.86618 74.779 5.89886 74.9418 5.94788C75.2511 6.02958 75.5604 6.12762 75.8697 6.242C76.1627 6.37271 76.4232 6.48709 76.6837 6.63415C78.8488 7.925 80.1837 10.2779 80.1674 12.8106C80.1674 14.4446 79.5488 16.193 78.6209 17.3041C78.4255 17.5328 78.2627 17.7289 78.0511 17.9413C76.9278 19.0361 75.4627 19.706 73.8999 19.8204C73.1674 19.8531 72.4511 19.7714 71.7511 19.5753C71.165 19.3956 70.6116 19.1505 70.0906 18.8237C69.8953 18.7093 69.4395 18.3498 69.3743 18.3498V24.9511H65.8906L65.9069 6.06226C65.9395 6.06226 69.0325 6.02958 69.293 6.06226C69.293 6.06226 69.3581 6.06226 69.3743 6.09494V6.11128C69.4069 6.27468 69.3418 7.02631 69.3906 7.27141C69.4069 7.27141 69.4557 7.22239 69.4395 7.23873ZM71.1162 9.36291C70.3185 9.88579 69.8627 10.6047 69.5697 11.5034C69.3581 12.2387 69.3255 13.0067 69.472 13.742C69.6348 14.3956 70.0092 15.2453 70.5139 15.7191C70.8232 16.0459 71.1813 16.3074 71.5883 16.4871C72.0767 16.6995 72.6139 16.7812 73.1348 16.7159C73.2976 16.6832 73.379 16.6832 73.5255 16.6505C74.7627 16.3237 75.7069 15.2616 76.0325 14.1015C76.1465 13.7093 76.2116 13.3172 76.2278 12.9087C76.2441 11.9119 75.9185 10.9315 75.3162 10.1309C75.2511 10.0492 75.1534 9.96749 75.0883 9.88579C74.5185 9.23219 73.3627 8.72566 72.4348 8.88905C71.979 8.93807 71.5232 9.10147 71.1162 9.36291Z"
+                              fill="#010306"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M49.9208 9.77119C50.2138 9.18296 50.5883 8.64374 51.0278 8.15355C52.265 6.74832 54.4138 5.63721 56.7092 5.63721C59.1022 5.63721 61.1859 6.63394 62.472 8.07185C62.8138 8.41498 63.1069 8.80714 63.351 9.21564C63.3836 9.26466 63.4162 9.33002 63.4487 9.39538C63.4813 9.46074 63.5138 9.47708 63.5464 9.54244C63.7255 9.88557 63.872 10.2287 64.0022 10.5882C64.1976 11.1274 64.3115 11.683 64.3603 12.2549C64.4255 12.8758 64.3929 13.4967 64.2627 14.1176H53.372C53.3394 14.33 53.7464 15.0326 53.8441 15.1797C54.8208 16.6176 56.5627 17.3039 58.2069 16.5359C58.4022 16.4542 58.5813 16.3398 58.7603 16.2254C58.9883 16.0784 59.1185 15.8823 59.2813 15.8823H63.6441C63.5138 16.1764 63.351 16.4705 63.1557 16.732C63.058 16.8464 62.9603 17.0098 62.8627 17.1241C62.3743 17.6634 61.8045 18.3169 61.1045 18.7091C60.9417 18.8071 60.8441 18.8888 60.6813 18.9705C60.2417 19.2156 59.7859 19.4117 59.3138 19.5751L58.3534 19.8202C58.3045 19.8202 58.272 19.8202 58.2231 19.8366C57.7348 19.9346 57.2464 19.9836 56.758 19.9673C52.7697 19.9836 49.2371 16.879 49.2371 12.8594V12.7287C49.2208 11.6993 49.465 10.6862 49.9208 9.77119ZM60.1929 11.3398C60.1766 11.1111 59.7371 10.3594 59.558 10.147C59.4929 10.0817 59.4278 10.0163 59.379 9.95093C59.265 9.82021 59.1348 9.68949 58.9883 9.57511C58.1255 8.7908 56.6441 8.52936 55.5208 9.01956C54.8696 9.29734 54.2999 9.75485 53.8929 10.3431C53.7627 10.5228 53.4045 11.1274 53.4045 11.3562L60.1929 11.3398Z"
+                              fill="#010306"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M82.1692 8.95415C83.0808 7.45088 84.611 6.27441 86.3366 5.89859C87.3622 5.68617 88.518 5.65349 89.511 5.98029C89.8203 6.06199 90.1133 6.16003 90.4064 6.29075C90.6831 6.40513 90.9436 6.55219 91.1878 6.71559C91.318 6.79729 91.4157 6.84631 91.5459 6.94434C91.7412 7.07506 91.7901 7.1731 91.9203 7.18944V6.02931H95.3878V19.5097H91.904V18.3332C91.8389 18.3169 91.7738 18.3986 91.725 18.4313C90.7971 19.1502 89.7064 19.6077 88.5343 19.7548C87.0366 19.9182 85.8645 19.6241 84.611 18.9541C84.1064 18.6764 83.6343 18.3169 83.2273 17.9084C83.032 17.696 82.8366 17.5162 82.6575 17.2875C81.6482 16.013 81.111 14.4117 81.1273 12.7777C81.1273 11.4378 81.4855 10.1143 82.1692 8.95415ZM87.3785 9.08487C85.7994 9.78748 84.9854 11.3724 85.1157 13.2515C85.1971 14.1992 85.604 15.0816 86.2552 15.7679C88.1761 17.7123 91.0738 16.5522 91.7575 14.0522C92.1645 12.5653 91.8552 10.9313 90.7808 9.85284C90.4715 9.52604 90.0971 9.28095 89.6901 9.10121C89.2994 8.93781 88.5994 8.77441 88.0947 8.88879C87.8506 8.92147 87.6226 8.98683 87.3785 9.08487Z"
+                              fill="#010306"></path>
+                        <path d="M107.825 8.13746L107.809 6.0623H104.325V19.5264C105.286 19.5427 106.832 19.5427 107.809 19.5264C107.841 18.9054 107.809 18.2192 107.809 17.5982C107.809 16.7322 107.793 11.6996 107.825 11.5852L108.069 11.1113C108.2 10.9316 108.379 10.7682 108.558 10.6375C109.16 10.2126 109.828 9.90217 110.544 9.72243C110.821 9.65707 111.016 9.59171 111.309 9.54269C111.895 9.44465 112.481 9.37929 113.083 9.37929C113.132 9.21589 113.1 6.2257 113.1 5.80086C111.765 5.71916 110.43 6.04596 109.29 6.74857C109.079 6.87929 108.932 7.01001 108.737 7.15707C108.558 7.30413 108.395 7.46753 108.248 7.63093L107.825 8.13746Z"
+                              fill="#010306"></path>
+                        <path d="M98.1396 19.5422H101.623V6.07812H98.1396V19.5422Z" fill="#010306"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M34.5049 19.5587V3.39859C34.863 3.34957 40.7886 3.38225 41.3258 3.38225C41.9607 3.38225 42.7258 3.39859 43.3119 3.56199C43.6374 3.66003 43.8653 3.66003 44.3049 3.83977C45.07 4.13389 45.7863 4.57506 46.4049 5.13062C47.6584 6.29075 48.4235 7.95742 48.0979 10.1143C47.9026 11.1764 47.4142 12.1731 46.6816 12.9738L46.2584 13.3986C45.8677 13.7744 45.5421 13.9215 45.2979 14.1175C45.3305 14.2646 45.9002 14.7875 45.9165 14.9182C45.9491 14.9345 45.9328 14.9182 45.9653 14.9509L46.4212 15.5064C46.8444 15.964 47.4142 16.7156 47.87 17.2385C48.1467 17.5489 48.6026 18.1372 48.8467 18.3986C48.9444 18.4966 48.9932 18.5947 49.0909 18.6927L49.6932 19.4117C49.8235 19.5587 49.7746 19.5097 49.7584 19.526C49.7095 19.5751 49.5793 19.5587 49.5142 19.5587H45.5421L43.7677 17.3365C43.2467 16.6992 42.5142 15.7679 42.0095 15.0979C41.7491 15.0653 41.277 15.0979 41.0002 15.0979C40.5607 15.0979 38.07 15.0653 38.0049 15.1143C37.9886 15.147 38.0049 15.1143 37.9886 15.1633V19.4443C37.9723 19.5914 38.0212 19.5097 37.9398 19.5424L34.5049 19.5587ZM38.0212 11.6666C38.3467 11.6829 39.7467 11.6666 40.1863 11.6666C41.5537 11.6666 42.7746 11.879 43.67 10.8169C44.7444 9.55872 44.4351 7.35284 42.3351 6.82997C41.8467 6.71559 39.8607 6.76461 39.1281 6.76461C38.7863 6.76461 38.363 6.73193 38.0212 6.76461V11.6666Z"
+                              fill="#010306"></path>
+                        <path d="M27.651 6.07834C27.6184 6.32344 27.6184 18.4803 27.6347 19.5424H31.1347V6.07834C30.9394 6.04566 27.7812 6.04566 27.6998 6.062C27.6184 6.07834 27.6836 6.062 27.651 6.07834Z"
+                              fill="#010306"></path>
+                        <path d="M29.1649 0.113876C28.4812 0.211915 28.123 0.391653 27.6672 0.881849C27.4881 1.09427 27.3416 1.32303 27.244 1.58446C27.2277 1.66616 27.2114 1.73152 27.1951 1.81322L27.1463 2.04198C27.0323 2.80995 27.3091 3.57793 27.8951 4.08446C28.3184 4.47662 28.9044 4.6727 29.637 4.64002C30.2067 4.57466 30.744 4.31322 31.1184 3.87205C31.916 2.95701 31.8509 1.42107 30.8742 0.636751C30.6626 0.457013 30.4184 0.326294 30.1579 0.228255C29.8486 0.130215 29.5067 0.0975357 29.1649 0.113876Z"
+                              fill="#010306"></path>
+                        <path d="M99.898 0.113968C98.6445 0.0976277 97.6189 1.09436 97.6026 2.35253V2.36887C97.5863 4.41135 99.9956 5.42443 101.477 4.0192C102.877 2.67933 101.965 0.113968 99.898 0.113968Z"
+                              fill="#010306"></path>
+                    </svg>
+                </a></div>
+            <div class="headerMob__wrapper-phone"><span class="phone_alloka"
+                                                        data-phone="%3Ca%20href%3D%22tel%3A88005552190%22%3E%20%3Cspan%3E8%20800%20555%2021%2090%3C/span%3E%3C/a%3E">+7 (939) 555-08-90</span>
+            </div>
+            <div class="headerMob__wrapper-search">
+                <svg width="20" height="25" viewBox="0 0 15 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1.04024" height="4.50626" rx="0.520122"
+                          transform="matrix(0.819818 -0.572625 0.57262 0.819821 10.5352 12.9922)" fill="#010306"></rect>
+                    <path d="M14.0633 7.28174C14.0633 11.0272 11.0271 14.0635 7.28166 14.0635C3.53626 14.0635 0.5 11.0272 0.5 7.28174C0.5 3.53628 3.53626 0.5 7.28166 0.5C11.0271 0.5 14.0633 3.53628 14.0633 7.28174Z"
+                          stroke="#010306"></path>
+                </svg>
+            </div>
+            <a href="/personal/" class="headerMob__wrapper-login  logged" style="">
+                <svg width="25" height="25" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M10 7.63889C11.7643 7.63889 13.1945 6.20869 13.1945 4.44444C13.1945 2.6802 11.7643 1.25 10 1.25C8.23577 1.25 6.80557 2.6802 6.80557 4.44444C6.80557 6.20869 8.23577 7.63889 10 7.63889ZM10 8.88889C12.4546 8.88889 14.4445 6.89904 14.4445 4.44444C14.4445 1.98985 12.4546 0 10 0C7.54542 0 5.55557 1.98985 5.55557 4.44444C5.55557 6.89904 7.54542 8.88889 10 8.88889Z"
+                          fill="#010306"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M5.66824 18.75H14.3318C15.4917 18.75 16.4263 18.1441 16.8861 17.3756C17.3245 16.643 17.3407 15.7754 16.6874 14.9921C14.5201 12.3938 12.1856 11.25 10 11.25C7.8144 11.25 5.47999 12.3938 3.31268 14.9921C2.65932 15.7754 2.67559 16.643 3.11395 17.3756C3.57374 18.1441 4.50832 18.75 5.66824 18.75ZM17.6473 14.1914C19.6976 16.6494 17.5327 20 14.3318 20H5.66824C2.46734 20 0.302457 16.6494 2.35278 14.1914C7.01433 8.60287 12.9857 8.60287 17.6473 14.1914Z"
+                          fill="#010306"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="search" style="display: none;">
+    <div id="title-search">
+
+        <form action="/search/" method="GET">
+            <button name="s" class="button_search_up" type="submit" value="Поиск">
+                <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.2026 0C4.12834 0 0 4.18138 0 9.32089C0 14.4604 4.12838 18.6418 9.2026 18.6418C14.2768 18.6418 18.4052 14.4604 18.4052 9.32089C18.4052 4.18138 14.2769 0 9.2026 0ZM9.2026 17.1095C4.96009 17.1095 1.50862 13.6154 1.50862 9.32085C1.50862 5.02609 4.96009 1.53216 9.2026 1.53216C13.4451 1.53216 16.8966 5.02609 16.8966 9.32085C16.8966 13.6154 13.4452 17.1095 9.2026 17.1095Z"
+                          fill="#939393"></path>
+                    <path d="M20.6469 19.8352L15.6935 14.83C15.3981 14.5317 14.9206 14.533 14.6267 14.8328C14.333 15.1329 14.3343 15.6178 14.6294 15.9164L19.5828 20.9215C19.7301 21.0702 19.9222 21.1445 20.1148 21.1445C20.3087 21.1445 20.5023 21.0691 20.6496 20.9187C20.9433 20.6186 20.9421 20.1337 20.6469 19.8352Z"
+                          fill="#939393"></path>
+                </svg>
+            </button>
+            <input id="title-search-input" type="text" placeholder="Поиск по сайту" name="q" autocomplete="off"
+                   wfd-id="id0">
+            <svg class="search__close" width="16" height="16" viewBox="0 0 16 16" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1.00208L14.9982 15.0002" stroke="#3E3E3E" stroke-width="1.3" stroke-linecap="round"
+                      stroke-linejoin="round"></path>
+                <path d="M1 14.9982L14.9982 0.999998" stroke="#3E3E3E" stroke-width="1.3" stroke-linecap="round"
+                      stroke-linejoin="round"></path>
+            </svg>
+        </form>
+    </div>
+</div>
+
+
+<script>
+(function () {
+  var root = document.querySelector('.irepair-old-header');
+  if (!root) return;
+
+  var burgers = root.querySelectorAll('.headerMob__wrapper-mobMenu-burger');
+  var menu = root.querySelector('.menu');
+
+  function toggleBurgerMenu() {
+    var isOpen = menu.classList.toggle('active');
+    burgers.forEach(function (b) { b.classList.toggle('active', isOpen); });
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    if (!isOpen) {
+      root.querySelectorAll('.menu__mobWrapper-step2').forEach(function (s) { s.classList.remove('active'); });
+      root.querySelectorAll('.menu__mobWrapper-item-link.active').forEach(function (l) { l.classList.remove('active'); });
+      root.querySelectorAll('.menu__mobWrapper-item-list.active').forEach(function (l) { l.classList.remove('active'); });
+    }
+  }
+  burgers.forEach(function (b) { b.addEventListener('click', toggleBurgerMenu); });
+
+  root.querySelectorAll('.menu__mobWrapper-step1 .menu__mobWrapper-item-link[data-id]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var id = link.getAttribute('data-id');
+      var step2 = root.querySelector('.menu__mobWrapper-step2');
+      var target = root.querySelector('.menu__mobWrapper-step2 .menu__mobWrapper-item[data-id="' + id + '"]');
+      root.querySelectorAll('.menu__mobWrapper-step2 .menu__mobWrapper-item').forEach(function (item) {
+        item.classList.toggle('active', item === target);
+      });
+      if (step2) step2.classList.add('active');
+    });
+  });
+
+  root.querySelectorAll('.menu__mobWrapper-back').forEach(function (back) {
+    back.addEventListener('click', function () {
+      var step2 = root.querySelector('.menu__mobWrapper-step2');
+      if (step2) step2.classList.remove('active');
+    });
+  });
+
+  root.querySelectorAll('.menu__mobWrapper-step2 .menu__mobWrapper-item-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var list = link.nextElementSibling;
+      var isOpen = link.classList.toggle('active');
+      if (list && list.classList.contains('menu__mobWrapper-item-list')) {
+        list.classList.toggle('active', isOpen);
+      }
+      root.querySelectorAll('.menu__mobWrapper-step2 .menu__mobWrapper-item-link').forEach(function (other) {
+        if (other !== link) {
+          other.classList.remove('active');
+          var otherList = other.nextElementSibling;
+          if (otherList && otherList.classList.contains('menu__mobWrapper-item-list')) {
+            otherList.classList.remove('active');
+          }
+        }
+      });
+    });
+  });
+
+  var searchOverlay = root.querySelector('.search');
+  var searchInput = root.querySelector('#title-search-input');
+  root.querySelectorAll('.header__wrapper-right-search, .headerMob__wrapper-mobMenu-search, .headerMob__wrapper-search').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (!searchOverlay) return;
+      searchOverlay.style.display = 'flex';
+      if (searchInput) searchInput.focus();
+    });
+  });
+  var searchClose = root.querySelector('.search__close');
+  if (searchClose) {
+    searchClose.addEventListener('click', function () {
+      searchOverlay.style.display = 'none';
+    });
+  }
+})();
+</script>
+
+</div>
