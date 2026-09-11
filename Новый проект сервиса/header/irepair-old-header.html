@@ -245,7 +245,7 @@
                 <div class="header__wrapper-right-phone toggleMenuBlock" style="opacity: 1;"><a href="tel:88005552190">
                         <span><span class="phone_alloka" data-phone="8%20800%20555%2021%2090">+7 (939) 555-08-90</span></span></a>
                     <div class="header__wrapper-right-phone-menu">
-                        <div class="header__wrapper-right-phone-menu-link"><a href="tel:88005552190">
+                        <div class="header__wrapper-right-phone-menu-link"><a href="#" data-call-popup-trigger>
                                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.27193 0.235212L7.69214 3.46939C7.61853 3.62006 7.646 3.79895 7.7617 3.92225L9.10231 5.35139C9.13568 5.43508 9.13354 5.82479 8.72612 6.64937C8.38362 7.34266 7.86634 8.11207 7.34245 8.70753C6.56618 9.58986 6.11671 9.72462 6.00626 9.70317L4.14664 8.98524C3.98692 8.92356 3.80463 8.96153 3.68508 9.08136L1.1193 11.6533C1.03272 11.7401 0.989848 11.8594 1.00204 11.9796C1.01421 12.0996 1.08026 12.2086 1.18261 12.2774L2.9813 13.4857C4.0002 14.1701 5.35676 14.1716 6.35698 13.4893C7.69437 12.5771 8.88429 11.489 9.89372 10.2554C11.3367 8.49183 12.3541 6.48818 12.9175 4.30002C13.206 3.17973 12.7222 1.97108 11.7127 1.29304L9.89659 0.0731737C9.79421 0.00443205 9.66589 -0.0172383 9.5456 0.0139614C9.42531 0.0451881 9.32524 0.126079 9.27193 0.235212Z"
@@ -313,7 +313,7 @@
                                                                                          data-phone="8%20800%20555%2021%2090">+7 (939) 555-08-90</span>
                         </a></div>
                     <div class="menu__mobWrapper-time">Ежедневно с 10:00 до 20:00</div>
-                    <a class="menu__mobWrapper-bigcontact" href="tel:8 800 555 21 90">
+                    <a class="menu__mobWrapper-bigcontact" href="#" data-call-popup-trigger>
                         <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15.0292 3.33602L12.9229 7.95628C12.8247 8.17151 12.8613 8.42707 13.0156 8.60322L14.8031 10.6448C14.8476 10.7644 14.8447 11.3211 14.3015 12.4991C13.8448 13.4895 13.1551 14.5887 12.4566 15.4393C11.4216 16.6998 10.8223 16.8923 10.675 16.8617L8.19552 15.8361C7.98256 15.7479 7.7395 15.8022 7.5801 15.9734L4.15907 19.6476C4.04363 19.7716 3.98646 19.942 4.00272 20.1137C4.01895 20.2852 4.10701 20.4409 4.24349 20.5392L6.64174 22.2652C8.00027 23.243 9.80901 23.2451 11.1426 22.2705C12.9258 20.9673 14.5124 19.4129 15.8583 17.6505C17.7823 15.1312 19.1387 12.2688 19.89 9.14288C20.2747 7.54247 19.6296 5.81582 18.2836 4.8472L15.8621 3.10453C15.7256 3.00633 15.5545 2.97537 15.3941 3.01994C15.2337 3.06455 15.1003 3.18011 15.0292 3.33602Z"
                                   fill="#939393"></path>
@@ -723,6 +723,27 @@
   var burgers = root.querySelectorAll('.headerMob__wrapper-mobMenu-burger');
   var menu = root.querySelector('.menu');
 
+  var headerEl = root.querySelector('.header');
+  var additionalHeaderEl = root.querySelector('.additional-header');
+  if (headerEl) {
+    var prevScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+    window.addEventListener('scroll', function () {
+      var currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+      if (prevScrollPos > currentScrollPos) {
+        headerEl.classList.remove('header__active');
+        if (additionalHeaderEl) additionalHeaderEl.classList.remove('additional-header__active');
+      } else {
+        headerEl.classList.add('header__active');
+        if (additionalHeaderEl) additionalHeaderEl.classList.add('additional-header__active');
+      }
+      if (currentScrollPos < 40) {
+        headerEl.classList.remove('header__active');
+        if (additionalHeaderEl) additionalHeaderEl.classList.remove('additional-header__active');
+      }
+      prevScrollPos = currentScrollPos;
+    }, { passive: true });
+  }
+
   function toggleBurgerMenu() {
     var isOpen = menu.classList.toggle('active');
     burgers.forEach(function (b) { b.classList.toggle('active', isOpen); });
@@ -791,4 +812,86 @@
 })();
 </script>
 
+
 </div>
+
+<div class="callPopup" id="callPopup" aria-hidden="true">
+  <div class="callPopup__bg" data-call-popup-close></div>
+  <div class="callPopup__card" role="dialog" aria-modal="true" aria-labelledby="callPopupTitle">
+    <button type="button" class="callPopup__close" data-call-popup-close aria-label="Закрыть">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L15 15M15 1L1 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+      </svg>
+    </button>
+
+    <div class="callPopup__form">
+      <h3 class="callPopup__title" id="callPopupTitle">Заказать звонок</h3>
+      <p class="callPopup__subtitle">Оставьте номер — перезвоним в течение 15 минут</p>
+      <form id="callPopupForm" novalidate>
+        <div class="callPopup__field">
+          <input type="text" name="name" placeholder="Ваше имя" required>
+        </div>
+        <div class="callPopup__field">
+          <input type="tel" name="phone" placeholder="Телефон" required>
+        </div>
+        <label class="callPopup__consent">
+          <input type="checkbox" name="consent" required>
+          <span>Согласен с условиями <a href="/privacy/" target="_blank" rel="noopener">обработки персональных данных</a></span>
+        </label>
+        <button type="submit" class="callPopup__submit">Заказать звонок</button>
+      </form>
+    </div>
+
+    <div class="callPopup__success" hidden>
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="24" fill="#37D97B"></circle>
+        <path d="M14 24.5L20.5 31L34 17" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <h3>Спасибо за заявку!</h3>
+      <p>Мы перезвоним вам в ближайшее время.</p>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var popup = document.getElementById('callPopup');
+  if (!popup) return;
+  var form = document.getElementById('callPopupForm');
+  var formWrap = popup.querySelector('.callPopup__form');
+  var success = popup.querySelector('.callPopup__success');
+
+  function openPopup(e) {
+    if (e) e.preventDefault();
+    formWrap.hidden = false;
+    success.hidden = true;
+    if (form) form.reset();
+    popup.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePopup() {
+    popup.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-call-popup-trigger]')) {
+      openPopup(e);
+    } else if (e.target.closest('[data-call-popup-close]')) {
+      e.preventDefault();
+      closePopup();
+    }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && popup.classList.contains('active')) closePopup();
+  });
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      // TODO: подключить реальную отправку в Битрикс CRM
+      formWrap.hidden = true;
+      success.hidden = false;
+    });
+  }
+})();
+</script>
