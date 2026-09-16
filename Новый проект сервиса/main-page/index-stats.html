@@ -1,0 +1,270 @@
+<div class="irepair-index-stats">
+  <div class="g-wrapper">
+    <h2 class="irepair-index-stats__title">iRepair в цифрах</h2>
+
+    <div class="irepair-index-stats__grid">
+
+      <div class="irepair-index-stats__card">
+        <span class="irepair-index-stats__icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 12.5C14.4853 12.5 16.5 10.4853 16.5 8C16.5 5.51472 14.4853 3.5 12 3.5C9.51472 3.5 7.5 5.51472 7.5 8C7.5 10.4853 9.51472 12.5 12 12.5Z" stroke="#fff" stroke-width="1.7"></path>
+            <path d="M4 20.5C4 16.634 7.582 13.5 12 13.5C16.418 13.5 20 16.634 20 20.5" stroke="#fff" stroke-width="1.7" stroke-linecap="round"></path>
+          </svg>
+        </span>
+        <span class="irepair-index-stats__number" data-role="stat-clients">54&nbsp;000</span>
+        <span class="irepair-index-stats__label">Довольных клиентов</span>
+        <span class="irepair-index-stats__sublabel">Растём каждый час</span>
+      </div>
+
+      <div class="irepair-index-stats__card">
+        <span class="irepair-index-stats__icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 2L14.472 8.208L21 9.128L16.2 13.552L17.472 20L12 16.8L6.528 20L7.8 13.552L3 9.128L9.528 8.208L12 2Z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+        <span class="irepair-index-stats__number" data-role="stat-years">15</span>
+        <span class="irepair-index-stats__label">Лет опыта</span>
+        <span class="irepair-index-stats__sublabel">Сервис открыт с 2011</span>
+      </div>
+
+      <div class="irepair-index-stats__card">
+        <span class="irepair-index-stats__icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="12.5" r="8.5" stroke="#fff" stroke-width="1.7"></circle>
+            <path d="M12 7.5V12.5L15.5 15" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+        <span class="irepair-index-stats__number" data-static="45">45</span>
+        <span class="irepair-index-stats__label">Минут</span>
+        <span class="irepair-index-stats__sublabel">Среднее время ремонта</span>
+      </div>
+
+      <div class="irepair-index-stats__card">
+        <span class="irepair-index-stats__icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#fff" stroke-width="1.7"></path>
+            <path d="M12 7.5V12L15 13.8" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+        <span class="irepair-index-stats__number" data-static="168">168</span>
+        <span class="irepair-index-stats__label">Часов в неделю</span>
+        <span class="irepair-index-stats__sublabel">Мы думаем о вас</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var section = document.querySelector('.irepair-index-stats');
+  if (!section) return;
+
+  var clientsEl = section.querySelector('[data-role="stat-clients"]');
+  var yearsEl = section.querySelector('[data-role="stat-years"]');
+
+  var startYear = 2011;
+  var currentYear = new Date().getFullYear();
+  var totalYears = currentYear - startYear;
+
+  var baseClients = 54000;
+  var startDate = new Date('2024-01-01T00:00:00').getTime();
+  var diffMinutes = (Date.now() - startDate) / (1000 * 60);
+  var totalClients = baseClients + Math.floor(diffMinutes / 60);
+
+  function animateValue(el, start, end, duration) {
+    if (!el) return;
+    var startTimestamp = null;
+    function step(timestamp) {
+      if (!startTimestamp) startTimestamp = timestamp;
+      var progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      var value = Math.floor(progress * (end - start) + start);
+      el.textContent = value.toLocaleString('ru-RU');
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function runAnimations() {
+    animateValue(clientsEl, 0, totalClients, 2500);
+    animateValue(yearsEl, 0, totalYears, 1500);
+    var staticEls = section.querySelectorAll('[data-static]');
+    for (var i = 0; i < staticEls.length; i++) {
+      var el = staticEls[i];
+      animateValue(el, 0, parseInt(el.getAttribute('data-static'), 10), 2000);
+    }
+  }
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          runAnimations();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(section);
+  } else {
+    runAnimations();
+  }
+})();
+</script>
+
+<style>
+.irepair-index-stats,
+.irepair-index-stats * {
+  box-sizing: border-box;
+}
+.irepair-index-stats {
+  margin-top: -92px;
+  margin-bottom: 80px;
+}
+.irepair-index-stats .g-wrapper {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 0 35px;
+}
+@media (max-width: 1370px) {
+  .irepair-index-stats .g-wrapper {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .irepair-index-stats .g-wrapper {
+    padding: 0 16px;
+  }
+}
+@media (max-width: 374px) {
+  .irepair-index-stats .g-wrapper {
+    padding: 0 10px;
+  }
+}
+
+.irepair-index-stats .irepair-index-stats__title {
+  margin: 0 0 40px;
+  text-align: center;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 38px;
+  line-height: 1.15;
+  color: #1d1d1f;
+}
+
+.irepair-index-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.irepair-index-stats__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #fff;
+  border-radius: 24px;
+  padding: 36px 24px;
+  box-shadow: 0 10px 30px rgba(32, 204, 190, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.irepair-index-stats__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(32, 204, 190, 0.16);
+}
+
+.irepair-index-stats__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
+  box-shadow: 0 8px 18px rgba(32, 204, 190, 0.28);
+}
+.irepair-index-stats__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.irepair-index-stats__number {
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 44px;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #37d97b 0%, #20ccbe 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #20ccbe;
+}
+
+.irepair-index-stats__label {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  color: #1d1d1f;
+  margin-bottom: 6px;
+}
+
+.irepair-index-stats__sublabel {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #86868b;
+}
+
+@media (max-width: 900px) {
+  .irepair-index-stats__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .irepair-index-stats__card {
+    padding: 28px 16px;
+  }
+  .irepair-index-stats__number {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 650px) {
+  .irepair-index-stats {
+    margin-top: -70px;
+    margin-bottom: 40px;
+  }
+  .irepair-index-stats .irepair-index-stats__title {
+    font-size: 22px;
+    margin-bottom: 18px;
+    white-space: nowrap;
+  }
+  .irepair-index-stats__grid {
+    gap: 8px;
+  }
+  .irepair-index-stats__card {
+    padding: 16px 10px;
+    border-radius: 16px;
+  }
+  .irepair-index-stats__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    margin-bottom: 10px;
+  }
+  .irepair-index-stats__icon svg {
+    width: 17px;
+    height: 17px;
+  }
+  .irepair-index-stats__number {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+  .irepair-index-stats__label {
+    font-size: 13px;
+  }
+  .irepair-index-stats__sublabel {
+    font-size: 11px;
+  }
+}
+</style>

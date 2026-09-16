@@ -1,0 +1,492 @@
+<div class="irepair-index-calc" id="form-calc">
+  <div class="g-wrapper">
+    <h2 class="irepair-index-calc__title">Рассчитать стоимость ремонта</h2>
+
+    <div class="irepair-index-calc__card">
+      <div class="irepair-index-calc__tabs" data-role="tabs">
+        <button type="button" class="irepair-index-calc__tab" data-device="iPhone">iPhone</button>
+        <button type="button" class="irepair-index-calc__tab" data-device="Macbook">MacBook</button>
+        <button type="button" class="irepair-index-calc__tab" data-device="iPad">iPad</button>
+        <button type="button" class="irepair-index-calc__tab" data-device="Watch">Watch</button>
+      </div>
+
+      <div class="irepair-index-calc__fields">
+        <div class="irepair-index-calc__field">
+          <label class="irepair-index-calc__label">Модель</label>
+          <select class="irepair-index-calc__select" data-role="model">
+            <option value="">Выберите модель</option>
+          </select>
+        </div>
+        <div class="irepair-index-calc__field">
+          <label class="irepair-index-calc__label">Неисправность</label>
+          <select class="irepair-index-calc__select" data-role="service" disabled>
+            <option value="">Сначала выберите модель</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="irepair-index-calc__quality-field" data-role="quality-field" hidden>
+        <label class="irepair-index-calc__label">Качество запчасти</label>
+        <div class="irepair-index-calc__quality" data-role="quality"></div>
+      </div>
+
+      <div class="irepair-index-calc__result" data-role="result" hidden>
+        <div class="irepair-index-calc__result-info">
+          <span class="irepair-index-calc__result-label">Стоимость ремонта</span>
+          <span class="irepair-index-calc__result-price" data-role="price"></span>
+        </div>
+        <button type="button" class="irepair-index-calc__cta" data-call-popup-trigger>Записаться на ремонт</button>
+      </div>
+
+      <p class="irepair-index-calc__hint" data-role="hint">Цена уточняется после диагностики (бесплатно) — точная стоимость может отличаться в зависимости от повреждений.</p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  var root = document.getElementById('form-calc');
+  if (!root) return;
+
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function smoothScrollToElement(el, duration) {
+    var startY = window.pageYOffset || document.documentElement.scrollTop;
+    var marginTop = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    var targetY = el.getBoundingClientRect().top + startY - marginTop;
+    var distance = targetY - startY;
+    var startTime = null;
+    function step(timestamp) {
+      if (startTime === null) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      window.scrollTo(0, startY + distance * easeOutCubic(progress));
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  var tabsWrap = root.querySelector('[data-role="tabs"]');
+  var modelSelect = root.querySelector('[data-role="model"]');
+  var serviceSelect = root.querySelector('[data-role="service"]');
+  var qualityField = root.querySelector('[data-role="quality-field"]');
+  var qualityWrap = root.querySelector('[data-role="quality"]');
+  var resultBlock = root.querySelector('[data-role="result"]');
+  var priceEl = root.querySelector('[data-role="price"]');
+
+  var DATA_URL = '/images/content/repair-prices/repair-prices.json';
+  var rows = [];
+  var index = {};
+  var currentDevice = 'iPhone';
+  var currentModel = '';
+  var currentService = '';
+  var currentQuality = '';
+
+  function buildIndex() {
+    index = { devices: [], models: {}, services: {}, options: {} };
+    rows.forEach(function (row) {
+      if (index.devices.indexOf(row.d) === -1) index.devices.push(row.d);
+
+      var mKey = row.d;
+      if (!index.models[mKey]) index.models[mKey] = [];
+      if (index.models[mKey].indexOf(row.m) === -1) index.models[mKey].push(row.m);
+
+      var sKey = row.d + '|' + row.m;
+      if (!index.services[sKey]) index.services[sKey] = [];
+      if (index.services[sKey].indexOf(row.s) === -1) index.services[sKey].push(row.s);
+
+      var oKey = row.d + '|' + row.m + '|' + row.s;
+      if (!index.options[oKey]) index.options[oKey] = [];
+      index.options[oKey].push(row);
+    });
+  }
+
+  function formatPrice(p, approx) {
+    var formatted = String(p).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return (approx ? 'от ' : '') + formatted + ' ₽';
+  }
+
+  function resetSelect(select, placeholder, disabled) {
+    select.innerHTML = '';
+    var opt = document.createElement('option');
+    opt.value = '';
+    opt.textContent = placeholder;
+    select.appendChild(opt);
+    select.disabled = !!disabled;
+  }
+
+  function fillModels() {
+    resetSelect(modelSelect, 'Выберите модель', false);
+    var models = index.models[currentDevice] || [];
+    models.forEach(function (m) {
+      var opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = m;
+      modelSelect.appendChild(opt);
+    });
+    currentModel = '';
+    resetSelect(serviceSelect, 'Сначала выберите модель', true);
+    hideQuality();
+    hideResult();
+  }
+
+  function fillServices() {
+    var key = currentDevice + '|' + currentModel;
+    var services = index.services[key] || [];
+    resetSelect(serviceSelect, 'Выберите неисправность', false);
+    services.forEach(function (s) {
+      var opt = document.createElement('option');
+      opt.value = s;
+      opt.textContent = s;
+      serviceSelect.appendChild(opt);
+    });
+    currentService = '';
+    hideQuality();
+    hideResult();
+  }
+
+  function hideQuality() {
+    qualityField.hidden = true;
+    qualityWrap.innerHTML = '';
+    currentQuality = '';
+  }
+
+  function hideResult() {
+    resultBlock.hidden = true;
+  }
+
+  function showQualityOrResult() {
+    var key = currentDevice + '|' + currentModel + '|' + currentService;
+    var options = index.options[key] || [];
+    if (options.length > 1) {
+      qualityWrap.innerHTML = '';
+      options.forEach(function (o, i) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'irepair-index-calc__quality-btn';
+        btn.textContent = o.q || 'Стандарт';
+        btn.dataset.index = i;
+        if (i === 0) btn.classList.add('active');
+        qualityWrap.appendChild(btn);
+      });
+      qualityField.hidden = false;
+      showResult(options[0]);
+    } else if (options.length === 1) {
+      hideQuality();
+      showResult(options[0]);
+    } else {
+      hideQuality();
+      hideResult();
+    }
+  }
+
+  function showResult(option) {
+    priceEl.textContent = formatPrice(option.p, option.approx);
+    resultBlock.hidden = false;
+  }
+
+  tabsWrap.addEventListener('click', function (e) {
+    var btn = e.target.closest('.irepair-index-calc__tab');
+    if (!btn) return;
+    currentDevice = btn.dataset.device;
+    Array.prototype.forEach.call(tabsWrap.querySelectorAll('.irepair-index-calc__tab'), function (t) {
+      t.classList.toggle('active', t === btn);
+    });
+    fillModels();
+  });
+
+  modelSelect.addEventListener('change', function () {
+    currentModel = modelSelect.value;
+    if (currentModel) {
+      fillServices();
+    } else {
+      resetSelect(serviceSelect, 'Сначала выберите модель', true);
+      hideQuality();
+      hideResult();
+    }
+  });
+
+  function scrollToBlockTop() {
+    smoothScrollToElement(root, 600);
+  }
+
+  serviceSelect.addEventListener('change', function () {
+    currentService = serviceSelect.value;
+    if (currentService) {
+      showQualityOrResult();
+      // небольшая задержка: на мобильных браузер сам мгновенно доскролливает
+      // страницу к закрывшемуся select — даём этому отработать первым
+      setTimeout(scrollToBlockTop, 150);
+    } else {
+      hideQuality();
+      hideResult();
+    }
+  });
+
+  qualityWrap.addEventListener('click', function (e) {
+    var btn = e.target.closest('.irepair-index-calc__quality-btn');
+    if (!btn) return;
+    Array.prototype.forEach.call(qualityWrap.querySelectorAll('.irepair-index-calc__quality-btn'), function (b) {
+      b.classList.toggle('active', b === btn);
+    });
+    var key = currentDevice + '|' + currentModel + '|' + currentService;
+    var options = index.options[key] || [];
+    var option = options[Number(btn.dataset.index)];
+    if (option) showResult(option);
+  });
+
+  fetch(DATA_URL)
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      rows = data;
+      buildIndex();
+      var firstTab = tabsWrap.querySelector('.irepair-index-calc__tab');
+      firstTab.classList.add('active');
+      fillModels();
+    })
+    .catch(function () {
+      var hint = root.querySelector('[data-role="hint"]');
+      hint.textContent = 'Не удалось загрузить калькулятор. Позвоните нам — подберём цену вручную.';
+    });
+})();
+</script>
+
+<style>
+.irepair-index-calc,
+.irepair-index-calc * {
+  box-sizing: border-box;
+}
+.irepair-index-calc {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin: -20px 0 80px;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: linear-gradient(160deg, #f4fff8, #edfafa);
+  padding: 32px 0 64px;
+  scroll-margin-top: 100px;
+}
+.irepair-index-calc .g-wrapper {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 0 35px;
+}
+@media (max-width: 1370px) {
+  .irepair-index-calc .g-wrapper {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .irepair-index-calc .g-wrapper {
+    padding: 0 16px;
+  }
+}
+@media (max-width: 374px) {
+  .irepair-index-calc .g-wrapper {
+    padding: 0 10px;
+  }
+}
+
+.irepair-index-calc .irepair-index-calc__title {
+  margin: 0 0 40px;
+  text-align: center;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 38px;
+  line-height: 1.15;
+  color: #1d1d1f;
+}
+
+.irepair-index-calc__card {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 28px;
+  padding: 48px 56px;
+  box-shadow: 0 20px 50px rgba(32, 204, 190, 0.12);
+}
+
+.irepair-index-calc__tabs {
+  display: flex;
+  gap: 8px;
+  background: #f2f5f4;
+  border-radius: 999px;
+  padding: 6px;
+  margin-bottom: 28px;
+}
+.irepair-index-calc__tab {
+  flex: 1 1 0;
+  border: none;
+  background: transparent;
+  padding: 12px 8px;
+  border-radius: 999px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.irepair-index-calc__tab.active {
+  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(32, 204, 190, 0.28);
+}
+
+.irepair-index-calc__fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.irepair-index-calc__field {
+  display: flex;
+  flex-direction: column;
+}
+.irepair-index-calc__label {
+  margin-bottom: 8px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #777;
+}
+.irepair-index-calc__select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 14px 40px 14px 16px;
+  border: 1.5px solid #e2ebe8;
+  border-radius: 14px;
+  background: #fafcfb url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23555' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 16px center;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  color: #1d1d1f;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+.irepair-index-calc__select:focus {
+  outline: none;
+  border-color: #37d97b;
+}
+.irepair-index-calc__select:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.irepair-index-calc__quality-field {
+  margin-top: 20px;
+}
+.irepair-index-calc__quality {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.irepair-index-calc__quality-btn {
+  border: 1.5px solid #e2ebe8;
+  background: #fafcfb;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.irepair-index-calc__quality-btn.active {
+  border-color: transparent;
+  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
+  color: #fff;
+}
+
+.irepair-index-calc__result[hidden],
+.irepair-index-calc__quality-field[hidden] {
+  display: none !important;
+}
+.irepair-index-calc__result {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 28px;
+  border-radius: 20px;
+  background: #1d1d1f;
+}
+.irepair-index-calc__result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.irepair-index-calc__result-label {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.irepair-index-calc__result-price {
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 30px;
+  color: #fff;
+}
+.irepair-index-calc__cta {
+  flex: 0 0 auto;
+  border: none;
+  border-radius: 999px;
+  padding: 15px 28px;
+  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.irepair-index-calc__cta:hover {
+  filter: brightness(1.06);
+}
+
+.irepair-index-calc__hint {
+  margin: 20px 0 0;
+  text-align: center;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #999;
+}
+
+@media (max-width: 650px) {
+  .irepair-index-calc {
+    padding-top: 24px;
+    padding-bottom: 40px;
+    scroll-margin-top: 78px;
+  }
+  .irepair-index-calc .irepair-index-calc__title {
+    font-size: 22px;
+    margin-bottom: 24px;
+    padding: 0 16px;
+    white-space: nowrap;
+  }
+  .irepair-index-calc__card {
+    border-radius: 20px;
+    padding: 24px 18px;
+  }
+  .irepair-index-calc__fields {
+    grid-template-columns: 1fr;
+  }
+  .irepair-index-calc__result {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .irepair-index-calc__result-price {
+    font-size: 26px;
+  }
+  .irepair-index-calc__cta {
+    width: 100%;
+  }
+}
+</style>

@@ -1959,7 +1959,7 @@
     padding-top: 40px;
   }
   .irepair-footer__top {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     gap: 0;
     padding-bottom: 8px;
   }

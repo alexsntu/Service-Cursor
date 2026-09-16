@@ -1,0 +1,236 @@
+<div class="irepair-index-banner">
+  <div class="g-wrapper">
+    <div class="irepair-index-banner__wrapper">
+      <div class="irepair-index-banner__overlay"></div>
+      <svg class="irepair-index-banner__icon" width="312" height="299" viewBox="0 0 312 299" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M187.499 0C83.9458 0 0 83.948 0 187.5C0 291.052 83.9458 375 187.499 375C291.054 375 375 291.052 375 187.5C375 83.948 291.054 0 187.499 0ZM305.075 193.574C291.881 210.006 285.158 230.695 286.177 251.743L287.472 278.576C291.292 303.313 265.542 322.018 243.199 310.739L218.08 301.217C198.379 293.745 176.621 293.745 156.917 301.217L131.801 310.739C109.455 322.018 83.7046 303.313 87.5284 278.576L88.8231 251.743C89.8393 230.695 83.1162 210.006 69.9252 193.574L53.1084 172.63C35.4736 154.86 45.3087 124.591 70.0199 120.584L95.9339 113.525C116.267 107.987 133.868 95.1983 145.417 77.5779L160.141 55.109C171.589 32.8495 203.417 32.8495 214.865 55.109L229.586 77.575C241.132 95.2012 258.738 107.99 279.069 113.525L304.983 120.584C329.691 124.591 339.526 154.857 321.894 172.63L305.075 193.574Z" fill="white" fill-opacity="0.05"></path>
+      </svg>
+      <div class="irepair-index-banner__content">
+        <h1>Сервисный центр Apple</h1>
+        <ul>
+          <li>Ремонт за 30 минут</li>
+          <li>Гарантия до 1 года</li>
+          <li>Курьер от 350&#8381; по Москве</li>
+        </ul>
+        <a class="irepair-index-banner__cta" href="#form-calc">Рассчитать стоимость</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var cta = document.querySelector('.irepair-index-banner__cta');
+  if (!cta) return;
+
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function smoothScrollToElement(el, duration) {
+    var startY = window.pageYOffset || document.documentElement.scrollTop;
+    var marginTop = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    var targetY = el.getBoundingClientRect().top + startY - marginTop;
+    var distance = targetY - startY;
+    var startTime = null;
+    function step(timestamp) {
+      if (startTime === null) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      window.scrollTo(0, startY + distance * easeOutCubic(progress));
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  cta.addEventListener('click', function (e) {
+    var targetId = (cta.getAttribute('href') || '').replace('#', '');
+    var target = targetId && document.getElementById(targetId);
+    if (!target) return;
+    e.preventDefault();
+    smoothScrollToElement(target, 600);
+  });
+})();
+</script>
+
+<style>
+.irepair-index-banner,
+.irepair-index-banner * {
+  box-sizing: border-box;
+}
+.irepair-index-banner {
+  margin: 70px 0 64px;
+}
+.irepair-index-banner .g-wrapper {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 0 35px;
+}
+@media (max-width: 1370px) {
+  .irepair-index-banner .g-wrapper {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .irepair-index-banner .g-wrapper {
+    padding: 0 16px;
+  }
+}
+@media (max-width: 374px) {
+  .irepair-index-banner .g-wrapper {
+    padding: 0 10px;
+  }
+}
+
+.irepair-index-banner__wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 420px;
+  padding: 64px 96px 64px 40px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #010306 url('https://dev.irepair.ru/images/content/index-banner/indexBanner.webp') 50% 50% no-repeat;
+  background-size: cover;
+}
+.irepair-index-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(1, 3, 6, 0.15) 0%, rgba(1, 3, 6, 0) 45%);
+  pointer-events: none;
+}
+.irepair-index-banner__icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.irepair-index-banner__content {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+}
+.irepair-index-banner__content h1 {
+  margin: 0;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 48px;
+  line-height: 1.05;
+  color: #fff;
+}
+.irepair-index-banner__content ul {
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 0;
+}
+.irepair-index-banner__content ul li {
+  position: relative;
+  margin-top: 24px;
+  padding-left: 21px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.2;
+  color: #fff;
+}
+.irepair-index-banner__content ul li:first-child {
+  margin-top: 0;
+}
+.irepair-index-banner__content ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #37d97b;
+}
+.irepair-index-banner__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 56px;
+  padding: 17px 44px;
+  border-radius: 999px;
+  background-color: #37d97b;
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.irepair-index-banner__cta:hover {
+  background-color: #12b857;
+  color: #fff;
+}
+
+@media (max-width: 1180px) {
+  .irepair-index-banner {
+    margin: 24px 0 48px;
+  }
+  .irepair-index-banner__wrapper {
+    min-height: 480px;
+    padding: 48px 40px;
+    justify-content: flex-start;
+    background-image: url('https://dev.irepair.ru/images/content/index-banner/indexBanner-tablet.webp');
+  }
+  .irepair-index-banner__overlay {
+    background: linear-gradient(180deg, rgba(1, 3, 6, 0.2) 0%, rgba(1, 3, 6, 0) 45%);
+  }
+  .irepair-index-banner__content {
+    max-width: 380px;
+  }
+  .irepair-index-banner__content h1 {
+    font-size: 38px;
+  }
+  .irepair-index-banner__icon {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .irepair-index-banner {
+    margin: 0 -20px;
+  }
+  .irepair-index-banner .g-wrapper {
+    padding: 0;
+  }
+  .irepair-index-banner__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    height: 500px;
+    padding: 36px 24px 32px;
+    border-radius: 0;
+    background-image: url('https://dev.irepair.ru/images/content/index-banner/indexBanner-mobile.webp');
+  }
+  .irepair-index-banner__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+  }
+  .irepair-index-banner__content h1 {
+    font-size: 26px;
+  }
+  .irepair-index-banner__content ul {
+    display: none;
+  }
+  .irepair-index-banner__cta {
+    width: 100%;
+    margin-top: auto;
+    padding: 15px;
+    font-size: 15px;
+  }
+}
+</style>

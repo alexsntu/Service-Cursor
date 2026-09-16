@@ -1,0 +1,2 @@
+{"utc": "2026-09-16T16:36:26.050604+00:00", "mode": "nginx-static", "exit": 28, "out": "http=000 tcp=0.050794 tls=0.000000 total=5.006162", "err": "curl: (28) SSL connection timeout"}
+{"utc": "2026-09-16T16:36:46.078725+00:00", "mode": "nginx-static", "exit": 28, "out": "http=000 tcp=0.050591 tls=0.000000 total=5.002178", "err": "curl: (28) SSL connection timeout"}
