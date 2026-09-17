@@ -838,6 +838,9 @@
           <input type="checkbox" name="consent" required>
           <span>Согласен с условиями <a href="/privacy/" target="_blank" rel="noopener">обработки персональных данных</a></span>
         </label>
+        <input type="hidden" name="service">
+        <input type="hidden" name="price">
+        <input type="hidden" name="uri">
         <button type="submit" class="callPopup__submit">Заказать звонок</button>
       </form>
     </div>
@@ -852,6 +855,7 @@
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/imask@7/dist/imask.min.js"></script>
 <script>
 (function () {
   var popup = document.getElementById('callPopup');
@@ -859,12 +863,28 @@
   var form = document.getElementById('callPopupForm');
   var formWrap = popup.querySelector('.callPopup__form');
   var success = popup.querySelector('.callPopup__success');
+  var phoneInput = form ? form.elements.phone : null;
+  if (window.IMask && phoneInput) {
+    IMask(phoneInput, {
+      mask: '{+7} (#00) 000 00 00',
+      definitions: { '#': /[01234569]/ }
+    });
+  }
+  var submitBtn = form ? form.querySelector('.callPopup__submit') : null;
 
   function openPopup(e) {
     if (e) e.preventDefault();
+    var trigger = e && e.target ? e.target.closest('[data-call-popup-trigger]') : null;
     formWrap.hidden = false;
     success.hidden = true;
-    if (form) form.reset();
+    if (form) {
+      form.reset();
+      // Контекст (что именно считали и по какой цене) заполняем ПОСЛЕ
+      // reset(), иначе reset() тут же сотрёт значения обратно в пустые.
+      form.elements.service.value = trigger && trigger.dataset.service ? trigger.dataset.service : '';
+      form.elements.price.value = trigger && trigger.dataset.price ? trigger.dataset.price : '';
+      form.elements.uri.value = window.location.href;
+    }
     popup.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -888,10 +908,25 @@
   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      // TODO: подключить реальную отправку в Битрикс CRM
-      formWrap.hidden = true;
-      success.hidden = false;
+      // Форма помечена novalidate (свой дизайн полей), но required-проверку
+      // (в т.ч. галочку согласия) всё равно можно вызвать вручную.
+      if (!form.reportValidity()) return;
+      if (submitBtn) submitBtn.disabled = true;
+      fetch('/ajax/send-lead.php', {
+        method: 'POST',
+        body: new FormData(form)
+      }).finally(function () {
+        if (submitBtn) submitBtn.disabled = false;
+        formWrap.hidden = true;
+        success.hidden = false;
+      });
     });
   }
 })();
 </script>
+
+<!-- Alloka: колл-трекинг, подмена номеров phone_alloka -->
+<script async src="https://analytics.alloka.ru/script/397aa04f180fcb43"></script>
+<script async src="https://analytics.alloka.ru/v4/alloka.js"></script>
+<script async src="https://analytics.alloka.ru/integrations/catch_form.js"></script>
+<script src="https://cdn-ru.bitrix24.ru/b27947640/crm/tag/call.tracker.js"></script>

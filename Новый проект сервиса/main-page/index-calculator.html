@@ -11,23 +11,32 @@
       </div>
 
       <div class="irepair-index-calc__fields">
-        <div class="irepair-index-calc__field">
+        <div class="irepair-index-calc__field irepair-index-calc__field_model">
           <label class="irepair-index-calc__label">Модель</label>
           <select class="irepair-index-calc__select" data-role="model">
             <option value="">Выберите модель</option>
           </select>
         </div>
-        <div class="irepair-index-calc__field">
-          <label class="irepair-index-calc__label">Неисправность</label>
-          <select class="irepair-index-calc__select" data-role="service" disabled>
-            <option value="">Сначала выберите модель</option>
+        <div class="irepair-index-calc__config-field" data-role="config-field" hidden>
+          <label class="irepair-index-calc__label">Конфигурация</label>
+          <div class="irepair-index-calc__config" data-role="config"></div>
+          <select class="irepair-index-calc__select irepair-index-calc__config-select" data-role="config-select">
+            <option value="">Выберите конфигурацию</option>
           </select>
         </div>
+      </div>
+
+      <div class="irepair-index-calc__field" data-role="service-field">
+        <label class="irepair-index-calc__label">Неисправность</label>
+        <select class="irepair-index-calc__select" data-role="service" disabled>
+          <option value="">Сначала выберите модель</option>
+        </select>
       </div>
 
       <div class="irepair-index-calc__quality-field" data-role="quality-field" hidden>
         <label class="irepair-index-calc__label">Качество запчасти</label>
         <div class="irepair-index-calc__quality" data-role="quality"></div>
+        <p class="irepair-index-calc__quality-desc" data-role="quality-desc"></p>
       </div>
 
       <div class="irepair-index-calc__result" data-role="result" hidden>
@@ -72,38 +81,96 @@
 
   var tabsWrap = root.querySelector('[data-role="tabs"]');
   var modelSelect = root.querySelector('[data-role="model"]');
+  var configField = root.querySelector('[data-role="config-field"]');
+  var configWrap = root.querySelector('[data-role="config"]');
+  var configSelectEl = root.querySelector('[data-role="config-select"]');
   var serviceSelect = root.querySelector('[data-role="service"]');
   var qualityField = root.querySelector('[data-role="quality-field"]');
   var qualityWrap = root.querySelector('[data-role="quality"]');
+  var qualityDesc = root.querySelector('[data-role="quality-desc"]');
   var resultBlock = root.querySelector('[data-role="result"]');
   var priceEl = root.querySelector('[data-role="price"]');
+  var ctaBtn = root.querySelector('.irepair-index-calc__cta');
 
   var DATA_URL = '/images/content/repair-prices/repair-prices.json';
   var rows = [];
   var index = {};
   var currentDevice = 'iPhone';
   var currentModel = '';
+  var currentConfig = '';
   var currentService = '';
   var currentQuality = '';
 
+  var MACBOOK_MODEL_ORDER = [
+    'MacBook Pro 16', 'MacBook Pro 15', 'MacBook Pro 14', 'MacBook Pro 13',
+    'MacBook Air 15', 'MacBook Air 13', 'MacBook Air 11', 'MacBook 12'
+  ];
+
   function buildIndex() {
-    index = { devices: [], models: {}, services: {}, options: {} };
+    index = { devices: [], models: {} };
     rows.forEach(function (row) {
       if (index.devices.indexOf(row.d) === -1) index.devices.push(row.d);
-
       var mKey = row.d;
       if (!index.models[mKey]) index.models[mKey] = [];
       if (index.models[mKey].indexOf(row.m) === -1) index.models[mKey].push(row.m);
-
-      var sKey = row.d + '|' + row.m;
-      if (!index.services[sKey]) index.services[sKey] = [];
-      if (index.services[sKey].indexOf(row.s) === -1) index.services[sKey].push(row.s);
-
-      var oKey = row.d + '|' + row.m + '|' + row.s;
-      if (!index.options[oKey]) index.options[oKey] = [];
-      index.options[oKey].push(row);
     });
+    if (index.models.Macbook) {
+      index.models.Macbook.sort(function (a, b) {
+        return MACBOOK_MODEL_ORDER.indexOf(a) - MACBOOK_MODEL_ORDER.indexOf(b);
+      });
+    }
   }
+
+  // Строка подходит под выбранную конфигурацию, если у неё нет своей
+  // конфигурации (услуга не зависит от поколения/чипа) либо она совпадает
+  // с выбранной.
+  function matchesConfig(row, config) {
+    return !row.c || row.c === config;
+  }
+
+  // Сортировка пилюль конфигурации по возрастанию: чип MacBook (M1..M5) или
+  // размер корпуса Watch (38..49 мм) — в обоих случаях достаточно первого
+  // числа в подписи.
+  function chipSortKey(label) {
+    if (/Intel/i.test(label)) return 0;
+    var m = label.match(/(\d+)/);
+    return m ? Number(m[1]) : 99;
+  }
+
+  function getConfigsForModel(device, model) {
+    var configs = [];
+    rows.forEach(function (row) {
+      if (row.d === device && row.m === model && row.c && configs.indexOf(row.c) === -1) {
+        configs.push(row.c);
+      }
+    });
+    configs.sort(function (a, b) { return chipSortKey(a) - chipSortKey(b); });
+    return configs;
+  }
+
+  function getServicesForSelection(device, model, config) {
+    var services = [];
+    rows.forEach(function (row) {
+      if (row.d === device && row.m === model && matchesConfig(row, config)) {
+        if (services.indexOf(row.s) === -1) services.push(row.s);
+      }
+    });
+    return services;
+  }
+
+  function getOptionsForSelection(device, model, config, service) {
+    var options = rows.filter(function (row) {
+      return row.d === device && row.m === model && row.s === service && matchesConfig(row, config);
+    });
+    options.sort(function (a, b) { return a.p - b.p; });
+    return options;
+  }
+
+  var QUALITY_DESCRIPTIONS = {
+    OEM: 'Высококачественный аналог запчасти',
+    AASP: 'Оригинальная сертифицированная запчасть',
+    HQ: 'Качественный аналог запчасти'
+  };
 
   function formatPrice(p, approx) {
     var formatted = String(p).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -129,14 +196,47 @@
       modelSelect.appendChild(opt);
     });
     currentModel = '';
+    hideConfig();
     resetSelect(serviceSelect, 'Сначала выберите модель', true);
     hideQuality();
     hideResult();
   }
 
+  function hideConfig() {
+    configField.hidden = true;
+    configWrap.innerHTML = '';
+    resetSelect(configSelectEl, 'Выберите конфигурацию', false);
+    currentConfig = '';
+  }
+
+  function fillConfigs() {
+    var configs = getConfigsForModel(currentDevice, currentModel);
+    if (!configs.length) {
+      hideConfig();
+      return false;
+    }
+    configWrap.innerHTML = '';
+    resetSelect(configSelectEl, 'Выберите конфигурацию', false);
+    configs.forEach(function (c) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'irepair-index-calc__config-btn';
+      btn.textContent = c;
+      btn.dataset.value = c;
+      configWrap.appendChild(btn);
+
+      var opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      configSelectEl.appendChild(opt);
+    });
+    currentConfig = '';
+    configField.hidden = false;
+    return true;
+  }
+
   function fillServices() {
-    var key = currentDevice + '|' + currentModel;
-    var services = index.services[key] || [];
+    var services = getServicesForSelection(currentDevice, currentModel, currentConfig);
     resetSelect(serviceSelect, 'Выберите неисправность', false);
     services.forEach(function (s) {
       var opt = document.createElement('option');
@@ -152,6 +252,7 @@
   function hideQuality() {
     qualityField.hidden = true;
     qualityWrap.innerHTML = '';
+    qualityDesc.textContent = '';
     currentQuality = '';
   }
 
@@ -160,8 +261,7 @@
   }
 
   function showQualityOrResult() {
-    var key = currentDevice + '|' + currentModel + '|' + currentService;
-    var options = index.options[key] || [];
+    var options = getOptionsForSelection(currentDevice, currentModel, currentConfig, currentService);
     if (options.length > 1) {
       qualityWrap.innerHTML = '';
       options.forEach(function (o, i) {
@@ -174,6 +274,7 @@
         qualityWrap.appendChild(btn);
       });
       qualityField.hidden = false;
+      updateQualityDesc(options[0]);
       showResult(options[0]);
     } else if (options.length === 1) {
       hideQuality();
@@ -187,6 +288,18 @@
   function showResult(option) {
     priceEl.textContent = formatPrice(option.p, option.approx);
     resultBlock.hidden = false;
+    var titleParts = [currentModel];
+    if (currentConfig) titleParts.push('(' + currentConfig + ')');
+    titleParts.push('—', currentService);
+    if (option.q) titleParts.push('(' + option.q + ')');
+    ctaBtn.dataset.service = titleParts.join(' ');
+    ctaBtn.dataset.price = option.p;
+  }
+
+  function updateQualityDesc(option) {
+    var desc = option && option.q ? QUALITY_DESCRIPTIONS[option.q] : '';
+    qualityDesc.textContent = desc || '';
+    qualityDesc.hidden = !desc;
   }
 
   tabsWrap.addEventListener('click', function (e) {
@@ -202,9 +315,41 @@
   modelSelect.addEventListener('change', function () {
     currentModel = modelSelect.value;
     if (currentModel) {
+      if (fillConfigs()) {
+        resetSelect(serviceSelect, 'Сначала выберите конфигурацию', true);
+        hideQuality();
+        hideResult();
+      } else {
+        fillServices();
+      }
+    } else {
+      hideConfig();
+      resetSelect(serviceSelect, 'Сначала выберите модель', true);
+      hideQuality();
+      hideResult();
+    }
+  });
+
+  configWrap.addEventListener('click', function (e) {
+    var btn = e.target.closest('.irepair-index-calc__config-btn');
+    if (!btn) return;
+    Array.prototype.forEach.call(configWrap.querySelectorAll('.irepair-index-calc__config-btn'), function (b) {
+      b.classList.toggle('active', b === btn);
+    });
+    currentConfig = btn.dataset.value;
+    configSelectEl.value = currentConfig;
+    fillServices();
+  });
+
+  configSelectEl.addEventListener('change', function () {
+    currentConfig = configSelectEl.value;
+    Array.prototype.forEach.call(configWrap.querySelectorAll('.irepair-index-calc__config-btn'), function (b) {
+      b.classList.toggle('active', b.dataset.value === currentConfig);
+    });
+    if (currentConfig) {
       fillServices();
     } else {
-      resetSelect(serviceSelect, 'Сначала выберите модель', true);
+      resetSelect(serviceSelect, 'Сначала выберите конфигурацию', true);
       hideQuality();
       hideResult();
     }
@@ -233,10 +378,12 @@
     Array.prototype.forEach.call(qualityWrap.querySelectorAll('.irepair-index-calc__quality-btn'), function (b) {
       b.classList.toggle('active', b === btn);
     });
-    var key = currentDevice + '|' + currentModel + '|' + currentService;
-    var options = index.options[key] || [];
+    var options = getOptionsForSelection(currentDevice, currentModel, currentConfig, currentService);
     var option = options[Number(btn.dataset.index)];
-    if (option) showResult(option);
+    if (option) {
+      showResult(option);
+      updateQualityDesc(option);
+    }
   });
 
   fetch(DATA_URL)
@@ -325,7 +472,7 @@
   padding: 12px 8px;
   border-radius: 999px;
   font-family: 'Roboto', Arial, sans-serif;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 500;
   color: #555;
   cursor: pointer;
@@ -339,17 +486,30 @@
 
 .irepair-index-calc__fields {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 280px 1fr;
+  align-items: start;
   gap: 16px;
+  margin-bottom: 20px;
+}
+.irepair-index-calc__config-field {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+}
+.irepair-index-calc__config-field .irepair-index-calc__label {
+  margin-bottom: 8px;
 }
 .irepair-index-calc__field {
   display: flex;
   flex-direction: column;
 }
+.irepair-index-calc__field_wide {
+  grid-column: 1 / -1;
+}
 .irepair-index-calc__label {
   margin-bottom: 8px;
   font-family: 'Roboto', Arial, sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   color: #777;
 }
@@ -379,10 +539,20 @@
 .irepair-index-calc__quality-field {
   margin-top: 20px;
 }
+.irepair-index-calc__quality-field .irepair-index-calc__label {
+  margin-bottom: 13px;
+}
 .irepair-index-calc__quality {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+.irepair-index-calc__quality-desc {
+  margin: 10px 0 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: #86868b;
 }
 .irepair-index-calc__quality-btn {
   border: 1.5px solid #e2ebe8;
@@ -402,16 +572,44 @@
   color: #fff;
 }
 
+.irepair-index-calc__config {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.irepair-index-calc__config-select {
+  display: none;
+}
+.irepair-index-calc__config-btn {
+  border: 1.5px solid #e2ebe8;
+  background: #fafcfb;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.irepair-index-calc__config-btn.active {
+  border-color: transparent;
+  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
+  color: #fff;
+}
+
 .irepair-index-calc__result[hidden],
-.irepair-index-calc__quality-field[hidden] {
+.irepair-index-calc__quality-field[hidden],
+.irepair-index-calc__config-field[hidden],
+.irepair-index-calc__field[hidden] {
   display: none !important;
 }
 .irepair-index-calc__result {
   margin-top: 28px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  justify-content: center;
+  gap: 36px;
   padding: 24px 28px;
   border-radius: 20px;
   background: #1d1d1f;
@@ -473,6 +671,18 @@
   .irepair-index-calc__card {
     border-radius: 20px;
     padding: 24px 18px;
+  }
+  .irepair-index-calc__tab {
+    font-size: 14px;
+  }
+  .irepair-index-calc__config {
+    display: none;
+  }
+  .irepair-index-calc__config-select {
+    display: block;
+  }
+  .irepair-index-calc__label {
+    font-size: 13px;
   }
   .irepair-index-calc__fields {
     grid-template-columns: 1fr;

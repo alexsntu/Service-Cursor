@@ -1,0 +1,218 @@
+<div class="irepair-index-cta">
+  <div class="g-wrapper">
+    <div class="irepair-index-cta__card">
+      <div class="irepair-index-cta__media">
+        <img src="https://dev.irepair.ru/images/content/cta/callback.webp" alt="Менеджер iRepair" width="425" height="387" loading="lazy">
+      </div>
+      <div class="irepair-index-cta__body">
+        <h2 class="irepair-index-cta__title">Есть вопросы?<br>Мы поможем!</h2>
+        <p class="irepair-index-cta__text">Оставьте заявку — перезвоним в течение 10 минут и ответим на любые вопросы по ремонту, комплектующим, гарантии и стоимости</p>
+      </div>
+      <div class="irepair-index-cta__actions">
+        <button type="button" class="irepair-index-cta__btn" data-call-popup-trigger>Заказать звонок</button>
+        <a class="irepair-index-cta__phone" href="tel:+78005552190">
+          <span class="phone_alloka" data-phone="8%20800%20555%2021%2090">+7 (939) 555-08-90</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.irepair-index-cta,
+.irepair-index-cta * {
+  box-sizing: border-box;
+}
+.irepair-index-cta {
+  margin-top: -20px;
+  margin-bottom: 80px;
+}
+.irepair-index-cta .g-wrapper {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 0 35px;
+}
+@media (max-width: 1370px) {
+  .irepair-index-cta .g-wrapper {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .irepair-index-cta .g-wrapper {
+    padding: 0 16px;
+  }
+}
+@media (max-width: 374px) {
+  .irepair-index-cta .g-wrapper {
+    padding: 0 10px;
+  }
+}
+
+.irepair-index-cta__card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  min-height: 340px;
+  padding: 28px 56px 28px 0;
+  border-radius: 28px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #f4fff8 0%, #edfafa 100%);
+}
+
+.irepair-index-cta__media {
+  flex: 0 0 300px;
+  align-self: stretch;
+}
+.irepair-index-cta__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.irepair-index-cta__body {
+  flex: 0 1 420px;
+  min-width: 0;
+}
+
+.irepair-index-cta__title {
+  margin: 0 0 8px;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 26px;
+  line-height: 1.2;
+  color: #1d1d1f;
+}
+
+.irepair-index-cta__text {
+  margin: 0;
+  max-width: 460px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: #6e6e73;
+}
+
+.irepair-index-cta__actions {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.irepair-index-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 32px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #37d97b 0%, #20ccbe 100%);
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+.irepair-index-cta__btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.irepair-index-cta__phone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 26px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #d2d2d7;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1d1d1f;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+.irepair-index-cta__phone:hover {
+  border-color: #37d97b;
+  color: #37d97b;
+}
+
+@media (max-width: 1024px) {
+  .irepair-index-cta__card {
+    flex-wrap: wrap;
+    min-height: 0;
+    gap: 20px 28px;
+  }
+  .irepair-index-cta__media {
+    flex-basis: 220px;
+  }
+  .irepair-index-cta__actions {
+    flex-basis: 100%;
+    flex-direction: row;
+  }
+  .irepair-index-cta__actions .irepair-index-cta__btn,
+  .irepair-index-cta__actions .irepair-index-cta__phone {
+    flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 650px) {
+  .irepair-index-cta {
+    margin-top: -20px;
+    margin-bottom: 48px;
+  }
+  .irepair-index-cta__card {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+    padding: 0;
+    border-radius: 22px;
+    overflow: hidden;
+    gap: 0;
+  }
+  .irepair-index-cta__body {
+    flex: 0 1 auto;
+  }
+  .irepair-index-cta__media {
+    width: 100%;
+    height: auto;
+    max-width: 220px;
+    margin: 24px auto 0;
+    border-radius: 20px;
+  }
+  .irepair-index-cta__media img {
+    height: auto;
+    aspect-ratio: 425 / 387;
+    object-fit: contain;
+  }
+  .irepair-index-cta__body {
+    padding: 16px 20px 0;
+  }
+  .irepair-index-cta__title {
+    font-size: 20px;
+  }
+  .irepair-index-cta__text {
+    font-size: 13.5px;
+    max-width: none;
+  }
+  .irepair-index-cta__actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 10px;
+    padding: 18px 20px 24px;
+  }
+  .irepair-index-cta__btn,
+  .irepair-index-cta__phone {
+    width: 100%;
+    padding: 14px;
+    font-size: 14px;
+  }
+}
+</style>

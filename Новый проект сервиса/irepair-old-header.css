@@ -1748,17 +1748,29 @@
   align-items: flex-start;
 }
 .irepair-footer__logo {
-  display: inline-block;
-  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   margin-bottom: 18px;
 }
-.irepair-footer__logo svg {
+.irepair-footer__logo-icon {
   display: block;
+  width: 50px;
+  height: auto;
+  flex-shrink: 0;
+}
+.irepair-footer__logo-word {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.irepair-footer__logo-wordmark {
+  display: block;
+  width: 141px;
+  height: auto;
 }
 .irepair-footer__tagline {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  margin-top: 2px;
   font-size: 11px;
   line-height: 13px;
   font-family: 'Montserrat-Medium', Arial, sans-serif;
@@ -1956,17 +1968,75 @@
 
 @media (max-width: 780px) {
   .irepair-footer {
-    padding-top: 40px;
+    padding-top: 8px;
   }
   .irepair-footer__top {
-    grid-template-columns: 1fr !important;
+    display: block !important;
     gap: 0;
     padding-bottom: 8px;
   }
   .irepair-footer__brand {
+    flex-direction: column;
     border-bottom: 1px solid rgba(0,0,0,0.08);
-    padding-bottom: 28px;
+    padding-bottom: 14px;
     margin-bottom: 8px;
+    align-items: center;
+    text-align: center;
+  }
+  .irepair-footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 4px;
+    flex-basis: auto;
+  }
+  .irepair-footer__logo-icon {
+    width: 46px;
+  }
+  .irepair-footer__logo-word {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .irepair-footer__logo-wordmark {
+    width: 128px;
+  }
+  .irepair-footer__tagline {
+    position: static;
+    margin-top: 2px;
+    font-size: 10px;
+    line-height: 12px;
+  }
+  .irepair-footer__address {
+    max-width: 280px;
+    margin: 2px auto 0;
+    line-height: 18px;
+  }
+  .irepair-footer__hours {
+    text-align: center;
+    margin-top: -2px;
+    line-height: 15px;
+  }
+  .irepair-footer__cta {
+    width: 100%;
+    flex-direction: column;
+    margin-top: 6px;
+    gap: 8px;
+  }
+  .irepair-footer__cta .irepair-footer__cta-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 13px 18px;
+  }
+  .irepair-footer__rating {
+    display: block;
+    width: fit-content;
+    margin: 10px auto 0;
+    padding: 14px 20px;
+  }
+  .irepair-footer__rating img {
+    max-width: 220px;
+    margin: 0 auto;
   }
   .irepair-footer__col {
     border-bottom: 1px solid rgba(0,0,0,0.08);
