@@ -1,0 +1,384 @@
+<div class="irepair-page-delivery">
+  <div class="g-wrapper">
+
+    <div class="irepair-page-delivery__hero">
+      <p class="irepair-page-delivery__lede">Мы сотрудничаем с курьерской службой Dostavista. Курьер привезёт ваше устройство в сервис, а после ремонта — вернёт обратно по указанному адресу.</p>
+      <div class="irepair-page-delivery__stat">
+        <span class="irepair-page-delivery__stat-value">~30 минут</span>
+        <span class="irepair-page-delivery__stat-label">среднее время приезда курьера с момента заявки</span>
+      </div>
+    </div>
+
+    <div class="irepair-page-delivery__prices">
+      <div class="irepair-page-delivery__price-card">
+        <div class="irepair-page-delivery__price-label">В пределах МКАД</div>
+        <div class="irepair-page-delivery__price-value">от 350 ₽</div>
+      </div>
+      <div class="irepair-page-delivery__price-card">
+        <div class="irepair-page-delivery__price-label">За МКАД</div>
+        <div class="irepair-page-delivery__price-value">от 500 ₽</div>
+      </div>
+    </div>
+    <p class="irepair-page-delivery__hint">Стоимость выезда курьера указана в одну сторону. После оформления заявки вы сможете отслеживать перемещение курьера по ссылке из SMS.</p>
+
+    <div class="irepair-page-delivery__alert">Курьерская доставка абсолютно безопасна — все устройства застрахованы. Перед передачей курьеру рекомендуем упаковать устройство.</div>
+
+    <div class="irepair-page-delivery__card">
+      <div data-role="delivery-body">
+        <h2 class="irepair-page-delivery__card-title">Свяжитесь с нами или оставьте заявку на сайте</h2>
+        <p class="irepair-page-delivery__card-subtitle">Наш менеджер свяжется с вами в течение 10 минут и проконсультирует по всем вопросам</p>
+
+        <form id="deliveryForm" novalidate>
+          <div class="irepair-page-delivery__row">
+            <div class="irepair-page-delivery__field">
+              <label class="irepair-page-delivery__label">Имя</label>
+              <input class="irepair-page-delivery__input" type="text" name="name" placeholder="Ваше имя" required>
+            </div>
+            <div class="irepair-page-delivery__field">
+              <label class="irepair-page-delivery__label">Телефон</label>
+              <input class="irepair-page-delivery__input" type="tel" name="phone" placeholder="Телефон" required>
+            </div>
+          </div>
+
+          <div class="irepair-page-delivery__field irepair-page-delivery__field_wide">
+            <label class="irepair-page-delivery__label">Адрес и удобное время (необязательно)</label>
+            <textarea class="irepair-page-delivery__textarea" name="comment" rows="3" placeholder="Например: Ленинский пр-т 10, кв. 5, после 18:00"></textarea>
+          </div>
+
+          <label class="irepair-page-delivery__consent">
+            <input type="checkbox" name="consent" required>
+            <span>Согласен с условиями <a href="/privacy/" target="_blank" rel="noopener">обработки персональных данных</a></span>
+          </label>
+
+          <button type="submit" class="irepair-page-delivery__submit">Оформить заявку</button>
+        </form>
+      </div>
+
+      <div class="irepair-page-delivery__success" data-role="delivery-success" hidden>
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="24" fill="#37D97B"></circle>
+          <path d="M14 24.5L20.5 31L34 17" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <h3>Спасибо за заявку!</h3>
+        <p>Наш менеджер свяжется с вами в течение 10 минут и согласует доставку.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById('deliveryForm');
+  if (!form) return;
+  var body = document.querySelector('[data-role="delivery-body"]');
+  var success = document.querySelector('[data-role="delivery-success"]');
+  var submitBtn = form.querySelector('.irepair-page-delivery__submit');
+  var phoneInput = form.elements.phone;
+
+  if (window.IMask && phoneInput) {
+    IMask(phoneInput, {
+      mask: '{+7} (#00) 000 00 00',
+      definitions: { '#': /[01234569]/ }
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    var fd = new FormData(form);
+    fd.set('service', 'Заказ доставки курьера');
+    fd.set('uri', window.location.href);
+
+    submitBtn.disabled = true;
+    fetch('/ajax/send-lead.php', {
+      method: 'POST',
+      body: fd
+    }).finally(function () {
+      submitBtn.disabled = false;
+      body.hidden = true;
+      success.hidden = false;
+    });
+  });
+})();
+</script>
+
+<style>
+.irepair-page-delivery,
+.irepair-page-delivery * {
+  box-sizing: border-box;
+}
+.irepair-page-delivery {
+  margin-top: -20px;
+  margin-bottom: 80px;
+  padding-top: 32px;
+}
+.irepair-page-delivery .g-wrapper {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 0 35px;
+}
+@media (max-width: 1370px) {
+  .irepair-page-delivery .g-wrapper {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .irepair-page-delivery .g-wrapper {
+    padding: 0 16px;
+  }
+}
+@media (max-width: 374px) {
+  .irepair-page-delivery .g-wrapper {
+    padding: 0 10px;
+  }
+}
+
+.irepair-page-delivery__hero {
+  max-width: 720px;
+  margin: 0 0 24px;
+}
+.irepair-page-delivery__lede {
+  margin: 0 0 20px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #6e6e73;
+}
+.irepair-page-delivery__stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: linear-gradient(160deg, #f4fff8 0%, #edfafa 100%);
+}
+.irepair-page-delivery__stat-value {
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 18px;
+  background: linear-gradient(90deg, #37d97b 0%, #20ccbe 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.irepair-page-delivery__stat-label {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  color: #6e6e73;
+}
+
+.irepair-page-delivery__prices {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.irepair-page-delivery__price-card {
+  flex: 0 0 auto;
+  padding: 16px 26px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(32, 204, 190, 0.08);
+}
+.irepair-page-delivery__price-label {
+  margin-bottom: 4px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  color: #6e6e73;
+}
+.irepair-page-delivery__price-value {
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 20px;
+  color: #1d1d1f;
+}
+
+.irepair-page-delivery__hint {
+  max-width: 640px;
+  margin: 0 0 24px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #939393;
+}
+
+.irepair-page-delivery__alert {
+  max-width: 760px;
+  margin: 0 0 48px;
+  padding: 16px 22px;
+  border-radius: 16px;
+  background: #fff8e6;
+  border: 1px solid #ffe6a8;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #8a6d1f;
+}
+
+.irepair-page-delivery__card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 44px;
+  background: linear-gradient(160deg, #f4fff8 0%, #edfafa 100%);
+  border-radius: 28px;
+}
+
+.irepair-page-delivery .irepair-page-delivery__card-title {
+  margin: 0 0 10px;
+  text-align: center;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 24px;
+  line-height: 1.25;
+  color: #1d1d1f;
+}
+.irepair-page-delivery__card-subtitle {
+  margin: 0 0 26px;
+  text-align: center;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #6e6e73;
+}
+
+.irepair-page-delivery__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.irepair-page-delivery__field_wide {
+  margin-bottom: 14px;
+}
+
+.irepair-page-delivery__label {
+  display: block;
+  margin-bottom: 8px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #777;
+}
+
+.irepair-page-delivery__input,
+.irepair-page-delivery__textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid #e2ebe8;
+  border-radius: 14px;
+  background-color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  color: #1d1d1f;
+  transition: border-color 0.2s ease;
+}
+.irepair-page-delivery__textarea {
+  resize: vertical;
+  min-height: 64px;
+}
+.irepair-page-delivery__input:focus,
+.irepair-page-delivery__textarea:focus {
+  outline: none;
+  border-color: #37d97b;
+}
+
+.irepair-page-delivery__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 6px 0 22px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #6e6e73;
+  cursor: pointer;
+}
+.irepair-page-delivery__consent input {
+  margin-top: 3px;
+  flex: 0 0 auto;
+}
+.irepair-page-delivery__consent a {
+  color: #20ccbe;
+}
+
+.irepair-page-delivery__submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 16px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #37d97b 0%, #20ccbe 100%);
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.irepair-page-delivery__submit:hover {
+  opacity: 0.88;
+}
+.irepair-page-delivery__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.irepair-page-delivery__success {
+  text-align: center;
+  padding: 20px 0;
+}
+.irepair-page-delivery__success h3 {
+  margin: 16px 0 8px;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 20px;
+  color: #1d1d1f;
+}
+.irepair-page-delivery__success p {
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  color: #6e6e73;
+}
+
+@media (max-width: 650px) {
+  .irepair-page-delivery {
+    margin-top: -20px;
+    margin-bottom: 48px;
+    padding-top: 20px;
+  }
+  .irepair-page-delivery__lede {
+    font-size: 14px;
+  }
+  .irepair-page-delivery__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 14px 18px;
+    border-radius: 18px;
+  }
+  .irepair-page-delivery__prices {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .irepair-page-delivery__alert {
+    margin-bottom: 32px;
+    padding: 14px 18px;
+    font-size: 13px;
+  }
+  .irepair-page-delivery__card {
+    padding: 28px 20px;
+    border-radius: 22px;
+  }
+  .irepair-page-delivery .irepair-page-delivery__card-title {
+    font-size: 20px;
+  }
+  .irepair-page-delivery__row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+</style>

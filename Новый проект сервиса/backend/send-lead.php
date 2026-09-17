@@ -19,6 +19,7 @@ $phone   = trim($_POST['phone'] ?? '');
 $service = trim($_POST['service'] ?? '');
 $price   = trim($_POST['price'] ?? '');
 $uri     = trim($_POST['uri'] ?? '');
+$comment = trim($_POST['comment'] ?? '');
 
 if ($phone === '') {
     http_response_code(400);
@@ -40,6 +41,9 @@ if ($price !== '') {
 }
 if ($uri !== '') {
     $commentLines[] = 'Страница: ' . $uri;
+}
+if ($comment !== '') {
+    $commentLines[] = 'Комментарий: ' . $comment;
 }
 
 $fields = [
