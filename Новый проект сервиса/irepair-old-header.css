@@ -2199,6 +2199,17 @@
   color: #1d1d1f;
   margin-bottom: 6px;
 }
+.callPopup__service {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(55, 217, 123, 0.12) 0%, rgba(32, 204, 190, 0.12) 100%);
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a9e79;
+  margin-bottom: 12px;
+}
 .callPopup__subtitle {
   font-size: 14px;
   line-height: 20px;
