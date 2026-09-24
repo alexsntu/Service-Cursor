@@ -1,0 +1,24 @@
+{
+  "dir": "../iPad",
+  "template": "_template-series",
+  "slug": "remont-ipad-mini",
+  "series": "Mini",
+  "device": "iPad",
+  "series_phrase": "iPad Mini",
+  "sub": "Все модели iPad Mini с 2012 по 2024 год.",
+  "pick_title": "Выберите модель iPad Mini, чтобы узнать стоимость ремонта",
+  "faq_title": "Частые вопросы о ремонте iPad Mini",
+  "title_models": "Mini 1–7 — все поколения",
+  "intro_models": "iPad&nbsp;Mini с первого по седьмое поколение",
+  "image": "/images/content/catalog/ipad-mini-series.webp",
+  "image_alt": "iPad Mini 6",
+  "category_url": "/catalog/remont-ipad/ipad-mini/",
+  "models": [["iPad Mini 7 (2024)", "/catalog/remont-ipad/ipad-mini/remont-ipad-mini-7/"], ["iPad Mini 6 (2021)", "/catalog/remont-ipad/ipad-mini/remont-ipad-mini-6/"], ["iPad Mini 5 (2019)", "/catalog/remont-ipad/ipad-mini/remont-ipad-mini-5/"], ["iPad Mini 4 (2015)", "/catalog/remont-ipad/ipad-mini/remont-ipad-mini-4/"], ["iPad Mini 3 (2014)", "/catalog/remont-ipad/ipad-mini/remont-ipad-mini-3/"], ["iPad Mini 2 (2013)", "/catalog/remont-ipad/ipad-mini/remont-ipad-mini-2/"], ["iPad Mini 1 (2012)", "/catalog/remont-ipad/ipad-mini/remont-ipad-mini-1/"]],
+  "top_repairs": ["стекло или дисплей", "аккумулятор", "разъём зарядки"],
+  "offers": ["Замена стекла iPad Mini", "Замена дисплея iPad Mini", "Замена аккумулятора iPad Mini", "Замена разъёма зарядки iPad Mini"],
+  "faq": [
+    ["Какие модели iPad Mini вы ремонтируете?", "Все поколения: от iPad Mini 1 (2012) до iPad Mini 7 (2024). Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Можно ли заменить только стекло на iPad Mini?", "У iPad Mini 1, 2 и 3 стекло с тачскрином отделено от дисплея, и его можно заменить отдельно — это дешевле. Начиная с iPad Mini 4 стекло склеено с дисплеем в один модуль, поэтому при трещинах обычно меняется дисплей целиком. Точно скажем после бесплатной диагностики."],
+    ["iPad Mini не заряжается — что делать?", "Проверьте другой кабель и блок питания. Если не помогло, причина может быть в разъёме, контроллере питания или аккумуляторе — определим на бесплатной диагностике."]
+  ]
+}
