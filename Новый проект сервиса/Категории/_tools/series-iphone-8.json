@@ -1,0 +1,20 @@
+{
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "seriya-iphone-8",
+  "series": "8",
+  "device": "iPhone",
+  "title_models": "8 и&nbsp;8&nbsp;Plus",
+  "intro_models": "iPhone&nbsp;8 и iPhone&nbsp;8&nbsp;Plus",
+  "image": "/images/content/catalog/iphone-8-series.webp",
+  "image_alt": "iPhone 8 и iPhone 8 Plus",
+  "category_url": "/catalog/remont-iphone/iphone-8/",
+  "models": [["iPhone 8", "/catalog/remont-iphone/iphone-8/remont-iphone-8/"], ["iPhone 8 Plus", "/catalog/remont-iphone/iphone-8/remont-iphone-8-plus/"]],
+  "top_repairs": ["аккумулятор", "дисплей", "кнопку Home", "стекло"],
+  "offers": ["Замена аккумулятора iPhone 8", "Замена дисплея iPhone 8", "Замена стекла iPhone 8"],
+  "faq": [
+    ["Какие модели iPhone 8 серии вы ремонтируете?", "Обе модели: iPhone 8 и iPhone 8 Plus. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Стоит ли менять аккумулятор на айфоне 8?", "Да, если телефон быстро садится или выключается на холоде, а ёмкость в настройках «Аккумулятор» ниже 80%. Новый аккумулятор возвращает нормальное время работы. Замена обычно занимает от 90 минут при наличии аккумулятора."],
+    ["Не работает кнопка Home на iPhone 8 — можно починить?", "Кнопка Home на iPhone 8 связана с Touch ID и системной платой, поэтому сначала проверяем причину: шлейф, разъём или сама кнопка. После бесплатной диагностики мастер скажет, какие есть варианты ремонта и сохранится ли Touch ID."]
+  ]
+}
