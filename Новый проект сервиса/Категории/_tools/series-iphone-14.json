@@ -1,0 +1,20 @@
+{
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "seriya-iphone-14",
+  "series": "14",
+  "device": "iPhone",
+  "title_models": "14, 14&nbsp;Plus, 14&nbsp;Pro и&nbsp;14&nbsp;Pro&nbsp;Max",
+  "intro_models": "iPhone&nbsp;14, 14&nbsp;Plus, 14&nbsp;Pro и 14&nbsp;Pro&nbsp;Max",
+  "image": "/images/content/catalog/iphone-14-series.webp",
+  "image_alt": "iPhone 14 Pro и iPhone 14 Pro Max",
+  "category_url": "/catalog/remont-iphone/iphone-14/",
+  "models": [["iPhone 14", "/catalog/remont-iphone/iphone-14/remont-iphone-14/"], ["iPhone 14 Plus", "/catalog/remont-iphone/iphone-14/remont-iphone-14-plus/"], ["iPhone 14 Pro", "/catalog/remont-iphone/iphone-14/remont-iphone-14-pro/"], ["iPhone 14 Pro Max", "/catalog/remont-iphone/iphone-14/remont-iphone-14-pro-max/"]],
+  "top_repairs": ["аккумулятор", "стекло", "заднее стекло", "дисплей"],
+  "offers": ["Замена аккумулятора iPhone 14", "Замена стекла iPhone 14", "Замена заднего стекла iPhone 14", "Замена дисплея iPhone 14"],
+  "faq": [
+    ["Какие модели iPhone 14 серии вы ремонтируете?", "Все модели серии: iPhone 14, iPhone 14 Plus, iPhone 14 Pro и iPhone 14 Pro Max. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Когда пора менять аккумулятор на iPhone 14?", "Если ёмкость в настройках «Аккумулятор» опустилась ниже 80%, телефон быстро садится или выключается на холоде. Замена обычно занимает от 90 минут при наличии аккумулятора."],
+    ["Можно ли заменить только стекло на iPhone 14?", "Да, если сам дисплей цел и сенсор работает — меняем только защитное стекло. Это дешевле замены дисплея. Точно скажем после бесплатной диагностики."]
+  ]
+}
