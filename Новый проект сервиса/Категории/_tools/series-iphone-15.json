@@ -1,0 +1,20 @@
+{
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "seriya-iphone-15",
+  "series": "15",
+  "device": "iPhone",
+  "title_models": "15, 15&nbsp;Plus, 15&nbsp;Pro и&nbsp;15&nbsp;Pro&nbsp;Max",
+  "intro_models": "iPhone&nbsp;15, 15&nbsp;Plus, 15&nbsp;Pro и 15&nbsp;Pro&nbsp;Max",
+  "image": "/images/content/catalog/iphone-15-series.webp",
+  "image_alt": "iPhone 15 Pro и iPhone 15 Pro Max",
+  "category_url": "/catalog/remont-iphone/iphone-15/",
+  "models": [["iPhone 15", "/catalog/remont-iphone/iphone-15/15/"], ["iPhone 15 Plus", "/catalog/remont-iphone/iphone-15/15-plus/"], ["iPhone 15 Pro", "/catalog/remont-iphone/iphone-15/15-pro/"], ["iPhone 15 Pro Max", "/catalog/remont-iphone/iphone-15/15-pro-max5567/"]],
+  "top_repairs": ["аккумулятор", "стекло", "заднее стекло", "дисплей"],
+  "offers": ["Замена аккумулятора iPhone 15", "Замена стекла iPhone 15", "Замена заднего стекла iPhone 15", "Замена дисплея iPhone 15"],
+  "faq": [
+    ["Какие модели iPhone 15 серии вы ремонтируете?", "Все модели серии: iPhone 15, iPhone 15 Plus, iPhone 15 Pro и iPhone 15 Pro Max. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Когда пора менять аккумулятор на iPhone 15?", "Если ёмкость в настройках «Аккумулятор» опустилась ниже 80%, телефон быстро садится или выключается на холоде. Замена обычно занимает от 90 минут при наличии аккумулятора."],
+    ["Можно ли заменить только заднее стекло на iPhone 15?", "Да, треснувшую заднюю панель меняем без замены всего корпуса. Точно скажем после бесплатной диагностики."]
+  ]
+}
