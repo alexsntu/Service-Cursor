@@ -2306,3 +2306,136 @@
     border-radius: 16px;
   }
 }
+
+/* iRepair: дополнительный отступ контента от закреплённого хедера — только ПК (2026-09-24: 30px, затем +10px = 40px) */
+.desktop-screen .tygh-content {
+  padding-top: 40px;
+}
+
+/* iRepair (2026-09-24): пункты выпадающих меню хедера крупнее — легче попасть */
+.irepair-old-header .header__wrapper-right-menu-list {
+  width: auto;
+  min-width: 270px;
+  padding: 10px;
+}
+.irepair-old-header .header__wrapper-right-menu-list-link {
+  font-size: 15px;
+  line-height: 20px;
+  padding: 10px 14px;
+  margin: 0;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+
+/* iRepair (2026-09-24): в выпадающем меню iPhone (ПК) пункт «Ремонт iPhone» → серии → модели, жидкое стекло */
+.irepair-old-header .irepair-hm-series {
+  position: relative;
+}
+.irepair-old-header .irepair-hm-series .irepair-hm-series__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.irepair-old-header .irepair-hm-root > .irepair-hm-series__link {
+  position: relative;
+  justify-content: center;
+  padding-right: 28px;
+  padding-left: 28px;
+}
+.irepair-old-header .irepair-hm-root > .irepair-hm-series__link .irepair-hm-series__arrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  margin-top: -6px;
+}
+.irepair-old-header .irepair-hm-series .irepair-hm-series__arrow {
+  flex: 0 0 auto;
+  opacity: 0.45;
+  -webkit-transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
+}
+.irepair-old-header .irepair-hm-series:hover > .irepair-hm-series__link {
+  color: #37d97b;
+  background-color: #eafaf0;
+}
+.irepair-old-header .irepair-hm-series:hover > .irepair-hm-series__link .irepair-hm-series__arrow {
+  opacity: 1;
+}
+.irepair-old-header .irepair-hm-series .irepair-hm-sub {
+  position: absolute;
+  top: -10px;
+  left: 100%;
+  padding-left: 14px;
+  z-index: 3;
+  text-align: left;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transform: translateX(-4px);
+          transform: translateX(-4px);
+  -webkit-transition: 0.2s ease;
+  transition: 0.2s ease;
+}
+.irepair-old-header .irepair-hm-series:hover > .irepair-hm-sub {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transform: none;
+          transform: none;
+}
+.irepair-old-header .irepair-hm-sub .irepair-hm-sub__panel {
+  width: 250px;
+  padding: 10px;
+  /* вложенная панель: backdrop-filter внутри стеклянного родителя не размывает страницу — делаем почти непрозрачной */
+  background-color: rgba(255,255,255,0.98);
+  -webkit-backdrop-filter: ~"blur(32px) saturate(200%)";
+          backdrop-filter: ~"blur(32px) saturate(200%)";
+  -webkit-box-shadow: 0 24px 48px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+          box-shadow: 0 24px 48px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 14px;
+}
+
+/* iRepair (2026-09-24): мобильное меню — второй экран (серии/модели) в стиле жидкого стекла */
+@media (max-width: 1180px) {
+  .irepair-old-header .header .menu__mobWrapper-step2 {
+    background: linear-gradient(160deg, #f4fff8 0%, #edfafa 35%, #f0f8ff 70%, #f5fff6 100%);
+  }
+  .irepair-old-header .header .menu__mobWrapper-step2 .menu__mobWrapper-item-link {
+    margin: 10px 0 0;
+    padding: 16px 16px;
+    border: 1px solid rgba(255,255,255,0.75);
+    border-radius: 16px;
+    background-color: rgba(255,255,255,0.62);
+    -webkit-backdrop-filter: ~"blur(20px) saturate(180%)";
+            backdrop-filter: ~"blur(20px) saturate(180%)";
+    -webkit-box-shadow: 0 8px 24px rgba(16,24,40,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+            box-shadow: 0 8px 24px rgba(16,24,40,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+  }
+  .irepair-old-header .header .menu__mobWrapper-step2 .menu__mobWrapper-item-link.active {
+    background-color: rgba(255,255,255,0.92);
+  }
+  .irepair-old-header .header .menu__mobWrapper-step2 .menu__mobWrapper-item-list {
+    margin: 6px 0 0;
+    padding: 6px;
+    border: 1px solid rgba(255,255,255,0.75);
+    border-radius: 16px;
+    background-color: rgba(255,255,255,0.8);
+    -webkit-box-shadow: 0 8px 24px rgba(16,24,40,0.05), inset 0 1px 0 rgba(255,255,255,0.9);
+            box-shadow: 0 8px 24px rgba(16,24,40,0.05), inset 0 1px 0 rgba(255,255,255,0.9);
+  }
+  .irepair-old-header .header .menu__mobWrapper-step2 .menu__mobWrapper-item-list a {
+    display: block;
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    line-height: 20px;
+    color: #1d1d1f;
+  }
+  .irepair-old-header .header .menu__mobWrapper-step2 .menu__mobWrapper-item-list a:hover,
+  .irepair-old-header .header .menu__mobWrapper-step2 .menu__mobWrapper-item-list a:active {
+    color: #37d97b;
+    background-color: #eafaf0;
+  }
+}
