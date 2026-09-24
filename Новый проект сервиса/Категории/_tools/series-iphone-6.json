@@ -1,0 +1,20 @@
+{
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "seriya-iphone-6",
+  "series": "6",
+  "device": "iPhone",
+  "title_models": "6, 6&nbsp;Plus, 6S и&nbsp;6S&nbsp;Plus",
+  "intro_models": "iPhone&nbsp;6, 6&nbsp;Plus, 6S и 6S&nbsp;Plus",
+  "image": "/images/content/catalog/iphone-6-series.webp",
+  "image_alt": "iPhone 6S и iPhone 6S Plus",
+  "category_url": "/catalog/remont-iphone/iphone-6/",
+  "models": [["iPhone 6", "/catalog/remont-iphone/iphone-6/remont-iphone-6/"], ["iPhone 6 Plus", "/catalog/remont-iphone/iphone-6/remont-iphone-6-plus/"], ["iPhone 6S", "/catalog/remont-iphone/iphone-6/remont-iphone-6s/"], ["iPhone 6S Plus", "/catalog/remont-iphone/iphone-6/remont-iphone-6s-plus/"]],
+  "top_repairs": ["аккумулятор", "дисплей", "стекло"],
+  "offers": ["Замена аккумулятора iPhone 6S", "Замена аккумулятора iPhone 6", "Замена дисплея iPhone 6"],
+  "faq": [
+    ["Какие модели iPhone 6 серии вы ремонтируете?", "Все модели серии: iPhone 6, iPhone 6 Plus, iPhone 6S и iPhone 6S Plus. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Стоит ли менять аккумулятор на айфоне 6S?", "Да, если телефон быстро садится или выключается на холоде, а ёмкость в настройках «Аккумулятор» ниже 80%. Новый аккумулятор возвращает нормальное время работы. Замена обычно занимает от 90 минут при наличии аккумулятора."],
+    ["Можно ли заменить экран на айфоне 6?", "Да, меняем дисплейный модуль на всех моделях серии. Если изображение в порядке и треснуло только стекло, можно заменить одно стекло. Точно скажем после бесплатной диагностики."]
+  ]
+}
