@@ -1,0 +1,24 @@
+{
+  "dir": "../iPad",
+  "template": "_template-series",
+  "slug": "remont-ipad-classic",
+  "series": "Classic",
+  "device": "iPad",
+  "series_phrase": "iPad 2–10",
+  "sub": "Классические iPad с 2011 по 2022 год (без Pro, Air и Mini).",
+  "pick_title": "Выберите модель iPad, чтобы узнать стоимость ремонта",
+  "faq_title": "Частые вопросы о ремонте iPad 2–10",
+  "title_models": "2–10 — все классические модели",
+  "intro_models": "iPad 2, 3, 4, 5, 6, 7, 8, 9 и 10 поколения",
+  "image": "/images/content/catalog/ipad-classic-series.webp",
+  "image_alt": "iPad 10",
+  "category_url": "/catalog/remont-ipad/apple-ipad/",
+  "models": [["iPad 10 (2022)", "/catalog/remont-ipad/apple-ipad/remont-ipad-10/"], ["iPad 9 (2021)", "/catalog/remont-ipad/apple-ipad/remont-ipad-9/"], ["iPad 8 (2020)", "/catalog/remont-ipad/apple-ipad/remont-ipad-8/"], ["iPad 7 (2019)", "/catalog/remont-ipad/apple-ipad/remont-ipad-7/"], ["iPad 6 (2018)", "/catalog/remont-ipad/apple-ipad/remont-ipad-6/"], ["iPad 5 (2017)", "/catalog/remont-ipad/apple-ipad/remont-ipad-5/"], ["iPad 4 (2012)", "/catalog/remont-ipad/apple-ipad/remont-ipad-4/"], ["iPad 3 (2012)", "/catalog/remont-ipad/apple-ipad/remont-ipad-3/"], ["iPad 2 (2011)", "/catalog/remont-ipad/apple-ipad/remont-ipad-2/"]],
+  "top_repairs": ["стекло (тачскрин)", "дисплей", "аккумулятор", "разъём зарядки"],
+  "offers": ["Замена стекла (тачскрина) iPad", "Замена дисплея iPad", "Замена аккумулятора iPad", "Замена разъёма зарядки iPad"],
+  "faq": [
+    ["Какие модели iPad вы ремонтируете?", "Все классические iPad: со 2 по 10 поколение (2011–2022). iPad Pro, Air и Mini — в своих разделах. Выберите модель выше — на её странице собраны виды ремонта и цены."],
+    ["Можно ли заменить только стекло на iPad?", "Да. У классических iPad стекло с сенсором (тачскрин) отделено от дисплея, поэтому при трещинах часто достаточно заменить только его — это дешевле. Если есть полосы или пятна на изображении, меняем и дисплей."],
+    ["Как узнать, какой у меня iPad?", "Откройте «Настройки» → «Основные» → «Об этом устройстве»: там указано название модели. Если iPad не включается, мастер определит модель на бесплатной диагностике."]
+  ]
+}
