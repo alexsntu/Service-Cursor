@@ -1,0 +1,20 @@
+{
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "seriya-iphone-11",
+  "series": "11",
+  "device": "iPhone",
+  "title_models": "11, 11&nbsp;Pro и&nbsp;11&nbsp;Pro&nbsp;Max",
+  "intro_models": "iPhone&nbsp;11, 11&nbsp;Pro и 11&nbsp;Pro&nbsp;Max",
+  "image": "/images/content/catalog/iphone-11-series.webp",
+  "image_alt": "iPhone 11 Pro и iPhone 11 Pro Max",
+  "category_url": "/catalog/remont-iphone/iphone-11/",
+  "models": [["iPhone 11", "/catalog/remont-iphone/iphone-11/remont-iphone-11/"], ["iPhone 11 Pro", "/catalog/remont-iphone/iphone-11/remont-iphone-11-pro/"], ["iPhone 11 Pro Max", "/catalog/remont-iphone/iphone-11/remont-iphone-11-pro-max/"]],
+  "top_repairs": ["аккумулятор", "дисплей", "стекло", "заднее стекло"],
+  "offers": ["Замена аккумулятора iPhone 11", "Замена дисплея iPhone 11", "Замена стекла iPhone 11", "Замена заднего стекла iPhone 11"],
+  "faq": [
+    ["Какие модели iPhone 11 серии вы ремонтируете?", "Все модели серии: iPhone 11, iPhone 11 Pro и iPhone 11 Pro Max. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Когда пора менять аккумулятор на iPhone 11?", "Если ёмкость в настройках «Аккумулятор» опустилась ниже 80%, телефон быстро садится или выключается на холоде. Замена обычно занимает от 90 минут при наличии аккумулятора."],
+    ["На экране iPhone 11 полосы или он не реагирует на касания — что делать?", "Скорее всего, повреждён дисплейный модуль — его меняем целиком. Если изображение в порядке и треснуло только стекло, можно заменить одно стекло. Точно скажем после бесплатной диагностики."]
+  ]
+}
