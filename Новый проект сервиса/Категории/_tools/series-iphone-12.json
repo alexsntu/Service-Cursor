@@ -1,0 +1,20 @@
+{
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "seriya-iphone-12",
+  "series": "12",
+  "device": "iPhone",
+  "title_models": "12, 12&nbsp;Mini, 12&nbsp;Pro и&nbsp;12&nbsp;Pro&nbsp;Max",
+  "intro_models": "iPhone&nbsp;12, 12&nbsp;Mini, 12&nbsp;Pro и 12&nbsp;Pro&nbsp;Max",
+  "image": "/images/content/catalog/iphone-12-series.webp",
+  "image_alt": "iPhone 12 Pro и iPhone 12 Pro Max",
+  "category_url": "/catalog/remont-iphone/iphone-12/",
+  "models": [["iPhone 12", "/catalog/remont-iphone/iphone-12/remont-iphone-12/"], ["iPhone 12 Mini", "/catalog/remont-iphone/iphone-12/remont-iphone-12-mini/"], ["iPhone 12 Pro", "/catalog/remont-iphone/iphone-12/remont-iphone-12-pro/"], ["iPhone 12 Pro Max", "/catalog/remont-iphone/iphone-12/remont-iphone-12-pro-max/"]],
+  "top_repairs": ["аккумулятор", "дисплей", "стекло", "камеру"],
+  "offers": ["Замена аккумулятора iPhone 12", "Замена дисплея iPhone 12", "Замена стекла iPhone 12", "Замена камеры iPhone 12"],
+  "faq": [
+    ["Какие модели iPhone 12 серии вы ремонтируете?", "Все модели серии: iPhone 12, iPhone 12 Mini, iPhone 12 Pro и iPhone 12 Pro Max. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Когда пора менять аккумулятор на iPhone 12?", "Если ёмкость в настройках «Аккумулятор» опустилась ниже 80%, телефон быстро садится или выключается на холоде. Замена обычно занимает от 90 минут при наличии аккумулятора."],
+    ["На экране iPhone 12 полосы или он не реагирует на касания — что делать?", "Скорее всего, повреждён дисплейный модуль — его меняем целиком. Если изображение в порядке и треснуло только стекло, можно заменить одно стекло. Точно скажем после бесплатной диагностики."]
+  ]
+}
