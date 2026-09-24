@@ -1,0 +1,24 @@
+{
+  "dir": "../iPad",
+  "template": "_template-series",
+  "slug": "remont-ipad-pro",
+  "series": "Pro",
+  "device": "iPad",
+  "series_phrase": "iPad Pro",
+  "sub": "Все модели iPad Pro с 2015 по 2025 год.",
+  "pick_title": "Выберите модель iPad Pro, чтобы узнать стоимость ремонта",
+  "faq_title": "Частые вопросы о ремонте iPad Pro",
+  "title_models": "Pro 9.7, 10.5, 11, 12.9 и&nbsp;13&quot;",
+  "intro_models": "iPad&nbsp;Pro 9.7, 10.5, 11, 12.9 и 13 дюймов, включая модели на M4 и M5",
+  "image": "/images/content/catalog/ipad-pro-series.webp",
+  "image_alt": "iPad Pro 12.9",
+  "category_url": "/catalog/remont-ipad/ipad-pro/",
+  "models": [["iPad Pro 13'' M4 (2024)", "/catalog/remont-ipad/ipad-pro/remont-ipad-pro-13-m4/"], ["iPad Pro 13'' M5 (2025)", "/catalog/remont-ipad/ipad-pro/remont-ipad-pro-13-m5/"], ["iPad Pro 12.9 (2015–2022)", "/catalog/remont-ipad/ipad-pro/remont-ipad-pro-12-9/"], ["iPad Pro 11 (2018–2022)", "/catalog/remont-ipad/ipad-pro/remont-ipad-pro-11/"], ["iPad Pro 10.5 (2017)", "/catalog/remont-ipad/ipad-pro/remont-ipad-pro-10-5/"], ["iPad Pro 9.7 (2016)", "/catalog/remont-ipad/ipad-pro/remont-ipad-pro-9-7/"]],
+  "top_repairs": ["дисплей", "аккумулятор", "разъём зарядки"],
+  "offers": ["Замена дисплея iPad Pro", "Замена аккумулятора iPad Pro", "Замена разъёма зарядки iPad Pro"],
+  "faq": [
+    ["Какие модели iPad Pro вы ремонтируете?", "Все поколения: iPad Pro 9.7, 10.5, 11, 12.9 и 13 дюймов, включая iPad Pro на M4 и M5. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Можно ли заменить только стекло на iPad Pro?", "У iPad Pro стекло склеено с дисплеем в один модуль, поэтому при трещинах обычно меняется дисплей целиком. Точный вариант ремонта мастер назовёт после бесплатной диагностики."],
+    ["iPad Pro не заряжается — что делать?", "Проверьте другой кабель и блок питания. Если не помогло, причина может быть в разъёме, контроллере питания или аккумуляторе — определим на бесплатной диагностике."]
+  ]
+}
