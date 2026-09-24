@@ -1,0 +1,24 @@
+{
+  "dir": "../MacBook",
+  "template": "_template-series",
+  "slug": "remont-macbook-pro",
+  "series": "Pro",
+  "device": "MacBook",
+  "series_phrase": "MacBook Pro",
+  "sub": "Все модели MacBook Pro: 13, 14, 15 и 16 дюймов.",
+  "pick_title": "Выберите модель MacBook Pro, чтобы узнать стоимость ремонта",
+  "faq_title": "Частые вопросы о ремонте MacBook Pro",
+  "title_models": "Pro 13&quot;, 14&quot;, 15&quot; и&nbsp;16&quot;",
+  "intro_models": "MacBook&nbsp;Pro 13, 14, 15 и 16 дюймов, на процессорах Intel и Apple M-серии",
+  "image": "/images/content/catalog/macbook-pro-series.webp",
+  "image_alt": "MacBook Pro 16",
+  "category_url": "/catalog/remont-macbook/macbook-pro/",
+  "models": [["MacBook Pro 13\"", "/catalog/remont-macbook/macbook-pro/remont-macbook-pro-13/"], ["MacBook Pro 14\"", "/catalog/remont-macbook/macbook-pro/remont-macbook-pro-14/"], ["MacBook Pro 15\"", "/catalog/remont-macbook/macbook-pro/remont-macbook-pro-15/"], ["MacBook Pro 16\"", "/catalog/remont-macbook/macbook-pro/remont-macbook-pro-16/"]],
+  "top_repairs": ["аккумулятор", "матрицу", "клавиатуру"],
+  "offers": ["Замена аккумулятора MacBook Pro", "Замена матрицы MacBook Pro", "Замена клавиатуры MacBook Pro", "Чистка MacBook Pro"],
+  "faq": [
+    ["Какие модели MacBook Pro вы ремонтируете?", "Все модели: MacBook Pro 13, 14, 15 и 16 дюймов — и на процессорах Intel, и на Apple M1–M4. Выберите диагональ выше — на странице модели собраны виды ремонта и цены."],
+    ["MacBook Pro не включается — что делать?", "Подключите оригинальную зарядку и подождите 10–15 минут: при глубоком разряде ноутбук включается не сразу. Если не помогло, возможна неисправность аккумулятора, контроллера питания или платы после залития — точную причину найдём на бесплатной диагностике."],
+    ["Когда пора менять аккумулятор на MacBook Pro?", "Если в меню «Аккумулятор» macOS пишет «Рекомендуется обслуживание», ноутбук быстро садится или выключается при заряде выше нуля. Также аккумулятор меняют, если он вздулся и приподнимает трекпад или корпус."]
+  ]
+}

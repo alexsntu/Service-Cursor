@@ -37,19 +37,25 @@ base = os.path.join(os.path.dirname(os.path.abspath(p.parse_args().config)), cfg
 tpl_block = open(os.path.join(base, cfg['template'] + '.html'), encoding='utf-8').read()
 tpl_seo = open(os.path.join(base, cfg['template'] + '-seo.html'), encoding='utf-8').read()
 dev, ser = cfg['device'], cfg['series']
+# необязательные поля (для не-iPhone разделов, напр. MacBook Pro):
+sp = cfg.get('series_phrase', f'{dev} {ser} серии')          # «iPhone 15 серии» / «MacBook Pro»
+sub = cfg.get('sub', f'Все модели {ser} серии.')             # первая фраза подписи в баннере
+pick = cfg.get('pick_title', f'Выберите модель {dev}, чтобы узнать стоимость ремонта')
+faq_title = cfg.get('faq_title', f'Частые вопросы о ремонте {dev} {ser}')
 
 # ---------- блок 202 ----------
 s = tpl_block
 s = re.sub(r'(<div class="irepair-page-series__banner-title">).*?(</div>)',
            lambda m: f'{m.group(1)}Ремонт {dev} {cfg["title_models"]}{m.group(2)}', s, count=1)
-s = re.sub(r'Все модели \S+ серии\.', f'Все модели {ser} серии.', s, count=1)
-s = re.sub(r'data-service="Ремонт [^"]*"', f'data-service="Ремонт {dev} {ser} серии"', s, count=1)
+s = re.sub(r'Все модели \S+ серии\.', lambda m_: sub, s, count=1)
+s = re.sub(r'data-service="Ремонт [^"]*"', f'data-service="Ремонт {sp}"', s, count=1)
+s = re.sub(r'(<h2 class="irepair-page-series__section-title">).*?(</h2>)', lambda m_: m_.group(1) + pick + m_.group(2), s, count=1)
 s = re.sub(r'(class="irepair-page-series__banner-img" role="img" aria-label=")[^"]*"', lambda m: m.group(1) + cfg['image_alt'] + '"', s, count=1)
 s = re.sub(r"url\('/images/content/catalog/[^']+'\)", f"url('{cfg['image']}')", s, count=1)
 a = s.index('<div class="irepair-page-series__models">')
 b = s.index('</div>', a)
 s = (s[:a] + '<div class="irepair-page-series__models">\n'
-     + f'      <!-- модели = категории CS-Cart «Серия {dev} {ser}» (при изменении категорий обновить) -->\n'
+     + f'      <!-- модели = категории CS-Cart раздела «{sp}» (при изменении категорий обновить) -->\n'
      + ''.join(f'      <a href="{u}">{n}</a>\n' for n, u in cfg['models']) + '    ' + s[b:])
 
 # ---------- SEO ----------
@@ -59,21 +65,21 @@ ld = json.loads(m.group(1))
 url = 'https://irepair.ru' + cfg['category_url']
 for g in ld['@graph']:
     if g['@type'] == 'LocalBusiness':
-        g['hasOfferCatalog'] = {'@type': 'OfferCatalog', 'name': f'Ремонт {dev} {ser} серии',
+        g['hasOfferCatalog'] = {'@type': 'OfferCatalog', 'name': f'Ремонт {sp}',
                                 'itemListElement': [{'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': n}} for n in cfg['offers']]}
     elif g['@type'] == 'WebPage':
-        g.update({'@id': url + '#webpage', 'url': url, 'name': f'Ремонт {dev} {ser} серии в Москве'})
+        g.update({'@id': url + '#webpage', 'url': url, 'name': f'Ремонт {sp} в Москве'})
     elif g['@type'] == 'FAQPage':
         g['mainEntity'] = [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a_}} for q, a_ in cfg['faq']]
 t = t[:m.start(1)] + json.dumps(ld, ensure_ascii=False, indent=2) + t[m.end(1):]
-t = re.sub(r'(<h2 class="mm-h2" id="mm-heading-intro">).*?(</h2>)', lambda mm: f'{mm.group(1)}Ремонт {dev} {ser} серии в Москве{mm.group(2)}', t, count=1)
+t = re.sub(r'(<h2 class="mm-h2" id="mm-heading-intro">).*?(</h2>)', lambda mm: f'{mm.group(1)}Ремонт {sp} в Москве{mm.group(2)}', t, count=1)
 rep = cfg['top_repairs']
 rep_txt = ', '.join(rep[:-1]) + ' и ' + rep[-1]
-intro = (f'<p class="mm-intro-text">Ремонт {dev} {ser} серии в Москве выполняет сервисный центр iRepair: чиним все модели линейки — '
+intro = (f'<p class="mm-intro-text">Ремонт {sp} в Москве выполняет сервисный центр iRepair: чиним все модели линейки — '
          f'{cfg["intro_models"]}. Чаще всего меняем {rep_txt}. Диагностика бесплатно, большинство работ — в день обращения '
          f'при наличии запчасти, на ремонт даём гарантию.</p>')
 t = re.sub(r'<p class="mm-intro-text">.*?</p>', lambda mm: intro, t, count=1, flags=re.S)
-t = re.sub(r'Частые вопросы о ремонте [^<]*', f'Частые вопросы о ремонте {dev} {ser}', t, count=1)
+t = re.sub(r'Частые вопросы о ремонте [^<]*', lambda m_: faq_title, t, count=1)
 fa = t.index('<div class="mm-faq-list">')
 fb = t.index('</div>\n</section>', fa)
 t = t[:fa] + '<div class="mm-faq-list">\n' + ''.join(
