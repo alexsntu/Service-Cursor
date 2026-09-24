@@ -1,0 +1,24 @@
+{
+  "dir": "../iPad",
+  "template": "_template-series",
+  "slug": "remont-ipad-air",
+  "series": "Air",
+  "device": "iPad",
+  "series_phrase": "iPad Air",
+  "sub": "Все модели iPad Air с 2013 по 2025 год.",
+  "pick_title": "Выберите модель iPad Air, чтобы узнать стоимость ремонта",
+  "faq_title": "Частые вопросы о ремонте iPad Air",
+  "title_models": "Air 1–7 — все поколения",
+  "intro_models": "iPad&nbsp;Air с первого по седьмое поколение, включая модели на чипах M2 и M3",
+  "image": "/images/content/catalog/ipad-air-series.webp",
+  "image_alt": "iPad Air 5",
+  "category_url": "/catalog/remont-ipad/ipad-air/",
+  "models": [["iPad Air 7 (2025)", "/catalog/remont-ipad/ipad-air/remont-ipad-air-7/"], ["iPad Air 6 (2024)", "/catalog/remont-ipad/ipad-air/remont-ipad-air-6/"], ["iPad Air 5 (2022)", "/catalog/remont-ipad/ipad-air/remont-ipad-air-5/"], ["iPad Air 4 (2020)", "/catalog/remont-ipad/ipad-air/remont-ipad-air-4/"], ["iPad Air 3 (2019)", "/catalog/remont-ipad/ipad-air/remont-ipad-air-3/"], ["iPad Air 2 (2014)", "/catalog/remont-ipad/ipad-air/remont-ipad-air-2/"], ["iPad Air 1 (2013)", "/catalog/remont-ipad/ipad-air/remont-ipad-air-1/"]],
+  "top_repairs": ["дисплей", "аккумулятор", "разъём зарядки"],
+  "offers": ["Замена дисплея iPad Air", "Замена аккумулятора iPad Air", "Замена разъёма зарядки iPad Air"],
+  "faq": [
+    ["Какие модели iPad Air вы ремонтируете?", "Все поколения: от iPad Air 1 (2013) до iPad Air 7 (2025), включая модели на M2 и M3. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Можно ли заменить только стекло на iPad Air?", "У iPad Air 1 стекло с тачскрином отделено от дисплея, и его можно заменить отдельно. Начиная с iPad Air 2 стекло склеено с дисплеем в один модуль, поэтому при трещинах обычно меняется дисплей целиком. Точно скажем после бесплатной диагностики."],
+    ["iPad Air не заряжается — что делать?", "Проверьте другой кабель и блок питания. Если не помогло, причина может быть в разъёме, контроллере питания или аккумуляторе — определим на бесплатной диагностике."]
+  ]
+}
