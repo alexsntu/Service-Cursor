@@ -1,0 +1,20 @@
+{
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "seriya-iphone-13",
+  "series": "13",
+  "device": "iPhone",
+  "title_models": "13, 13&nbsp;Mini, 13&nbsp;Pro и&nbsp;13&nbsp;Pro&nbsp;Max",
+  "intro_models": "iPhone&nbsp;13, 13&nbsp;Mini, 13&nbsp;Pro и 13&nbsp;Pro&nbsp;Max",
+  "image": "/images/content/catalog/iphone-13-series.webp",
+  "image_alt": "iPhone 13 Pro и iPhone 13 Pro Max",
+  "category_url": "/catalog/remont-iphone/iphone-13/",
+  "models": [["iPhone 13", "/catalog/remont-iphone/iphone-13/remont-iphone-13/"], ["iPhone 13 Mini", "/catalog/remont-iphone/iphone-13/remont-iphone-13-mini/"], ["iPhone 13 Pro", "/catalog/remont-iphone/iphone-13/remont-iphone-13-pro/"], ["iPhone 13 Pro Max", "/catalog/remont-iphone/iphone-13/remont-iphone-13-pro-max/"]],
+  "top_repairs": ["аккумулятор", "стекло", "дисплей", "камеру"],
+  "offers": ["Замена аккумулятора iPhone 13", "Замена стекла iPhone 13", "Замена дисплея iPhone 13", "Замена камеры iPhone 13"],
+  "faq": [
+    ["Какие модели iPhone 13 серии вы ремонтируете?", "Все модели серии: iPhone 13, iPhone 13 Mini, iPhone 13 Pro и iPhone 13 Pro Max. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Когда пора менять аккумулятор на iPhone 13?", "Если ёмкость в настройках «Аккумулятор» опустилась ниже 80%, телефон быстро садится или выключается на холоде. Замена обычно занимает от 90 минут при наличии аккумулятора."],
+    ["Что делать, если камера iPhone 13 не фокусируется?", "Чаще всего причина в модуле камеры или в треснувшем стекле камеры. Мастер проверит на бесплатной диагностике и заменит только то, что нужно."]
+  ]
+}
