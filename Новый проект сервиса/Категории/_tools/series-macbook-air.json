@@ -1,0 +1,24 @@
+{
+  "dir": "../MacBook",
+  "template": "_template-series",
+  "slug": "remont-macbook-air",
+  "series": "Air",
+  "device": "MacBook",
+  "series_phrase": "MacBook Air",
+  "sub": "Все модели MacBook Air: 11, 13 и 15 дюймов.",
+  "pick_title": "Выберите модель MacBook Air, чтобы узнать стоимость ремонта",
+  "faq_title": "Частые вопросы о ремонте MacBook Air",
+  "title_models": "Air 11&quot;, 13&quot; и&nbsp;15&quot;",
+  "intro_models": "MacBook&nbsp;Air 11, 13 и 15 дюймов, на процессорах Intel и Apple M-серии",
+  "image": "/images/content/catalog/macbook-air-series.webp",
+  "image_alt": "MacBook Air 13",
+  "category_url": "/catalog/remont-macbook/macbook-air/",
+  "models": [["MacBook Air 11\"", "/catalog/remont-macbook/macbook-air/remont-macbook-air-11/"], ["MacBook Air 13\"", "/catalog/remont-macbook/macbook-air/remont-macbook-air-13/"], ["MacBook Air 15\"", "/catalog/remont-macbook/macbook-air/remont-macbook-air-15/"]],
+  "top_repairs": ["аккумулятор", "матрицу", "клавиатуру"],
+  "offers": ["Замена аккумулятора MacBook Air", "Замена матрицы MacBook Air", "Замена клавиатуры MacBook Air", "Ремонт MacBook Air после залития"],
+  "faq": [
+    ["Какие модели MacBook Air вы ремонтируете?", "Все модели: MacBook Air 11, 13 и 15 дюймов — и на процессорах Intel, и на Apple M1–M4. Выберите диагональ выше — на странице модели собраны виды ремонта и цены."],
+    ["MacBook Air не включается — что делать?", "Подключите оригинальную зарядку и подождите 10–15 минут: при глубоком разряде ноутбук включается не сразу. Если не помогло, возможна неисправность аккумулятора, контроллера питания или платы после залития — точную причину найдём на бесплатной диагностике."],
+    ["Залили MacBook Air — что делать сразу?", "Выключите ноутбук, отключите зарядку и не пытайтесь включать его снова. Переверните клавиатурой вниз и как можно скорее привезите в сервис: чем раньше почистить плату от жидкости, тем выше шанс обойтись без дорогого ремонта."]
+  ]
+}
