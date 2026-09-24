@@ -19,6 +19,12 @@
       <a href="/catalog/remont-imac/remont-imac-24/">iMac 24"</a>
       <a href="/catalog/remont-imac/remont-imac-21-5/">iMac 21.5"</a>
     </div>
+    <!-- iRepair: мобильный выбор модели (≤1180px) — плитки-ссылки моделей по две в ряд, без раскрытия (как у Watch) -->
+    <div class="irepair-page-imac__models-mob">
+      <a href="/catalog/remont-imac/remont-imac-27/">iMac 27"</a>
+      <a href="/catalog/remont-imac/remont-imac-24/">iMac 24"</a>
+      <a href="/catalog/remont-imac/remont-imac-21-5/">iMac 21.5"</a>
+    </div>
 
     <h2 class="irepair-page-imac__section-title">Стоимость услуг по ремонту iMac</h2>
     <p class="irepair-page-imac__price-lede">В стоимость работы включена запчасть и работа мастера. Это окончательная цена. Диагностика в нашем сервисе осуществляется бесплатно.</p>
@@ -253,21 +259,53 @@
     margin-bottom: 48px;
     padding-top: 20px;
   }
-  .irepair-page-imac__banner {
-    padding: 28px 22px;
-    border-radius: 22px;
-    margin-bottom: 32px;
+  /* мобильный баннер как на старом сайте: на всю ширину экрана, своя картинка, текст по центру, кнопка «тиффани» */
+  .irepair-page-imac .irepair-page-imac__banner {
+    display: block;
+    width: 100vw;
+    min-height: 0;
+    margin: 0 0 32px calc(50% - 50vw);
+    /* высота мобильного баннера −25% (2026-09-24): меньше отступы, шрифты как были */
+    padding: 36px 28px 28px;
+    border-radius: 0;
+    background: url('/images/content/catalog/catalog-banner-mob.webp') 50% 50% / cover no-repeat #10231b;
+    text-align: center;
   }
-  .irepair-page-imac__banner-title {
-    font-size: 24px;
-    margin-bottom: 16px;
+  .irepair-page-imac .irepair-page-imac__banner-text {
+    max-width: none;
   }
-  .irepair-page-imac__banner-list {
-    margin-bottom: 20px;
+  .irepair-page-imac .irepair-page-imac__banner-title {
+    max-width: 290px;
+    margin: 0 auto;
+    /* мобильный заголовок баннера легче и меньше (user 2026-09-24: был слишком большой и жирный) */
+    font-family: 'Montserrat-Medium', Arial, sans-serif;
+    font-size: 26px;
+    line-height: 30px;
   }
-  .irepair-page-imac__banner-btn {
+  .irepair-page-imac .irepair-page-imac__banner-list {
+    margin: 16px 0 0;
+    padding: 0;
+  }
+  .irepair-page-imac .irepair-page-imac__banner-list li {
+    justify-content: center;
+    margin-top: 8px;
+    padding-left: 0;
+    font-size: 17px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+  .irepair-page-imac .irepair-page-imac__banner-list li::before {
+    display: none;
+  }
+  .irepair-page-imac .irepair-page-imac__banner-btn {
+    display: flex;
     width: 100%;
-    padding: 14px;
+    margin-top: 30px;
+    padding: 17px;
+    font-size: 16px;
+    line-height: 16px;
+    color: #ffffff;
+    background: linear-gradient(103.87deg, #36d97b 29.3%, #19d4e0 96.89%);
   }
   .irepair-page-imac .irepair-page-imac__section-title {
     font-size: 20px;
@@ -311,6 +349,54 @@
     flex: 1 1 100%;
     padding: 12px;
     text-align: center;
+  }
+}
+/* iRepair: мобильный выбор модели (≤1180px) — плитки-ссылки моделей по две в ряд (как на старом сайте) */
+.irepair-page-imac .irepair-page-imac__models-mob {
+  display: none;
+}
+@media (max-width: 1180px) {
+  .irepair-page-imac .irepair-page-imac__models {
+    display: none;
+  }
+  .irepair-page-imac .irepair-page-imac__models-mob {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 520px;
+    margin: 0 auto 48px;
+  }
+  .irepair-page-imac .irepair-page-imac__models-mob a {
+    display: block;
+    box-sizing: border-box;
+    width: calc(50% - 6px);
+    margin: 10px 0 0;
+    padding: 22px 8px;
+    border-radius: 33px;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    color: #ffffff;
+    background: #010306;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .irepair-page-imac .irepair-page-imac__models-mob a:hover,
+  .irepair-page-imac .irepair-page-imac__models-mob a:active {
+    color: #ffffff;
+    background: #37d97b;
+  }
+}
+@media (max-width: 650px) {
+  .irepair-page-imac .irepair-page-imac__models-mob {
+    margin-bottom: 32px;
+  }
+  .irepair-page-imac .irepair-page-imac__models-mob a {
+    padding: 20px 6px;
   }
 }
 </style>
