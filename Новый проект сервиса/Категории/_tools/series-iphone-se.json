@@ -1,0 +1,20 @@
+{
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "seriya-iphone-se",
+  "series": "SE",
+  "device": "iPhone",
+  "title_models": "SE 1, SE&nbsp;2 и&nbsp;SE&nbsp;3",
+  "intro_models": "iPhone&nbsp;SE 1 (2016), SE&nbsp;2 (2020) и SE&nbsp;3 (2022)",
+  "image": "/images/content/catalog/iphone-se-series.webp",
+  "image_alt": "iPhone SE 2020",
+  "category_url": "/catalog/remont-iphone/iphone-se/",
+  "models": [["iPhone SE 1", "/catalog/remont-iphone/iphone-se/remont-iphone-se-1/"], ["iPhone SE 2", "/catalog/remont-iphone/iphone-se/remont-iphone-se-2/"], ["iPhone SE 3", "/catalog/remont-iphone/iphone-se/remont-iphone-se-3/"]],
+  "top_repairs": ["аккумулятор", "дисплей", "стекло", "кнопку Home"],
+  "offers": ["Замена аккумулятора iPhone SE", "Замена дисплея iPhone SE", "Замена стекла iPhone SE"],
+  "faq": [
+    ["Какие модели iPhone SE вы ремонтируете?", "Все поколения: iPhone SE 1 (2016), iPhone SE 2 (2020) и iPhone SE 3 (2022). Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Когда пора менять аккумулятор на iPhone SE?", "Если ёмкость в настройках «Аккумулятор» опустилась ниже 80%, телефон быстро садится или выключается на холоде. Замена обычно занимает от 90 минут при наличии аккумулятора."],
+    ["Как понять, какой у меня iPhone SE?", "Откройте «Настройки» → «Основные» → «Об этом устройстве»: там указано поколение. SE 1 — маленький 4-дюймовый корпус с плоскими гранями, SE 2 и SE 3 внешне похожи на iPhone 8. Если сомневаетесь, мастер определит модель на бесплатной диагностике."]
+  ]
+}
