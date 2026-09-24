@@ -1,0 +1,20 @@
+{
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "seriya-iphone-7",
+  "series": "7",
+  "device": "iPhone",
+  "title_models": "7 и&nbsp;7&nbsp;Plus",
+  "intro_models": "iPhone&nbsp;7 и iPhone&nbsp;7&nbsp;Plus",
+  "image": "/images/content/catalog/iphone-7-series.webp",
+  "image_alt": "iPhone 7 и iPhone 7 Plus",
+  "category_url": "/catalog/remont-iphone/iphone-7/",
+  "models": [["iPhone 7", "/catalog/remont-iphone/iphone-7/iphone-7/"], ["iPhone 7 Plus", "/catalog/remont-iphone/iphone-7/remont-iphone-7-plus/"]],
+  "top_repairs": ["аккумулятор", "стекло", "дисплей"],
+  "offers": ["Замена аккумулятора iPhone 7", "Замена стекла iPhone 7", "Замена дисплея iPhone 7"],
+  "faq": [
+    ["Какие модели iPhone 7 серии вы ремонтируете?", "Обе модели: iPhone 7 и iPhone 7 Plus. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Стоит ли менять аккумулятор на айфоне 7?", "Да, если телефон быстро садится или выключается на холоде, а ёмкость в настройках «Аккумулятор» ниже 80%. Новый аккумулятор возвращает нормальное время работы. Замена обычно занимает от 90 минут при наличии аккумулятора."],
+    ["Можно ли заменить только стекло на айфоне 7?", "Да, если сам дисплей цел и сенсор работает — меняем только стекло. Это дешевле замены дисплея. Точно скажем после бесплатной диагностики."]
+  ]
+}
