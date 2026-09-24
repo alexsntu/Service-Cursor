@@ -1,0 +1,20 @@
+{
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "seriya-iphone-x",
+  "series": "X",
+  "device": "iPhone",
+  "title_models": "X, XR, XS и&nbsp;XS&nbsp;Max",
+  "intro_models": "iPhone&nbsp;X (айфон 10), XR, XS и XS&nbsp;Max",
+  "image": "/images/content/catalog/iphone-x-series.webp",
+  "image_alt": "iPhone XS и iPhone XS Max",
+  "category_url": "/catalog/remont-iphone/iphone-x/",
+  "models": [["iPhone X", "/catalog/remont-iphone/iphone-x/remont-iphone-x/"], ["iPhone XR", "/catalog/remont-iphone/iphone-x/remont-iphone-xr/"], ["iPhone XS", "/catalog/remont-iphone/iphone-x/remont-iphone-xs/"], ["iPhone XS Max", "/catalog/remont-iphone/iphone-x/remont-iphone-xs-max/"]],
+  "top_repairs": ["аккумулятор", "дисплей", "стекло", "заднее стекло"],
+  "offers": ["Замена аккумулятора iPhone X", "Замена дисплея iPhone X", "Замена стекла iPhone X", "Замена аккумулятора iPhone XR"],
+  "faq": [
+    ["Какие модели iPhone X серии вы ремонтируете?", "Все модели серии: iPhone X (айфон 10), iPhone XR, iPhone XS и iPhone XS Max. Выберите свою модель выше — на её странице собраны виды ремонта и цены."],
+    ["Стоит ли менять аккумулятор на iPhone XR или XS?", "Да, если телефон быстро садится или выключается на холоде, а ёмкость в настройках «Аккумулятор» ниже 80%. Новый аккумулятор возвращает нормальное время работы. Замена обычно занимает от 90 минут при наличии аккумулятора."],
+    ["Можно ли заменить экран на айфоне 10?", "Да, меняем дисплейный модуль на iPhone X и остальных моделях серии. Если изображение в порядке и треснуло только стекло, можно заменить одно стекло. Точно скажем после бесплатной диагностики."]
+  ]
+}
