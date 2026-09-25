@@ -24,11 +24,66 @@
         {foreach from=$products item="product" name="products"}
             {$irp_sl_url = "products.view?product_id=`$product.product_id`"|fn_url}
             {$irp_sl_name = $product.product|strip_tags|trim}
-            <li class="irepair-sl__row">
-                <a class="irepair-sl__name" href="{$irp_sl_url}">{$irp_sl_name nofilter}</a>
+            {* варианты услуги (AASP / OEM …) — товары группы вариаций; в списке их загружает модуль product_variations.
+               Выводим только если вариантов больше одного, иначе строка как раньше. *}
+            {$irp_sl_opts = []}
+            {foreach $product.variation_features_variants|default:[] as $irp_sl_feature}
+                {if $irp_sl_feature.variants|count > 1}
+                    {* цен вариантов в этих данных нет — берём их одним запросом fn_get_products (вместе с дочерними вариациями) *}
+                    {$irp_sl_ids = []}
+                    {foreach $irp_sl_feature.variants as $irp_sl_v}
+                        {if $irp_sl_v.product_id}{$irp_sl_ids[] = $irp_sl_v.product_id}{/if}
+                    {/foreach}
+                    {$irp_sl_found = ["pid" => $irp_sl_ids, "include_child_variations" => true, "status" => "A"]|fn_get_products}
+                    {$irp_sl_prices = $irp_sl_found.0|default:[]}
+                    {foreach $irp_sl_feature.variants as $irp_sl_v}
+                        {if $irp_sl_v.product_id && $irp_sl_prices[$irp_sl_v.product_id]}
+                            {$irp_sl_opts[] = [
+                                "id" => $irp_sl_v.product_id,
+                                "name" => $irp_sl_v.variant,
+                                "price" => $irp_sl_prices[$irp_sl_v.product_id].price,
+                                "variant_id" => $irp_sl_v.variant_id,
+                                "active" => ($irp_sl_v.product_id == $product.product_id)
+                            ]}
+                        {/if}
+                    {/foreach}
+                    {break}
+                {/if}
+            {/foreach}
+            {if $irp_sl_opts|count < 2}{$irp_sl_opts = []}{/if}
+            {$irp_sl_active = ""}
+            {foreach $irp_sl_opts as $irp_sl_o}{if $irp_sl_o.active}{$irp_sl_active = $irp_sl_o}{/if}{/foreach}
+            {if $irp_sl_opts && !$irp_sl_active}{$irp_sl_active = $irp_sl_opts.0}{/if}
+
+            <li class="irepair-sl__row{if $irp_sl_opts} irepair-sl__row--opts{/if}">
+                <div class="irepair-sl__main">
+                    <a class="irepair-sl__name" href="{$irp_sl_url}">{$irp_sl_name nofilter}</a>
+                    {if $irp_sl_opts}
+                        <div class="irepair-sl__opts" role="group" aria-label="Варианты услуги">
+                            {foreach $irp_sl_opts as $irp_sl_o}
+                                {$irp_sl_vdata = $irp_sl_o.variant_id|fn_get_product_feature_variant}
+                                {$irp_sl_note = $irp_sl_vdata.description|default:""|strip_tags|trim}
+                                <button type="button"
+                                        class="irepair-sl__opt{if $irp_sl_o.id == $irp_sl_active.id} is-active{/if}"
+                                        data-irp-opt="{$irp_sl_o.id}"
+                                        data-service="{$irp_sl_name} | {$irp_sl_o.name}"
+                                        data-price="{$irp_sl_o.price|intval}"
+                                        aria-pressed="{if $irp_sl_o.id == $irp_sl_active.id}true{else}false{/if}"
+                                        {if $irp_sl_note}title="{$irp_sl_note}"{/if}>{$irp_sl_o.name}</button>
+                            {/foreach}
+                        </div>
+                    {/if}
+                </div>
 
                 <div class="irepair-sl__price">
-                    <p class="irepair-sl__price-value">{if $product.variation_group_id}от {/if}{include file="common/price.tpl" value=$product.price}</p>
+                    {if $irp_sl_opts}
+                        {* цена каждого варианта; видна цена выбранного *}
+                        {foreach $irp_sl_opts as $irp_sl_o}
+                            <p class="irepair-sl__price-value" data-irp-opt-price="{$irp_sl_o.id}"{if $irp_sl_o.id != $irp_sl_active.id} hidden{/if}>{include file="common/price.tpl" value=$irp_sl_o.price}</p>
+                        {/foreach}
+                    {else}
+                        <p class="irepair-sl__price-value">{if $product.variation_group_id}от {/if}{include file="common/price.tpl" value=$product.price}</p>
+                    {/if}
                     {* время ремонта — характеристика id 5 «Время ремонта» (в списке категории CS-Cart характеристики не грузит — берём сами) *}
                     {$irp_sl_features = ["product_id" => $product.product_id]|fn_get_product_features_list:"A"}
                     {if $irp_sl_features.5.value}
@@ -39,11 +94,11 @@
                 <div class="irepair-sl__action">
                     <a class="irepair-sl__btn" href="{$irp_sl_url}"
                        data-call-popup-trigger
-                       data-service="{$irp_sl_name}"
-                       data-price="{$product.price|intval}"><span>Заказать ремонт</span></a>
+                       data-service="{if $irp_sl_opts}{$irp_sl_name} | {$irp_sl_active.name}{else}{$irp_sl_name}{/if}"
+                       data-price="{if $irp_sl_opts}{$irp_sl_active.price|intval}{else}{$product.price|intval}{/if}"><span>Заказать ремонт</span></a>
                 </div>
 
-                {* телефон: вся строка — ссылка на услугу *}
+                {* телефон: вся строка — ссылка на услугу (кнопки вариантов — поверх неё) *}
                 <a class="irepair-sl__row-link" href="{$irp_sl_url}" aria-label="{$irp_sl_name}">
                     <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true"><path d="M1.5 1.5L8.5 9L1.5 16.5" stroke="#b5b5b5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </a>
@@ -113,8 +168,14 @@
 .irepair-sl .irepair-sl__row::before {
   content: none;
 }
-.irepair-sl .irepair-sl__name {
+.irepair-sl .irepair-sl__main {
   grid-column: 1 / 8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+.irepair-sl .irepair-sl__name {
   display: flex;
   align-items: center;
   font-size: 24px;
@@ -184,6 +245,40 @@
 .irepair-sl .irepair-sl__row-link {
   display: none;
 }
+/* варианты услуги (AASP / OEM …) — «таблетки» как опции в карточке товара */
+.irepair-sl .irepair-sl__opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.irepair-sl .irepair-sl__opt {
+  margin: 0;
+  padding: 6px 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 40px;
+  background: #ffffff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500;
+  color: #555555;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.irepair-sl .irepair-sl__opt:hover {
+  border-color: #37d97b;
+  color: #010306;
+}
+.irepair-sl .irepair-sl__opt.is-active {
+  border-color: #37d97b;
+  background: #eefaf3;
+  color: #010306;
+}
+.irepair-sl .irepair-sl__price-value[hidden] {
+  display: none;
+}
 
 @media (max-width: 1180px) {
   .irepair-sl .irepair-sl__title {
@@ -199,8 +294,10 @@
   .irepair-sl .irepair-sl__list {
     margin-top: 32px;
   }
-  .irepair-sl .irepair-sl__name {
+  .irepair-sl .irepair-sl__main {
     grid-column: 1 / 6;
+  }
+  .irepair-sl .irepair-sl__name {
     font-size: 18px;
     line-height: 22px;
   }
@@ -267,6 +364,15 @@
   .irepair-sl .irepair-sl__action {
     display: none;
   }
+  .irepair-sl .irepair-sl__opts {
+    position: relative;
+    z-index: 3;
+    margin-top: 8px;
+  }
+  .irepair-sl .irepair-sl__opt {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
   .irepair-sl .irepair-sl__row-link {
     position: absolute;
     top: 0;
@@ -281,6 +387,35 @@
   }
 }
 </style>
+<script>
+/* iRepair: переключение вариантов услуги в прайсе — цена в строке и данные для кнопки «Заказать ремонт» */
+(function () {
+  if (window.irepairSlOpts) return;
+  window.irepairSlOpts = true;
+  document.addEventListener('click', function (e) {
+    var opt = e.target.closest ? e.target.closest('.irepair-sl__opt') : null;
+    if (!opt) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var row = opt.closest('.irepair-sl__row');
+    if (!row) return;
+    var id = opt.getAttribute('data-irp-opt');
+    row.querySelectorAll('.irepair-sl__opt').forEach(function (b) {
+      var on = b === opt;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    row.querySelectorAll('[data-irp-opt-price]').forEach(function (p) {
+      p.hidden = p.getAttribute('data-irp-opt-price') !== id;
+    });
+    var btn = row.querySelector('.irepair-sl__btn');
+    if (btn) {
+      btn.setAttribute('data-service', opt.getAttribute('data-service'));
+      btn.setAttribute('data-price', opt.getAttribute('data-price'));
+    }
+  }, true);
+})();
+</script>
 {/literal}
 
 {/if}
