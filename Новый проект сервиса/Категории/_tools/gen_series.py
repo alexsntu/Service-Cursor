@@ -50,8 +50,9 @@ faq_title = cfg.get('faq_title', f'Частые вопросы о ремонте
 # ---------- конечная категория: только баннер ----------
 if cfg.get('banner_only'):
     s = tpl_block
-    s = re.sub(r'(<div class="irepair-page-series__banner-title">).*?(</div>)',
-               lambda m: m.group(1) + cfg['title'] + m.group(2), s, count=1)
+    # заголовок баннера конечной категории — H1 страницы
+    s = re.sub(r'<div class="irepair-page-series__banner-title">.*?</div>',
+               lambda m: '<h1 class="irepair-page-series__banner-title">' + cfg['title'] + '</h1>', s, count=1)
     s = re.sub(r'(<p class="irepair-page-series__banner-sub">).*?(</p>)',
                lambda m: m.group(1) + cfg['sub'] + m.group(2), s, count=1)
     s = re.sub(r'data-service="Ремонт [^"]*"', f'data-service="{cfg["service"]}"', s, count=1)
@@ -62,7 +63,9 @@ if cfg.get('banner_only'):
     # отступ под баннером — до прайса категории; у баннера и так margin-bottom
     s = s.replace('<div class="irepair-page-series">', '<div class="irepair-page-series irepair-page-series--model">', 1)
     s = s.replace('</style>', '/* конечная категория: сразу под баннером идёт прайс услуг — лишний нижний отступ блока не нужен */\n'
-                  '.irepair-page-series.irepair-page-series--model {\n  margin-bottom: 0;\n}\n</style>', 1)
+                  '.irepair-page-series.irepair-page-series--model {\n  margin-bottom: 0;\n}\n'
+                  '/* h1 темы (жирность, отступы, регистр) не должен менять вид заголовка баннера */\n'
+                  '.irepair-page-series .irepair-page-series__banner-title {\n  padding: 0;\n  font-weight: 400;\n  letter-spacing: normal;\n  text-transform: none;\n}\n</style>', 1)
     open(os.path.join(base, cfg['slug'] + '.html'), 'w', encoding='utf-8').write(s)
     print('written (banner only):', cfg['slug'], '| models block left:', 'irepair-page-series__models">' in s.split('<style>')[0],
           '| smarty-unsafe braces:', len(re.findall(r'\{(?=\S)', s)))
