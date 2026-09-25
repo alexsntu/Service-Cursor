@@ -20,6 +20,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import urllib.error
 import urllib.request
 
 import openpyxl
@@ -46,6 +47,20 @@ def cs(method, path, body=None):
                                  data=json.dumps(body).encode() if body is not None else None,
                                  headers={'Authorization': AUTH, 'Content-Type': 'application/json'})
     return json.loads(urllib.request.urlopen(req, timeout=180).read() or b'{}')
+
+
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, *a, **k):
+        return None
+
+
+def head(url):
+    """HTTP-код и Location без перехода по редиректам."""
+    try:
+        r = urllib.request.build_opener(_NoRedirect).open(urllib.request.Request(url, method='HEAD'), timeout=60)
+        return r.status, None
+    except urllib.error.HTTPError as e:
+        return e.code, e.headers.get('Location')
 
 
 def ro(sid):
@@ -114,6 +129,18 @@ upc = upc.strip()
 desc_in = html.unescape(unesc(desc_raw))
 assert not any(ord(ch) > 0xFFFF for ch in name + meta_title + meta_desc + desc_in), '4-байтовые символы (эмодзи) — CS-Cart их не сохранит'
 old_url = next((rows[it['ro']][3] for it in items if rows[it['ro']][3]), '')
+# столбец D бывает неверным (напр. у 9005 там адрес замены дисплея) — берём папку категории из D + настоящий slug
+# старого товара и проверяем, что адрес живой на старом сайте
+if old_url:
+    cand = old_url.rstrip('/').rsplit('/', 1)[0] + '/' + slug + '/'
+    code = head(cand)[0]
+    if cand != old_url:
+        print(f'!!! столбец D: {old_url} → по slug старого товара: {cand} (HTTP {code})')
+    if code == 200:
+        old_url = cand
+    else:
+        print('!!! старый адрес не подтверждён — редирект не создаём, проверить вручную')
+        old_url = ''
 
 with tempfile.TemporaryDirectory() as tmp:
     open(os.path.join(tmp, 'in.html'), 'w', encoding='utf-8').write(desc_in)
@@ -168,8 +195,13 @@ for line in filter(None, auto.split('\n')):
     rid, src = line.split('\t')
     sql_new(f'delete from cscart_seo_redirects where redirect_id={rid}')
     print('удалён авто-редирект', rid, src)
-if old_url:
-    src = re.sub(r'^https?://[^/]+', '', old_url).rstrip('/')
+src = re.sub(r'^https?://[^/]+', '', old_url).rstrip('/') if old_url else ''
+if src:
+    # если новый адрес товара совпадает со старым — редирект не нужен
+    if head('https://dev.irepair.ru' + src + '/')[0] == 200:
+        print('старый адрес совпадает с новым — редирект не нужен:', src + '/')
+        src = ''
+if src:
     sql_new("insert into cscart_seo_redirects (src,dest,type,object_id,company_id,lang_code) "
             f"values ('{src}','','p',{main},1,'ru')")
 subprocess.run(NEW_SSH + ['rm -rf /var/www/www-root/data/www/dev.irepair.ru/var/cache/registry/block_content_*'], check=True)
@@ -181,13 +213,5 @@ for pid in ids:
     print(f"{pid} | {p['product']} | {p['price']} | {p['product_code']} | {p['status']} | seo {p.get('seo_name')} | parent {p.get('parent_product_id')} "
           f"| cat {p.get('category_ids')} | desc same {p.get('full_description') == desc} | img {bool(p.get('main_pair'))} "
           f"| f{args.feature} {f.get(str(args.feature), {}).get('variant')} | f4 {f.get('4', {}).get('value')} | f5 {f.get('5', {}).get('value')}")
-if old_url:
-    req = urllib.request.Request(old_url.replace('https://irepair.ru', 'https://dev.irepair.ru'), method='HEAD')
-
-    class NoRedirect(urllib.request.HTTPRedirectHandler):
-        def redirect_request(self, *a, **k):
-            return None
-    try:
-        urllib.request.build_opener(NoRedirect).open(req, timeout=60)
-    except urllib.error.HTTPError as e:
-        print('старый URL →', e.code, e.headers.get('Location'))
+if src:
+    print('старый URL →', *head('https://dev.irepair.ru' + src + '/'))
