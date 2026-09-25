@@ -60,18 +60,23 @@
                     <a class="irepair-sl__name" href="{$irp_sl_url}">{$irp_sl_name nofilter}</a>
                     {if $irp_sl_opts}
                         <div class="irepair-sl__opts" role="group" aria-label="Варианты услуги">
+                            {$irp_sl_notes = []}
                             {foreach $irp_sl_opts as $irp_sl_o}
                                 {$irp_sl_vdata = $irp_sl_o.variant_id|fn_get_product_feature_variant}
                                 {$irp_sl_note = $irp_sl_vdata.description|default:""|strip_tags|trim}
+                                {if $irp_sl_note}{$irp_sl_notes[$irp_sl_o.id] = $irp_sl_note}{/if}
                                 <button type="button"
                                         class="irepair-sl__opt{if $irp_sl_o.id == $irp_sl_active.id} is-active{/if}"
                                         data-irp-opt="{$irp_sl_o.id}"
                                         data-service="{$irp_sl_name} | {$irp_sl_o.name}"
                                         data-price="{$irp_sl_o.price|intval}"
-                                        aria-pressed="{if $irp_sl_o.id == $irp_sl_active.id}true{else}false{/if}"
-                                        {if $irp_sl_note}title="{$irp_sl_note}"{/if}>{$irp_sl_o.name}</button>
+                                        aria-pressed="{if $irp_sl_o.id == $irp_sl_active.id}true{else}false{/if}">{$irp_sl_o.name}</button>
                             {/foreach}
                         </div>
+                        {* пояснение к выбранному типу запчасти — «Описание» значения характеристики (как в карточке товара) *}
+                        {foreach $irp_sl_notes as $irp_sl_note_id => $irp_sl_note}
+                            <p class="irepair-sl__note" data-irp-opt-note="{$irp_sl_note_id}"{if $irp_sl_note_id != $irp_sl_active.id} hidden{/if}>{$irp_sl_note}</p>
+                        {/foreach}
                     {/if}
                 </div>
 
@@ -276,8 +281,16 @@
   background: #eefaf3;
   color: #010306;
 }
-.irepair-sl .irepair-sl__price-value[hidden] {
+.irepair-sl .irepair-sl__price-value[hidden],
+.irepair-sl .irepair-sl__note[hidden] {
   display: none;
+}
+.irepair-sl .irepair-sl__note {
+  margin: 8px 0 0;
+  padding: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: #7a7a7a;
 }
 
 @media (max-width: 1180px) {
@@ -373,6 +386,40 @@
     padding: 6px 14px;
     font-size: 13px;
   }
+  /* телефон, услуга с вариантами: варианты и цена — на одной строке под названием */
+  .irepair-sl .irepair-sl__row.irepair-sl__row--opts {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 14px;
+    align-items: start;
+  }
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__main {
+    display: contents;
+  }
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__name {
+    grid-column: 1 / -1;
+  }
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__opts {
+    grid-column: 1;
+    margin-top: 8px;
+  }
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__price {
+    grid-column: 2;
+    margin-top: 8px;
+  }
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__price-value {
+    /* по высоте «таблетки» варианта — цена на одной линии с ней */
+    line-height: 32px;
+  }
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__time {
+    margin-top: 0;
+  }
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__note {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    font-size: 12px;
+    line-height: 16px;
+  }
   .irepair-sl .irepair-sl__row-link {
     position: absolute;
     top: 0;
@@ -407,6 +454,9 @@
     });
     row.querySelectorAll('[data-irp-opt-price]').forEach(function (p) {
       p.hidden = p.getAttribute('data-irp-opt-price') !== id;
+    });
+    row.querySelectorAll('[data-irp-opt-note]').forEach(function (n) {
+      n.hidden = n.getAttribute('data-irp-opt-note') !== id;
     });
     var btn = row.querySelector('.irepair-sl__btn');
     if (btn) {
