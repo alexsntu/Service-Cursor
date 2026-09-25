@@ -24,6 +24,10 @@
   "offers": ["Замена аккумулятора iPhone 15", ...],
   "faq": [["вопрос", "ответ"], ...]                                         # 3 штуки
 }
+
+Конечная категория (модель, напр. «Ремонт iPhone 17»): "banner_only": true —
+только баннер (без «Выберите модель…» и без SEO-файла); прайс услуг ниже выводит сама категория.
+Нужны: dir, template, slug, device, title (полный заголовок баннера), sub, service, image, image_alt.
 """
 import argparse
 import json
@@ -36,12 +40,33 @@ cfg = json.load(open(p.parse_args().config, encoding='utf-8'))
 base = os.path.join(os.path.dirname(os.path.abspath(p.parse_args().config)), cfg['dir'])
 tpl_block = open(os.path.join(base, cfg['template'] + '.html'), encoding='utf-8').read()
 tpl_seo = open(os.path.join(base, cfg['template'] + '-seo.html'), encoding='utf-8').read()
-dev, ser = cfg['device'], cfg['series']
+dev, ser = cfg['device'], cfg.get('series', '')
 # необязательные поля (для не-iPhone разделов, напр. MacBook Pro):
 sp = cfg.get('series_phrase', f'{dev} {ser} серии')          # «iPhone 15 серии» / «MacBook Pro»
 sub = cfg.get('sub', f'Все модели {ser} серии.')             # первая фраза подписи в баннере
 pick = cfg.get('pick_title', f'Выберите модель {dev}, чтобы узнать стоимость ремонта')
 faq_title = cfg.get('faq_title', f'Частые вопросы о ремонте {dev} {ser}')
+
+# ---------- конечная категория: только баннер ----------
+if cfg.get('banner_only'):
+    s = tpl_block
+    s = re.sub(r'(<div class="irepair-page-series__banner-title">).*?(</div>)',
+               lambda m: m.group(1) + cfg['title'] + m.group(2), s, count=1)
+    s = re.sub(r'(<p class="irepair-page-series__banner-sub">).*?(</p>)',
+               lambda m: m.group(1) + cfg['sub'] + m.group(2), s, count=1)
+    s = re.sub(r'data-service="Ремонт [^"]*"', f'data-service="{cfg["service"]}"', s, count=1)
+    s = re.sub(r'(class="irepair-page-series__banner-img" role="img" aria-label=")[^"]*"', lambda m: m.group(1) + cfg['image_alt'] + '"', s, count=1)
+    s = re.sub(r"url\('/images/content/catalog/[^']+'\)", f"url('{cfg['image']}')", s, count=1)
+    # убрать заголовок выбора модели и плитки моделей
+    s = re.sub(r'\n    <h2 class="irepair-page-series__section-title">.*?</h2>\n    <div class="irepair-page-series__models">.*?</div>\n', '\n', s, count=1, flags=re.S)
+    # отступ под баннером — до прайса категории; у баннера и так margin-bottom
+    s = s.replace('<div class="irepair-page-series">', '<div class="irepair-page-series irepair-page-series--model">', 1)
+    s = s.replace('</style>', '/* конечная категория: сразу под баннером идёт прайс услуг — лишний нижний отступ блока не нужен */\n'
+                  '.irepair-page-series.irepair-page-series--model {\n  margin-bottom: 0;\n}\n</style>', 1)
+    open(os.path.join(base, cfg['slug'] + '.html'), 'w', encoding='utf-8').write(s)
+    print('written (banner only):', cfg['slug'], '| models block left:', 'irepair-page-series__models">' in s.split('<style>')[0],
+          '| smarty-unsafe braces:', len(re.findall(r'\{(?=\S)', s)))
+    raise SystemExit
 
 # ---------- блок 202 ----------
 s = tpl_block

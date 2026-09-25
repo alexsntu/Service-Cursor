@@ -1,0 +1,12 @@
+{
+  "banner_only": true,
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "remont-iphone-17",
+  "device": "iPhone",
+  "title": "Ремонт iPhone 17",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPhone 17",
+  "image": "/images/content/catalog/iphone-17-model.webp",
+  "image_alt": "iPhone 17 во всех цветах"
+}
