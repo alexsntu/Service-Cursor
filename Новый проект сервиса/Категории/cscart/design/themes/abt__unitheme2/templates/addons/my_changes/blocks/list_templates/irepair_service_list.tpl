@@ -55,7 +55,7 @@
             {foreach $irp_sl_opts as $irp_sl_o}{if $irp_sl_o.active}{$irp_sl_active = $irp_sl_o}{/if}{/foreach}
             {if $irp_sl_opts && !$irp_sl_active}{$irp_sl_active = $irp_sl_opts.0}{/if}
 
-            <li class="irepair-sl__row{if $irp_sl_opts} irepair-sl__row--opts{/if}">
+            <li class="irepair-sl__row{if $irp_sl_opts} irepair-sl__row--opts{/if}{if $irp_sl_opts|count > 2} irepair-sl__row--opts-many{/if}">
                 <div class="irepair-sl__main">
                     <a class="irepair-sl__name" href="{$irp_sl_url}">{$irp_sl_name nofilter}</a>
                     {if $irp_sl_opts}
@@ -401,15 +401,24 @@
   }
   .irepair-sl .irepair-sl__row--opts .irepair-sl__opts {
     grid-column: 1;
+    grid-row: 2;
     margin-top: 8px;
   }
   .irepair-sl .irepair-sl__row--opts .irepair-sl__price {
     grid-column: 2;
+    grid-row: 2;
     margin-top: 8px;
   }
   .irepair-sl .irepair-sl__row--opts .irepair-sl__price-value {
-    /* по высоте «таблетки» варианта — цена на одной линии с ней */
-    line-height: 32px;
+    /* ровно по центру «таблетки» варианта (её высота 32px), цена крупнее */
+    display: flex;
+    align-items: center;
+    height: 32px;
+    font-size: 20px;
+    line-height: 1;
+  }
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__price-value[hidden] {
+    display: none;
   }
   .irepair-sl .irepair-sl__row--opts .irepair-sl__time {
     margin-top: 0;
@@ -419,6 +428,18 @@
     grid-row: 3;
     font-size: 12px;
     line-height: 16px;
+  }
+  /* 3–4 варианта (максимум у нас 4) в одну строку с ценой не помещаются: варианты — вся строка, цена — под ними */
+  .irepair-sl .irepair-sl__row--opts-many .irepair-sl__opts {
+    grid-column: 1 / -1;
+  }
+  .irepair-sl .irepair-sl__row--opts-many .irepair-sl__price {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin-top: 6px;
+  }
+  .irepair-sl .irepair-sl__row--opts-many .irepair-sl__note {
+    grid-row: 4;
   }
   .irepair-sl .irepair-sl__row-link {
     position: absolute;
