@@ -74,8 +74,8 @@
   max-width: 700px;
   margin: 0 auto;
   font-family: 'Montserrat-Medium', Arial, sans-serif;
-  font-size: 48px;
-  line-height: 56px;
+  font-size: 36px;
+  line-height: 44px;
   font-weight: 400;
   text-align: center;
   color: #010306;
