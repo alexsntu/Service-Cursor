@@ -1,0 +1,12 @@
+{
+  "banner_only": true,
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "remont-iphone-air",
+  "device": "iPhone",
+  "title": "Ремонт iPhone Air",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPhone Air",
+  "image": "/images/content/catalog/iphone-air-model.webp",
+  "image_alt": "iPhone Air во всех цветах"
+}
