@@ -99,3 +99,53 @@ function fn_my_changes_irepair_sync_feature_conditions($product_id)
 
     return $conditions;
 }
+
+/**
+ * Последние статьи блога для блока «Полезные статьи» на главной (main-page/index-blog.html).
+ * Вызывается из «HTML блока с поддержкой Smarty», где CS-Cart разрешает только функции из схемы
+ * block_manager/smarty_allowed_functions — поэтому всё готовим здесь: ссылка, картинка, дата по-русски, анонс.
+ */
+function fn_my_changes_irepair_latest_blog_posts($limit = 4)
+{
+    $limit = max(1, min(12, (int) $limit));
+    $months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+    list($pages) = fn_get_pages([
+        'page_type'  => defined('PAGE_TYPE_BLOG') ? PAGE_TYPE_BLOG : 'B',
+        'status'     => 'A',
+        'sort_by'    => 'timestamp',
+        'sort_order' => 'desc',
+        'get_image'  => true,
+    ], $limit + 2);
+
+    $posts = [];
+    foreach ((array) $pages as $page) {
+        if (empty($page['parent_id'])) {
+            continue; // корневая страница «Блог»
+        }
+        $image = '';
+        if (!empty($page['main_pair']['icon']['image_path'])) {
+            $image = $page['main_pair']['icon']['image_path'];
+        } elseif (!empty($page['main_pair']['detailed']['image_path'])) {
+            $image = $page['main_pair']['detailed']['image_path'];
+        }
+        $text = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags((string) (!empty($page['spoiler']) ? $page['spoiler'] : $page['description'])), ENT_QUOTES, 'UTF-8')));
+        if (mb_strlen($text) > 170) {
+            $text = rtrim(mb_substr($text, 0, 170)) . '…';
+        }
+        $ts = (int) $page['timestamp'];
+        $posts[] = [
+            'title'    => $page['page'],
+            'url'      => fn_url('pages.view?page_id=' . $page['page_id']),
+            'image'    => $image,
+            'date'     => date('j', $ts) . ' ' . $months[(int) date('n', $ts) - 1] . ' ' . date('Y', $ts),
+            'date_iso' => date('Y-m-d', $ts),
+            'text'     => $text,
+            'blog_url' => fn_url('pages.view?page_id=' . $page['parent_id']),
+        ];
+        if (count($posts) >= $limit) {
+            break;
+        }
+    }
+
+    return $posts;
+}

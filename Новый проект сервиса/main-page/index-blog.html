@@ -2,13 +2,10 @@
    Вставлять в «HTML блок с поддержкой Smarty» на главной (Дизайн → Макеты → Главная).
    Статьи берутся автоматически: 4 последние опубликованные статьи блога (page_type B, кроме корневой «Блог»).
    Компьютер: слева большая свежая статья (обложка, дата, заголовок, анонс), справа 3 компактные строки.
-   Телефон: большая статья, под ней 3 строки. На обложках уже есть крупный текст — поэтому текст не поверх картинки. *}
-{$irp_bl = ["page_type" => "B", "status" => "A", "sort_by" => "timestamp", "sort_order" => "desc", "get_image" => true]|fn_get_pages:6}
-{$irp_bl_posts = []}
-{foreach $irp_bl.0|default:[] as $irp_bl_p}
-    {if $irp_bl_p.parent_id && $irp_bl_posts|count < 4}{$irp_bl_posts[] = $irp_bl_p}{/if}
-{/foreach}
-{$irp_bl_m = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"]}
+   Телефон: большая статья, под ней 3 строки. На обложках уже есть крупный текст — поэтому текст не поверх картинки.
+   Данные готовит fn_my_changes_irepair_latest_blog_posts (аддон my_changes, func.php) — в этом блоке CS-Cart
+   разрешает только функции из схемы block_manager/smarty_allowed_functions (наша добавлена там же). *}
+{$irp_bl_posts = 4|fn_my_changes_irepair_latest_blog_posts}
 
 {if $irp_bl_posts}
 <div class="irepair-index-blog">
@@ -18,29 +15,23 @@
 
     <div class="irepair-index-blog__grid">
       {foreach $irp_bl_posts as $irp_bl_p name="irp_bl"}
-        {$irp_bl_url = "pages.view?page_id=`$irp_bl_p.page_id`"|fn_url}
-        {$irp_bl_img = $irp_bl_p.main_pair.icon.image_path|default:$irp_bl_p.main_pair.detailed.image_path}
-        {$irp_bl_mi = ($irp_bl_p.timestamp|date_format:"%m")|intval}
-        {$irp_bl_d = $irp_bl_p.timestamp|date_format:"%e"|trim}
-        {$irp_bl_y = $irp_bl_p.timestamp|date_format:"%Y"}
-        {$irp_bl_date = $irp_bl_d|cat:" "|cat:$irp_bl_m[$irp_bl_mi - 1]|cat:" "|cat:$irp_bl_y}
         {if $smarty.foreach.irp_bl.first}
-          <a class="irepair-index-blog__main" href="{$irp_bl_url}">
-            {if $irp_bl_img}<span class="irepair-index-blog__main-img"><img src="{$irp_bl_img}" alt="{$irp_bl_p.page}" loading="lazy"></span>{/if}
+          <a class="irepair-index-blog__main" href="{$irp_bl_p.url}">
+            {if $irp_bl_p.image}<span class="irepair-index-blog__main-img"><img src="{$irp_bl_p.image}" alt="{$irp_bl_p.title}" loading="lazy"></span>{/if}
             <span class="irepair-index-blog__main-body">
-              <span class="irepair-index-blog__date">{$irp_bl_date}</span>
-              <span class="irepair-index-blog__main-title">{$irp_bl_p.page}</span>
-              <span class="irepair-index-blog__main-text">{$irp_bl_p.spoiler|default:$irp_bl_p.description|strip_tags|trim|truncate:170:"…" nofilter}</span>
+              <time class="irepair-index-blog__date" datetime="{$irp_bl_p.date_iso}">{$irp_bl_p.date}</time>
+              <span class="irepair-index-blog__main-title">{$irp_bl_p.title}</span>
+              <span class="irepair-index-blog__main-text">{$irp_bl_p.text}</span>
               <span class="irepair-index-blog__more">Читать статью <svg width="6" height="12" viewBox="0 0 6 12" fill="none" aria-hidden="true"><path d="M1 1.5L5 6L1 10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </span>
           </a>
           <div class="irepair-index-blog__list">
         {else}
-            <a class="irepair-index-blog__item" href="{$irp_bl_url}">
-              {if $irp_bl_img}<span class="irepair-index-blog__item-img"><img src="{$irp_bl_img}" alt="{$irp_bl_p.page}" loading="lazy"></span>{/if}
+            <a class="irepair-index-blog__item" href="{$irp_bl_p.url}">
+              {if $irp_bl_p.image}<span class="irepair-index-blog__item-img"><img src="{$irp_bl_p.image}" alt="{$irp_bl_p.title}" loading="lazy"></span>{/if}
               <span class="irepair-index-blog__item-body">
-                <span class="irepair-index-blog__date">{$irp_bl_date}</span>
-                <span class="irepair-index-blog__item-title">{$irp_bl_p.page}</span>
+                <time class="irepair-index-blog__date" datetime="{$irp_bl_p.date_iso}">{$irp_bl_p.date}</time>
+                <span class="irepair-index-blog__item-title">{$irp_bl_p.title}</span>
               </span>
             </a>
         {/if}
@@ -51,7 +42,7 @@
     </div>
 
     <div class="irepair-index-blog__actions">
-      <a class="irepair-index-blog__btn" href="{"pages.view?page_id=`$irp_bl_posts.0.parent_id`"|fn_url}">Все статьи блога</a>
+      <a class="irepair-index-blog__btn" href="{$irp_bl_posts.0.blog_url}">Все статьи блога</a>
     </div>
   </div>
 </div>
