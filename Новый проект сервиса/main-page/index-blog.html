@@ -1,4 +1,5 @@
-{* iRepair: главная — блок «Полезные статьи» (последние статьи блога).
+{* iRepair: главная — блок «Блог iRepair» (последние статьи блога: новости Apple, советы, интересное).
+   Отступ сверху 25px от блока над ним (irepair-index-cta: снизу 80px / 48px на телефоне + обёртка CS-Cart 20px).
    Вставлять в «HTML блок с поддержкой Smarty» на главной (Дизайн → Макеты → Главная).
    Статьи берутся автоматически: 4 последние опубликованные статьи блога (page_type B, кроме корневой «Блог»).
    Компьютер: слева большая свежая статья (обложка, дата, заголовок, анонс), справа 3 компактные строки.
@@ -10,8 +11,8 @@
 {if $irp_bl_posts}
 <div class="irepair-index-blog">
   <div class="g-wrapper">
-    <h2 class="irepair-index-blog__title">Полезные статьи</h2>
-    <p class="irepair-index-blog__lead">Советы мастеров iRepair: как продлить жизнь технике Apple и не переплатить за ремонт</p>
+    <h2 class="irepair-index-blog__title">Блог iRepair</h2>
+    <p class="irepair-index-blog__lead">Новости из мира Apple, советы мастеров и всё самое интересное о технике</p>
 
     <div class="irepair-index-blog__grid">
       {foreach $irp_bl_posts as $irp_bl_p name="irp_bl"}
@@ -54,7 +55,7 @@
   box-sizing: border-box;
 }
 .irepair-index-blog {
-  margin: 0 0 80px;
+  margin: -75px 0 80px;
 }
 .irepair-index-blog .g-wrapper {
   max-width: 1370px;
@@ -259,6 +260,7 @@
 }
 @media (max-width: 650px) {
   .irepair-index-blog {
+    margin-top: -43px;
     margin-bottom: 56px;
   }
   .irepair-index-blog .irepair-index-blog__title {
