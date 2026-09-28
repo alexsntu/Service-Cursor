@@ -1,0 +1,12 @@
+{
+  "banner_only": true,
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "remont-iphone-xs-max",
+  "device": "iPhone",
+  "title": "Ремонт iPhone XS&nbsp;Max",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPhone XS Max",
+  "image": "/images/content/catalog/iphone-xs-max-model.webp",
+  "image_alt": "iPhone XS Max во всех цветах"
+}
