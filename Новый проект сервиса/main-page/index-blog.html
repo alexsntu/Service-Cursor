@@ -1,0 +1,321 @@
+{* iRepair: главная — блок «Полезные статьи» (последние статьи блога).
+   Вставлять в «HTML блок с поддержкой Smarty» на главной (Дизайн → Макеты → Главная).
+   Статьи берутся автоматически: 4 последние опубликованные статьи блога (page_type B, кроме корневой «Блог»).
+   Компьютер: слева большая свежая статья (обложка, дата, заголовок, анонс), справа 3 компактные строки.
+   Телефон: большая статья, под ней 3 строки. На обложках уже есть крупный текст — поэтому текст не поверх картинки. *}
+{$irp_bl = ["page_type" => "B", "status" => "A", "sort_by" => "timestamp", "sort_order" => "desc", "get_image" => true]|fn_get_pages:6}
+{$irp_bl_posts = []}
+{foreach $irp_bl.0|default:[] as $irp_bl_p}
+    {if $irp_bl_p.parent_id && $irp_bl_posts|count < 4}{$irp_bl_posts[] = $irp_bl_p}{/if}
+{/foreach}
+{$irp_bl_m = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"]}
+
+{if $irp_bl_posts}
+<div class="irepair-index-blog">
+  <div class="g-wrapper">
+    <h2 class="irepair-index-blog__title">Полезные статьи</h2>
+    <p class="irepair-index-blog__lead">Советы мастеров iRepair: как продлить жизнь технике Apple и не переплатить за ремонт</p>
+
+    <div class="irepair-index-blog__grid">
+      {foreach $irp_bl_posts as $irp_bl_p name="irp_bl"}
+        {$irp_bl_url = "pages.view?page_id=`$irp_bl_p.page_id`"|fn_url}
+        {$irp_bl_img = $irp_bl_p.main_pair.icon.image_path|default:$irp_bl_p.main_pair.detailed.image_path}
+        {$irp_bl_mi = ($irp_bl_p.timestamp|date_format:"%m")|intval}
+        {$irp_bl_d = $irp_bl_p.timestamp|date_format:"%e"|trim}
+        {$irp_bl_y = $irp_bl_p.timestamp|date_format:"%Y"}
+        {$irp_bl_date = $irp_bl_d|cat:" "|cat:$irp_bl_m[$irp_bl_mi - 1]|cat:" "|cat:$irp_bl_y}
+        {if $smarty.foreach.irp_bl.first}
+          <a class="irepair-index-blog__main" href="{$irp_bl_url}">
+            {if $irp_bl_img}<span class="irepair-index-blog__main-img"><img src="{$irp_bl_img}" alt="{$irp_bl_p.page}" loading="lazy"></span>{/if}
+            <span class="irepair-index-blog__main-body">
+              <span class="irepair-index-blog__date">{$irp_bl_date}</span>
+              <span class="irepair-index-blog__main-title">{$irp_bl_p.page}</span>
+              <span class="irepair-index-blog__main-text">{$irp_bl_p.spoiler|default:$irp_bl_p.description|strip_tags|trim|truncate:170:"…" nofilter}</span>
+              <span class="irepair-index-blog__more">Читать статью <svg width="6" height="12" viewBox="0 0 6 12" fill="none" aria-hidden="true"><path d="M1 1.5L5 6L1 10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </span>
+          </a>
+          <div class="irepair-index-blog__list">
+        {else}
+            <a class="irepair-index-blog__item" href="{$irp_bl_url}">
+              {if $irp_bl_img}<span class="irepair-index-blog__item-img"><img src="{$irp_bl_img}" alt="{$irp_bl_p.page}" loading="lazy"></span>{/if}
+              <span class="irepair-index-blog__item-body">
+                <span class="irepair-index-blog__date">{$irp_bl_date}</span>
+                <span class="irepair-index-blog__item-title">{$irp_bl_p.page}</span>
+              </span>
+            </a>
+        {/if}
+        {if $smarty.foreach.irp_bl.last}
+          </div>
+        {/if}
+      {/foreach}
+    </div>
+
+    <div class="irepair-index-blog__actions">
+      <a class="irepair-index-blog__btn" href="{"pages.view?page_id=`$irp_bl_posts.0.parent_id`"|fn_url}">Все статьи блога</a>
+    </div>
+  </div>
+</div>
+
+{literal}
+<style>
+.irepair-index-blog,
+.irepair-index-blog * {
+  box-sizing: border-box;
+}
+.irepair-index-blog {
+  margin: 0 0 80px;
+}
+.irepair-index-blog .g-wrapper {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 0 35px;
+}
+/* заголовок — как у остальных блоков главной */
+.irepair-index-blog .irepair-index-blog__title {
+  margin: 0 0 12px;
+  padding: 0;
+  text-align: center;
+  font-family: 'Montserrat-SemiBold', 'Montserrat-Bold', Arial, sans-serif;
+  font-size: 38px;
+  line-height: 1.15;
+  font-weight: 400;
+  text-transform: none;
+  color: #1d1d1f;
+}
+.irepair-index-blog .irepair-index-blog__lead {
+  max-width: 620px;
+  margin: 0 auto 40px;
+  text-align: center;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 23px;
+  color: #6e6e73;
+}
+.irepair-index-blog .irepair-index-blog__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+/* большая статья */
+.irepair-index-blog .irepair-index-blog__main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  color: inherit;
+  text-decoration: none;
+  transition: box-shadow 0.25s ease;
+}
+.irepair-index-blog .irepair-index-blog__main:hover {
+  box-shadow: 0 14px 40px rgba(32, 204, 190, 0.18);
+}
+.irepair-index-blog .irepair-index-blog__main-img {
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #f4f4f6;
+}
+.irepair-index-blog .irepair-index-blog__main-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.irepair-index-blog .irepair-index-blog__main-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding: 24px 28px 28px;
+}
+.irepair-index-blog .irepair-index-blog__date {
+  display: block;
+  margin: 0 0 8px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  color: #939393;
+}
+.irepair-index-blog .irepair-index-blog__main-title {
+  display: block;
+  margin: 0 0 12px;
+  font-family: 'Montserrat-SemiBold', 'Montserrat-Bold', Arial, sans-serif;
+  font-size: 24px;
+  line-height: 30px;
+  color: #1d1d1f;
+  transition: color 0.2s ease;
+}
+.irepair-index-blog .irepair-index-blog__main:hover .irepair-index-blog__main-title {
+  color: #20a86b;
+}
+.irepair-index-blog .irepair-index-blog__main-text {
+  display: -webkit-box;
+  margin: 0 0 18px;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #5c5b5b;
+}
+.irepair-index-blog .irepair-index-blog__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #37d97b;
+}
+/* компактные строки справа */
+.irepair-index-blog .irepair-index-blog__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.irepair-index-blog .irepair-index-blog__item {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0;
+  gap: 18px;
+  padding: 14px;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  color: inherit;
+  text-decoration: none;
+  transition: box-shadow 0.25s ease;
+}
+.irepair-index-blog .irepair-index-blog__item:hover {
+  box-shadow: 0 14px 40px rgba(32, 204, 190, 0.18);
+}
+.irepair-index-blog .irepair-index-blog__item-img {
+  display: block;
+  flex: 0 0 42%;
+  max-width: 220px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f4f4f6;
+}
+.irepair-index-blog .irepair-index-blog__item-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.irepair-index-blog .irepair-index-blog__item-body {
+  min-width: 0;
+}
+.irepair-index-blog .irepair-index-blog__item-title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-family: 'Montserrat-Medium', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  color: #1d1d1f;
+  transition: color 0.2s ease;
+}
+.irepair-index-blog .irepair-index-blog__item:hover .irepair-index-blog__item-title {
+  color: #20a86b;
+}
+.irepair-index-blog .irepair-index-blog__actions {
+  margin-top: 36px;
+  text-align: center;
+}
+/* кнопка — фирменный градиент, как «Заказать ремонт» */
+.irepair-index-blog .irepair-index-blog__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 240px;
+  padding: 15px 34px;
+  border-radius: 40px;
+  background: linear-gradient(103.87deg, #36d97b 29.3%, #19d4e0 96.89%);
+  background-size: 200% 100%;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 500;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background-position 0.3s ease;
+}
+.irepair-index-blog .irepair-index-blog__btn:hover {
+  color: #ffffff;
+  background-position: 100% 0;
+}
+
+@media (max-width: 1000px) {
+  .irepair-index-blog .irepair-index-blog__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .irepair-index-blog .irepair-index-blog__item {
+    flex: 0 0 auto;
+  }
+}
+@media (max-width: 767px) {
+  .irepair-index-blog .g-wrapper {
+    padding: 0 16px;
+  }
+}
+@media (max-width: 650px) {
+  .irepair-index-blog {
+    margin-bottom: 56px;
+  }
+  .irepair-index-blog .irepair-index-blog__title {
+    font-size: 24px;
+  }
+  .irepair-index-blog .irepair-index-blog__lead {
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .irepair-index-blog .irepair-index-blog__grid {
+    gap: 14px;
+  }
+  .irepair-index-blog .irepair-index-blog__main-body {
+    padding: 18px 18px 20px;
+  }
+  .irepair-index-blog .irepair-index-blog__main-title {
+    font-size: 19px;
+    line-height: 25px;
+  }
+  .irepair-index-blog .irepair-index-blog__main-text {
+    font-size: 15px;
+    line-height: 22px;
+  }
+  .irepair-index-blog .irepair-index-blog__list {
+    gap: 12px;
+  }
+  .irepair-index-blog .irepair-index-blog__item {
+    gap: 12px;
+    padding: 10px;
+    border-radius: 16px;
+  }
+  .irepair-index-blog .irepair-index-blog__item-img {
+    flex-basis: 38%;
+    border-radius: 10px;
+  }
+  .irepair-index-blog .irepair-index-blog__date {
+    margin-bottom: 4px;
+    font-size: 12px;
+  }
+  .irepair-index-blog .irepair-index-blog__item-title {
+    font-size: 14px;
+    line-height: 19px;
+  }
+  .irepair-index-blog .irepair-index-blog__btn {
+    width: 100%;
+  }
+}
+</style>
+{/literal}
+{/if}
