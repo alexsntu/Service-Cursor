@@ -1,0 +1,12 @@
+{
+  "banner_only": true,
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "remont-iphone-xr",
+  "device": "iPhone",
+  "title": "Ремонт iPhone XR",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPhone XR",
+  "image": "/images/content/catalog/iphone-xr-model.webp",
+  "image_alt": "iPhone XR во всех цветах"
+}
