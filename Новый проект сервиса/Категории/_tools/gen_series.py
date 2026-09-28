@@ -28,6 +28,7 @@
 Конечная категория (модель, напр. «Ремонт iPhone 17»): "banner_only": true —
 только баннер (без «Выберите модель…» и без SEO-файла); прайс услуг ниже выводит сама категория.
 Нужны: dir, template, slug, device, title (полный заголовок баннера), sub, service, image, image_alt.
+Необязательно: "mobile_img_after_title": true — на телефоне название → картинка → текст → кнопка (MacBook).
 """
 import argparse
 import json
@@ -66,6 +67,19 @@ if cfg.get('banner_only'):
                   '.irepair-page-series.irepair-page-series--model {\n  margin-bottom: 0;\n}\n'
                   '/* h1 темы (жирность, отступы, регистр) не должен менять вид заголовка баннера */\n'
                   '.irepair-page-series .irepair-page-series__banner-title {\n  padding: 0;\n  font-weight: 400;\n  letter-spacing: normal;\n  text-transform: none;\n}\n</style>', 1)
+    if cfg.get('mobile_img_after_title'):
+        # телефон (MacBook, горизонтальная картинка): название → картинка → текст → кнопка; компьютер без изменений
+        s = s.replace('irepair-page-series--model"', 'irepair-page-series--model irepair-page-series--img-mid"', 1)
+        s = s.replace('</style>', '@media (max-width: 650px) {\n'
+                      '  /* телефон: название → картинка → текст → кнопка (разметка та же, порядок — через flex order) */\n'
+                      '  .irepair-page-series--img-mid .irepair-page-series__banner {\n    display: flex;\n    flex-direction: column;\n    padding-bottom: 28px;\n  }\n'
+                      '  .irepair-page-series--img-mid .irepair-page-series__banner-text {\n    display: contents;\n  }\n'
+                      '  .irepair-page-series--img-mid .irepair-page-series__banner-title {\n    order: 1;\n  }\n'
+                      '  /* белый фон картинки не должен быть виден на зелёном градиенте — multiply делает белое прозрачным */\n'
+                      '  .irepair-page-series--img-mid .irepair-page-series__banner-img {\n    order: 2;\n    margin: 6px 0 18px;\n    padding-bottom: 56%;\n    background-position: center;\n    mix-blend-mode: multiply;\n  }\n'
+                      '  .irepair-page-series--img-mid .irepair-page-series__banner-sub {\n    order: 3;\n  }\n'
+                      '  .irepair-page-series--img-mid .irepair-page-series__banner-btn {\n    order: 4;\n  }\n'
+                      '}\n</style>', 1)
     open(os.path.join(base, cfg['slug'] + '.html'), 'w', encoding='utf-8').write(s)
     print('written (banner only):', cfg['slug'], '| models block left:', 'irepair-page-series__models">' in s.split('<style>')[0],
           '| smarty-unsafe braces:', len(re.findall(r'\{(?=\S)', s)))
