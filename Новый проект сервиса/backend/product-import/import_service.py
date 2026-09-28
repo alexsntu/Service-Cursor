@@ -1,7 +1,7 @@
 """Импорт одной услуги (со всеми вариантами) из RemOnline в CS-Cart — по процедуре из памяти Claude
 (project_cscart_product_import): главный товар = самый дешёвый вариант, ему название и URL старого сайта
 (`_` → `-`) + 301-редирект; всем вариантам — картинки, title, meta description, описание (prep_desc.py),
-гарантия (столбец L таблицы → характеристика 4), время ремонта (upc старого товара → характеристика 5).
+гарантия (столбец L таблицы → характеристика 4; старый адрес — по столбцу B через старую базу), время ремонта (upc старого товара → характеристика 5).
 Картинки после создания обрезаются по контуру объекта (crop_images.py).
 Товары создаются СРАЗУ в нужной категории и ВКЛЮЧЁННЫМИ.
 
@@ -211,24 +211,17 @@ extra_imgs = [x.strip() for x in blocks[3]] if len(blocks) > 3 and blocks[3] is 
 upc = upc.strip()
 desc_in = html.unescape(unesc(desc_raw))
 assert not any(ord(ch) > 0xFFFF for ch in name + meta_title + meta_desc + desc_in), '4-байтовые символы (эмодзи) — CS-Cart их не сохранит'
-# столбец D — только если там адрес (бывает число или мусор)
-old_url = next((str(rows[it['ro']][3]).strip() for it in items
-                if isinstance(rows[it['ro']][3], str) and rows[it['ro']][3].strip().startswith('http')), '')
-if not old_url and cat_path_rows:
-    # столбец D пуст (MacBook) — адрес = путь категории из старой базы + slug товара (проверяется ниже)
+# старый адрес — только по столбцу B (номер старого товара) через старую базу: путь главной категории + slug товара.
+# Столбец D не используем: там бывали чужие адреса (9005) и мусор (у iPad 10 — число 160).
+old_url = ''
+if cat_path_rows:
     old_url = 'https://irepair.ru/' + '/'.join(x.split('\t')[1].strip() for x in cat_path_rows) + '/' + slug + '/'
-# столбец D бывает неверным (напр. у 9005 там адрес замены дисплея) — берём папку категории из D + настоящий slug
-# старого товара и проверяем, что адрес живой на старом сайте
-if old_url:
-    cand = old_url.rstrip('/').rsplit('/', 1)[0] + '/' + slug + '/'
-    code = head(cand)[0]
-    if cand != old_url:
-        print(f'!!! столбец D: {old_url} → по slug старого товара: {cand} (HTTP {code})')
-    if code == 200:
-        old_url = cand
-    else:
-        print('!!! старый адрес не подтверждён — редирект не создаём, проверить вручную')
+    code = head(old_url)[0]
+    if code != 200:
+        print(f'!!! старый адрес {old_url} отвечает {code} — редирект не создаём, проверить вручную')
         old_url = ''
+else:
+    print('!!! у старого товара нет главной категории — старый адрес не найден, редирект не создаём')
 
 with tempfile.TemporaryDirectory() as tmp:
     open(os.path.join(tmp, 'in.html'), 'w', encoding='utf-8').write(desc_in)
