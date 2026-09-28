@@ -1,0 +1,12 @@
+{
+  "banner_only": true,
+  "dir": "../iPad",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-ipad-2",
+  "device": "iPad",
+  "title": "Ремонт iPad&nbsp;2",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPad 2",
+  "image": "/images/content/catalog/ipad-2-model.webp",
+  "image_alt": "iPad 2"
+}
