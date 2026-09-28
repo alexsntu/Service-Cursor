@@ -76,7 +76,7 @@ def ro(sid):
 
 
 def sql_new(q):
-    # _run: SSH до dev иногда рвётся («Connection closed», 255) — до 4 попыток
+    # _run: SSH до dev иногда рвётся («Connection closed», 255) — до 6 попыток
     return _run(NEW_SSH + ['mysql --defaults-extra-file=/root/.my.cscart.cnf irepair_cscart -N -e ' + json.dumps(q)],
                 capture_output=True, text=True).stdout
 

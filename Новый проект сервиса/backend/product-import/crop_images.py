@@ -30,14 +30,14 @@ MIN_SIDE = 500   # если после обрезки картинка мень�
 
 
 def _run(cmd, **kw):
-    """SSH/scp до сервера иногда рвётся («Connection closed») — до 4 попыток."""
-    for attempt in range(4):
+    """SSH/scp до сервера иногда рвётся («Connection closed») — до 6 попыток, пауза 10 с."""
+    for attempt in range(6):
         try:
             return subprocess.run(cmd, check=True, **kw)
         except subprocess.CalledProcessError:
-            if attempt == 3:
+            if attempt == 5:
                 raise
-            time.sleep(5)
+            time.sleep(10)
 
 
 def _ssh(cmd):
