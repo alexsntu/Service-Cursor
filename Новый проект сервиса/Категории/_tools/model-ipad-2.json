@@ -8,5 +8,6 @@
   "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
   "service": "Ремонт iPad 2",
   "image": "/images/content/catalog/ipad-2-model.webp",
-  "image_alt": "iPad 2"
+  "image_alt": "iPad 2",
+  "mobile_img_after_title": true
 }

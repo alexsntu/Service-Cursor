@@ -15,7 +15,7 @@ MacBook (один товар на категорию, два выбора — м
   python3 import_service.py --cat 90 --feature 7 --model-feature 6 64111819 38457879 …
   Модель = столбец N (MODEL №) → «процессор | A-номера» (как в прайсе, процессор по CHIP_MAP из
   main-page/scripts/build-repair-prices.py); нового значения в характеристике --model-feature нет — скрипт его добавит.
-  Гарантия: столбец L, а если пусто — из строки «Модуль» этой услуги (столбец N вида «AASP 12 | ОЕМ 3»).
+  Гарантия: столбец L, а если пусто — из строки «Модуль» этой услуги (столбец N вида «AASP 12 | ОЕМ 3»), а если и там нет — 1 месяц.
   Старый адрес: столбец D, а если пусто — путь категории товара в старой базе.
 """
 import argparse
@@ -140,6 +140,8 @@ for it in items:
         print(f"!!! RO {it['ro']}: цена в таблице {it['price']}, в RemOnline {it['ro_price']} — берём из таблицы")
     it['old_id'] = int(re.search(r'product_id=(\d+)', r[1]).group(1))
     it['warranty'] = str(int(r[11])) if r[11] not in (None, '') else module_warranty.get(it['ro'], {}).get(it['value'].upper(), '')
+    # владелец 2026-09-28: гарантия нигде не указана → всегда 1 месяц
+    it['warranty'] = it['warranty'] or '1'
     if args.model_feature:
         it['model'], it['model_pos'] = model_label(str(r[13] or ''))
 items.sort(key=lambda x: x['price'])
