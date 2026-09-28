@@ -26,7 +26,7 @@ import urllib.request
 
 import openpyxl
 
-from crop_images import crop_products
+from crop_images import _run, crop_products
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TABLE = os.path.expanduser('~/Документы/Сервис/Новая таблица888.xlsx')
@@ -76,8 +76,9 @@ def ro(sid):
 
 
 def sql_new(q):
-    return subprocess.run(NEW_SSH + ['mysql --defaults-extra-file=/root/.my.cscart.cnf irepair_cscart -N -e ' + json.dumps(q)],
-                          capture_output=True, text=True, check=True).stdout
+    # _run: SSH до dev иногда рвётся («Connection closed», 255) — до 4 попыток
+    return _run(NEW_SSH + ['mysql --defaults-extra-file=/root/.my.cscart.cnf irepair_cscart -N -e ' + json.dumps(q)],
+                capture_output=True, text=True).stdout
 
 
 # 1. RemOnline
@@ -218,7 +219,7 @@ if src:
 # 7a. Картинки: обрезать белые/прозрачные поля по контуру объекта (crop_images.py)
 print('обрезка картинок:')
 crop_products(ids)
-subprocess.run(NEW_SSH + ['rm -rf /var/www/www-root/data/www/dev.irepair.ru/var/cache/registry/block_content_*'], check=True)
+_run(NEW_SSH + ['rm -rf /var/www/www-root/data/www/dev.irepair.ru/var/cache/registry/block_content_*'])
 
 # 8. Проверка
 for pid in ids:
