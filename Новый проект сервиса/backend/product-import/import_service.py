@@ -107,6 +107,11 @@ def model_label(modelno, model=''):
             chip = re.search(r'\b[MМ](\d+)\b', model)  # бывает кириллическая «М»
             prefix = f"{gen.group(1)} поколение" + (f" (M{chip.group(1)})" if chip else '')
             return f"{prefix} | {' / '.join(parts)}", int(gen.group(1)) * 10000 + int(parts[0][1:])
+        size = re.search(r'-(11|13)\b', model or '')  # iPad Air 6/7: «Air 6-11 M2» → 11"
+        if size:
+            chip = re.search(r'\b[MМ](\d+)\b', model)
+            prefix = f'{size.group(1)}"' + (f" (M{chip.group(1)})" if chip else '')
+            return f"{prefix} | {' / '.join(parts)}", int(size.group(1)) * 10000 + int(parts[0][1:])
         return ' / '.join(parts), int(parts[0][1:])
     chips = []
     for p in parts:
