@@ -249,10 +249,12 @@
                 <div class="irepair-blog-rel__items">
                 {foreach $irp_rel_posts as $irp_p}
                     {$irp_url = "pages.view?page_id=`$irp_p.page_id`"|fn_url}
-                    {$irp_img = $irp_p.page_id|fn_get_image_pairs:"page":"M":true:true}
+                    {* картинки статей блога — object_type «blog», тип M (как в модуле блога) *}
+                    {$irp_img = $irp_p.page_id|fn_get_image_pairs:"blog":"M":true:true}
+                    {$irp_src = $irp_img.icon.image_path|default:$irp_img.detailed.image_path}
                     <a class="irepair-blog-rel__item" href="{$irp_url}">
-                        {if $irp_img.detailed.image_path}
-                            <span class="irepair-blog-rel__image"><img src="{$irp_img.detailed.image_path}" alt="{$irp_p.page}" loading="lazy"></span>
+                        {if $irp_src}
+                            <span class="irepair-blog-rel__image"><img src="{$irp_src}" alt="{$irp_p.page}" loading="lazy"></span>
                         {/if}
                         <span class="irepair-blog-rel__name">{$irp_p.page}</span>
                         <span class="irepair-blog-rel__more">Читать полностью ›</span>

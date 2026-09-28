@@ -132,6 +132,40 @@
   font-weight: 500;
   color: #010306;
 }
+/* блоки статей, перенесённых со старого сайта (формат apple-blog-container, свой <style> убран при переносе) */
+.ty-wysiwyg-content:has(> .irepair-blog-post) .apple-callout {
+  margin: 24px 0;
+  padding: 18px 22px;
+  border-left: 4px solid #37d97b;
+  background: #f6fbf8;
+  border-radius: 0 12px 12px 0;
+}
+.ty-wysiwyg-content:has(> .irepair-blog-post) .apple-callout > :last-child {
+  margin-bottom: 0;
+}
+.ty-wysiwyg-content:has(> .irepair-blog-post) .apple-divider {
+  height: 1px;
+  margin: 36px 0;
+  border: 0;
+  background: #e3e3e3;
+}
+.ty-wysiwyg-content:has(> .irepair-blog-post) .apple-table-wrapper {
+  margin: 8px 0 28px;
+  overflow-x: auto;
+}
+.ty-wysiwyg-content:has(> .irepair-blog-post) .apple-table-wrapper table {
+  margin: 0;
+}
+/* слайдер из старой статьи (без скрипта) — картинки плиткой */
+.ty-wysiwyg-content:has(> .irepair-blog-post) .swiper-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 16px 0 24px;
+}
+.ty-wysiwyg-content:has(> .irepair-blog-post) .swiper-notification {
+  display: none;
+}
 .ty-wysiwyg-content:has(> .irepair-blog-post) blockquote {
   margin: 24px 0;
   padding: 16px 20px;
