@@ -168,16 +168,15 @@
     flex-wrap: wrap;
     padding: 0;
   }
+  /* картинка целиком (без обрезки): во всю ширину карточки, высота — по пропорциям */
   .irepair-blog .irepair-blog__item-image {
     width: 100%;
     min-width: 100%;
-    height: 291px;
     margin-right: 0;
     border-radius: 3px 3px 0 0;
   }
   .irepair-blog .irepair-blog__item-image img {
-    height: 100%;
-    object-fit: cover;
+    height: auto;
   }
   .irepair-blog .irepair-blog__item-content {
     padding: 32px;
@@ -214,9 +213,6 @@
   }
   .irepair-blog .irepair-blog__desc br {
     display: none;
-  }
-  .irepair-blog .irepair-blog__item-image {
-    height: 160px;
   }
   .irepair-blog .irepair-blog__item-content {
     padding: 16px 16px 32px;
