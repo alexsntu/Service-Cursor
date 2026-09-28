@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iPad",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-ipad-air-5",
+  "device": "iPad",
+  "title": "Ремонт iPad&nbsp;Air&nbsp;5",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPad Air 5",
+  "image": "/images/content/catalog/ipad-air-5-model.webp",
+  "image_alt": "iPad Air 5",
+  "mobile_img_after_title": true
+}
