@@ -1,0 +1,12 @@
+{
+  "banner_only": true,
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "remont-iphone-x",
+  "device": "iPhone",
+  "title": "Ремонт iPhone X",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPhone X",
+  "image": "/images/content/catalog/iphone-x-model.webp",
+  "image_alt": "iPhone X во всех цветах"
+}
