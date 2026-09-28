@@ -1,0 +1,12 @@
+{
+  "banner_only": true,
+  "dir": "../iPhone",
+  "template": "seriya-iphone-17",
+  "slug": "remont-iphone-15",
+  "device": "iPhone",
+  "title": "Ремонт iPhone 15",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPhone 15",
+  "image": "/images/content/catalog/iphone-15-model.webp",
+  "image_alt": "iPhone 15 во всех цветах"
+}
