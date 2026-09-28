@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iPad",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-ipad-mini-5",
+  "device": "iPad",
+  "title": "Ремонт iPad&nbsp;Mini&nbsp;5",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPad Mini 5",
+  "image": "/images/content/catalog/ipad-mini-5-model.webp",
+  "image_alt": "iPad Mini 5",
+  "mobile_img_after_title": true
+}
