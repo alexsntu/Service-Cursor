@@ -211,7 +211,9 @@ extra_imgs = [x.strip() for x in blocks[3]] if len(blocks) > 3 and blocks[3] is 
 upc = upc.strip()
 desc_in = html.unescape(unesc(desc_raw))
 assert not any(ord(ch) > 0xFFFF for ch in name + meta_title + meta_desc + desc_in), '4-байтовые символы (эмодзи) — CS-Cart их не сохранит'
-old_url = next((rows[it['ro']][3] for it in items if rows[it['ro']][3]), '')
+# столбец D — только если там адрес (бывает число или мусор)
+old_url = next((str(rows[it['ro']][3]).strip() for it in items
+                if isinstance(rows[it['ro']][3], str) and rows[it['ro']][3].strip().startswith('http')), '')
 if not old_url and cat_path_rows:
     # столбец D пуст (MacBook) — адрес = путь категории из старой базы + slug товара (проверяется ниже)
     old_url = 'https://irepair.ru/' + '/'.join(x.split('\t')[1].strip() for x in cat_path_rows) + '/' + slug + '/'
