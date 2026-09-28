@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iPad",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-ipad-pro-13-m4",
+  "device": "iPad",
+  "title": "Ремонт iPad&nbsp;Pro&nbsp;13&nbsp;M4",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPad Pro 13 M4",
+  "image": "/images/content/catalog/ipad-pro-13-m4-model.webp",
+  "image_alt": "iPad Pro 13 M4",
+  "mobile_img_after_title": true
+}

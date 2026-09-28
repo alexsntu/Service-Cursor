@@ -48,6 +48,7 @@ ap.add_argument('--cat', type=int, required=True, help='id категории CS
 ap.add_argument('--feature', type=int, required=True, help='id характеристики вариантов (напр. 3 = тип запчасти аккумулятора)')
 ap.add_argument('--model-feature', type=int, help='id характеристики модели (MacBook: 6) — второй выбор в группе вариаций')
 ap.add_argument('--slug', help='свой адрес (seo_name) главного товара вместо старого slug — если старый кривой; со старого адреса будет 301')
+ap.add_argument('--name', help='своё название услуги вместо старого (если старое общее, напр. «iPad Pro 13» на две категории M4/M5)')
 ap.add_argument('--dry-run', action='store_true')
 ap.add_argument('ro_ids', nargs='+')
 args = ap.parse_args()
@@ -211,6 +212,9 @@ for line in out:
         cur.append(line)
 name, meta_title, meta_desc, desc_raw = blocks[0][0].split('\t')
 name, meta_title, meta_desc = [html.unescape(unesc(x)).strip() for x in (name, meta_title, meta_desc)]
+if args.name:
+    print(f'название: «{name}» → «{args.name}»')
+    name = args.name
 slug = blocks[1][0].strip()
 main_img, upc = (blocks[2][0].split('\t') + [''])[:2]
 extra_imgs = [x.strip() for x in blocks[3]] if len(blocks) > 3 and blocks[3] is not cat_path_rows else []
