@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iPad",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-ipad-pro-12-9",
+  "device": "iPad",
+  "title": "Ремонт iPad&nbsp;Pro&nbsp;12.9",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPad Pro 12.9",
+  "image": "/images/content/catalog/ipad-pro-12-9-model.webp",
+  "image_alt": "iPad Pro 12.9",
+  "mobile_img_after_title": true
+}
