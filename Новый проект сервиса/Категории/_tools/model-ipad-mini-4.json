@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iPad",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-ipad-mini-4",
+  "device": "iPad",
+  "title": "Ремонт iPad&nbsp;Mini&nbsp;4",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPad Mini 4",
+  "image": "/images/content/catalog/ipad-mini-4-model.webp",
+  "image_alt": "iPad Mini 4",
+  "mobile_img_after_title": true
+}
