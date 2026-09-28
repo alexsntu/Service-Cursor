@@ -26,7 +26,14 @@
             {$irp_sl_name = $product.product|strip_tags|trim}
             {* варианты услуги (AASP / OEM …) — товары группы вариаций; в списке их загружает модуль product_variations.
                Выводим только если вариантов больше одного, иначе строка как раньше. *}
+            {* услуга с двумя и более выборами (MacBook: модель × тип запчасти) — «сетка» группы вариаций:
+               все включённые товары группы с их значениями (fn_my_changes_irepair_variation_matrix, app/addons/my_changes/func.php).
+               У iPhone в группе одна характеристика — там прежняя логика ниже. *}
+            {$irp_sl_mx = []}
+            {if $product.variation_group_id}{$irp_sl_mx = $product.variation_group_id|fn_my_changes_irepair_variation_matrix}{/if}
+            {$irp_sl_mx_on = ($irp_sl_mx.features|default:[]|count > 1 && $irp_sl_mx.products|count > 1 && $irp_sl_mx.products[$product.product_id])}
             {$irp_sl_opts = []}
+            {if !$irp_sl_mx_on}
             {foreach $product.variation_features_variants|default:[] as $irp_sl_feature}
                 {if $irp_sl_feature.variants|count > 1}
                     {* цен вариантов в этих данных нет — берём их одним запросом fn_get_products (вместе с дочерними вариациями) *}
@@ -50,15 +57,50 @@
                     {break}
                 {/if}
             {/foreach}
+            {/if}
             {if $irp_sl_opts|count < 2}{$irp_sl_opts = []}{/if}
+            {if $irp_sl_mx_on}
+                {* выбранный по умолчанию товар — тот, что в списке (главный = самый дешёвый); подпись услуги — «название | модель | тип» *}
+                {$irp_sl_mx_cur = $irp_sl_mx.products[$product.product_id]}
+                {$irp_sl_mx_label = []}
+                {foreach $irp_sl_mx.products as $irp_sl_pid => $irp_sl_p}
+                    {$irp_sl_parts = [$irp_sl_name]}
+                    {foreach $irp_sl_mx.features as $irp_sl_fid => $irp_sl_f}
+                        {if $irp_sl_p.values[$irp_sl_fid]}{$irp_sl_parts[] = $irp_sl_f.variants[$irp_sl_p.values[$irp_sl_fid]].name}{/if}
+                    {/foreach}
+                    {$irp_sl_mx_label[$irp_sl_pid] = " | "|implode:$irp_sl_parts}
+                {/foreach}
+            {/if}
             {$irp_sl_active = ""}
             {foreach $irp_sl_opts as $irp_sl_o}{if $irp_sl_o.active}{$irp_sl_active = $irp_sl_o}{/if}{/foreach}
             {if $irp_sl_opts && !$irp_sl_active}{$irp_sl_active = $irp_sl_opts.0}{/if}
 
-            <li class="irepair-sl__row{if $irp_sl_opts} irepair-sl__row--opts{/if}{if $irp_sl_opts|count > 2} irepair-sl__row--opts-many{/if}">
+            <li class="irepair-sl__row{if $irp_sl_opts} irepair-sl__row--opts{/if}{if $irp_sl_opts|count > 2 || $irp_sl_mx_on} irepair-sl__row--opts-many{/if}{if $irp_sl_mx_on} irepair-sl__row--mx{/if}">
                 <div class="irepair-sl__main">
                     <a class="irepair-sl__name" href="{$irp_sl_url}">{$irp_sl_name nofilter}</a>
-                    {if $irp_sl_opts}
+                    {if $irp_sl_mx_on}
+                        {* по ряду «таблеток» на каждый выбор, где значений больше одного *}
+                        {foreach $irp_sl_mx.features as $irp_sl_fid => $irp_sl_f}
+                            {if $irp_sl_f.variants|count > 1}
+                                <div class="irepair-sl__opts" role="group" aria-label="{$irp_sl_f.name}">
+                                    {foreach $irp_sl_f.variants as $irp_sl_vid => $irp_sl_v}
+                                        <button type="button"
+                                                class="irepair-sl__opt{if $irp_sl_mx_cur.values[$irp_sl_fid] == $irp_sl_vid} is-active{/if}"
+                                                data-irp-mx-f="{$irp_sl_fid}" data-irp-mx-v="{$irp_sl_vid}"
+                                                aria-pressed="{if $irp_sl_mx_cur.values[$irp_sl_fid] == $irp_sl_vid}true{else}false{/if}">{$irp_sl_v.name}</button>
+                                    {/foreach}
+                                </div>
+                            {/if}
+                        {/foreach}
+                        {* пояснения к значениям (тип запчасти) — видно пояснение значения выбранного товара *}
+                        {foreach $irp_sl_mx.features as $irp_sl_fid => $irp_sl_f}
+                            {foreach $irp_sl_f.variants as $irp_sl_vid => $irp_sl_v}
+                                {if $irp_sl_v.note && $irp_sl_f.variants|count > 1}
+                                    <p class="irepair-sl__note" data-irp-mx-note="{$irp_sl_fid}:{$irp_sl_vid}"{if $irp_sl_mx_cur.values[$irp_sl_fid] != $irp_sl_vid} hidden{/if}>{$irp_sl_v.note}</p>
+                                {/if}
+                            {/foreach}
+                        {/foreach}
+                    {elseif $irp_sl_opts}
                         <div class="irepair-sl__opts" role="group" aria-label="Варианты услуги">
                             {$irp_sl_notes = []}
                             {foreach $irp_sl_opts as $irp_sl_o}
@@ -81,7 +123,15 @@
                 </div>
 
                 <div class="irepair-sl__price">
-                    {if $irp_sl_opts}
+                    {if $irp_sl_mx_on}
+                        {* цена каждого товара группы (видна выбранного) + его значения и подпись для кнопки заявки *}
+                        {foreach $irp_sl_mx.products as $irp_sl_pid => $irp_sl_p}
+                            {$irp_sl_vals = []}
+                            {foreach $irp_sl_p.values as $irp_sl_fid => $irp_sl_vid}{$irp_sl_vals[] = "`$irp_sl_fid`:`$irp_sl_vid`"}{/foreach}
+                            <p class="irepair-sl__price-value" data-irp-mx-p="{$irp_sl_pid}" data-irp-mx-vals="{","|implode:$irp_sl_vals}"
+                               data-service="{$irp_sl_mx_label[$irp_sl_pid]}" data-price="{$irp_sl_p.price|intval}"{if $irp_sl_pid != $product.product_id} hidden{/if}>{include file="common/price.tpl" value=$irp_sl_p.price}</p>
+                        {/foreach}
+                    {elseif $irp_sl_opts}
                         {* цена каждого варианта; видна цена выбранного *}
                         {foreach $irp_sl_opts as $irp_sl_o}
                             <p class="irepair-sl__price-value" data-irp-opt-price="{$irp_sl_o.id}"{if $irp_sl_o.id != $irp_sl_active.id} hidden{/if}>{include file="common/price.tpl" value=$irp_sl_o.price}</p>
@@ -99,8 +149,8 @@
                 <div class="irepair-sl__action">
                     <a class="irepair-sl__btn" href="{$irp_sl_url}"
                        data-call-popup-trigger
-                       data-service="{if $irp_sl_opts}{$irp_sl_name} | {$irp_sl_active.name}{else}{$irp_sl_name}{/if}"
-                       data-price="{if $irp_sl_opts}{$irp_sl_active.price|intval}{else}{$product.price|intval}{/if}"><span>Заказать ремонт</span></a>
+                       data-service="{if $irp_sl_mx_on}{$irp_sl_mx_label[$product.product_id]}{elseif $irp_sl_opts}{$irp_sl_name} | {$irp_sl_active.name}{else}{$irp_sl_name}{/if}"
+                       data-price="{if $irp_sl_mx_on}{$irp_sl_mx_cur.price|intval}{elseif $irp_sl_opts}{$irp_sl_active.price|intval}{else}{$product.price|intval}{/if}"><span>Заказать ремонт</span></a>
                 </div>
 
                 {* телефон: вся строка — ссылка на услугу (кнопки вариантов — поверх неё) *}
@@ -280,6 +330,13 @@
   border-color: #37d97b;
   background: #eefaf3;
   color: #010306;
+}
+.irepair-sl .irepair-sl__opt.is-na {
+  border-style: dashed;
+  color: #b5b5b5;
+}
+.irepair-sl .irepair-sl__row--mx .irepair-sl__opts + .irepair-sl__opts {
+  margin-top: 8px;
 }
 .irepair-sl .irepair-sl__price-value[hidden],
 .irepair-sl .irepair-sl__note[hidden] {
@@ -463,6 +520,12 @@
   document.addEventListener('click', function (e) {
     var opt = e.target.closest ? e.target.closest('.irepair-sl__opt') : null;
     if (!opt) return;
+    if (opt.hasAttribute('data-irp-mx-f')) {
+      e.preventDefault();
+      e.stopPropagation();
+      irpSlMatrix(opt);
+      return;
+    }
     e.preventDefault();
     e.stopPropagation();
     var row = opt.closest('.irepair-sl__row');
@@ -485,6 +548,76 @@
       btn.setAttribute('data-price', opt.getAttribute('data-price'));
     }
   }, true);
+
+  /* услуга с двумя выборами (модель × тип запчасти): ищем товар с выбранными значениями;
+     если такого сочетания нет — ближайший (совпадает нажатое значение и больше всего остальных) */
+  function vals(el) {
+    var o = {};
+    (el.getAttribute('data-irp-mx-vals') || '').split(',').forEach(function (pair) {
+      var kv = pair.split(':');
+      if (kv[1]) o[kv[0]] = kv[1];
+    });
+    return o;
+  }
+  function irpSlMatrix(opt) {
+    var row = opt.closest('.irepair-sl__row');
+    if (!row) return;
+    var f = opt.getAttribute('data-irp-mx-f');
+    var v = opt.getAttribute('data-irp-mx-v');
+    var prices = Array.prototype.slice.call(row.querySelectorAll('[data-irp-mx-p]'));
+    var cur = prices.filter(function (p) { return !p.hidden; })[0] || prices[0];
+    var want = vals(cur);
+    want[f] = v;
+    var best = null, bestScore = -1;
+    prices.forEach(function (p) {
+      var pv = vals(p);
+      if (pv[f] !== v) return;
+      var score = 0;
+      Object.keys(want).forEach(function (k) { if (pv[k] === want[k]) score++; });
+      if (score > bestScore) { best = p; bestScore = score; }
+    });
+    if (!best) return;
+    irpSlMatrixShow(row, best, prices);
+  }
+  function irpSlMatrixShow(row, sel, prices) {
+    var sv = vals(sel);
+    prices.forEach(function (p) { p.hidden = p !== sel; });
+    row.querySelectorAll('[data-irp-mx-f]').forEach(function (b) {
+      var bf = b.getAttribute('data-irp-mx-f'), bv = b.getAttribute('data-irp-mx-v');
+      var on = sv[bf] === bv;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      /* есть ли товар с этим значением при прочих выбранных — иначе «таблетка» бледная (нажать можно) */
+      var ok = prices.some(function (p) {
+        var pv = vals(p);
+        if (pv[bf] !== bv) return false;
+        return Object.keys(sv).every(function (k) { return k === bf || pv[k] === sv[k]; });
+      });
+      b.classList.toggle('is-na', !ok && !on);
+    });
+    row.querySelectorAll('[data-irp-mx-note]').forEach(function (n) {
+      var kv = n.getAttribute('data-irp-mx-note').split(':');
+      n.hidden = sv[kv[0]] !== kv[1];
+    });
+    var btn = row.querySelector('.irepair-sl__btn');
+    if (btn) {
+      btn.setAttribute('data-service', sel.getAttribute('data-service'));
+      btn.setAttribute('data-price', sel.getAttribute('data-price'));
+    }
+  }
+  /* при загрузке — отметить недоступные сочетания для выбранного по умолчанию */
+  function irpSlMatrixInit() {
+    document.querySelectorAll('.irepair-sl__row--mx').forEach(function (row) {
+      var prices = Array.prototype.slice.call(row.querySelectorAll('[data-irp-mx-p]'));
+      var cur = prices.filter(function (p) { return !p.hidden; })[0];
+      if (cur) irpSlMatrixShow(row, cur, prices);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', irpSlMatrixInit);
+  } else {
+    irpSlMatrixInit();
+  }
 })();
 </script>
 {/literal}

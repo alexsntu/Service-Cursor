@@ -10,9 +10,17 @@
 Доступы — только через переменные окружения (в репозиторий не кладём):
   CSCART_AUTH="admin@irepair.ru:<api key>"   RO_KEY="<RemOnline key>"   SSHPASS="<пароль старого сервера>"
 Флаг --dry-run: только собрать и показать данные, ничего не создавать.
+
+MacBook (один товар на категорию, два выбора — модель и тип запчасти, как на старом сайте):
+  python3 import_service.py --cat 90 --feature 7 --model-feature 6 64111819 38457879 …
+  Модель = столбец N (MODEL №) → «процессор | A-номера» (как в прайсе, процессор по CHIP_MAP из
+  main-page/scripts/build-repair-prices.py); нового значения в характеристике --model-feature нет — скрипт его добавит.
+  Гарантия: столбец L, а если пусто — из строки «Модуль» этой услуги (столбец N вида «AASP 12 | ОЕМ 3»).
+  Старый адрес: столбец D, а если пусто — путь категории товара в старой базе.
 """
 import argparse
 import base64
+import importlib.util
 import html
 import json
 import os
@@ -38,6 +46,7 @@ API = 'https://dev.irepair.ru/api.php?_d='
 ap = argparse.ArgumentParser()
 ap.add_argument('--cat', type=int, required=True, help='id категории CS-Cart')
 ap.add_argument('--feature', type=int, required=True, help='id характеристики вариантов (напр. 3 = тип запчасти аккумулятора)')
+ap.add_argument('--model-feature', type=int, help='id характеристики модели (MacBook: 6) — второй выбор в группе вариаций')
 ap.add_argument('--dry-run', action='store_true')
 ap.add_argument('ro_ids', nargs='+')
 args = ap.parse_args()
@@ -75,6 +84,25 @@ def ro(sid):
     return d['title'].strip(), int(round(price))
 
 
+# процессор по A-номеру — общий справочник с прайсом/калькулятором
+_spec = importlib.util.spec_from_file_location('build_prices', os.path.join(HERE, '..', '..', 'main-page', 'scripts', 'build-repair-prices.py'))
+_bp = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_bp)
+CHIP_RANK = [('Intel', 0), ('M1', 1), ('M2', 2), ('M3', 3), ('M4', 4), ('M5', 5)]
+
+
+def model_label(modelno):
+    """Столбец N → («процессор | A-номера», позиция для сортировки: Intel → M1 → … → M5, внутри — по A-номеру)."""
+    parts = [p.strip() for p in modelno.split('/') if p.strip()]
+    assert parts and all(p in _bp.CHIP_MAP for p in parts), f'модель «{modelno}» не в CHIP_MAP — спросить владельца про процессор'
+    chips = []
+    for p in parts:
+        if _bp.CHIP_MAP[p] not in chips:
+            chips.append(_bp.CHIP_MAP[p])
+    rank = next(v for k, v in CHIP_RANK if chips[0].startswith(k))
+    return f"{' / '.join(chips)} | {' / '.join(parts)}", rank * 10000 + int(parts[0][1:])
+
+
 def sql_new(q):
     # _run: SSH до dev иногда рвётся («Connection closed», 255) — до 6 попыток
     return _run(NEW_SSH + ['mysql --defaults-extra-file=/root/.my.cscart.cnf irepair_cscart -N -e ' + json.dumps(q)],
@@ -91,11 +119,39 @@ items.sort(key=lambda x: x['price'])
 
 # 2. Таблица: RO id → старый product_id, гарантия (L), старый URL (D)
 ws = openpyxl.load_workbook(TABLE, read_only=True, data_only=True)['МСервис']
-rows = {str(r[4]).replace('.0', ''): r for r in ws.iter_rows(values_only=True) if r[4] is not None}
+all_rows = list(ws.iter_rows(values_only=True))
+rows = {str(r[4]).replace('.0', ''): r for r in all_rows if r[4] is not None}
+# гарантия из строки «Модуль» (столбец N «AASP 12 | ОЕМ 3») — для строк, где столбец L пуст (MacBook)
+module_warranty, cur_mod = {}, {}
+for r in all_rows:
+    if r[0] == 'Модуль':
+        cur_mod = {k.upper().replace('ОЕМ', 'OEM'): v for k, v in re.findall(r'(AASP|OEM|ОЕМ)\s+(\d+)', str(r[13] or ''))}
+    elif r[4] is not None:
+        module_warranty[str(r[4]).replace('.0', '')] = cur_mod
 for it in items:
     r = rows[it['ro']]
+    # цена — из нашей таблицы (столбец AY «Текущая цена», как у прайса/калькулятора); RemOnline — только для сверки
+    it['ro_price'] = it['price']
+    tab_price, approx = _bp.parse_price(r[50])
+    it['price'] = int(tab_price or 0)
+    assert not approx, f"RO {it['ro']}: в таблице цена «от …» ({r[50]}) — уточнить у владельца"
+    if it['ro_price'] != it['price']:
+        print(f"!!! RO {it['ro']}: цена в таблице {it['price']}, в RemOnline {it['ro_price']} — берём из таблицы")
     it['old_id'] = int(re.search(r'product_id=(\d+)', r[1]).group(1))
-    it['warranty'] = str(int(r[11])) if r[11] not in (None, '') else ''
+    it['warranty'] = str(int(r[11])) if r[11] not in (None, '') else module_warranty.get(it['ro'], {}).get(it['value'].upper(), '')
+    if args.model_feature:
+        it['model'], it['model_pos'] = model_label(str(r[13] or ''))
+items.sort(key=lambda x: x['price'])
+bad = [it['ro'] for it in items if not it['price']]
+if bad:
+    print('!!! нет цены в таблице (столбец AY) — такие услуги не заливаем:', ', '.join(bad))
+    items = [it for it in items if it['price']]
+    assert items, 'не осталось услуг с ценой'
+if args.model_feature:
+    # главный товар — самый дешёвый; при равной цене — более старая модель
+    items.sort(key=lambda x: (x['price'], x['model_pos'], x['value']))
+    combos = [(it['model'], it['value']) for it in items]
+    assert len(combos) == len(set(combos)), f'повторяются пары модель/тип: {combos}'
 old_ids = {it['old_id'] for it in items}
 assert len(old_ids) == 1, f'варианты ссылаются на разные старые товары: {old_ids}'
 old_id = old_ids.pop()
@@ -104,7 +160,12 @@ old_id = old_ids.pop()
 q = (f'select name, meta_title, meta_description, description from oc_product_description where product_id={old_id} and language_id=1;'
      f'select keyword from oc_seo_url where query="product_id={old_id}";'
      f'select image, upc from oc_product where product_id={old_id};'
-     f'select image from oc_product_image where product_id={old_id} order by sort_order;')
+     f'select image from oc_product_image where product_id={old_id} order by sort_order;'
+     # путь главной категории товара (для старого адреса, если столбец D пуст)
+     f'select cp.level, su.keyword as cat_keyword from oc_product_to_category p2c '
+     f'join oc_category_path cp on cp.category_id = p2c.category_id '
+     f'join oc_seo_url su on su.query = concat("category_id=", cp.path_id) and su.language_id = 1 '
+     f'where p2c.product_id = {old_id} and p2c.main_category = 1 order by cp.level;')
 remote = ('cd ~/www/irepair.ru && P=$(php -r "include \\"config.php\\"; echo DB_PASSWORD;") && '
           f"mysql -uocstore -p\"$P\" ocstore --batch -e '{q}' 2>/dev/null")
 # байты, а не text=True: в старых данных бывает \r, текстовый режим превратил бы его в перенос строки
@@ -125,22 +186,27 @@ def unesc(s):
 
 
 # вывод --batch: заголовок + строки для каждого запроса
-blocks, cur = [], None
+blocks, cur, cat_path_rows = [], None, []
 for line in out:
-    if line in ('name\tmeta_title\tmeta_description\tdescription', 'keyword', 'image\tupc', 'image'):
+    if line in ('name\tmeta_title\tmeta_description\tdescription', 'keyword', 'image\tupc', 'image', 'level\tcat_keyword'):
         cur = []
         blocks.append(cur)
+        if line == 'level\tcat_keyword':
+            cat_path_rows = cur
     elif cur is not None and line:
         cur.append(line)
 name, meta_title, meta_desc, desc_raw = blocks[0][0].split('\t')
 name, meta_title, meta_desc = [html.unescape(unesc(x)).strip() for x in (name, meta_title, meta_desc)]
 slug = blocks[1][0].strip()
 main_img, upc = (blocks[2][0].split('\t') + [''])[:2]
-extra_imgs = [x.strip() for x in blocks[3]] if len(blocks) > 3 else []
+extra_imgs = [x.strip() for x in blocks[3]] if len(blocks) > 3 and blocks[3] is not cat_path_rows else []
 upc = upc.strip()
 desc_in = html.unescape(unesc(desc_raw))
 assert not any(ord(ch) > 0xFFFF for ch in name + meta_title + meta_desc + desc_in), '4-байтовые символы (эмодзи) — CS-Cart их не сохранит'
 old_url = next((rows[it['ro']][3] for it in items if rows[it['ro']][3]), '')
+if not old_url and cat_path_rows:
+    # столбец D пуст (MacBook) — адрес = путь категории из старой базы + slug товара (проверяется ниже)
+    old_url = 'https://irepair.ru/' + '/'.join(x.split('\t')[1].strip() for x in cat_path_rows) + '/' + slug + '/'
 # столбец D бывает неверным (напр. у 9005 там адрес замены дисплея) — берём папку категории из D + настоящий slug
 # старого товара и проверяем, что адрес живой на старом сайте
 if old_url:
@@ -164,23 +230,45 @@ feat = cs('GET', f'features/{args.feature}')
 variant_ids = {v['variant'].strip(): str(v['variant_id']) for v in feat['variants'].values()}
 for it in items:
     assert it['value'] in variant_ids, f"нет значения «{it['value']}» у характеристики {args.feature}: {list(variant_ids)}"
+model_ids = {}
+if args.model_feature:
+    mfeat = cs('GET', f'features/{args.model_feature}')
+    model_ids = {v['variant'].strip(): str(v['variant_id']) for v in (mfeat.get('variants') or {}).values()}
+    new_models = sorted({(it['model'], it['model_pos']) for it in items if it['model'] not in model_ids}, key=lambda x: x[1])
+    for label, pos in new_models:
+        print(f'  новое значение «{label}» у характеристики {args.model_feature}' + (' (dry-run — не создаём)' if args.dry_run else ''))
 
 print(f'Старый товар {old_id}: «{name}» | slug {slug} | upc «{upc}» | картинок {1 + len(extra_imgs)} | описание {len(desc)} симв.')
 print('Старый URL:', old_url)
 for it in items:
-    print(f"  RO {it['ro']} {it['value']} {it['price']} ₽ гарантия «{it['warranty']}»")
+    print(f"  RO {it['ro']} {it.get('model', '') + ' · ' if args.model_feature else ''}{it['value']} {it['price']} ₽ гарантия «{it['warranty']}»")
 if args.dry_run:
     sys.exit(0)
 
+if args.model_feature and new_models:
+    # существующие значения передаём с id (иначе API их удалит), новые — без id, с позицией для сортировки
+    keep = [{'variant_id': v['variant_id'], 'variant': v['variant'], 'position': v.get('position', 0)}
+            for v in (mfeat.get('variants') or {}).values()]
+    cs('PUT', f'features/{args.model_feature}', {'variants': keep + [{'variant': l, 'position': p} for l, p in new_models]})
+    mfeat = cs('GET', f'features/{args.model_feature}')
+    model_ids = {v['variant'].strip(): str(v['variant_id']) for v in (mfeat.get('variants') or {}).values()}
+    assert all(it['model'] in model_ids for it in items), 'значения модели не создались'
+
 # 4-5. Создание (сразу в категории, включёнными)
+def variant_name(it):
+    return f"{name} | {it['model']} | {it['value']}" if args.model_feature else f"{name} | {it['value']}"
+
+
 ids = []
 for n, it in enumerate(items):
     features = {str(args.feature): variant_ids[it['value']]}
+    if args.model_feature:
+        features[str(args.model_feature)] = model_ids[it['model']]
     if it['warranty']:
         features['4'] = it['warranty']
     if upc:
         features['5'] = upc
-    body = dict(product=name if n == 0 else f"{name} | {it['value']}", price=it['price'], product_code=f"RO-{it['ro']}",
+    body = dict(product=name if n == 0 else variant_name(it), price=it['price'], product_code=f"RO-{it['ro']}",
                 status='A', category_ids=[args.cat], main_category=args.cat, company_id=1,
                 page_title=meta_title, meta_description=meta_desc, full_description=desc, product_features=features,
                 main_pair={'detailed': {'image_path': 'https://irepair.ru/image/' + main_img, 'alt': name}})
@@ -194,11 +282,14 @@ for n, it in enumerate(items):
 # 6. Группа вариаций + имена вариантов
 if len(ids) > 1:
     code = f"{re.sub(r'[^a-z0-9]+', '-', slug.replace('_', '-'))}-{args.cat}"
-    g = cs('POST', 'product_variations_groups', {'product_ids': ids, 'code': code,
-                                                   'features': [{'feature_id': args.feature, 'purpose': 'group_variation_catalog_item'}]})
+    gfeatures = [{'feature_id': args.feature, 'purpose': 'group_variation_catalog_item'}]
+    if args.model_feature:
+        # модель — первым выбором, тип запчасти — вторым
+        gfeatures.insert(0, {'feature_id': args.model_feature, 'purpose': 'group_variation_catalog_item'})
+    g = cs('POST', 'product_variations_groups', {'product_ids': ids, 'code': code, 'features': gfeatures})
     print('группа', g['group']['id'], code)
     for pid, it in zip(ids[1:], items[1:]):
-        cs('PUT', f'products/{pid}', {'product': f"{name} | {it['value']}"})
+        cs('PUT', f'products/{pid}', {'product': variant_name(it)})
 
 # 7. Редиректы: удалить авто-редирект, созданный при создании главного товара; добавить 301 со старого адреса
 main = ids[0]
@@ -227,6 +318,7 @@ for pid in ids:
     f = p.get('product_features', {})
     print(f"{pid} | {p['product']} | {p['price']} | {p['product_code']} | {p['status']} | seo {p.get('seo_name')} | parent {p.get('parent_product_id')} "
           f"| cat {p.get('category_ids')} | desc same {p.get('full_description') == desc} | img {bool(p.get('main_pair'))} "
-          f"| f{args.feature} {f.get(str(args.feature), {}).get('variant')} | f4 {f.get('4', {}).get('value')} | f5 {f.get('5', {}).get('value')}")
+          f"| f{args.feature} {f.get(str(args.feature), {}).get('variant')}"
+          + (f" | f{args.model_feature} {f.get(str(args.model_feature), {}).get('variant')}" if args.model_feature else '') + f" | f4 {f.get('4', {}).get('value')} | f5 {f.get('5', {}).get('value')}")
 if src:
     print('старый URL →', *head('https://dev.irepair.ru' + src + '/'))
