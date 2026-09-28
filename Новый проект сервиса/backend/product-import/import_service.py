@@ -107,8 +107,16 @@ q = (f'select name, meta_title, meta_description, description from oc_product_de
 remote = ('cd ~/www/irepair.ru && P=$(php -r "include \\"config.php\\"; echo DB_PASSWORD;") && '
           f"mysql -uocstore -p\"$P\" ocstore --batch -e '{q}' 2>/dev/null")
 # байты, а не text=True: в старых данных бывает \r, текстовый режим превратил бы его в перенос строки
-out = subprocess.run(['sshpass', '-e', 'ssh', '-o', 'ConnectTimeout=20', OLD_SSH, remote],
-                     capture_output=True, check=True).stdout.decode('utf-8').split('\n')
+# SSH до старого сервера иногда разово отвечает 255 — повторяем (до 4 попыток)
+for attempt in range(4):
+    try:
+        out = subprocess.run(['sshpass', '-e', 'ssh', '-o', 'ConnectTimeout=20', OLD_SSH, remote],
+                             capture_output=True, check=True).stdout.decode('utf-8').split('\n')
+        break
+    except subprocess.CalledProcessError:
+        if attempt == 3:
+            raise
+        time.sleep(10)
 
 
 def unesc(s):
