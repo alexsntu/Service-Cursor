@@ -92,14 +92,20 @@ _spec.loader.exec_module(_bp)
 CHIP_RANK = [('Intel', 0), ('M1', 1), ('M2', 2), ('M3', 3), ('M4', 4), ('M5', 5)]
 
 
-def model_label(modelno):
+def model_label(modelno, model=''):
     """Столбец N → (подпись, позиция для сортировки).
     MacBook (A-номера есть в CHIP_MAP): «процессор | A-номера», Intel → M1 → … → M5, внутри — по A-номеру.
-    Остальные (iPad): «A-номера» как в столбце N, по первому A-номеру."""
+    Остальные (iPad): «A-номера» как в столбце N, по первому A-номеру; если в столбце H есть поколение
+    («Pro 11 S5 M4») — «5 поколение (M4) | A-номера», по поколению."""
     parts = [p.strip() for p in modelno.split('/') if p.strip()]
     assert parts and all(re.fullmatch(r'A\d{4}', p) for p in parts), f'в столбце N не A-номера: «{modelno}»'
     if not all(p in _bp.CHIP_MAP for p in parts):
         assert not any(p in _bp.CHIP_MAP for p in parts), f'часть A-номеров «{modelno}» есть в CHIP_MAP, часть нет — спросить владельца'
+        gen = re.search(r'\bS(\d+)\b', model or '')
+        if gen:
+            chip = re.search(r'\b[MМ](\d+)\b', model)  # бывает кириллическая «М»
+            prefix = f"{gen.group(1)} поколение" + (f" (M{chip.group(1)})" if chip else '')
+            return f"{prefix} | {' / '.join(parts)}", int(gen.group(1)) * 10000 + int(parts[0][1:])
         return ' / '.join(parts), int(parts[0][1:])
     chips = []
     for p in parts:
@@ -148,7 +154,7 @@ for it in items:
     # владелец 2026-09-28: гарантия нигде не указана → всегда 1 месяц
     it['warranty'] = it['warranty'] or '1'
     if args.model_feature:
-        it['model'], it['model_pos'] = model_label(str(r[13] or ''))
+        it['model'], it['model_pos'] = model_label(str(r[13] or ''), str(r[7] or ''))
 items.sort(key=lambda x: x['price'])
 bad = [it['ro'] for it in items if not it['price']]
 if bad:

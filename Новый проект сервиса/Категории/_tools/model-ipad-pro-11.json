@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iPad",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-ipad-pro-11",
+  "device": "iPad",
+  "title": "Ремонт iPad&nbsp;Pro&nbsp;11",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPad Pro 11",
+  "image": "/images/content/catalog/ipad-pro-11-model.webp",
+  "image_alt": "iPad Pro 11",
+  "mobile_img_after_title": true
+}
