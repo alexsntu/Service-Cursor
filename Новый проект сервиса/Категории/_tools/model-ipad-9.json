@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iPad",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-ipad-9",
+  "device": "iPad",
+  "title": "Ремонт iPad&nbsp;9",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPad 9",
+  "image": "/images/content/catalog/ipad-9-model.webp",
+  "image_alt": "iPad 9",
+  "mobile_img_after_title": true
+}
