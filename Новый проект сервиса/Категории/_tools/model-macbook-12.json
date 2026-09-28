@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../MacBook",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-macbook-12",
+  "device": "MacBook",
+  "title": "Ремонт MacBook&nbsp;12",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт MacBook 12",
+  "image": "/images/content/catalog/macbook-12-model.webp",
+  "image_alt": "MacBook 12",
+  "mobile_img_after_title": true
+}
