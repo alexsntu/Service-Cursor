@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iPad",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-ipad-mini-3",
+  "device": "iPad",
+  "title": "Ремонт iPad&nbsp;Mini&nbsp;3",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPad Mini 3",
+  "image": "/images/content/catalog/ipad-mini-3-model.webp",
+  "image_alt": "iPad Mini 3",
+  "mobile_img_after_title": true
+}
