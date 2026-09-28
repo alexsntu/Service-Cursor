@@ -83,3 +83,17 @@ function fn_my_changes_irepair_variation_matrix($group_id)
 
     return $cache[$group_id] = $result;
 }
+
+/**
+ * Условия синхронизации характеристик вариаций (schemas/product_variations/product_data_sync.post.php):
+ * стандартные (без характеристик группы) + без «Гарантии» (4) и «Времени ремонта» (5) — у вариантов свои.
+ */
+function fn_my_changes_irepair_sync_feature_conditions($product_id)
+{
+    $conditions = function_exists('fn_product_variations_get_product_sync_feature_conditions')
+        ? fn_product_variations_get_product_sync_feature_conditions($product_id)
+        : [];
+    $conditions[] = ['NOT IN', 'feature_id', [4, 5]];
+
+    return $conditions;
+}

@@ -268,6 +268,7 @@ for n, it in enumerate(items):
         features['4'] = it['warranty']
     if upc:
         features['5'] = upc
+    it['features'] = features
     body = dict(product=name if n == 0 else variant_name(it), price=it['price'], product_code=f"RO-{it['ro']}",
                 status='A', category_ids=[args.cat], main_category=args.cat, company_id=1,
                 page_title=meta_title, meta_description=meta_desc, full_description=desc, product_features=features,
@@ -290,6 +291,11 @@ if len(ids) > 1:
     print('группа', g['group']['id'], code)
     for pid, it in zip(ids[1:], items[1:]):
         cs('PUT', f'products/{pid}', {'product': variant_name(it)})
+    # при создании группы CS-Cart копирует характеристики главного товара на варианты — гарантию/время
+    # (у OEM и AASP разные) записываем каждому заново; дальше их не трогает синхронизация
+    # (my_changes: schemas/product_variations/product_data_sync.post.php исключает характеристики 4 и 5)
+    for pid, it in zip(ids, items):
+        cs('PUT', f'products/{pid}', {'product_features': it['features']})
 
 # 7. Редиректы: удалить авто-редирект, созданный при создании главного товара; добавить 301 со старого адреса
 main = ids[0]

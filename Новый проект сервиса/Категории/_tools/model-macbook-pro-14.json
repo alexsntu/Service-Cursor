@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../MacBook",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-macbook-pro-14",
+  "device": "MacBook",
+  "title": "Ремонт MacBook&nbsp;Pro&nbsp;14",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт MacBook Pro 14",
+  "image": "/images/content/catalog/macbook-pro-14-model.webp",
+  "image_alt": "MacBook Pro 14",
+  "mobile_img_after_title": true
+}
