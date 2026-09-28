@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iPad",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-ipad-air-7",
+  "device": "iPad",
+  "title": "Ремонт iPad&nbsp;Air&nbsp;7",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iPad Air 7",
+  "image": "/images/content/catalog/ipad-air-7-model.webp",
+  "image_alt": "iPad Air 7",
+  "mobile_img_after_title": true
+}
