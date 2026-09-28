@@ -47,6 +47,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument('--cat', type=int, required=True, help='id категории CS-Cart')
 ap.add_argument('--feature', type=int, required=True, help='id характеристики вариантов (напр. 3 = тип запчасти аккумулятора)')
 ap.add_argument('--model-feature', type=int, help='id характеристики модели (MacBook: 6) — второй выбор в группе вариаций')
+ap.add_argument('--slug', help='свой адрес (seo_name) главного товара вместо старого slug — если старый кривой; со старого адреса будет 301')
 ap.add_argument('--dry-run', action='store_true')
 ap.add_argument('ro_ids', nargs='+')
 args = ap.parse_args()
@@ -238,7 +239,7 @@ if args.model_feature:
     for label, pos in new_models:
         print(f'  новое значение «{label}» у характеристики {args.model_feature}' + (' (dry-run — не создаём)' if args.dry_run else ''))
 
-print(f'Старый товар {old_id}: «{name}» | slug {slug} | upc «{upc}» | картинок {1 + len(extra_imgs)} | описание {len(desc)} симв.')
+print(f'Старый товар {old_id}: «{name}» | slug {slug}' + (f' → новый {args.slug}' if args.slug else '') + f' | upc «{upc}» | картинок {1 + len(extra_imgs)} | описание {len(desc)} симв.')
 print('Старый URL:', old_url)
 for it in items:
     print(f"  RO {it['ro']} {it.get('model', '') + ' · ' if args.model_feature else ''}{it['value']} {it['price']} ₽ гарантия «{it['warranty']}»")
@@ -276,7 +277,7 @@ for n, it in enumerate(items):
     if extra_imgs:
         body['image_pairs'] = [{'detailed': {'image_path': 'https://irepair.ru/image/' + x, 'alt': name}} for x in extra_imgs]
     if n == 0:
-        body['seo_name'] = slug.replace('_', '-')
+        body['seo_name'] = args.slug or slug.replace('_', '-')
     ids.append(cs('POST', 'products', body)['product_id'])
     print('создан товар', ids[-1])
 

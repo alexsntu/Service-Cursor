@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../MacBook",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-macbook-air-15",
+  "device": "MacBook",
+  "title": "Ремонт MacBook&nbsp;Air&nbsp;15",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт MacBook Air 15",
+  "image": "/images/content/catalog/macbook-air-15-model.webp",
+  "image_alt": "MacBook Air 15",
+  "mobile_img_after_title": true
+}
