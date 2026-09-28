@@ -4,6 +4,7 @@
 скачиваем файл из images/detailed, режем по контуру объекта (без отступов), заливаем обратно
 под тем же именем, обновляем image_x/image_y и удаляем закэшированные превью (images/thumbnails),
 чтобы CS-Cart пересоздал их из обрезанного файла. Если обрезать нечего — файл не трогаем.
+В конце — список картинок, у которых после обрезки любая сторона меньше 500 px (о них сообщаем пользователю).
 
   python3 crop_images.py [--dry-run] 13 14 15 …      # отдельно, по id товаров
   from crop_images import crop_products               # из import_service.py после создания товаров
@@ -24,6 +25,7 @@ SCP = ['scp', '-q', '-o', 'ConnectTimeout=20', '-i', os.path.expanduser('~/.ssh/
 HOST = 'root@188.120.249.151'
 ROOT = '/var/www/www-root/data/www/dev.irepair.ru/images'
 MIN_GAIN = 0.03  # режем, только если убирается больше 3% ширины или высоты
+MIN_SIDE = 500   # если после обрезки картинка меньше 500×500 (любая сторона) — предупредить: пользователь зальёт другое фото
 
 
 def _run(cmd, **kw):
@@ -66,13 +68,13 @@ def _save(im, path, fmt):
 
 def crop_products(product_ids, dry_run=False):
     ids = ','.join(str(int(i)) for i in product_ids)
-    rows = _sql('select i.image_id, i.image_path from cscart_images_links l '
+    rows = _sql('select l.object_id, i.image_id, i.image_path from cscart_images_links l '
                 'join cscart_images i on i.image_id = l.detailed_id '
                 f"where l.object_type = 'product' and l.object_id in ({ids})")
-    done = []
+    small = []  # (товар, файл, ширина, высота) — меньше MIN_SIDE после обрезки
     with tempfile.TemporaryDirectory() as tmp:
         for line in filter(None, rows.split('\n')):
-            image_id, name = line.split('\t')
+            pid, image_id, name = line.split('\t')
             remote = _ssh(f'ls {ROOT}/detailed/*/{json.dumps(name)} 2>/dev/null').strip().split('\n')[0]
             if not remote:
                 print('  нет файла', name)
@@ -85,8 +87,12 @@ def crop_products(product_ids, dry_run=False):
             b = _bbox(im)
             if not b or ((w - (b[2] - b[0])) / w < MIN_GAIN and (h - (b[3] - b[1])) / h < MIN_GAIN):
                 print(f'  {name}: {w}×{h} — обрезать нечего')
+                if min(w, h) < MIN_SIDE:
+                    small.append((pid, name, w, h))
                 continue
             c = im.crop(b)
+            if min(c.size) < MIN_SIDE:
+                small.append((pid, name, *c.size))
             print(f'  {name}: {w}×{h} → {c.size[0]}×{c.size[1]}' + (' (dry-run)' if dry_run else ''))
             if dry_run:
                 continue
@@ -97,8 +103,11 @@ def crop_products(product_ids, dry_run=False):
             _ssh(f'chown www-root: {json.dumps(remote)}; '
                  f'find {ROOT}/thumbnails -path {json.dumps("*/" + os.path.dirname(rel) + "/" + stem + ".*")} -delete')
             _sql(f'update cscart_images set image_x={c.size[0]}, image_y={c.size[1]} where image_id={image_id}')
-            done.append(name)
-    return done
+    if small:
+        print(f'⚠️  КАРТИНКИ МЕНЬШЕ {MIN_SIDE}×{MIN_SIDE} после обрезки — нужно другое фото:')
+        for pid, name, w, h in small:
+            print(f'   товар {pid}: {name} {w}×{h}')
+    return small
 
 
 if __name__ == '__main__':
