@@ -93,9 +93,14 @@ CHIP_RANK = [('Intel', 0), ('M1', 1), ('M2', 2), ('M3', 3), ('M4', 4), ('M5', 5)
 
 
 def model_label(modelno):
-    """Столбец N → («процессор | A-номера», позиция для сортировки: Intel → M1 → … → M5, внутри — по A-номеру)."""
+    """Столбец N → (подпись, позиция для сортировки).
+    MacBook (A-номера есть в CHIP_MAP): «процессор | A-номера», Intel → M1 → … → M5, внутри — по A-номеру.
+    Остальные (iPad): «A-номера» как в столбце N, по первому A-номеру."""
     parts = [p.strip() for p in modelno.split('/') if p.strip()]
-    assert parts and all(p in _bp.CHIP_MAP for p in parts), f'модель «{modelno}» не в CHIP_MAP — спросить владельца про процессор'
+    assert parts and all(re.fullmatch(r'A\d{4}', p) for p in parts), f'в столбце N не A-номера: «{modelno}»'
+    if not all(p in _bp.CHIP_MAP for p in parts):
+        assert not any(p in _bp.CHIP_MAP for p in parts), f'часть A-номеров «{modelno}» есть в CHIP_MAP, часть нет — спросить владельца'
+        return ' / '.join(parts), int(parts[0][1:])
     chips = []
     for p in parts:
         if _bp.CHIP_MAP[p] not in chips:
@@ -283,8 +288,8 @@ for n, it in enumerate(items):
     ids.append(cs('POST', 'products', body)['product_id'])
     print('создан товар', ids[-1])
 
-# 6. Группа вариаций + имена вариантов
-if len(ids) > 1:
+# 6. Группа вариаций + имена вариантов (с выбором модели — даже из одного товара, чтобы модель была видна в карточке)
+if len(ids) > 1 or args.model_feature:
     code = f"{re.sub(r'[^a-z0-9]+', '-', slug.replace('_', '-'))}-{args.cat}"
     gfeatures = [{'feature_id': args.feature, 'purpose': 'group_variation_catalog_item'}]
     if args.model_feature:

@@ -36,9 +36,11 @@ function fn_my_changes_irepair_variation_matrix($group_id)
         . ' WHERE gp.group_id = ?i',
         'A', $group_id
     );
-    // порядок выборов: как в группе (модель добавлена первой → id меньше)
+    // порядок выборов — по позиции характеристики (модель 0, тип запчасти 10), как в карточке товара
     $feature_ids = db_get_fields(
-        'SELECT feature_id FROM ?:product_variation_group_features WHERE group_id = ?i ORDER BY feature_id',
+        'SELECT gf.feature_id FROM ?:product_variation_group_features AS gf'
+        . ' INNER JOIN ?:product_features AS f ON f.feature_id = gf.feature_id'
+        . ' WHERE gf.group_id = ?i ORDER BY f.position, gf.feature_id',
         $group_id
     );
     if (!$product_ids || !$feature_ids) {
