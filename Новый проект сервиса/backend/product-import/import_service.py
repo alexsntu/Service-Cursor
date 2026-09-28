@@ -2,6 +2,7 @@
 (project_cscart_product_import): главный товар = самый дешёвый вариант, ему название и URL старого сайта
 (`_` → `-`) + 301-редирект; всем вариантам — картинки, title, meta description, описание (prep_desc.py),
 гарантия (столбец L таблицы → характеристика 4), время ремонта (upc старого товара → характеристика 5).
+Картинки после создания обрезаются по контуру объекта (crop_images.py).
 Товары создаются СРАЗУ в нужной категории и ВКЛЮЧЁННЫМИ.
 
   python3 import_service.py --cat 48 --feature 3 60709691 60709695
@@ -24,6 +25,8 @@ import urllib.error
 import urllib.request
 
 import openpyxl
+
+from crop_images import crop_products
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TABLE = os.path.expanduser('~/Документы/Сервис/Новая таблица888.xlsx')
@@ -204,6 +207,9 @@ if src:
 if src:
     sql_new("insert into cscart_seo_redirects (src,dest,type,object_id,company_id,lang_code) "
             f"values ('{src}','','p',{main},1,'ru')")
+# 7a. Картинки: обрезать белые/прозрачные поля по контуру объекта (crop_images.py)
+print('обрезка картинок:')
+crop_products(ids)
 subprocess.run(NEW_SSH + ['rm -rf /var/www/www-root/data/www/dev.irepair.ru/var/cache/registry/block_content_*'], check=True)
 
 # 8. Проверка
