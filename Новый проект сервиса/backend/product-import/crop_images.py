@@ -14,6 +14,7 @@
 import argparse
 import json
 import os
+import shlex
 import subprocess
 import tempfile
 import time
@@ -75,7 +76,7 @@ def crop_products(product_ids, dry_run=False):
     with tempfile.TemporaryDirectory() as tmp:
         for line in filter(None, rows.split('\n')):
             pid, image_id, name = line.split('\t')
-            remote = _ssh(f'ls {ROOT}/detailed/*/{json.dumps(name)} 2>/dev/null').strip().split('\n')[0]
+            remote = _ssh(f'ls {ROOT}/detailed/*/{shlex.quote(name)} 2>/dev/null || true').strip().split('\n')[0]
             if not remote:
                 print('  нет файла', name)
                 continue
@@ -100,8 +101,8 @@ def crop_products(product_ids, dry_run=False):
             _run(SCP + [local, f'{HOST}:{remote}'])
             stem = os.path.splitext(name)[0]
             rel = remote[len(ROOT) + 1:]  # detailed/1/<name>
-            _ssh(f'chown www-root: {json.dumps(remote)}; '
-                 f'find {ROOT}/thumbnails -path {json.dumps("*/" + os.path.dirname(rel) + "/" + stem + ".*")} -delete')
+            _ssh(f'chown www-root: {shlex.quote(remote)}; '
+                 f'find {ROOT}/thumbnails -path {shlex.quote("*/" + os.path.dirname(rel) + "/" + stem + ".*")} -delete')
             _sql(f'update cscart_images set image_x={c.size[0]}, image_y={c.size[1]} where image_id={image_id}')
     if small:
         print(f'⚠️  КАРТИНКИ МЕНЬШЕ {MIN_SIDE}×{MIN_SIDE} после обрезки — нужно другое фото:')
