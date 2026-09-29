@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iMac",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-imac-21-5",
+  "device": "iMac",
+  "title": "Ремонт iMac&nbsp;21.5",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iMac 21.5",
+  "image": "/images/content/catalog/imac-21-5-model.webp",
+  "image_alt": "iMac 21.5",
+  "mobile_img_after_title": true
+}
