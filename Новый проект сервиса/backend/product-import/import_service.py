@@ -187,7 +187,9 @@ if args.old_product:
             it = {'ro': f"OLD-{args.old_product}" + (f"-{mvid or tvid}" if (mvid or tvid) else ''), 'value': tname, 'price': mprice or tprice,
                   'ro_price': 0, 'old_id': args.old_product, 'warranty': '1'}
             if models:
-                it['model'], it['model_pos'] = model_label(re.sub(r'^Модель\s+', '', mname))
+                mlabel = re.sub(r'^Модель\s+', '', mname)
+                ext = re.fullmatch(r'(A\d{4})\s+(\S.*)', mlabel)  # iMac 21.5: «A1418 2K» / «A1418 4K» — подпись как есть; позиция = A-номер (при равной CS-Cart сортирует по названию)
+                it['model'], it['model_pos'] = (mlabel, int(ext.group(1)[1:])) if ext else model_label(mlabel)
             items.append(it)
     items.sort(key=lambda x: (x['price'], x.get('model_pos', 0), x['value']))
     print(f'!!! старый товар {args.old_product}: нет в RemOnline/таблице — цены со старого сайта, код OLD-…, гарантия 1 мес.')
