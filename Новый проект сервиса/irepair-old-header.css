@@ -2128,6 +2128,135 @@
   }
 }
 
+/* iRepair (2026-09-30): подвал — колонки «О компании → Ремонт Apple → Услуги → Свяжитесь с нами»,
+   кнопки под адресом: телефон / «Оставить заявку» (без иконки) / «Мессенджеры» — одного размера (по кнопке с телефоном),
+   «Мессенджеры» открывают панель Telegram / WhatsApp / MAX */
+@media (min-width: 1181px) {
+  .irepair-footer__top {
+    grid-template-columns: 1.3fr 1.1fr 0.9fr 0.9fr 1.1fr;
+  }
+}
+@media (min-width: 781px) {
+  .irepair-footer .irepair-footer__cta {
+    display: grid;
+    grid-template-columns: max-content;
+    gap: 10px;
+  }
+}
+.irepair-footer .irepair-footer__cta .irepair-footer__cta-btn {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  width: 100%;
+  min-height: 42px;
+}
+@media (max-width: 780px) {
+  .irepair-footer .irepair-footer__cta .irepair-footer__cta-btn {
+    min-height: 46px;   /* на телефоне кнопка с телефоном 46px — остальные такие же */
+  }
+}
+.irepair-footer .irepair-footer__messengers {
+  position: relative;
+}
+.irepair-footer .irepair-footer__messengers-arrow {
+  -webkit-transition: -webkit-transform 0.2s ease;
+          transition: transform 0.2s ease;
+}
+.irepair-footer .irepair-footer__messengers.is-open .irepair-footer__messengers-arrow {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+.irepair-footer .irepair-footer__messengers.is-open .irepair-footer__messengers-btn {
+  border-color: #37d97b;
+  color: #37d97b;
+}
+.irepair-footer .irepair-footer__messengers-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  min-width: 232px;
+  z-index: 5;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 12px 10px;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 16px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+          box-shadow: 0 16px 40px rgba(0,0,0,0.14);
+}
+.irepair-footer .irepair-footer__messengers-panel[hidden] {
+  display: none;
+}
+.irepair-footer .irepair-footer__messenger {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 0;
+          flex: 1 1 0;
+  gap: 6px;
+  padding: 4px 2px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #1d1d1f;
+  text-decoration: none;
+  -webkit-transition: background-color 0.2s ease;
+          transition: background-color 0.2s ease;
+}
+.irepair-footer .irepair-footer__messenger:hover {
+  background-color: #f2f5f4;
+  color: #1d1d1f;
+}
+.irepair-footer .irepair-footer__messenger-icon {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #fff;
+}
+.irepair-footer .irepair-footer__messenger_tg .irepair-footer__messenger-icon {
+  background: #27a7e7;
+}
+.irepair-footer .irepair-footer__messenger_wa .irepair-footer__messenger-icon {
+  background: #25d366;
+}
+.irepair-footer .irepair-footer__messenger_max .irepair-footer__messenger-icon {
+  background: linear-gradient(135deg, #3d7bff 0%, #9b3bff 100%);
+}
+.irepair-footer .irepair-footer__messenger-name small {
+  display: block;
+  font-size: 10px;
+  line-height: 12px;
+  color: #86868b;
+}
+.irepair-footer .irepair-footer__messenger.is-soon {
+  cursor: default;
+  opacity: 0.75;
+}
+
 /* ==========================================================================
    iRepair — попап "Заказать звонок" (форма, без реальной отправки —
    интеграция с Bitrix CRM будет подключена отдельно)
