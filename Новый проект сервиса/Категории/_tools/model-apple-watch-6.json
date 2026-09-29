@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../AppleWatch",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-apple-watch-6",
+  "device": "Apple Watch",
+  "title": "Ремонт Apple Watch&nbsp;6",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт Apple Watch 6",
+  "image": "/images/content/catalog/apple-watch-6-model.webp",
+  "image_alt": "Apple Watch 6",
+  "mobile_img_after_title": true
+}
