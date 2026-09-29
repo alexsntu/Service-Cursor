@@ -2756,6 +2756,11 @@ html.irepair-search-lock body {
   white-space: nowrap;
   color: #1d1d1f;
 }
+/* цена под названием — только на телефоне (≤767px), на компьютере — справа */
+.irepair-search .irepair-search__ctx--price,
+.irepair-search-page .irepair-search__ctx--price {
+  display: none;
+}
 .irepair-search .irepair-search__row.is-active .irepair-search__ctx,
 .irepair-search .irepair-search__row.is-active .irepair-search__price {
   color: #fff;
@@ -3083,9 +3088,15 @@ html.irepair-search-lock body {
   }
   .irepair-search .irepair-search__price,
   .irepair-search-page .irepair-search__price {
-    font-size: 15px;
-    font-weight: 400;
-    color: #8e8e93;
+    display: none;
+  }
+  .irepair-search .irepair-search__ctx--price,
+  .irepair-search-page .irepair-search__ctx--price {
+    display: block;
+    margin-top: 1px;
+    font-size: 14px;
+    line-height: 18px;
+    color: #1f9d63;
   }
   .irepair-search .irepair-search__all {
     margin: 16px 0 0;

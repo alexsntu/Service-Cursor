@@ -248,7 +248,8 @@
     return '<a class="irepair-search__row" href="' + esc(it.u) + '">'
       + '<span class="irepair-search__icon irepair-search__icon--' + t + '">' + ICONS[t] + '</span>'
       + '<span class="irepair-search__text"><span class="irepair-search__name">' + highlight(it.n, q) + '</span>'
-      + (it.c && it.t !== 's' ? '<span class="irepair-search__ctx">' + esc(it.c) + '</span>' : '') + '</span>'
+      + (it.c && it.t !== 's' ? '<span class="irepair-search__ctx">' + esc(it.c) + '</span>' : '')
+      + (it.p ? '<span class="irepair-search__ctx irepair-search__ctx--price">' + price(it.p) + '</span>' : '') + '</span>'
       + (it.p ? '<span class="irepair-search__price">' + price(it.p) + '</span>' : '')
       + CHEVRON + '</a>';
   }
