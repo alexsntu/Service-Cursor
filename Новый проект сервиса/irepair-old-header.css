@@ -2452,7 +2452,7 @@
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
           justify-content: space-between;
-  padding-left: 10px;
+  padding-left: 14px;   /* как у остальных пунктов выпадающего меню */
 }
 .irepair-old-header .header .menu__mobWrapper-step,
 .irepair-old-header .header .menu__mobWrapper-item-link,
