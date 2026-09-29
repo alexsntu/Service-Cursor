@@ -19,6 +19,9 @@ MacBook (один товар на категорию, два выбора — м
   Старый адрес: столбец D, а если пусто — путь категории товара в старой базе.
 
 Apple Watch: --feature 10 (тип запчасти) --model-feature 11 (размер корпуса: столбец N «44 mm» → «44 мм», по возрастанию).
+
+Услуги нет в RemOnline/таблице (iMac): --old-product <старый product_id> вместо RO id — варианты и цены из опций
+старого товара, код товара OLD-<товар>-<опция>; когда владелец заведёт услугу в RO — заменить код на RO-<id>.
 """
 import argparse
 import base64
@@ -51,9 +54,12 @@ ap.add_argument('--feature', type=int, required=True, help='id характер�
 ap.add_argument('--model-feature', type=int, help='id характеристики модели (MacBook: 6) — второй выбор в группе вариаций')
 ap.add_argument('--slug', help='свой адрес (seo_name) главного товара вместо старого slug — если старый кривой; со старого адреса будет 301')
 ap.add_argument('--name', help='своё название услуги вместо старого (если старое общее, напр. «iPad Pro 13» на две категории M4/M5)')
+ap.add_argument('--old-product', type=int, help='услуги нет в RemOnline/таблице: варианты и цены — из опций старого товара '
+                                               '(«Выберите модель» × «Тип запчасти»), код OLD-<товар>-<опция>; потом привязать к RO')
 ap.add_argument('--dry-run', action='store_true')
-ap.add_argument('ro_ids', nargs='+')
+ap.add_argument('ro_ids', nargs='*')
 args = ap.parse_args()
+assert bool(args.ro_ids) != bool(args.old_product), 'нужны либо RO id, либо --old-product'
 
 AUTH = 'Basic ' + base64.b64encode(os.environ['CSCART_AUTH'].encode()).decode()
 
@@ -132,8 +138,54 @@ def sql_new(q):
                 capture_output=True, text=True).stdout
 
 
-# 1. RemOnline
+def old_sql(q):
+    """Запрос к базе старого сайта (только чтение), вывод --batch построчно, повторы при обрыве SSH."""
+    remote = ('cd ~/www/irepair.ru && P=$(php -r "include \\"config.php\\"; echo DB_PASSWORD;") && '
+              f"mysql -uocstore -p\"$P\" ocstore --batch -e '{q}' 2>/dev/null")
+    for attempt in range(4):
+        try:
+            return subprocess.run(['sshpass', '-e', 'ssh', '-o', 'ConnectTimeout=20', OLD_SSH, remote],
+                                  capture_output=True, check=True).stdout.decode('utf-8').split('\n')
+        except subprocess.CalledProcessError:
+            if attempt == 3:
+                raise
+            time.sleep(10)
+
+
 items = []
+if args.old_product:
+    # 1'. Услуги ещё нет в RemOnline и таблице (напр. iMac): варианты = опции старого товара.
+    # Цена опции на старом сайте — полная цена услуги (price_prefix пустой). Главная цена — у выбора модели,
+    # если он есть; иначе — у типа запчасти. Гарантии в старой базе нет → 1 месяц (правило владельца).
+    rows_ = old_sql('select od.name oname, pov.product_option_value_id vid, ovd.name vname, pov.price, pov.price_prefix '
+                    'from oc_product_option_value pov '
+                    'join oc_product_option po on po.product_option_id = pov.product_option_id '
+                    'join oc_option_description od on od.option_id = po.option_id and od.language_id = 1 '
+                    'join oc_option_value_description ovd on ovd.option_value_id = pov.option_value_id and ovd.language_id = 1 '
+                    f'where pov.product_id = {args.old_product} order by pov.product_option_value_id')
+    opts = {}
+    for line in rows_[1:]:
+        if line.strip():
+            oname, vid, vname, price, prefix = line.split('\t')
+            assert prefix.strip() in ('', '='), f'опция «{vname}»: цена с префиксом «{prefix}» — разобрать вручную'
+            opts.setdefault(oname.strip(), []).append((vid, html.unescape(vname).strip(), int(float(price))))
+    models = opts.pop('Выберите модель', [])
+    types = opts.pop('Тип запчасти', [])
+    assert not opts, f'неизвестные опции старого товара: {list(opts)}'
+    assert types, 'у старого товара нет опции «Тип запчасти»'
+    assert not (len(models) > 1 and len(types) > 1), 'и моделей, и типов больше одного — цены не разложить, спросить владельца'
+    assert bool(models) == bool(args.model_feature), 'опция «Выберите модель» ↔ --model-feature должны совпадать'
+    for mvid, mname, mprice in (models or [(None, '', None)]):
+        for tvid, tname, tprice in types:
+            it = {'ro': f"OLD-{args.old_product}-{mvid or tvid}", 'value': tname, 'price': mprice or tprice,
+                  'ro_price': 0, 'old_id': args.old_product, 'warranty': '1'}
+            if models:
+                it['model'], it['model_pos'] = model_label(re.sub(r'^Модель\s+', '', mname))
+            items.append(it)
+    items.sort(key=lambda x: (x['price'], x.get('model_pos', 0), x['value']))
+    print(f'!!! старый товар {args.old_product}: нет в RemOnline/таблице — цены со старого сайта, код OLD-…, гарантия 1 мес.')
+
+# 1. RemOnline
 for sid in args.ro_ids:
     title, price = ro(sid)
     items.append({'ro': sid, 'title': title, 'price': price, 'value': title.split('|')[-1].strip() if '|' in title else ''})
@@ -152,6 +204,8 @@ for r in all_rows:
     elif r[4] is not None:
         module_warranty[str(r[4]).replace('.0', '')] = cur_mod
 for it in items:
+    if it['ro'].startswith('OLD-'):
+        continue  # --old-product: в таблице строки нет
     r = rows[it['ro']]
     # цена — из нашей таблицы (столбец AY «Текущая цена», как у прайса/калькулятора); RemOnline — только для сверки
     it['ro_price'] = it['price']
@@ -301,7 +355,7 @@ for n, it in enumerate(items):
     if upc:
         features['5'] = upc
     it['features'] = features
-    body = dict(product=name if n == 0 else variant_name(it), price=it['price'], product_code=f"RO-{it['ro']}",
+    body = dict(product=name if n == 0 else variant_name(it), price=it['price'], product_code=it['ro'] if it['ro'].startswith('OLD-') else f"RO-{it['ro']}",
                 status='A', category_ids=[args.cat], main_category=args.cat, company_id=1,
                 page_title=meta_title, meta_description=meta_desc, full_description=desc, product_features=features,
                 main_pair={'detailed': {'image_path': 'https://irepair.ru/image/' + main_img, 'alt': name}})

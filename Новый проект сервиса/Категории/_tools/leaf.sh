@@ -26,10 +26,12 @@ python3 - "$SLUG" "$TITLE" "$SERVICE" "$ALT" <<'EOF'
 import json,sys
 slug,title,service,alt=sys.argv[1:5]
 dev=slug.split('-')[0]
-base={'ipad':'model-ipad-2.json','macbook':'model-macbook-pro-13.json','apple':'model-ipad-2.json'}.get(dev,'model-iphone-16.json')
+base={'ipad':'model-ipad-2.json','macbook':'model-macbook-pro-13.json','apple':'model-ipad-2.json','imac':'model-ipad-2.json'}.get(dev,'model-iphone-16.json')
 c=json.load(open(base))
 if slug.startswith('apple-watch'):  # Watch: как iPad (моб. название → картинка → текст → кнопка), своя папка
     c.update(dir='../AppleWatch', device='Apple Watch')
+if slug.startswith('imac'):  # iMac: так же, папка Категории/iMac
+    c.update(dir='../iMac', device='iMac')
 c.update(slug='remont-'+slug,title=title,service=service,image=f'/images/content/catalog/{slug}-model.webp',image_alt=alt)
 json.dump(c,open(f'model-{slug}.json','w'),ensure_ascii=False,indent=2); open(f'model-{slug}.json','a').write('\n')
 EOF
