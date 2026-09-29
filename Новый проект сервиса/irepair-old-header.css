@@ -2439,3 +2439,695 @@
     background-color: #eafaf0;
   }
 }
+
+/* ==========================================================================
+   iRepair: живой поиск (search/irepair-search.js → /ajax/irepair-search.js)
+   Окно поиска .irepair-search — компьютер: как Spotlight в macOS; телефон (≤767px): как поиск в iOS.
+   Страница результатов .irepair-search-page (/search/?q=…). Без calc() со смешанными единицами (LESS),
+   backdrop-filter с saturate() — через ~"…".
+   ========================================================================== */
+html.irepair-search-lock,
+html.irepair-search-lock body {
+  overflow: hidden;
+}
+.irepair-search {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100050;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.irepair-search.is-open {
+  display: block;
+}
+.irepair-search *,
+.irepair-search-page * {
+  box-sizing: border-box;
+}
+.irepair-search .irepair-search__backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(20, 24, 28, 0.26);
+  -webkit-backdrop-filter: blur(3px);
+          backdrop-filter: blur(3px);
+  animation: irepairSearchFade 0.18s ease;
+}
+.irepair-search .irepair-search__panel {
+  position: absolute;
+  top: 12vh;
+  left: 50%;
+  width: 680px;
+  max-width: 92vw;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 18px;
+  background: rgba(246, 246, 248, 0.82);
+  -webkit-backdrop-filter: ~"blur(40px) saturate(180%)";
+          backdrop-filter: ~"blur(40px) saturate(180%)";
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28), 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  animation: irepairSearchIn 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes irepairSearchFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes irepairSearchIn {
+  from { opacity: 0; -webkit-transform: translateX(-50%) scale(0.97); transform: translateX(-50%) scale(0.97); }
+  to { opacity: 1; -webkit-transform: translateX(-50%) scale(1); transform: translateX(-50%) scale(1); }
+}
+
+/* строка поиска */
+.irepair-search .irepair-search__bar,
+.irepair-search-page .irepair-search__bar {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 0 18px;
+}
+.irepair-search.has-query .irepair-search__bar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.irepair-search .irepair-search__field,
+.irepair-search-page .irepair-search__field {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+          flex: 1 1 auto;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  cursor: text;
+}
+.irepair-search .irepair-search__glass,
+.irepair-search-page .irepair-search__glass {
+  -webkit-flex: 0 0 auto;
+          flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #6e6e73;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.irepair-search .irepair-search__input,
+.irepair-search-page .irepair-search__input {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+          flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  height: 60px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-family: inherit !important;
+  font-size: 22px !important;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.01em;
+  color: #1d1d1f !important;
+  -webkit-appearance: none;
+          appearance: none;
+}
+.irepair-search .irepair-search__input::-webkit-search-cancel-button,
+.irepair-search-page .irepair-search__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+.irepair-search .irepair-search__input::placeholder,
+.irepair-search-page .irepair-search__input::placeholder {
+  color: #a1a1a6;
+}
+.irepair-search .irepair-search__clear {
+  display: none;
+  -webkit-flex: 0 0 auto;
+          flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.irepair-search.has-query .irepair-search__clear {
+  display: block;
+}
+.irepair-search .irepair-search__clear svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+.irepair-search .irepair-search__clear circle {
+  fill: #b9b9be;
+}
+.irepair-search .irepair-search__clear path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.irepair-search .irepair-search__cancel {
+  display: none;
+}
+
+/* результаты */
+.irepair-search .irepair-search__results {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 0 8px;
+  overscroll-behavior: contain;
+}
+.irepair-search.has-query .irepair-search__results {
+  padding: 4px 8px 8px;
+}
+.irepair-search .irepair-search__group-title,
+.irepair-search-page .irepair-search__group-title {
+  padding: 12px 10px 5px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  color: #6e6e73;
+}
+.irepair-search-page .irepair-search__group-title span {
+  font-weight: 400;
+  color: #a1a1a6;
+}
+.irepair-search .irepair-search__row,
+.irepair-search-page .irepair-search__row {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: #1d1d1f;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.irepair-search .irepair-search__row:hover,
+.irepair-search-page .irepair-search__row:hover {
+  background: rgba(55, 217, 123, 0.12);
+  color: #1d1d1f;
+}
+.irepair-search .irepair-search__row.is-active {
+  background: -webkit-linear-gradient(left, #36d97b, #19c4bc);
+  background: linear-gradient(90deg, #36d97b, #19c4bc);
+  color: #fff;
+}
+.irepair-search .irepair-search__icon,
+.irepair-search-page .irepair-search__icon {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex: 0 0 auto;
+          flex: 0 0 auto;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #e7f8ee;
+  color: #1f9d63;
+}
+.irepair-search .irepair-search__icon--v,
+.irepair-search .irepair-search__icon--s,
+.irepair-search-page .irepair-search__icon--v,
+.irepair-search-page .irepair-search__icon--s {
+  background: #e3f6f4;
+  color: #129a91;
+}
+.irepair-search .irepair-search__icon--p,
+.irepair-search .irepair-search__icon--b,
+.irepair-search-page .irepair-search__icon--p,
+.irepair-search-page .irepair-search__icon--b {
+  background: #eeeff2;
+  color: #6e6e73;
+}
+.irepair-search .irepair-search__row.is-active .irepair-search__icon {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+.irepair-search .irepair-search__icon svg,
+.irepair-search-page .irepair-search__icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.irepair-search .irepair-search__text,
+.irepair-search-page .irepair-search__text {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+          flex: 1 1 auto;
+  min-width: 0;
+}
+.irepair-search .irepair-search__name,
+.irepair-search-page .irepair-search__name {
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.irepair-search .irepair-search__name mark,
+.irepair-search-page .irepair-search__name mark {
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-weight: 600;
+}
+.irepair-search .irepair-search__ctx,
+.irepair-search-page .irepair-search__ctx {
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #86868b;
+}
+.irepair-search .irepair-search__price,
+.irepair-search-page .irepair-search__price {
+  -webkit-flex: 0 0 auto;
+          flex: 0 0 auto;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+  color: #1d1d1f;
+}
+.irepair-search .irepair-search__row.is-active .irepair-search__ctx,
+.irepair-search .irepair-search__row.is-active .irepair-search__price {
+  color: #fff;
+}
+.irepair-search .irepair-search__chev,
+.irepair-search-page .irepair-search__chev {
+  -webkit-flex: 0 0 auto;
+          flex: 0 0 auto;
+  width: 7px;
+  height: 12px;
+  fill: none;
+  stroke: #c7c7cc;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.irepair-search .irepair-search__row.is-active .irepair-search__chev {
+  stroke: #fff;
+}
+.irepair-search .irepair-search__all {
+  display: block;
+  margin: 6px 2px 2px;
+  padding: 11px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  color: #1f9d63;
+}
+.irepair-search .irepair-search__all:hover {
+  color: #12b857;
+}
+.irepair-search .irepair-search__hints {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  gap: 18px;
+  padding: 10px 18px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 12px;
+  line-height: 16px;
+  color: #86868b;
+}
+.irepair-search .irepair-search__hints kbd {
+  display: inline-block;
+  min-width: 18px;
+  margin-right: 3px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.07);
+  font-family: inherit;
+  font-size: 11px;
+  text-align: center;
+  color: #515154;
+}
+.irepair-search .irepair-search__loading,
+.irepair-search .irepair-search__fixed,
+.irepair-search-page .irepair-search__loading,
+.irepair-search-page .irepair-search__fixed,
+.irepair-search-page .irepair-search__summary {
+  padding: 12px 10px;
+  font-size: 13px;
+  line-height: 18px;
+  color: #86868b;
+}
+.irepair-search-page .irepair-search__summary:empty {
+  display: none;
+}
+
+/* ничего не нашли */
+.irepair-search .irepair-search__empty,
+.irepair-search-page .irepair-search__empty {
+  padding: 26px 24px 10px;
+  text-align: center;
+}
+.irepair-search .irepair-search__empty-icon,
+.irepair-search-page .irepair-search__empty-icon {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  background: #eeeff2;
+}
+.irepair-search .irepair-search__empty-icon svg,
+.irepair-search-page .irepair-search__empty-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #8e8e93;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.irepair-search .irepair-search__empty-title,
+.irepair-search-page .irepair-search__empty-title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  color: #1d1d1f;
+}
+.irepair-search .irepair-search__empty-text,
+.irepair-search-page .irepair-search__empty-text {
+  max-width: 420px;
+  margin: 6px auto 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #6e6e73;
+}
+.irepair-search .irepair-search__lead,
+.irepair-search-page .irepair-search__lead,
+.irepair-search-page .irepair-search__submit {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 28px;
+  border: 0;
+  border-radius: 40px;
+  background: linear-gradient(103.87deg, #36d97b 29.3%, #19d4e0 96.89%);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* страница результатов /search/ */
+.irepair-search-page {
+  max-width: 860px;
+  margin: 0 auto 64px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.irepair-search-page .irepair-search__bar--page {
+  margin-bottom: 8px;
+  padding: 0 8px 0 18px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+}
+.irepair-search-page .irepair-search__input {
+  height: 58px !important;
+  font-size: 19px !important;
+}
+.irepair-search-page .irepair-search__submit {
+  -webkit-flex: 0 0 auto;
+          flex: 0 0 auto;
+  margin-top: 0;
+  padding: 10px 22px;
+}
+.irepair-search-page .irepair-search__list {
+  padding: 6px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+.irepair-search-page .irepair-search__row {
+  padding: 10px 12px;
+}
+.irepair-search-page .irepair-search__group {
+  margin-top: 10px;
+}
+
+/* телефон — как поиск в iOS */
+@media (max-width: 767px) {
+  .irepair-search .irepair-search__backdrop {
+    display: none;
+  }
+  .irepair-search .irepair-search__panel {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+            flex-direction: column;
+    width: auto;
+    max-width: none;
+    padding-top: env(safe-area-inset-top);
+    border: 0;
+    border-radius: 0;
+    background: #f2f2f7;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+    -webkit-transform: none;
+            transform: none;
+    animation: irepairSearchUp 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  @keyframes irepairSearchUp {
+    from { opacity: 0; -webkit-transform: translateY(12px); transform: translateY(12px); }
+    to { opacity: 1; -webkit-transform: none; transform: none; }
+  }
+  .irepair-search .irepair-search__bar {
+    -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+    padding: 10px 16px 8px;
+  }
+  .irepair-search.has-query .irepair-search__bar {
+    border-bottom: 0;
+  }
+  .irepair-search .irepair-search__field,
+  .irepair-search-page .irepair-search__field {
+    gap: 6px;
+    height: 38px;
+    padding: 0 8px;
+    border-radius: 10px;
+    background: rgba(118, 118, 128, 0.12);
+  }
+  .irepair-search .irepair-search__glass,
+  .irepair-search-page .irepair-search__glass {
+    width: 17px;
+    height: 17px;
+    stroke: #8e8e93;
+    stroke-width: 2.4;
+  }
+  .irepair-search .irepair-search__input,
+  .irepair-search-page .irepair-search__input {
+    height: 38px !important;
+    font-size: 17px !important;
+    letter-spacing: -0.02em;
+  }
+  .irepair-search .irepair-search__input::placeholder,
+  .irepair-search-page .irepair-search__input::placeholder {
+    color: #8e8e93;
+  }
+  .irepair-search .irepair-search__clear,
+  .irepair-search .irepair-search__clear svg {
+    width: 18px;
+    height: 18px;
+  }
+  .irepair-search .irepair-search__clear circle {
+    fill: #8e8e93;
+  }
+  .irepair-search .irepair-search__cancel {
+    display: block;
+    -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    font-size: 17px;
+    line-height: 22px;
+    color: #1f9d63;
+    cursor: pointer;
+  }
+  .irepair-search .irepair-search__results,
+  .irepair-search.has-query .irepair-search__results {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+            flex: 1 1 auto;
+    max-height: none;
+    padding: 0 16px 32px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .irepair-search .irepair-search__group-title,
+  .irepair-search-page .irepair-search__group-title {
+    padding: 20px 16px 7px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #6d6d72;
+  }
+  .irepair-search .irepair-search__list,
+  .irepair-search-page .irepair-search__list {
+    overflow: hidden;
+    padding: 0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: none;
+  }
+  .irepair-search .irepair-search__row,
+  .irepair-search-page .irepair-search__row {
+    min-height: 48px;
+    padding: 9px 14px;
+    border-radius: 0;
+  }
+  .irepair-search .irepair-search__row + .irepair-search__row::before,
+  .irepair-search-page .irepair-search__row + .irepair-search__row::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 58px;
+    height: 1px;
+    background: rgba(60, 60, 67, 0.13);
+  }
+  .irepair-search .irepair-search__row:hover,
+  .irepair-search-page .irepair-search__row:hover {
+    background: #fff;
+  }
+  .irepair-search .irepair-search__row:active,
+  .irepair-search-page .irepair-search__row:active {
+    background: #e5e5ea;
+  }
+  .irepair-search .irepair-search__icon,
+  .irepair-search-page .irepair-search__icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+  }
+  .irepair-search .irepair-search__name,
+  .irepair-search-page .irepair-search__name {
+    font-size: 16px;
+    line-height: 21px;
+  }
+  .irepair-search .irepair-search__price,
+  .irepair-search-page .irepair-search__price {
+    font-size: 15px;
+    font-weight: 400;
+    color: #8e8e93;
+  }
+  .irepair-search .irepair-search__all {
+    margin: 16px 0 0;
+    border: 0;
+    border-radius: 12px;
+    background: #fff;
+    font-size: 16px;
+  }
+  .irepair-search .irepair-search__hints {
+    display: none;
+  }
+  .irepair-search .irepair-search__lead,
+  .irepair-search-page .irepair-search__lead {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 17px;
+  }
+  .irepair-search-page {
+    margin-bottom: 40px;
+  }
+  .irepair-search-page .irepair-search__bar--page {
+    gap: 10px;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .irepair-search-page .irepair-search__submit {
+    padding: 8px 16px;
+    font-size: 15px;
+  }
+}
+
+/* iRepair: мобильная шапка (≤600px) — лупа перед личным кабинетом, отступы больше:
+   20px от краёв экрана (было 16px), 18px между иконками (было 8px). Кабинет позиционирован абсолютно от ширины шапки. */
+@media (max-width: 600px) {
+  .irepair-old-header .headerMob > .g-wrapper {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  .irepair-old-header .headerMob__wrapper-login {
+    right: 20px;
+  }
+  .irepair-old-header .headerMob__wrapper-search {
+    margin-right: 43px;
+    cursor: pointer;
+  }
+}
