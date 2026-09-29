@@ -17,6 +17,8 @@ MacBook (один товар на категорию, два выбора — м
   main-page/scripts/build-repair-prices.py); нового значения в характеристике --model-feature нет — скрипт его добавит.
   Гарантия: столбец L, а если пусто — из строки «Модуль» этой услуги (столбец N вида «AASP 12 | ОЕМ 3»), а если и там нет — 1 месяц.
   Старый адрес: столбец D, а если пусто — путь категории товара в старой базе.
+
+Apple Watch: --feature 10 (тип запчасти) --model-feature 11 (размер корпуса: столбец N «44 mm» → «44 мм», по возрастанию).
 """
 import argparse
 import base64
@@ -98,6 +100,9 @@ def model_label(modelno, model=''):
     MacBook (A-номера есть в CHIP_MAP): «процессор | A-номера», Intel → M1 → … → M5, внутри — по A-номеру.
     Остальные (iPad): «A-номера» как в столбце N, по первому A-номеру; если в столбце H есть поколение
     («Pro 11 S5 M4») — «5 поколение (M4) | A-номера», по поколению."""
+    mm = re.fullmatch(r'\s*(\d+)\s*(mm|мм)\s*', modelno, re.I)  # Apple Watch: размер корпуса «44 mm» → «44 мм»
+    if mm:
+        return f'{mm.group(1)} мм', int(mm.group(1))
     parts = [p.strip() for p in modelno.split('/') if p.strip()]
     assert parts and all(re.fullmatch(r'A\d{4}', p) for p in parts), f'в столбце N не A-номера: «{modelno}»'
     if not all(p in _bp.CHIP_MAP for p in parts):
