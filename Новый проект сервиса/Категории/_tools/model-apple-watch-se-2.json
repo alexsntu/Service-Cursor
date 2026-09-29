@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../AppleWatch",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-apple-watch-se-2",
+  "device": "Apple Watch",
+  "title": "Ремонт Apple Watch&nbsp;SE&nbsp;2",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт Apple Watch SE 2",
+  "image": "/images/content/catalog/apple-watch-se-2-model.webp",
+  "image_alt": "Apple Watch SE 2",
+  "mobile_img_after_title": true
+}
