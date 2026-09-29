@@ -42,9 +42,12 @@ M=/Users/a0000/.claude/projects/-Users-a0000-----------Cursor-Service-Cursor/mem
 export RO_KEY=$(sed -n 37p $M | sed -E 's/.*`([^`]+)`.*/\1/'); CK=$(sed -n 42p $M | sed -E 's/.*API key `([^`]+)`.*/\1/'); export CSCART_AUTH="admin@irepair.ru:$CK"; export SSHPASS=$(sed -n 6p /Users/a0000/Документы/Cursor/Service-Cursor/credentials.local.md | sed -E 's/.*`([^`]+)`.*/\1/')
 cd ../../backend/product-import
 MF=""; [ "$MFEAT" != "-" ] && MF="--model-feature $MFEAT"
+# BANNER_ONLY=1 — только баннер (картинка + код + коммит), услуги не заливаем (напр. Watch 2/3 — в таблице нет строк)
+if [ "${BANNER_ONLY:-}" != 1 ]; then
 python3 import_service.py --cat $CAT --feature $FEAT $MF --dry-run "$@" 2>&1 | tail -15
 [ "${DRY_ONLY:-}" == 1 ] && exit 0
 python3 import_service.py --cat $CAT --feature $FEAT $MF "$@" 2>&1 | grep -v "^  Ремонт_\|^   товар\|^  RO\|новое значение\|^Старый\|^!!! RO"
+fi
 cd /Users/a0000/Документы/Cursor/Service-Cursor
 DIRN=$(python3 -c "import json;print(json.load(open('Новый проект сервиса/Категории/_tools/model-$SLUG.json'))['dir'].split('/')[-1])")
 git add "Новый проект сервиса/Категории/$DIRN/remont-$SLUG.html" "Новый проект сервиса/Категории/_tools/model-$SLUG.json" && git commit -q -m "$ALT: баннер
