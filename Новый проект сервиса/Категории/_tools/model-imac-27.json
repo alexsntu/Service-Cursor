@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../iMac",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-imac-27",
+  "device": "iMac",
+  "title": "Ремонт iMac&nbsp;27",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт iMac 27",
+  "image": "/images/content/catalog/imac-27-model.webp",
+  "image_alt": "iMac 27",
+  "mobile_img_after_title": true
+}
