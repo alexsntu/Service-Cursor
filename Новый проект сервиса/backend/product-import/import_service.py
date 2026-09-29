@@ -248,6 +248,15 @@ with tempfile.TemporaryDirectory() as tmp:
     subprocess.run([sys.executable, os.path.join(HERE, 'prep_desc.py'), os.path.join(tmp, 'in.html'), os.path.join(tmp, 'out.html')], check=True)
     desc = open(os.path.join(tmp, 'out.html'), encoding='utf-8').read() if desc_in.strip() else ''
 
+# Apple Watch (владелец 2026-09-29): шаблонный FAQ старого сайта «Популярные вопросы» («Какие есть варианты качества
+# аккумулятора?…», гарантия 3 месяца, курьер Dostavista) не переносим — вырезаем его, остальной текст оставляем.
+_faq = re.search(r'<h3[^>]*>\s*Популярные вопросы\s*</h3>', desc)
+if _faq and 'Apple Watch' in desc and 'Какие есть варианты качества аккумулятора' in desc[_faq.start():]:
+    _tail = re.sub(r'\s+', ' ', html.unescape(re.sub(r'<(svg|style|script)\b.*?</\1>|<[^>]+>', ' ', desc[_faq.start():], flags=re.S)))
+    assert len(_tail) < 1200, f'после FAQ «Популярные вопросы» есть ещё текст ({len(_tail)} симв.) — проверить вручную'
+    desc = desc[:_faq.start()].strip()
+    print('убран FAQ «Популярные вопросы» (Apple Watch) — описание', f'{len(desc)} симв.' if desc else 'пустое')
+
 # значения характеристики вариантов
 feat = cs('GET', f'features/{args.feature}')
 variant_ids = {v['variant'].strip(): str(v['variant_id']) for v in feat['variants'].values()}
