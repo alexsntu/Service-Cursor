@@ -3,7 +3,7 @@
 
     <div class="irepair-vm-imac-display__hero">
       <div class="irepair-vm-imac-display__hero-text">
-        <div class="irepair-vm-imac-display__hero-title">Замена дисплея на iMac</div>
+        <h1 class="irepair-vm-imac-display__hero-title">Замена дисплея на iMac</h1>
         <p class="irepair-vm-imac-display__hero-lede">Узнать стоимость и сроки работы можно <span class="irepair-vm-imac-display__hero-dotted">прямо сейчас</span></p>
         <button type="button" class="irepair-vm-imac-display__hero-btn" data-call-popup-trigger data-service="Замена дисплея iMac">Заказать ремонт</button>
       </div>
@@ -76,11 +76,15 @@
   z-index: 1;
   max-width: 440px;
 }
-.irepair-vm-imac-display__hero-title {
-  margin-bottom: 20px;
+.irepair-vm-imac-display .irepair-vm-imac-display__hero-title {
+  margin: 0 0 20px;
+  padding: 0;
   font-family: 'Montserrat-SemiBold', Arial, sans-serif;
   font-size: 34px;
+  font-weight: 400;
   line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
   color: #1d1d1f;
 }
 .irepair-vm-imac-display__hero-lede {
@@ -258,7 +262,7 @@
   .irepair-vm-imac-display__hero-text {
     width: 100%;
   }
-  .irepair-vm-imac-display__hero-title {
+  .irepair-vm-imac-display .irepair-vm-imac-display__hero-title {
     font-size: 22px;
     margin-bottom: 8px;
   }
