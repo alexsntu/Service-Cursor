@@ -2440,6 +2440,36 @@
   }
 }
 
+/* iRepair (2026-09-30): все пункты меню выравниваем по левому краю — ПК (выпадающие списки, в т.ч. «Ремонт … ›»
+   и вложенные панели серий/моделей) и мобильное меню (серии, модели, ссылки). Заголовок экрана мобильного меню
+   (название устройства рядом со стрелкой «назад») не трогаем. */
+.irepair-old-header .header__wrapper-right-menu-list,
+.irepair-old-header .header__wrapper-right-menu-list .irepair-hm-sub__panel,
+.irepair-old-header .header__wrapper-right-menu-list-link {
+  text-align: left;
+}
+.irepair-old-header .irepair-hm-root > .irepair-hm-series__link {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  padding-left: 10px;
+}
+.irepair-old-header .header .menu__mobWrapper-step,
+.irepair-old-header .header .menu__mobWrapper-item-link,
+.irepair-old-header .header .menu__mobWrapper-item-link a,
+.irepair-old-header .header .menu__mobWrapper-item-link span,
+.irepair-old-header .header .menu__mobWrapper-item-services,
+.irepair-old-header .header .menu__mobWrapper-item-list,
+.irepair-old-header .header .menu__mobWrapper-item-list a {
+  text-align: left;
+}
+.irepair-old-header .header .menu__mobWrapper-item-link,
+.irepair-old-header .header .menu__mobWrapper-item-services {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+}
+
 /* ==========================================================================
    iRepair: живой поиск (search/irepair-search.js → /ajax/irepair-search.js)
    Окно поиска .irepair-search — компьютер: как Spotlight в macOS; телефон (≤767px): как поиск в iOS.
