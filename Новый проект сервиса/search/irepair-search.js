@@ -162,7 +162,7 @@
       }
       if (!best) {
         if (!optional(it, qt[i])) return 0;
-        total -= 1.2;
+        total -= it.t === 'c' ? 1.8 : 1.2;    // в запросе есть услуга — услуга «по всем моделям» выше модели
         skipped++;
         continue;
       }
