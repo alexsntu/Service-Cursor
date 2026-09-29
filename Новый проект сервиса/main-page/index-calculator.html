@@ -171,7 +171,7 @@
   // 12 390 ₽ — разряды и знак рубля через неразрывный пробел (записан как \u00a0: редактор CS-Cart
   // портит сам символ nbsp в коде блока) — цена всегда в одну строку
   function formatPrice(p, approx) {
-    var formatted = String(Math.round(Number(p))).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+    var formatted = String(Math.round(Number(p))).replace(/\B(?=(\d\d\d)+(?!\d))/g, '\u00a0');   // без {3}: блок со Smarty вырезает {…}
     return (approx ? 'от\u00a0' : '') + formatted + '\u00a0₽';
   }
 
