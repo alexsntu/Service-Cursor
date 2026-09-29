@@ -10,6 +10,7 @@
         <button type="button" class="irepair-index-calc__tab" data-device="Watch">Watch</button>
       </div>
 
+      <!-- все выборы — выпадающие списки; на ПК в одну строку, на телефоне столбиком -->
       <div class="irepair-index-calc__fields">
         <div class="irepair-index-calc__field irepair-index-calc__field_model">
           <label class="irepair-index-calc__label">Модель</label>
@@ -17,33 +18,29 @@
             <option value="">Выберите модель</option>
           </select>
         </div>
-        <div class="irepair-index-calc__config-field" data-role="config-field" hidden>
+        <div class="irepair-index-calc__field irepair-index-calc__field_config" data-role="config-field" hidden>
           <label class="irepair-index-calc__label">Конфигурация</label>
-          <div class="irepair-index-calc__config" data-role="config"></div>
-          <select class="irepair-index-calc__select irepair-index-calc__config-select" data-role="config-select">
+          <select class="irepair-index-calc__select" data-role="config-select">
             <option value="">Выберите конфигурацию</option>
           </select>
         </div>
-      </div>
-
-      <div class="irepair-index-calc__field" data-role="service-field">
-        <label class="irepair-index-calc__label">Неисправность</label>
-        <select class="irepair-index-calc__select" data-role="service" disabled>
-          <option value="">Сначала выберите модель</option>
-        </select>
-      </div>
-
-      <div class="irepair-index-calc__quality-field" data-role="quality-field" hidden>
-        <label class="irepair-index-calc__label">Качество запчасти</label>
-        <div class="irepair-index-calc__quality" data-role="quality"></div>
-        <p class="irepair-index-calc__quality-desc" data-role="quality-desc"></p>
-      </div>
-
-      <div class="irepair-index-calc__result" data-role="result" hidden>
-        <div class="irepair-index-calc__result-info">
-          <span class="irepair-index-calc__result-label">Стоимость ремонта</span>
-          <span class="irepair-index-calc__result-price" data-role="price"></span>
+        <div class="irepair-index-calc__field irepair-index-calc__field_service" data-role="service-field">
+          <label class="irepair-index-calc__label">Неисправность</label>
+          <select class="irepair-index-calc__select" data-role="service" disabled>
+            <option value="">Сначала выберите модель</option>
+          </select>
         </div>
+        <div class="irepair-index-calc__field irepair-index-calc__field_quality" data-role="quality-field" hidden>
+          <label class="irepair-index-calc__label">Тип запчасти</label>
+          <select class="irepair-index-calc__select" data-role="quality-select"></select>
+        </div>
+      </div>
+      <p class="irepair-index-calc__quality-desc" data-role="quality-desc" hidden></p>
+
+      <!-- ПК: «Стоимость ремонта» — цена — кнопка в одну линию; телефон: столбиком с равными отступами -->
+      <div class="irepair-index-calc__result" data-role="result" hidden>
+        <span class="irepair-index-calc__result-label">Стоимость ремонта</span>
+        <span class="irepair-index-calc__result-price" data-role="price"></span>
         <button type="button" class="irepair-index-calc__cta" data-call-popup-trigger>Записаться на ремонт</button>
       </div>
 
@@ -82,11 +79,10 @@
   var tabsWrap = root.querySelector('[data-role="tabs"]');
   var modelSelect = root.querySelector('[data-role="model"]');
   var configField = root.querySelector('[data-role="config-field"]');
-  var configWrap = root.querySelector('[data-role="config"]');
   var configSelectEl = root.querySelector('[data-role="config-select"]');
   var serviceSelect = root.querySelector('[data-role="service"]');
   var qualityField = root.querySelector('[data-role="quality-field"]');
-  var qualityWrap = root.querySelector('[data-role="quality"]');
+  var qualitySelect = root.querySelector('[data-role="quality-select"]');
   var qualityDesc = root.querySelector('[data-role="quality-desc"]');
   var resultBlock = root.querySelector('[data-role="result"]');
   var priceEl = root.querySelector('[data-role="price"]');
@@ -172,9 +168,11 @@
     HQ: 'Качественный аналог запчасти'
   };
 
+  // 12 390 ₽ — разряды и знак рубля через неразрывный пробел (записан как \u00a0: редактор CS-Cart
+  // портит сам символ nbsp в коде блока) — цена всегда в одну строку
   function formatPrice(p, approx) {
-    var formatted = String(p).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    return (approx ? 'от ' : '') + formatted + ' ₽';
+    var formatted = String(Math.round(Number(p))).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+    return (approx ? 'от\u00a0' : '') + formatted + '\u00a0₽';
   }
 
   function resetSelect(select, placeholder, disabled) {
@@ -204,7 +202,6 @@
 
   function hideConfig() {
     configField.hidden = true;
-    configWrap.innerHTML = '';
     resetSelect(configSelectEl, 'Выберите конфигурацию', false);
     currentConfig = '';
   }
@@ -215,16 +212,8 @@
       hideConfig();
       return false;
     }
-    configWrap.innerHTML = '';
     resetSelect(configSelectEl, 'Выберите конфигурацию', false);
     configs.forEach(function (c) {
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'irepair-index-calc__config-btn';
-      btn.textContent = c;
-      btn.dataset.value = c;
-      configWrap.appendChild(btn);
-
       var opt = document.createElement('option');
       opt.value = c;
       opt.textContent = c;
@@ -251,8 +240,9 @@
 
   function hideQuality() {
     qualityField.hidden = true;
-    qualityWrap.innerHTML = '';
+    qualitySelect.innerHTML = '';
     qualityDesc.textContent = '';
+    qualityDesc.hidden = true;
     currentQuality = '';
   }
 
@@ -263,16 +253,14 @@
   function showQualityOrResult() {
     var options = getOptionsForSelection(currentDevice, currentModel, currentConfig, currentService);
     if (options.length > 1) {
-      qualityWrap.innerHTML = '';
+      qualitySelect.innerHTML = '';
       options.forEach(function (o, i) {
-        var btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'irepair-index-calc__quality-btn';
-        btn.textContent = o.q || 'Стандарт';
-        btn.dataset.index = i;
-        if (i === 0) btn.classList.add('active');
-        qualityWrap.appendChild(btn);
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = o.q || 'Стандарт';
+        qualitySelect.appendChild(opt);
       });
+      qualitySelect.value = '0';
       qualityField.hidden = false;
       updateQualityDesc(options[0]);
       showResult(options[0]);
@@ -330,22 +318,8 @@
     }
   });
 
-  configWrap.addEventListener('click', function (e) {
-    var btn = e.target.closest('.irepair-index-calc__config-btn');
-    if (!btn) return;
-    Array.prototype.forEach.call(configWrap.querySelectorAll('.irepair-index-calc__config-btn'), function (b) {
-      b.classList.toggle('active', b === btn);
-    });
-    currentConfig = btn.dataset.value;
-    configSelectEl.value = currentConfig;
-    fillServices();
-  });
-
   configSelectEl.addEventListener('change', function () {
     currentConfig = configSelectEl.value;
-    Array.prototype.forEach.call(configWrap.querySelectorAll('.irepair-index-calc__config-btn'), function (b) {
-      b.classList.toggle('active', b.dataset.value === currentConfig);
-    });
     if (currentConfig) {
       fillServices();
     } else {
@@ -372,14 +346,9 @@
     }
   });
 
-  qualityWrap.addEventListener('click', function (e) {
-    var btn = e.target.closest('.irepair-index-calc__quality-btn');
-    if (!btn) return;
-    Array.prototype.forEach.call(qualityWrap.querySelectorAll('.irepair-index-calc__quality-btn'), function (b) {
-      b.classList.toggle('active', b === btn);
-    });
+  qualitySelect.addEventListener('change', function () {
     var options = getOptionsForSelection(currentDevice, currentModel, currentConfig, currentService);
-    var option = options[Number(btn.dataset.index)];
+    var option = options[Number(qualitySelect.value)];
     if (option) {
       showResult(option);
       updateQualityDesc(option);
@@ -485,26 +454,23 @@
 }
 
 .irepair-index-calc__fields {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  align-items: start;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-.irepair-index-calc__config-field {
   display: flex;
-  flex-direction: column;
-  margin-top: 0;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
 }
-.irepair-index-calc__config-field .irepair-index-calc__label {
-  margin-bottom: 8px;
-}
+/* все выборы — выпадающие списки в одну строку (на узких экранах переносятся) */
 .irepair-index-calc__field {
   display: flex;
   flex-direction: column;
+  flex: 1 1 200px;
+  min-width: 0;
 }
-.irepair-index-calc__field_wide {
-  grid-column: 1 / -1;
+.irepair-index-calc__field_service {
+  flex-grow: 1.6;
+}
+.irepair-index-calc__field_quality {
+  flex: 0 1 170px;
 }
 .irepair-index-calc__label {
   margin-bottom: 8px;
@@ -517,6 +483,7 @@
   appearance: none;
   -webkit-appearance: none;
   width: 100%;
+  min-width: 0;
   padding: 14px 40px 14px 16px;
   border: 1.5px solid #e2ebe8;
   border-radius: 14px;
@@ -524,6 +491,7 @@
   font-family: 'Roboto', Arial, sans-serif;
   font-size: 15px;
   color: #1d1d1f;
+  text-overflow: ellipsis;
   cursor: pointer;
   transition: border-color 0.2s ease;
 }
@@ -535,109 +503,59 @@
   color: #aaa;
   cursor: not-allowed;
 }
-
-.irepair-index-calc__quality-field {
-  margin-top: 20px;
-}
-.irepair-index-calc__quality-field .irepair-index-calc__label {
-  margin-bottom: 13px;
-}
-.irepair-index-calc__quality {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
 .irepair-index-calc__quality-desc {
   margin: 10px 0 0;
   font-family: 'Roboto', Arial, sans-serif;
   font-size: 13px;
   font-weight: 300;
+  text-align: right;
   color: #86868b;
-}
-.irepair-index-calc__quality-btn {
-  border: 1.5px solid #e2ebe8;
-  background: #fafcfb;
-  border-radius: 999px;
-  padding: 10px 20px;
-  font-family: 'Roboto', Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-.irepair-index-calc__quality-btn.active {
-  border-color: transparent;
-  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
-  color: #fff;
-}
-
-.irepair-index-calc__config {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.irepair-index-calc__config-select {
-  display: none;
-}
-.irepair-index-calc__config-btn {
-  border: 1.5px solid #e2ebe8;
-  background: #fafcfb;
-  border-radius: 999px;
-  padding: 10px 20px;
-  font-family: 'Roboto', Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: #555;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-.irepair-index-calc__config-btn.active {
-  border-color: transparent;
-  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
-  color: #fff;
 }
 
 .irepair-index-calc__result[hidden],
-.irepair-index-calc__quality-field[hidden],
-.irepair-index-calc__config-field[hidden],
+.irepair-index-calc__quality-desc[hidden],
 .irepair-index-calc__field[hidden] {
   display: none !important;
 }
+/* плашка цены (ПК): «Стоимость ремонта» — цена — кнопка на одной линии, цифры высотой с кнопку (56px) */
 .irepair-index-calc__result {
   margin-top: 28px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 36px;
-  padding: 24px 28px;
+  gap: 16px 32px;
+  padding: 22px 32px;
   border-radius: 20px;
   background: #1d1d1f;
 }
-.irepair-index-calc__result-info {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
 .irepair-index-calc__result-label {
   font-family: 'Roboto', Arial, sans-serif;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 18px;
+  line-height: 24px;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
 }
 .irepair-index-calc__result-price {
   font-family: 'Montserrat-SemiBold', Arial, sans-serif;
-  font-size: 30px;
+  font-size: 48px;
+  line-height: 56px;
   color: #fff;
+  white-space: nowrap;
 }
 .irepair-index-calc__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
+  height: 56px;
   border: none;
   border-radius: 999px;
-  padding: 15px 28px;
+  padding: 0 32px;
   background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
   color: #fff;
   font-family: 'Roboto', Arial, sans-serif;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
@@ -675,28 +593,42 @@
   .irepair-index-calc__tab {
     font-size: 14px;
   }
-  .irepair-index-calc__config {
-    display: none;
-  }
-  .irepair-index-calc__config-select {
-    display: block;
-  }
   .irepair-index-calc__label {
     font-size: 13px;
   }
+  /* телефон: выборы столбиком */
   .irepair-index-calc__fields {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
   }
+  .irepair-index-calc__field,
+  .irepair-index-calc__field_quality {
+    flex: 0 0 auto;
+  }
+  .irepair-index-calc__quality-desc {
+    text-align: left;
+  }
+  /* плашка цены (телефон): надпись, цена, кнопка столбиком; отступы между ними = отступам от краёв плашки (18px);
+     цифры высотой с кнопку (52px) */
   .irepair-index-calc__result {
     flex-direction: column;
     align-items: stretch;
+    gap: 18px;
+    padding: 18px;
     text-align: center;
   }
+  .irepair-index-calc__result-label {
+    font-size: 15px;
+    line-height: 20px;
+  }
   .irepair-index-calc__result-price {
-    font-size: 26px;
+    font-size: 44px;
+    line-height: 52px;
   }
   .irepair-index-calc__cta {
     width: 100%;
+    height: 52px;
+    font-size: 16px;
   }
 }
 </style>
