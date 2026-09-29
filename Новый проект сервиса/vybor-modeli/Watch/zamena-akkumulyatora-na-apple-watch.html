@@ -3,7 +3,7 @@
 
     <div class="irepair-vm-watch-battery__hero">
       <div class="irepair-vm-watch-battery__hero-text">
-        <div class="irepair-vm-watch-battery__hero-title">Замена аккумулятора на Apple Watch</div>
+        <h1 class="irepair-vm-watch-battery__hero-title">Замена аккумулятора на Apple Watch</h1>
         <p class="irepair-vm-watch-battery__hero-lede">Узнать стоимость и сроки работы можно <span class="irepair-vm-watch-battery__hero-dotted">прямо сейчас</span></p>
         <button type="button" class="irepair-vm-watch-battery__hero-btn" data-call-popup-trigger data-service="Замена аккумулятора Watch">Заказать ремонт</button>
       </div>
@@ -170,11 +170,15 @@
   align-self: center;
   max-width: 440px;
 }
-.irepair-vm-watch-battery__hero-title {
-  margin-bottom: 20px;
+.irepair-vm-watch-battery .irepair-vm-watch-battery__hero-title {
+  margin: 0 0 20px;
+  padding: 0;
   font-family: 'Montserrat-SemiBold', Arial, sans-serif;
   font-size: 34px;
+  font-weight: 400;
   line-height: 1.2;
+  letter-spacing: normal;
+  text-transform: none;
   color: #1d1d1f;
 }
 .irepair-vm-watch-battery__hero-lede {
@@ -452,7 +456,7 @@
   .irepair-vm-watch-battery__hero-text {
     width: 100%;
   }
-  .irepair-vm-watch-battery__hero-title {
+  .irepair-vm-watch-battery .irepair-vm-watch-battery__hero-title {
     font-size: 22px;
     margin-bottom: 8px;
   }
