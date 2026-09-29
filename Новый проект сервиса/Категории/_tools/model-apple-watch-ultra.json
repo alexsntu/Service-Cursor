@@ -1,0 +1,13 @@
+{
+  "banner_only": true,
+  "dir": "../AppleWatch",
+  "template": "../iPhone/seriya-iphone-17",
+  "slug": "remont-apple-watch-ultra",
+  "device": "Apple Watch",
+  "title": "Ремонт Apple Watch&nbsp;Ultra",
+  "sub": "Ремонт от 90 минут при наличии запчасти. Диагностика бесплатно, гарантия на все услуги.",
+  "service": "Ремонт Apple Watch Ultra",
+  "image": "/images/content/catalog/apple-watch-ultra-model.webp",
+  "image_alt": "Apple Watch Ultra",
+  "mobile_img_after_title": true
+}
