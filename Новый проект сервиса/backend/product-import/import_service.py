@@ -50,7 +50,8 @@ API = 'https://dev.irepair.ru/api.php?_d='
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--cat', type=int, required=True, help='id категории CS-Cart')
-ap.add_argument('--feature', type=int, required=True, help='id характеристики вариантов (напр. 3 = тип запчасти аккумулятора)')
+ap.add_argument('--feature', type=int, help='id характеристики вариантов (напр. 3 = тип запчасти аккумулятора); '
+                                         'без неё — только --old-product без опций (один товар без выбора)')
 ap.add_argument('--model-feature', type=int, help='id характеристики модели (MacBook: 6) — второй выбор в группе вариаций')
 ap.add_argument('--slug', help='свой адрес (seo_name) главного товара вместо старого slug — если старый кривой; со старого адреса будет 301')
 ap.add_argument('--name', help='своё название услуги вместо старого (если старое общее, напр. «iPad Pro 13» на две категории M4/M5)')
@@ -172,12 +173,18 @@ if args.old_product:
     models = opts.pop('Выберите модель', [])
     types = opts.pop('Тип запчасти', [])
     assert not opts, f'неизвестные опции старого товара: {list(opts)}'
+    if not models and not types:
+        # опций нет (напр. «Чистка системы охлаждения iMac 27») — один товар без выбора, цена товара
+        assert not args.feature and not args.model_feature, 'у старого товара нет опций — запускать без --feature/--model-feature'
+        price = int(float(old_sql(f'select price from oc_product where product_id = {args.old_product}')[1]))
+        types = [(None, '', price)]
     assert types, 'у старого товара нет опции «Тип запчасти»'
+    assert args.feature or types == [(None, '', types[0][2])], 'у старого товара есть опции — нужен --feature'
     assert not (len(models) > 1 and len(types) > 1), 'и моделей, и типов больше одного — цены не разложить, спросить владельца'
     assert bool(models) == bool(args.model_feature), 'опция «Выберите модель» ↔ --model-feature должны совпадать'
     for mvid, mname, mprice in (models or [(None, '', None)]):
         for tvid, tname, tprice in types:
-            it = {'ro': f"OLD-{args.old_product}-{mvid or tvid}", 'value': tname, 'price': mprice or tprice,
+            it = {'ro': f"OLD-{args.old_product}" + (f"-{mvid or tvid}" if (mvid or tvid) else ''), 'value': tname, 'price': mprice or tprice,
                   'ro_price': 0, 'old_id': args.old_product, 'warranty': '1'}
             if models:
                 it['model'], it['model_pos'] = model_label(re.sub(r'^Модель\s+', '', mname))
@@ -312,10 +319,12 @@ if _faq and 'Apple Watch' in desc and 'Какие есть варианты ка
     print('убран FAQ «Популярные вопросы» (Apple Watch) — описание', f'{len(desc)} симв.' if desc else 'пустое')
 
 # значения характеристики вариантов
-feat = cs('GET', f'features/{args.feature}')
-variant_ids = {v['variant'].strip(): str(v['variant_id']) for v in feat['variants'].values()}
-for it in items:
-    assert it['value'] in variant_ids, f"нет значения «{it['value']}» у характеристики {args.feature}: {list(variant_ids)}"
+variant_ids = {}
+if args.feature:
+    feat = cs('GET', f'features/{args.feature}')
+    variant_ids = {v['variant'].strip(): str(v['variant_id']) for v in feat['variants'].values()}
+    for it in items:
+        assert it['value'] in variant_ids, f"нет значения «{it['value']}» у характеристики {args.feature}: {list(variant_ids)}"
 model_ids = {}
 if args.model_feature:
     mfeat = cs('GET', f'features/{args.model_feature}')
@@ -347,7 +356,7 @@ def variant_name(it):
 
 ids = []
 for n, it in enumerate(items):
-    features = {str(args.feature): variant_ids[it['value']]}
+    features = {str(args.feature): variant_ids[it['value']]} if args.feature else {}
     if args.model_feature:
         features[str(args.model_feature)] = model_ids[it['model']]
     if it['warranty']:
