@@ -239,8 +239,8 @@ for it in items:
     _err = title_check.check(it['title'], r)
     if _err:
         title_errors.append(f"RO {it['ro']} «{it['title']}»: {_err}")
-    elif str(r[8] or '').strip() in ('', '-') and '|' in it['title'] and it['title'].rpartition('|')[2].strip():
-        print(f"!!! RO {it['ro']}: в RemOnline есть тип «{it['title'].rpartition('|')[2].strip()}», в таблице тип не указан («-») — опцию не присваиваем")
+    elif title_check.extra_type(it['title'], r):
+        print(f"!!! RO {it['ro']}: в RemOnline есть тип «{title_check.extra_type(it['title'], r)}», в таблице тип не указан («-») — опцию не присваиваем")
     # цена — из нашей таблицы (столбец AY «Текущая цена», как у прайса/калькулятора); RemOnline — только для сверки
     it['ro_price'] = it['price']
     tab_price, approx = _bp.parse_price(r[50])

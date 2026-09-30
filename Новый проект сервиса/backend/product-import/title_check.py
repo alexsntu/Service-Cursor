@@ -19,9 +19,17 @@ def _tokens(x):
 
 def check(title, row):
     """None — совпадает; иначе строка с описанием расхождения."""
-    service, device, model, part = str(row[9]).split('|')[0], str(row[6] or ''), str(row[7] or '').replace('.0', ''), row[8]
-    main, _, typ = str(title).rpartition('|') if '|' in str(title) else (str(title), '', '')
-    # тип — после последней «|»; у MacBook в середине названия тоже бывают «|» (A-номера)
+    service, _, subtype = str(row[9]).partition('|')
+    device, model, part = str(row[6] or ''), str(row[7] or '').replace('.0', ''), row[8]
+    if subtype.strip():
+        # составная услуга «Замена камеры| Задняя камера» → в RemOnline «Замена камеры iPhone 17 | Задняя камера[ | тип]»
+        parts = str(title).split('|')
+        if len(parts) < 2 or _n(parts[1]) != _n(subtype):
+            return f'вид услуги: в RemOnline «{title}», в таблице «{row[9]}»'
+        main, typ = parts[0], '|'.join(parts[2:])
+    else:
+        # тип — после последней «|»; у MacBook в середине названия тоже бывают «|» (A-номера)
+        main, _, typ = str(title).rpartition('|') if '|' in str(title) else (str(title), '', '')
     ttype = '' if _n(part) in ('', '-', 'none') else _n(part)
     if ttype and _n(typ) != ttype:
         return f'тип: в RemOnline «{typ.strip()}», в таблице «{part}»'
@@ -40,3 +48,13 @@ def check(title, row):
     if missing:
         return f'модель: в RemOnline «{main.strip()}», в таблице «{device} {model}» (нет: {", ".join(missing)})'
     return None
+
+
+def extra_type(title, row):
+    """Тип запчасти, указанный в RemOnline, когда в таблице тип «-» (для предупреждения), иначе ''."""
+    if str(row[8] or '').strip() not in ('', '-', 'None'):
+        return ''
+    parts = [p.strip() for p in str(title).split('|')]
+    if '|' in str(row[9]):
+        return '|'.join(parts[2:]).strip()
+    return parts[-1] if len(parts) > 1 else ''
