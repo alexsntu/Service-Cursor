@@ -20,6 +20,9 @@ MacBook (один товар на категорию, два выбора — м
 
 Apple Watch: --feature 10 (тип запчасти) --model-feature 11 (размер корпуса: столбец N «44 mm» → «44 мм», по возрастанию).
 
+Вид опций в карточке: --feature (тип запчасти) — плитки, --model-feature (модель / конфигурация / размер) — выпадающий
+список; скрипт сам выставляет это характеристикам (feature_style dropdown_labels / dropdown).
+
 Услуги нет в RemOnline/таблице (iMac): --old-product <старый product_id> вместо RO id — варианты и цены из опций
 старого товара, код товара OLD-<товар>-<опция>; когда владелец заведёт услугу в RO — заменить код на RO-<id>.
 """
@@ -341,6 +344,12 @@ for it in items:
     print(f"  RO {it['ro']} {it.get('model', '') + ' · ' if args.model_feature else ''}{it['value']} {it['price']} ₽ гарантия «{it['warranty']}»")
 if args.dry_run:
     sys.exit(0)
+
+# Вид опций в карточке (правило владельца 2026-09-30): плитками — только тип запчасти (--feature),
+# всё остальное (модель, конфигурация, размер корпуса, --model-feature) — выпадающим списком
+for fid, style in ((args.feature, 'dropdown_labels'), (args.model_feature, 'dropdown')):
+    if fid:
+        sql_new(f"UPDATE cscart_product_features SET feature_style='{style}' WHERE feature_id={int(fid)}")
 
 if args.model_feature and new_models:
     # существующие значения передаём с id (иначе API их удалит), новые — без id, с позицией для сортировки
