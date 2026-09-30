@@ -567,4 +567,26 @@
     pointer-events: none;
   }
 }
+
+/* iRepair (2026-09-30): телефон — баннер: название → фото → описание → кнопка (единый порядок для всех баннеров сайта) */
+@media (max-width: 650px) {
+  .irepair-vm-macbook-poweroff .irepair-vm-macbook-poweroff__hero-text {
+    display: contents;
+  }
+  .irepair-vm-macbook-poweroff .irepair-vm-macbook-poweroff__hero-title {
+    order: 1;
+    align-self: stretch;
+  }
+  .irepair-vm-macbook-poweroff .irepair-vm-macbook-poweroff__hero-photo {
+    order: 2;
+    margin: 6px 0 12px;
+  }
+  .irepair-vm-macbook-poweroff .irepair-vm-macbook-poweroff__hero-lede {
+    order: 3;
+    align-self: stretch;
+  }
+  .irepair-vm-macbook-poweroff .irepair-vm-macbook-poweroff__hero-btn {
+    order: 4;
+  }
+}
 </style>

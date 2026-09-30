@@ -28,7 +28,7 @@
 Конечная категория (модель, напр. «Ремонт iPhone 17»): "banner_only": true —
 только баннер (без «Выберите модель…» и без SEO-файла); прайс услуг ниже выводит сама категория.
 Нужны: dir, template, slug, device, title (полный заголовок баннера), sub, service, image, image_alt.
-Необязательно: "mobile_img_after_title": true — на телефоне название → картинка → текст → кнопка (MacBook).
+С 2026-09-30 все баннеры (серии и модели) — заголовок H1, на телефоне название → картинка → текст → кнопка (класс --img-mid); "mobile_img_after_title" больше не нужен.
 """
 import argparse
 import json
@@ -52,7 +52,7 @@ faq_title = cfg.get('faq_title', f'Частые вопросы о ремонте
 if cfg.get('banner_only'):
     s = tpl_block
     # заголовок баннера конечной категории — H1 страницы
-    s = re.sub(r'<div class="irepair-page-series__banner-title">.*?</div>',
+    s = re.sub(r'<(?:div|h1) class="irepair-page-series__banner-title">.*?</(?:div|h1)>',
                lambda m: '<h1 class="irepair-page-series__banner-title">' + cfg['title'] + '</h1>', s, count=1)
     s = re.sub(r'(<p class="irepair-page-series__banner-sub">).*?(</p>)',
                lambda m: m.group(1) + cfg['sub'] + m.group(2), s, count=1)
@@ -62,12 +62,15 @@ if cfg.get('banner_only'):
     # убрать заголовок выбора модели и плитки моделей
     s = re.sub(r'\n    <h2 class="irepair-page-series__section-title">.*?</h2>\n    <div class="irepair-page-series__models">.*?</div>\n', '\n', s, count=1, flags=re.S)
     # отступ под баннером — до прайса категории; у баннера и так margin-bottom
+    s = s.replace('<div class="irepair-page-series irepair-page-series--img-mid">', '<div class="irepair-page-series irepair-page-series--model irepair-page-series--img-mid">', 1)
     s = s.replace('<div class="irepair-page-series">', '<div class="irepair-page-series irepair-page-series--model">', 1)
     s = s.replace('</style>', '/* конечная категория: сразу под баннером идёт прайс услуг — лишний нижний отступ блока не нужен */\n'
-                  '.irepair-page-series.irepair-page-series--model {\n  margin-bottom: 0;\n}\n'
-                  '/* h1 темы (жирность, отступы, регистр) не должен менять вид заголовка баннера */\n'
-                  '.irepair-page-series .irepair-page-series__banner-title {\n  padding: 0;\n  font-weight: 400;\n  letter-spacing: normal;\n  text-transform: none;\n}\n</style>', 1)
-    if cfg.get('mobile_img_after_title'):
+                  '.irepair-page-series.irepair-page-series--model {\n  margin-bottom: 0;\n}\n</style>', 1)
+    if 'h1 темы (жирность' not in s:
+        s = s.replace('</style>', '/* h1 темы (жирность, отступы, регистр) не должен менять вид заголовка баннера */\n'
+                      '.irepair-page-series .irepair-page-series__banner-title {\n  padding: 0;\n  font-weight: 400;\n  letter-spacing: normal;\n  text-transform: none;\n}\n</style>', 1)
+    # с 2026-09-30 у ВСЕХ баннеров на телефоне: название → картинка → текст → кнопка (шаблоны уже содержат это)
+    if '--img-mid' not in s:
         # телефон (MacBook, горизонтальная картинка): название → картинка → текст → кнопка; компьютер без изменений
         s = s.replace('irepair-page-series--model"', 'irepair-page-series--model irepair-page-series--img-mid"', 1)
         s = s.replace('</style>', '@media (max-width: 650px) {\n'
@@ -87,8 +90,8 @@ if cfg.get('banner_only'):
 
 # ---------- блок 202 ----------
 s = tpl_block
-s = re.sub(r'(<div class="irepair-page-series__banner-title">).*?(</div>)',
-           lambda m: f'{m.group(1)}Ремонт {dev} {cfg["title_models"]}{m.group(2)}', s, count=1)
+s = re.sub(r'(<h1 class="irepair-page-series__banner-title">|<div class="irepair-page-series__banner-title">).*?(</h1>|</div>)',
+           lambda m: f'<h1 class="irepair-page-series__banner-title">Ремонт {dev} {cfg["title_models"]}</h1>', s, count=1)
 s = re.sub(r'Все модели \S+ серии\.', lambda m_: sub, s, count=1)
 s = re.sub(r'data-service="Ремонт [^"]*"', f'data-service="Ремонт {sp}"', s, count=1)
 s = re.sub(r'(<h2 class="irepair-page-series__section-title">).*?(</h2>)', lambda m_: m_.group(1) + pick + m_.group(2), s, count=1)

@@ -296,4 +296,26 @@
     font-size: 15px;
   }
 }
+
+/* iRepair (2026-09-30): телефон — баннер: название → фото → описание → кнопка (единый порядок для всех баннеров сайта) */
+@media (max-width: 650px) {
+  .irepair-vm-imac-display .irepair-vm-imac-display__hero-text {
+    display: contents;
+  }
+  .irepair-vm-imac-display .irepair-vm-imac-display__hero-title {
+    order: 1;
+    align-self: stretch;
+  }
+  .irepair-vm-imac-display .irepair-vm-imac-display__hero-photo {
+    order: 2;
+    margin: 6px 0 12px;
+  }
+  .irepair-vm-imac-display .irepair-vm-imac-display__hero-lede {
+    order: 3;
+    align-self: stretch;
+  }
+  .irepair-vm-imac-display .irepair-vm-imac-display__hero-btn {
+    order: 4;
+  }
+}
 </style>

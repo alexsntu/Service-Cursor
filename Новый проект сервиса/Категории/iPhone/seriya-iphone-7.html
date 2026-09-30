@@ -1,9 +1,9 @@
-<div class="irepair-page-series">
+<div class="irepair-page-series irepair-page-series--img-mid">
   <div class="g-wrapper">
 
     <div class="irepair-page-series__banner">
       <div class="irepair-page-series__banner-text">
-        <div class="irepair-page-series__banner-title">Ремонт iPhone 7 и&nbsp;7&nbsp;Plus</div>
+        <h1 class="irepair-page-series__banner-title">Ремонт iPhone 7 и&nbsp;7&nbsp;Plus</h1>
         <p class="irepair-page-series__banner-sub">Все модели 7 серии. Диагностика бесплатно, гарантия на все услуги.</p>
         <button type="button" class="irepair-page-series__banner-btn" data-call-popup-trigger data-service="Ремонт iPhone 7 серии">Заказать ремонт</button>
       </div>
@@ -218,6 +218,41 @@
   }
   .irepair-page-series .irepair-page-series__models a {
     padding: 20px 6px;
+  }
+}
+/* h1 темы (жирность, отступы, регистр) не должен менять вид заголовка баннера */
+.irepair-page-series .irepair-page-series__banner-title {
+  padding: 0;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+}
+@media (max-width: 650px) {
+  /* телефон: название → картинка → текст → кнопка (разметка та же, порядок — через flex order) */
+  .irepair-page-series--img-mid .irepair-page-series__banner {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 28px;
+  }
+  .irepair-page-series--img-mid .irepair-page-series__banner-text {
+    display: contents;
+  }
+  .irepair-page-series--img-mid .irepair-page-series__banner-title {
+    order: 1;
+  }
+  /* белый фон картинки не должен быть виден на зелёном градиенте — multiply делает белое прозрачным */
+  .irepair-page-series--img-mid .irepair-page-series__banner-img {
+    order: 2;
+    margin: 6px 0 18px;
+    padding-bottom: 56%;
+    background-position: center;
+    mix-blend-mode: multiply;
+  }
+  .irepair-page-series--img-mid .irepair-page-series__banner-sub {
+    order: 3;
+  }
+  .irepair-page-series--img-mid .irepair-page-series__banner-btn {
+    order: 4;
   }
 }
 </style>
