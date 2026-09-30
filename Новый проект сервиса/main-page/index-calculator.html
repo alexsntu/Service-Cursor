@@ -144,12 +144,44 @@
     return configs;
   }
 
+  // Порядок услуг владельца (память project_service_order): первые совпавшие правила — по порядку списка,
+  // остальные услуги — после, в прежнем порядке. MacBook / iPad / Watch — добавить, когда владелец пришлёт.
+  var SERVICE_ORDER = [
+    [ 'iPhone', /аккумулятор/i, 1 ],
+    [ 'iPhone', /дисплея/i, 2 ],
+    [ 'iPhone', /заднего стекла/i, 4 ],
+    [ 'iPhone', /стекла/i, 3 ],
+    [ 'iPhone', /разъ[её]ма/i, 5 ],
+    [ 'iPhone', /разговорного микрофона/i, 5.5 ],
+    [ 'iPhone', /глазка камеры/i, 6 ],
+    [ 'iPhone', /корпуса/i, 7 ],
+    [ 'iPhone', /задняя камера/i, 8 ],
+    [ 'iPhone', /шлейфа кнопок/i, 9 ],
+    [ 'iPhone', /слухового динамика/i, 10 ],
+    [ 'iPhone', /полифонического динамика/i, 11 ],
+    [ 'iPhone', /передняя камера/i, 12 ],
+    [ 'iPhone', /материнской платы/i, 13 ],
+    [ 'iPhone', /влаги|пыли|проклейк/i, 14 ],
+    [ 'iPhone', /face.?id/i, 15 ],
+    [ 'iPhone', /кнопок громкости/i, 16 ]
+  ];
+  function serviceRank(device, name) {
+    for (var i = 0; i < SERVICE_ORDER.length; i++) {
+      if (SERVICE_ORDER[i][0] === device && SERVICE_ORDER[i][1].test(name)) return SERVICE_ORDER[i][2];
+    }
+    return 999;
+  }
+
   function getServicesForSelection(device, model, config) {
     var services = [];
     rows.forEach(function (row) {
       if (row.d === device && row.m === model && matchesConfig(row, config)) {
         if (services.indexOf(row.s) === -1) services.push(row.s);
       }
+    });
+    var firstPos = services.slice();
+    services.sort(function (a, b) {
+      return (serviceRank(device, a) - serviceRank(device, b)) || (firstPos.indexOf(a) - firstPos.indexOf(b));
     });
     return services;
   }
