@@ -578,4 +578,31 @@
     order: 4;
   }
 }
+
+/* iRepair (2026-09-30): телефон — прайс как на старом сайте и в конечных категориях: название крупно и тонко,
+   цена под названием мелко и жирно, время ремонта строкой ниже серым */
+@media (max-width: 650px) {
+  .irepair-vm-watch-display .irepair-vm-watch-display__price-name {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 300;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__price-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin-top: 6px;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__price-value {
+    font-family: 'Montserrat-Bold', 'Montserrat-SemiBold', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 400;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__price-time {
+    margin-top: 2px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+}
 </style>
