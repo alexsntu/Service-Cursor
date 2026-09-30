@@ -53,6 +53,8 @@ API = 'https://dev.irepair.ru/api.php?_d='
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--cat', type=int, required=True, help='id категории CS-Cart')
+# Правило владельца: тип запчасти не указан (RemOnline без «| тип», в таблице «-») → опцию НЕ присваиваем: запуск без --feature,
+# одиночный товар без группы вариаций. Указан (даже один) → --feature, опция выводится всегда.
 ap.add_argument('--feature', type=int, help='id характеристики вариантов (напр. 3 = тип запчасти аккумулятора); '
                                          'без неё — только --old-product без опций (один товар без выбора)')
 ap.add_argument('--model-feature', type=int, help='id характеристики модели (MacBook: 6) — второй выбор в группе вариаций')
@@ -238,7 +240,10 @@ for it in items:
     if it['ro_price'] != it['price']:
         print(f"!!! RO {it['ro']}: цена в таблице {it['price']}, в RemOnline {it['ro_price']} — берём из таблицы")
     it['old_id'] = int(re.search(r'product_id=(\d+)', r[1]).group(1))
-    it['warranty'] = warranty_text(r[11]) if r[11] not in (None, '') else module_warranty.get(it['ro'], {}).get(it['value'].upper(), '')
+    mod = module_warranty.get(it['ro'], {})
+    # тип запчасти не указан (в таблице «-»), а в «Модуле» у всех типов один срок («AASP 12 | ОЕМ 12») — берём его
+    mod_same = next(iter(mod.values())) if mod and len(set(mod.values())) == 1 else ''
+    it['warranty'] = warranty_text(r[11]) if r[11] not in (None, '') else mod.get(it['value'].upper(), '' if it['value'] else mod_same)
     # владелец 2026-09-28: гарантия нигде не указана → всегда 1 месяц
     it['warranty'] = it['warranty'] or warranty_text(1)
     if args.model_feature:
