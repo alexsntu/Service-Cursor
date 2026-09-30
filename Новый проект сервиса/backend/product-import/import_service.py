@@ -397,8 +397,9 @@ for n, it in enumerate(items):
     ids.append(cs('POST', 'products', body)['product_id'])
     print('создан товар', ids[-1])
 
-# 6. Группа вариаций + имена вариантов (с выбором модели — даже из одного товара, чтобы модель была видна в карточке)
-if len(ids) > 1 or args.model_feature:
+# 6. Группа вариаций + имена вариантов. Правило владельца: опция выводится ВСЕГДА, даже если она одна
+# (потом в услуге могут появиться другие) — группа создаётся и для одного товара
+if len(ids) > 1 or args.model_feature or args.feature:
     code = f"{re.sub(r'[^a-z0-9]+', '-', slug.replace('_', '-'))}-{args.cat}"
     gfeatures = [{'feature_id': args.feature, 'purpose': 'group_variation_catalog_item'}]
     if args.model_feature:
