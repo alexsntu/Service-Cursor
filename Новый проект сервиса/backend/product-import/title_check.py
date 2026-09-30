@@ -58,3 +58,18 @@ def extra_type(title, row):
     if '|' in str(row[9]):
         return '|'.join(parts[2:]).strip()
     return parts[-1] if len(parts) > 1 else ''
+
+
+def check_old_name(name, row):
+    """Название старого товара («Замена камеры iPhone 6 Plus») против модели строки таблицы. None — совпадает.
+    Проверяем только iPhone (у остальных устройств старые названия слишком разные)."""
+    device, model = str(row[6] or '').strip(), str(row[7] or '').replace('.0', '')
+    if device.lower() != 'iphone':
+        return None
+    toks = _tokens(name)
+    if 'iphone' not in toks and 'айфон' not in toks:
+        return None
+    i = toks.index('iphone') if 'iphone' in toks else toks.index('айфон')
+    got, exp = toks[i + 1:], _tokens(model)
+    ok = got == exp or (exp == ['se', '1'] and got == ['se']) or (exp == ['17', 'air'] and got == ['air'])
+    return None if ok else f'в названии «iPhone {" ".join(got)}», в таблице «iPhone {model}»'

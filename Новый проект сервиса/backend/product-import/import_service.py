@@ -65,6 +65,7 @@ ap.add_argument('--old-product', type=int, help='услуги нет в RemOnlin
                                                '(«Выберите модель» × «Тип запчасти»), код OLD-<товар>-<опция>; потом привязать к RO')
 ap.add_argument('--position', type=int, default=0, help='позиция услуги в категории (порядок услуг владельца: ранг×10, '
                                                        'напр. аккумулятор iPhone 10, дисплей 20); категории сортируются по позиции')
+ap.add_argument('--old-id', type=int, help='свой старый товар вместо столбца B таблицы — если в таблице ссылка перепутана (напр. 6S ↔ 6 Plus)')
 ap.add_argument('--dry-run', action='store_true')
 ap.add_argument('ro_ids', nargs='*')
 args = ap.parse_args()
@@ -269,6 +270,10 @@ if args.model_feature:
     items.sort(key=lambda x: (x['price'], x['model_pos'], x['value']))
     combos = [(it['model'], it['value']) for it in items]
     assert len(combos) == len(set(combos)), f'повторяются пары модель/тип: {combos}'
+if args.old_id:
+    print(f'старый товар задан вручную: {args.old_id} (в таблице: {sorted({it["old_id"] for it in items})})')
+    for it in items:
+        it['old_id'] = args.old_id
 old_ids = {it['old_id'] for it in items}
 assert len(old_ids) == 1, f'варианты ссылаются на разные старые товары: {old_ids}'
 old_id = old_ids.pop()
@@ -314,6 +319,10 @@ for line in out:
         cur.append(line)
 name, meta_title, meta_desc, desc_raw = blocks[0][0].split('\t')
 name, meta_title, meta_desc = [html.unescape(unesc(x)).strip() for x in (name, meta_title, meta_desc)]
+# Проверка (2026-09-30): старый товар должен быть той же модели, что строка таблицы (ссылка в столбце B бывает перепутана)
+if not args.old_product:
+    _oerr = title_check.check_old_name(name, rows[items[0]['ro']])
+    assert not _oerr, f'старый товар {old_id} «{name}» не той модели: {_oerr} — поправить столбец B таблицы или --old-id'
 if args.name:
     print(f'название: «{name}» → «{args.name}»')
     name = args.name
