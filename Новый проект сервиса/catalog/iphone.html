@@ -14,57 +14,107 @@
     </div>
 
     <h2 class="irepair-page-iphone__section-title">Выберите модель iPhone</h2>
-    <div class="irepair-page-iphone__models">
-      <!-- модели = категории CS-Cart (при изменении категорий iPhone обновить) -->
-      <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone17e/">iPhone 17e</a>
-      <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone17/">iPhone 17</a>
-      <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone-17-pro/">iPhone 17 Pro</a>
-      <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone-17-pro-max/">iPhone 17 Pro Max</a>
-      <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone-air/">iPhone Air</a>
-      <a href="/catalog/remont-iphone/phone-16/remont-iphone-167793/">iPhone 16</a>
-      <a href="/catalog/remont-iphone/phone-16/remont-iphone-16-plus/">iPhone 16 Plus</a>
-      <a href="/catalog/remont-iphone/phone-16/remont-iphone-16e/">iPhone 16e</a>
-      <a href="/catalog/remont-iphone/phone-16/remont-iphone-16-pro/">iPhone 16 Pro</a>
-      <a href="/catalog/remont-iphone/phone-16/remont-iphone-16-pro-max1782/">iPhone 16 Pro Max</a>
-      <a href="/catalog/remont-iphone/iphone-15/15/">iPhone 15</a>
-      <a href="/catalog/remont-iphone/iphone-15/15-plus/">iPhone 15 Plus</a>
-      <a href="/catalog/remont-iphone/iphone-15/15-pro/">iPhone 15 Pro</a>
-      <a href="/catalog/remont-iphone/iphone-15/15-pro-max5567/">iPhone 15 Pro Max</a>
-      <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14/">iPhone 14</a>
-      <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14-plus/">iPhone 14 Plus</a>
-      <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14-pro/">iPhone 14 Pro</a>
-      <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14-pro-max/">iPhone 14 Pro Max</a>
-      <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13/">iPhone 13</a>
-      <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13-mini/">iPhone 13 Mini</a>
-      <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13-pro/">iPhone 13 Pro</a>
-      <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13-pro-max/">iPhone 13 Pro Max</a>
-      <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12/">iPhone 12</a>
-      <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12-mini/">iPhone 12 Mini</a>
-      <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12-pro/">iPhone 12 Pro</a>
-      <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12-pro-max/">iPhone 12 Pro Max</a>
-      <a href="/catalog/remont-iphone/iphone-11/remont-iphone-11/">iPhone 11</a>
-      <a href="/catalog/remont-iphone/iphone-11/remont-iphone-11-pro/">iPhone 11 Pro</a>
-      <a href="/catalog/remont-iphone/iphone-11/remont-iphone-11-pro-max/">iPhone 11 Pro Max</a>
-      <a href="/catalog/remont-iphone/iphone-x/remont-iphone-x/">iPhone X</a>
-      <a href="/catalog/remont-iphone/iphone-x/remont-iphone-xr/">iPhone XR</a>
-      <a href="/catalog/remont-iphone/iphone-x/remont-iphone-xs/">iPhone XS</a>
-      <a href="/catalog/remont-iphone/iphone-x/remont-iphone-xs-max/">iPhone XS Max</a>
-      <a href="/catalog/remont-iphone/iphone-se/remont-iphone-se-1/">iPhone SE 1</a>
-      <a href="/catalog/remont-iphone/iphone-se/remont-iphone-se-2/">iPhone SE 2</a>
-      <a href="/catalog/remont-iphone/iphone-se/remont-iphone-se-3/">iPhone SE 3</a>
-      <a href="/catalog/remont-iphone/iphone-8/remont-iphone-8/">iPhone 8</a>
-      <a href="/catalog/remont-iphone/iphone-8/remont-iphone-8-plus/">iPhone 8 Plus</a>
-      <a href="/catalog/remont-iphone/iphone-7/iphone-7/">iPhone 7</a>
-      <a href="/catalog/remont-iphone/iphone-7/remont-iphone-7-plus/">iPhone 7 Plus</a>
-      <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6-plus/">iPhone 6 Plus</a>
-      <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6/">iPhone 6</a>
-      <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6s/">iPhone 6S</a>
-      <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6s-plus/">iPhone 6S Plus</a>
+    <!-- iRepair (2026-09-30): ПК — серии пилюлями, нажатие раскрывает модели сразу под пилюлей (остальные серии ниже) -->
+    <div class="irepair-page-iphone__dpicker" data-irp-dpicker>
+      <div class="irepair-page-iphone__dtabs">
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="17" aria-expanded="false">Серия iPhone 17</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="16" aria-expanded="false">Серия iPhone 16</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="15" aria-expanded="false">Серия iPhone 15</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="14" aria-expanded="false">Серия iPhone 14</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="13" aria-expanded="false">Серия iPhone 13</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="12" aria-expanded="false">Серия iPhone 12</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="11" aria-expanded="false">Серия iPhone 11</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="x" aria-expanded="false">Серия iPhone X</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="se" aria-expanded="false">Серия iPhone SE</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="8" aria-expanded="false">Серия iPhone 8</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="7" aria-expanded="false">Серия iPhone 7</button>
+        <button type="button" class="irepair-page-iphone__dtab" data-irp-dtab="6" aria-expanded="false">Серия iPhone 6</button>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="17" hidden>
+          <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone17e/">iPhone 17e</a>
+          <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone17/">iPhone 17</a>
+          <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone-17-pro/">iPhone 17 Pro</a>
+          <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone-17-pro-max/">iPhone 17 Pro Max</a>
+          <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone-air/">iPhone Air</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/remont-iphone-17/">Вся серия iPhone 17</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="16" hidden>
+          <a href="/catalog/remont-iphone/phone-16/remont-iphone-167793/">iPhone 16</a>
+          <a href="/catalog/remont-iphone/phone-16/remont-iphone-16-plus/">iPhone 16 Plus</a>
+          <a href="/catalog/remont-iphone/phone-16/remont-iphone-16e/">iPhone 16e</a>
+          <a href="/catalog/remont-iphone/phone-16/remont-iphone-16-pro/">iPhone 16 Pro</a>
+          <a href="/catalog/remont-iphone/phone-16/remont-iphone-16-pro-max1782/">iPhone 16 Pro Max</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/phone-16/">Вся серия iPhone 16</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="15" hidden>
+          <a href="/catalog/remont-iphone/iphone-15/15/">iPhone 15</a>
+          <a href="/catalog/remont-iphone/iphone-15/15-plus/">iPhone 15 Plus</a>
+          <a href="/catalog/remont-iphone/iphone-15/15-pro/">iPhone 15 Pro</a>
+          <a href="/catalog/remont-iphone/iphone-15/15-pro-max5567/">iPhone 15 Pro Max</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/iphone-15/">Вся серия iPhone 15</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="14" hidden>
+          <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14/">iPhone 14</a>
+          <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14-plus/">iPhone 14 Plus</a>
+          <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14-pro/">iPhone 14 Pro</a>
+          <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14-pro-max/">iPhone 14 Pro Max</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/iphone-14/">Вся серия iPhone 14</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="13" hidden>
+          <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13/">iPhone 13</a>
+          <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13-mini/">iPhone 13 Mini</a>
+          <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13-pro/">iPhone 13 Pro</a>
+          <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13-pro-max/">iPhone 13 Pro Max</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/iphone-13/">Вся серия iPhone 13</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="12" hidden>
+          <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12/">iPhone 12</a>
+          <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12-mini/">iPhone 12 Mini</a>
+          <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12-pro/">iPhone 12 Pro</a>
+          <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12-pro-max/">iPhone 12 Pro Max</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/iphone-12/">Вся серия iPhone 12</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="11" hidden>
+          <a href="/catalog/remont-iphone/iphone-11/remont-iphone-11/">iPhone 11</a>
+          <a href="/catalog/remont-iphone/iphone-11/remont-iphone-11-pro/">iPhone 11 Pro</a>
+          <a href="/catalog/remont-iphone/iphone-11/remont-iphone-11-pro-max/">iPhone 11 Pro Max</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/iphone-11/">Вся серия iPhone 11</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="x" hidden>
+          <a href="/catalog/remont-iphone/iphone-x/remont-iphone-x/">iPhone X</a>
+          <a href="/catalog/remont-iphone/iphone-x/remont-iphone-xr/">iPhone XR</a>
+          <a href="/catalog/remont-iphone/iphone-x/remont-iphone-xs/">iPhone XS</a>
+          <a href="/catalog/remont-iphone/iphone-x/remont-iphone-xs-max/">iPhone XS Max</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/iphone-x/">Вся серия iPhone X</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="se" hidden>
+          <a href="/catalog/remont-iphone/iphone-se/remont-iphone-se-1/">iPhone SE 1</a>
+          <a href="/catalog/remont-iphone/iphone-se/remont-iphone-se-2/">iPhone SE 2</a>
+          <a href="/catalog/remont-iphone/iphone-se/remont-iphone-se-3/">iPhone SE 3</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/iphone-se/">Вся серия iPhone SE</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="8" hidden>
+          <a href="/catalog/remont-iphone/iphone-8/remont-iphone-8/">iPhone 8</a>
+          <a href="/catalog/remont-iphone/iphone-8/remont-iphone-8-plus/">iPhone 8 Plus</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/iphone-8/">Вся серия iPhone 8</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="7" hidden>
+          <a href="/catalog/remont-iphone/iphone-7/iphone-7/">iPhone 7</a>
+          <a href="/catalog/remont-iphone/iphone-7/remont-iphone-7-plus/">iPhone 7 Plus</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/iphone-7/">Вся серия iPhone 7</a>
+        </div>
+        <div class="irepair-page-iphone__dpanel" data-irp-dpanel="6" hidden>
+          <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6-plus/">iPhone 6 Plus</a>
+          <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6/">iPhone 6</a>
+          <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6s/">iPhone 6S</a>
+          <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6s-plus/">iPhone 6S Plus</a>
+          <a class="irepair-page-iphone__dall" href="/catalog/remont-iphone/iphone-6/">Вся серия iPhone 6</a>
+        </div>
+      </div>
     </div>
     <!-- iRepair: мобильный выбор модели (≤1180px) — как на старом сайте: плитки серий, тап раскрывает модели -->
     <div class="irepair-page-iphone__models-mob">
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone 17</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone 17</button>
         <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone17e/">iPhone 17e</a>
         <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone17/">iPhone 17</a>
         <a href="/catalog/remont-iphone/remont-iphone-17/remont-iphone-17-pro/">iPhone 17 Pro</a>
@@ -73,7 +123,7 @@
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/remont-iphone-17/">Вся серия iPhone 17</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone 16</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone 16</button>
         <a href="/catalog/remont-iphone/phone-16/remont-iphone-167793/">iPhone 16</a>
         <a href="/catalog/remont-iphone/phone-16/remont-iphone-16-plus/">iPhone 16 Plus</a>
         <a href="/catalog/remont-iphone/phone-16/remont-iphone-16e/">iPhone 16e</a>
@@ -82,7 +132,7 @@
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/phone-16/">Вся серия iPhone 16</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone 15</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone 15</button>
         <a href="/catalog/remont-iphone/iphone-15/15/">iPhone 15</a>
         <a href="/catalog/remont-iphone/iphone-15/15-plus/">iPhone 15 Plus</a>
         <a href="/catalog/remont-iphone/iphone-15/15-pro/">iPhone 15 Pro</a>
@@ -90,7 +140,7 @@
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/iphone-15/">Вся серия iPhone 15</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone 14</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone 14</button>
         <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14/">iPhone 14</a>
         <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14-plus/">iPhone 14 Plus</a>
         <a href="/catalog/remont-iphone/iphone-14/remont-iphone-14-pro/">iPhone 14 Pro</a>
@@ -98,7 +148,7 @@
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/iphone-14/">Вся серия iPhone 14</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone 13</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone 13</button>
         <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13/">iPhone 13</a>
         <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13-mini/">iPhone 13 Mini</a>
         <a href="/catalog/remont-iphone/iphone-13/remont-iphone-13-pro/">iPhone 13 Pro</a>
@@ -106,7 +156,7 @@
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/iphone-13/">Вся серия iPhone 13</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone 12</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone 12</button>
         <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12/">iPhone 12</a>
         <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12-mini/">iPhone 12 Mini</a>
         <a href="/catalog/remont-iphone/iphone-12/remont-iphone-12-pro/">iPhone 12 Pro</a>
@@ -114,14 +164,14 @@
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/iphone-12/">Вся серия iPhone 12</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone 11</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone 11</button>
         <a href="/catalog/remont-iphone/iphone-11/remont-iphone-11/">iPhone 11</a>
         <a href="/catalog/remont-iphone/iphone-11/remont-iphone-11-pro/">iPhone 11 Pro</a>
         <a href="/catalog/remont-iphone/iphone-11/remont-iphone-11-pro-max/">iPhone 11 Pro Max</a>
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/iphone-11/">Вся серия iPhone 11</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone X</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone X</button>
         <a href="/catalog/remont-iphone/iphone-x/remont-iphone-x/">iPhone X</a>
         <a href="/catalog/remont-iphone/iphone-x/remont-iphone-xr/">iPhone XR</a>
         <a href="/catalog/remont-iphone/iphone-x/remont-iphone-xs/">iPhone XS</a>
@@ -129,26 +179,26 @@
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/iphone-x/">Вся серия iPhone X</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone SE</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone SE</button>
         <a href="/catalog/remont-iphone/iphone-se/remont-iphone-se-1/">iPhone SE 1</a>
         <a href="/catalog/remont-iphone/iphone-se/remont-iphone-se-2/">iPhone SE 2</a>
         <a href="/catalog/remont-iphone/iphone-se/remont-iphone-se-3/">iPhone SE 3</a>
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/iphone-se/">Вся серия iPhone SE</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone 8</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone 8</button>
         <a href="/catalog/remont-iphone/iphone-8/remont-iphone-8/">iPhone 8</a>
         <a href="/catalog/remont-iphone/iphone-8/remont-iphone-8-plus/">iPhone 8 Plus</a>
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/iphone-8/">Вся серия iPhone 8</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone 7</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone 7</button>
         <a href="/catalog/remont-iphone/iphone-7/iphone-7/">iPhone 7</a>
         <a href="/catalog/remont-iphone/iphone-7/remont-iphone-7-plus/">iPhone 7 Plus</a>
         <a class="irepair-page-iphone__mall" href="/catalog/remont-iphone/iphone-7/">Вся серия iPhone 7</a>
       </div>
       <div class="irepair-page-iphone__mgroup">
-        <button type="button" class="irepair-page-iphone__mseries">iPhone 6</button>
+        <button type="button" class="irepair-page-iphone__mseries">Серия iPhone 6</button>
         <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6-plus/">iPhone 6 Plus</a>
         <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6/">iPhone 6</a>
         <a href="/catalog/remont-iphone/iphone-6/remont-iphone-6s/">iPhone 6S</a>
@@ -702,6 +752,77 @@
     line-height: 16px;
   }
 }
+/* iRepair (2026-09-30): ПК — выбор модели «серии → модели» (на телефоне — плитки __models-mob) */
+.irepair-page-iphone .irepair-page-iphone__dpicker {
+  margin-bottom: 48px;
+}
+.irepair-page-iphone .irepair-page-iphone__dtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.irepair-page-iphone .irepair-page-iphone__dtab {
+  padding: 13px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: #1d1d1f;
+  color: #ffffff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.irepair-page-iphone .irepair-page-iphone__dtab:hover {
+  background: #37d97b;
+}
+.irepair-page-iphone .irepair-page-iphone__dtab.is-active {
+  background: linear-gradient(103.87deg, #36d97b 29.3%, #19d4e0 96.89%);
+}
+.irepair-page-iphone .irepair-page-iphone__dpanel {
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: 100%;
+  box-sizing: border-box;
+  gap: 10px;
+  margin: 4px 0;
+  padding: 16px;
+  border-radius: 20px;
+  background: #f4f6f5;
+}
+.irepair-page-iphone .irepair-page-iphone__dpanel[hidden] {
+  display: none;
+}
+.irepair-page-iphone .irepair-page-iphone__dpanel a {
+  padding: 10px 18px;
+  border: 1px solid #e3e8e6;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1d1d1f;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+.irepair-page-iphone .irepair-page-iphone__dpanel a:hover {
+  border-color: #37d97b;
+  background: #37d97b;
+  color: #ffffff;
+}
+.irepair-page-iphone .irepair-page-iphone__dyear {
+  opacity: 0.55;
+}
+@media (max-width: 1180px) {
+  .irepair-page-iphone .irepair-page-iphone__dpicker {
+    display: none;
+  }
+}
+.irepair-page-iphone .irepair-page-iphone__dpanel a.irepair-page-iphone__dall {
+  border-color: #37d97b;
+  font-weight: 500;
+}
 </style>
 
 <script>
@@ -714,6 +835,30 @@
     if (!btn) { return; }
     e.preventDefault();
     btn.parentNode.classList.toggle('is-open');
+  });
+}());
+</script>
+<script>
+/* iRepair: ПК-выбор модели — нажатие на серию раскрывает её модели сразу под пилюлей, остальные серии уходят ниже (повторное — сворачивает) */
+(function () {
+  if (window.irpDpicker) { return; }
+  window.irpDpicker = true;
+  document.addEventListener('click', function (e) {
+    var tab = e.target.closest ? e.target.closest('[data-irp-dtab]') : null;
+    if (!tab) { return; }
+    var picker = tab.closest('[data-irp-dpicker]');
+    var key = tab.getAttribute('data-irp-dtab');
+    var open = !tab.classList.contains('is-active');
+    Array.prototype.forEach.call(picker.querySelectorAll('[data-irp-dtab]'), function (t) {
+      var on = open && t === tab;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-expanded', on ? 'true' : 'false');
+    });
+    Array.prototype.forEach.call(picker.querySelectorAll('[data-irp-dpanel]'), function (p) {
+      var on = open && p.getAttribute('data-irp-dpanel') === key;
+      if (on) { tab.parentNode.insertBefore(p, tab.nextSibling); }
+      p.hidden = !on;
+    });
   });
 }());
 </script>
