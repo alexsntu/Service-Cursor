@@ -339,6 +339,14 @@ if _faq and 'Apple Watch' in desc and 'Какие есть варианты ка
     desc = desc[:_faq.start()].strip()
     print('убран FAQ «Популярные вопросы» (Apple Watch) — описание', f'{len(desc)} симв.' if desc else 'пустое')
 
+# Все остальные (владелец 2026-09-30): в FAQ старого сайта убираем заголовок «Популярные вопросы» и зелёные
+# иконки-кружки (svg с #59B561) — выглядят плохо; сами вопросы и ответы оставляем
+_n = len(re.findall(r'<svg\b(?:(?!</svg>).)*?59B561', desc, flags=re.S))
+desc = re.sub(r'<h3[^>]*>\s*Популярные вопросы\s*</h3>\s*', '', desc)
+desc = re.sub(r'<svg\b(?:(?!</svg>).)*?59B561.*?</svg>\s*', '', desc, flags=re.S)
+if _n:
+    print(f'FAQ: убраны заголовок «Популярные вопросы» и {_n} иконок')
+
 # значения характеристики вариантов
 variant_ids = {}
 if args.feature:
