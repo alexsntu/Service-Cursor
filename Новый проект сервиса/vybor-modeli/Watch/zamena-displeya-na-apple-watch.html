@@ -13,22 +13,62 @@
     </div>
 
     <h2 class="irepair-vm-watch-display__section-title">Выберите модель чтобы узнать стоимость ремонта</h2>
-    <div class="irepair-vm-watch-display__models">
-      <a href="/catalog/remont-apple-watch/apple-watch-ultra-3/">Apple Watch Ultra 3</a>
-      <a href="/catalog/remont-apple-watch/apple-watch-ultra-2/">Apple Watch Ultra 2</a>
-      <a href="/catalog/remont-apple-watch/apple-watch-ultra/">Apple Watch Ultra</a>
-      <a href="/catalog/remont-apple-watch/remont-apple-watch-11/">Apple Watch 11</a>
-      <a href="/catalog/remont-apple-watch/remont-apple-watch-10/">Apple Watch 10</a>
-      <a href="/catalog/remont-apple-watch/apple-watch-s9/">Apple Watch 9</a>
-      <a href="/catalog/remont-apple-watch/apple-watch-s8/">Apple Watch 8</a>
-      <a href="/catalog/remont-apple-watch/remont-apple-watch-s7/">Apple Watch 7</a>
-      <a href="/catalog/remont-apple-watch/remont-apple-watch-s6/">Apple Watch 6</a>
-      <a href="/catalog/remont-apple-watch/remont-apple-watch-s5/">Apple Watch 5</a>
-      <a href="/catalog/remont-apple-watch/remont-apple-watch-s4/">Apple Watch 4</a>
-      <a href="/catalog/remont-apple-watch/remont-apple-watch-s3/">Apple Watch 3</a>
-      <a href="/catalog/remont-apple-watch/remont-apple-watch-s2/">Apple Watch 2</a>
-      <a href="/catalog/remont-apple-watch/apple-watch-se-2023/">Apple Watch SE 2</a>
-      <a href="/catalog/remont-apple-watch/remont-apple-watch-se/">Apple Watch SE</a>
+
+    <!-- iRepair (2026-09-30): ПК — серии пилюлями, нажатие раскрывает модели серии пилюлями ниже (как на телефоне, компактно) -->
+    <div class="irepair-vm-watch-display__dpicker" data-irp-dpicker>
+      <div class="irepair-vm-watch-display__dtabs">
+        <button type="button" class="irepair-vm-watch-display__dtab" data-irp-dtab="ultra" aria-expanded="false">Watch Ultra</button>
+        <button type="button" class="irepair-vm-watch-display__dtab" data-irp-dtab="classic" aria-expanded="false">Watch Classic</button>
+        <button type="button" class="irepair-vm-watch-display__dtab" data-irp-dtab="se" aria-expanded="false">Watch SE</button>
+      </div>
+      <div class="irepair-vm-watch-display__dpanel" data-irp-dpanel="ultra" hidden>
+        <a href="/catalog/remont-apple-watch/apple-watch-ultra-3/">Apple Watch Ultra 3</a>
+        <a href="/catalog/remont-apple-watch/apple-watch-ultra-2/">Apple Watch Ultra 2</a>
+        <a href="/catalog/remont-apple-watch/apple-watch-ultra/">Apple Watch Ultra</a>
+      </div>
+      <div class="irepair-vm-watch-display__dpanel" data-irp-dpanel="classic" hidden>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-11/">Apple Watch 11</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-10/">Apple Watch 10</a>
+        <a href="/catalog/remont-apple-watch/apple-watch-s9/">Apple Watch 9</a>
+        <a href="/catalog/remont-apple-watch/apple-watch-s8/">Apple Watch 8</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s7/">Apple Watch 7</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s6/">Apple Watch 6</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s5/">Apple Watch 5</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s4/">Apple Watch 4</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s3/">Apple Watch 3</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s2/">Apple Watch 2</a>
+      </div>
+      <div class="irepair-vm-watch-display__dpanel" data-irp-dpanel="se" hidden>
+        <a href="/catalog/remont-apple-watch/apple-watch-se-2023/">Apple Watch SE 2</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-se/">Apple Watch SE</a>
+      </div>
+    </div>
+    <!-- iRepair (2026-09-30): телефон — серии плитками, тап раскрывает модели -->
+    <div class="irepair-vm-watch-display__models-mob">
+      <div class="irepair-vm-watch-display__mgroup">
+        <button type="button" class="irepair-vm-watch-display__mseries" data-irp-mseries>Watch Ultra</button>
+        <a href="/catalog/remont-apple-watch/apple-watch-ultra-3/">Apple Watch Ultra 3</a>
+        <a href="/catalog/remont-apple-watch/apple-watch-ultra-2/">Apple Watch Ultra 2</a>
+        <a href="/catalog/remont-apple-watch/apple-watch-ultra/">Apple Watch Ultra</a>
+      </div>
+      <div class="irepair-vm-watch-display__mgroup">
+        <button type="button" class="irepair-vm-watch-display__mseries" data-irp-mseries>Watch Classic</button>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-11/">Apple Watch 11</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-10/">Apple Watch 10</a>
+        <a href="/catalog/remont-apple-watch/apple-watch-s9/">Apple Watch 9</a>
+        <a href="/catalog/remont-apple-watch/apple-watch-s8/">Apple Watch 8</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s7/">Apple Watch 7</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s6/">Apple Watch 6</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s5/">Apple Watch 5</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s4/">Apple Watch 4</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s3/">Apple Watch 3</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-s2/">Apple Watch 2</a>
+      </div>
+      <div class="irepair-vm-watch-display__mgroup">
+        <button type="button" class="irepair-vm-watch-display__mseries" data-irp-mseries>Watch SE</button>
+        <a href="/catalog/remont-apple-watch/apple-watch-se-2023/">Apple Watch SE 2</a>
+        <a href="/catalog/remont-apple-watch/remont-apple-watch-se/">Apple Watch SE</a>
+      </div>
     </div>
 
     <h2 class="irepair-vm-watch-display__section-title">Популярные вопросы</h2>
@@ -605,4 +645,201 @@
     line-height: 16px;
   }
 }
+/* iRepair: мобильный выбор модели (≤1180px) — плитки серий, тап раскрывает модели (как на старом сайте) */
+.irepair-vm-watch-display .irepair-vm-watch-display__models-mob {
+  display: none;
+}
+@media (max-width: 1180px) {
+  .irepair-vm-watch-display .irepair-vm-watch-display__models,
+  .irepair-vm-watch-display .irepair-vm-watch-display__models-group {
+    display: none;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__models-mob {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 520px;
+    margin: 0 auto 48px;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: calc(50% - 6px);
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup.is-open {
+    width: 100%;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__mseries,
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup a {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 10px 0 0;
+    padding: 22px 8px;
+    border: 0;
+    border-radius: 33px;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__mseries {
+    color: #ffffff;
+    background: #010306;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup.is-open .irepair-vm-watch-display__mseries {
+    background: linear-gradient(103.87deg, #36d97b 29.3%, #19d4e0 96.89%);
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup a:not(.irepair-vm-watch-display__mseries) {
+    display: none;
+    color: #010306;
+    background: #ededed;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup.is-open a:not(.irepair-vm-watch-display__mseries) {
+    display: block;
+    width: calc(50% - 6px);
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup a.irepair-vm-watch-display__mall {
+    font-size: 14px;
+  }
+  /* длинные подписи — перенос, год выпуска второй строкой мелко */
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup a:not(.irepair-vm-watch-display__mseries) {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    line-height: 18px;
+    white-space: normal;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__myear {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 400;
+    opacity: 0.6;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup a:not(.irepair-vm-watch-display__mseries):hover,
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup a:not(.irepair-vm-watch-display__mseries):active {
+    color: #ffffff;
+    background: #37d97b;
+  }
+}
+@media (max-width: 650px) {
+  .irepair-vm-watch-display .irepair-vm-watch-display__models-mob {
+    margin-bottom: 32px;
+  }
+  .irepair-vm-watch-display .irepair-vm-watch-display__mseries,
+  .irepair-vm-watch-display .irepair-vm-watch-display__mgroup a {
+    padding: 20px 6px;
+  }
+}
+
+
+/* iRepair (2026-09-30): ПК — выбор модели «серии → модели» (на телефоне — плитки __models-mob) */
+.irepair-vm-watch-display .irepair-vm-watch-display__dpicker {
+  margin-bottom: 48px;
+}
+.irepair-vm-watch-display .irepair-vm-watch-display__dtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.irepair-vm-watch-display .irepair-vm-watch-display__dtab {
+  padding: 13px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: #1d1d1f;
+  color: #ffffff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.irepair-vm-watch-display .irepair-vm-watch-display__dtab:hover {
+  background: #37d97b;
+}
+.irepair-vm-watch-display .irepair-vm-watch-display__dtab.is-active {
+  background: linear-gradient(103.87deg, #36d97b 29.3%, #19d4e0 96.89%);
+}
+.irepair-vm-watch-display .irepair-vm-watch-display__dpanel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 20px;
+  background: #f4f6f5;
+}
+.irepair-vm-watch-display .irepair-vm-watch-display__dpanel[hidden] {
+  display: none;
+}
+.irepair-vm-watch-display .irepair-vm-watch-display__dpanel a {
+  padding: 10px 18px;
+  border: 1px solid #e3e8e6;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1d1d1f;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+.irepair-vm-watch-display .irepair-vm-watch-display__dpanel a:hover {
+  border-color: #37d97b;
+  background: #37d97b;
+  color: #ffffff;
+}
+.irepair-vm-watch-display .irepair-vm-watch-display__dyear {
+  opacity: 0.55;
+}
+@media (max-width: 1180px) {
+  .irepair-vm-watch-display .irepair-vm-watch-display__dpicker {
+    display: none;
+  }
+}
 </style>
+<script>
+/* iRepair: «Выбор модели» — телефон: тап по серии раскрывает её модели */
+(function () {
+  if (window.irpVmModelsMob) { return; }
+  window.irpVmModelsMob = true;
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('[data-irp-mseries]') : null;
+    if (!btn) { return; }
+    e.preventDefault();
+    btn.parentNode.classList.toggle('is-open');
+  });
+}());
+</script>
+<script>
+/* iRepair: ПК-выбор модели — нажатие на серию раскрывает её модели (повторное — сворачивает) */
+(function () {
+  if (window.irpDpicker) { return; }
+  window.irpDpicker = true;
+  document.addEventListener('click', function (e) {
+    var tab = e.target.closest ? e.target.closest('[data-irp-dtab]') : null;
+    if (!tab) { return; }
+    var picker = tab.closest('[data-irp-dpicker]');
+    var key = tab.getAttribute('data-irp-dtab');
+    var open = !tab.classList.contains('is-active');
+    Array.prototype.forEach.call(picker.querySelectorAll('[data-irp-dtab]'), function (t) {
+      var on = open && t === tab;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-expanded', on ? 'true' : 'false');
+    });
+    Array.prototype.forEach.call(picker.querySelectorAll('[data-irp-dpanel]'), function (p) {
+      p.hidden = !(open && p.getAttribute('data-irp-dpanel') === key);
+    });
+  });
+}());
+</script>
+

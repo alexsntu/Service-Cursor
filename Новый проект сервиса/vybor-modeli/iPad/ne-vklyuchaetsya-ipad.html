@@ -14,56 +14,94 @@
 
     <h2 class="irepair-vm-ipad-poweroff__section-title">Выберите модель чтобы узнать стоимость ремонта</h2>
 
-    <div class="irepair-vm-ipad-poweroff__models-group">
-      <p class="irepair-vm-ipad-poweroff__models-group-title">iPad Classic</p>
-      <div class="irepair-vm-ipad-poweroff__models">
-        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-10/">iPad 10 (2022)</a>
-        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-9/ne-vklyuchaetsya-8523/">iPad 9 (2021)</a>
-        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-8/ne-vklyuchaetsya-8540/">iPad 8 (2020)</a>
-        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-7/ne-vklyuchaetsya-8558/">iPad 7 (2019)</a>
-        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-6/ne-vklyuchaetsya-8576/">iPad 6 (2018)</a>
-        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-5/ne-vklyuchaetsya-8594/">iPad 5 (2017)</a>
-        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-4/ne-vklyuchaetsya-8612/">iPad 4 (2012)</a>
-        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-3/ne-vklyuchaetsya-8630/">iPad 3 (2012)</a>
-        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-2/ne-vklyuchaetsya-8648/">iPad 2 (2011)</a>
+    <!-- iRepair (2026-09-30): ПК — серии пилюлями, нажатие раскрывает модели серии пилюлями ниже (как на телефоне, компактно) -->
+    <div class="irepair-vm-ipad-poweroff__dpicker" data-irp-dpicker>
+      <div class="irepair-vm-ipad-poweroff__dtabs">
+        <button type="button" class="irepair-vm-ipad-poweroff__dtab" data-irp-dtab="ipad-classic" aria-expanded="false">iPad Classic</button>
+        <button type="button" class="irepair-vm-ipad-poweroff__dtab" data-irp-dtab="ipad-pro" aria-expanded="false">iPad Pro</button>
+        <button type="button" class="irepair-vm-ipad-poweroff__dtab" data-irp-dtab="ipad-air" aria-expanded="false">iPad Air</button>
+        <button type="button" class="irepair-vm-ipad-poweroff__dtab" data-irp-dtab="ipad-mini" aria-expanded="false">iPad Mini</button>
+      </div>
+      <div class="irepair-vm-ipad-poweroff__dpanel" data-irp-dpanel="ipad-classic" hidden>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-10/">iPad 10 <span class="irepair-vm-ipad-poweroff__dyear">(2022)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-9/ne-vklyuchaetsya-8523/">iPad 9 <span class="irepair-vm-ipad-poweroff__dyear">(2021)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-8/ne-vklyuchaetsya-8540/">iPad 8 <span class="irepair-vm-ipad-poweroff__dyear">(2020)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-7/ne-vklyuchaetsya-8558/">iPad 7 <span class="irepair-vm-ipad-poweroff__dyear">(2019)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-6/ne-vklyuchaetsya-8576/">iPad 6 <span class="irepair-vm-ipad-poweroff__dyear">(2018)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-5/ne-vklyuchaetsya-8594/">iPad 5 <span class="irepair-vm-ipad-poweroff__dyear">(2017)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-4/ne-vklyuchaetsya-8612/">iPad 4 <span class="irepair-vm-ipad-poweroff__dyear">(2012)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-3/ne-vklyuchaetsya-8630/">iPad 3 <span class="irepair-vm-ipad-poweroff__dyear">(2012)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-2/ne-vklyuchaetsya-8648/">iPad 2 <span class="irepair-vm-ipad-poweroff__dyear">(2011)</span></a>
+      </div>
+      <div class="irepair-vm-ipad-poweroff__dpanel" data-irp-dpanel="ipad-pro" hidden>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-13-m4/">iPad Pro 13'' M4 <span class="irepair-vm-ipad-poweroff__dyear">(2024)</span></a>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-13-m5/">iPad Pro 13'' M5 <span class="irepair-vm-ipad-poweroff__dyear">(2025)</span></a>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-12-9/ne-vklyuchaetsya-8666/">iPad Pro 12.9 <span class="irepair-vm-ipad-poweroff__dyear">(2015–2022)</span></a>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-11/ne-vklyuchaetsya-8685/">iPad Pro 11 <span class="irepair-vm-ipad-poweroff__dyear">(2018–2022)</span></a>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-10-5/ne-vklyuchaetsya-8703/">iPad Pro 10.5 <span class="irepair-vm-ipad-poweroff__dyear">(2017)</span></a>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-9-7/ne-vklyuchaetsya-8721/">iPad Pro 9.7 <span class="irepair-vm-ipad-poweroff__dyear">(2016)</span></a>
+      </div>
+      <div class="irepair-vm-ipad-poweroff__dpanel" data-irp-dpanel="ipad-air" hidden>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-7/">iPad Air 7 <span class="irepair-vm-ipad-poweroff__dyear">(2025)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-6/">iPad Air 6 <span class="irepair-vm-ipad-poweroff__dyear">(2024)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-5/remont-ipad-air-5-ne-vklyuchaetsya/">iPad Air 5 <span class="irepair-vm-ipad-poweroff__dyear">(2022)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-4/ne-vklyuchaetsya-8757/">iPad Air 4 <span class="irepair-vm-ipad-poweroff__dyear">(2020)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-3/ne-vklyuchaetsya-8775/">iPad Air 3 <span class="irepair-vm-ipad-poweroff__dyear">(2019)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-2/ne-vklyuchaetsya-8793/">iPad Air 2 <span class="irepair-vm-ipad-poweroff__dyear">(2014)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-1/ne-vklyuchaetsya-8811/">iPad Air 1 <span class="irepair-vm-ipad-poweroff__dyear">(2013)</span></a>
+      </div>
+      <div class="irepair-vm-ipad-poweroff__dpanel" data-irp-dpanel="ipad-mini" hidden>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-7/">iPad Mini 7 <span class="irepair-vm-ipad-poweroff__dyear">(2024)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-6/ne-vklyuchaetsya-8829/">iPad Mini 6 <span class="irepair-vm-ipad-poweroff__dyear">(2021)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-5/ne-vklyuchaetsya-8840/">iPad Mini 5 <span class="irepair-vm-ipad-poweroff__dyear">(2019)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-4/ne-vklyuchaetsya-8850/">iPad Mini 4 <span class="irepair-vm-ipad-poweroff__dyear">(2015)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-3/ne-vklyuchaetsya-8860/">iPad Mini 3 <span class="irepair-vm-ipad-poweroff__dyear">(2014)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-2/ne-vklyuchaetsya-8870/">iPad Mini 2 <span class="irepair-vm-ipad-poweroff__dyear">(2013)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-1/ne-vklyuchaetsya-8880/">iPad Mini 1 <span class="irepair-vm-ipad-poweroff__dyear">(2012)</span></a>
       </div>
     </div>
-
-    <div class="irepair-vm-ipad-poweroff__models-group">
-      <p class="irepair-vm-ipad-poweroff__models-group-title">iPad Pro</p>
-      <div class="irepair-vm-ipad-poweroff__models">
-        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-13-m4/">iPad Pro 13'' M4 (2024)</a>
-        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-13-m5/">iPad Pro 13'' M5 (2025)</a>
-        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-12-9/ne-vklyuchaetsya-8666/">iPad Pro 12.9 (2015–2022)</a>
-        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-11/ne-vklyuchaetsya-8685/">iPad Pro 11 (2018–2022)</a>
-        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-10-5/ne-vklyuchaetsya-8703/">iPad Pro 10.5 (2017)</a>
-        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-9-7/ne-vklyuchaetsya-8721/">iPad Pro 9.7 (2016)</a>
+    <!-- iRepair (2026-09-30): телефон — серии плитками, тап раскрывает модели -->
+    <div class="irepair-vm-ipad-poweroff__models-mob">
+      <div class="irepair-vm-ipad-poweroff__mgroup">
+        <button type="button" class="irepair-vm-ipad-poweroff__mseries" data-irp-mseries>iPad Classic</button>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-10/">iPad 10 <span class="irepair-vm-ipad-poweroff__myear">(2022)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-9/ne-vklyuchaetsya-8523/">iPad 9 <span class="irepair-vm-ipad-poweroff__myear">(2021)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-8/ne-vklyuchaetsya-8540/">iPad 8 <span class="irepair-vm-ipad-poweroff__myear">(2020)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-7/ne-vklyuchaetsya-8558/">iPad 7 <span class="irepair-vm-ipad-poweroff__myear">(2019)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-6/ne-vklyuchaetsya-8576/">iPad 6 <span class="irepair-vm-ipad-poweroff__myear">(2018)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-5/ne-vklyuchaetsya-8594/">iPad 5 <span class="irepair-vm-ipad-poweroff__myear">(2017)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-4/ne-vklyuchaetsya-8612/">iPad 4 <span class="irepair-vm-ipad-poweroff__myear">(2012)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-3/ne-vklyuchaetsya-8630/">iPad 3 <span class="irepair-vm-ipad-poweroff__myear">(2012)</span></a>
+        <a href="/catalog/remont-ipad/apple-ipad/remont-ipad-2/ne-vklyuchaetsya-8648/">iPad 2 <span class="irepair-vm-ipad-poweroff__myear">(2011)</span></a>
       </div>
-    </div>
-
-    <div class="irepair-vm-ipad-poweroff__models-group">
-      <p class="irepair-vm-ipad-poweroff__models-group-title">iPad Air</p>
-      <div class="irepair-vm-ipad-poweroff__models">
-        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-7/">iPad Air 7 (2025)</a>
-        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-6/">iPad Air 6 (2024)</a>
-        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-5/remont-ipad-air-5-ne-vklyuchaetsya/">iPad Air 5 (2022)</a>
-        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-4/ne-vklyuchaetsya-8757/">iPad Air 4 (2020)</a>
-        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-3/ne-vklyuchaetsya-8775/">iPad Air 3 (2019)</a>
-        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-2/ne-vklyuchaetsya-8793/">iPad Air 2 (2014)</a>
-        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-1/ne-vklyuchaetsya-8811/">iPad Air 1 (2013)</a>
+      <div class="irepair-vm-ipad-poweroff__mgroup">
+        <button type="button" class="irepair-vm-ipad-poweroff__mseries" data-irp-mseries>iPad Pro</button>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-13-m4/">iPad Pro 13'' M4 <span class="irepair-vm-ipad-poweroff__myear">(2024)</span></a>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-13-m5/">iPad Pro 13'' M5 <span class="irepair-vm-ipad-poweroff__myear">(2025)</span></a>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-12-9/ne-vklyuchaetsya-8666/">iPad Pro 12.9 <span class="irepair-vm-ipad-poweroff__myear">(2015–2022)</span></a>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-11/ne-vklyuchaetsya-8685/">iPad Pro 11 <span class="irepair-vm-ipad-poweroff__myear">(2018–2022)</span></a>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-10-5/ne-vklyuchaetsya-8703/">iPad Pro 10.5 <span class="irepair-vm-ipad-poweroff__myear">(2017)</span></a>
+        <a href="/catalog/remont-ipad/ipad-pro/remont-ipad-pro-9-7/ne-vklyuchaetsya-8721/">iPad Pro 9.7 <span class="irepair-vm-ipad-poweroff__myear">(2016)</span></a>
       </div>
-    </div>
-
-    <div class="irepair-vm-ipad-poweroff__models-group">
-      <p class="irepair-vm-ipad-poweroff__models-group-title">iPad Mini</p>
-      <div class="irepair-vm-ipad-poweroff__models">
-        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-7/">iPad Mini 7 (2024)</a>
-        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-6/ne-vklyuchaetsya-8829/">iPad Mini 6 (2021)</a>
-        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-5/ne-vklyuchaetsya-8840/">iPad Mini 5 (2019)</a>
-        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-4/ne-vklyuchaetsya-8850/">iPad Mini 4 (2015)</a>
-        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-3/ne-vklyuchaetsya-8860/">iPad Mini 3 (2014)</a>
-        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-2/ne-vklyuchaetsya-8870/">iPad Mini 2 (2013)</a>
-        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-1/ne-vklyuchaetsya-8880/">iPad Mini 1 (2012)</a>
+      <div class="irepair-vm-ipad-poweroff__mgroup">
+        <button type="button" class="irepair-vm-ipad-poweroff__mseries" data-irp-mseries>iPad Air</button>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-7/">iPad Air 7 <span class="irepair-vm-ipad-poweroff__myear">(2025)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-6/">iPad Air 6 <span class="irepair-vm-ipad-poweroff__myear">(2024)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-5/remont-ipad-air-5-ne-vklyuchaetsya/">iPad Air 5 <span class="irepair-vm-ipad-poweroff__myear">(2022)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-4/ne-vklyuchaetsya-8757/">iPad Air 4 <span class="irepair-vm-ipad-poweroff__myear">(2020)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-3/ne-vklyuchaetsya-8775/">iPad Air 3 <span class="irepair-vm-ipad-poweroff__myear">(2019)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-2/ne-vklyuchaetsya-8793/">iPad Air 2 <span class="irepair-vm-ipad-poweroff__myear">(2014)</span></a>
+        <a href="/catalog/remont-ipad/ipad-air/remont-ipad-air-1/ne-vklyuchaetsya-8811/">iPad Air 1 <span class="irepair-vm-ipad-poweroff__myear">(2013)</span></a>
+      </div>
+      <div class="irepair-vm-ipad-poweroff__mgroup">
+        <button type="button" class="irepair-vm-ipad-poweroff__mseries" data-irp-mseries>iPad Mini</button>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-7/">iPad Mini 7 <span class="irepair-vm-ipad-poweroff__myear">(2024)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-6/ne-vklyuchaetsya-8829/">iPad Mini 6 <span class="irepair-vm-ipad-poweroff__myear">(2021)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-5/ne-vklyuchaetsya-8840/">iPad Mini 5 <span class="irepair-vm-ipad-poweroff__myear">(2019)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-4/ne-vklyuchaetsya-8850/">iPad Mini 4 <span class="irepair-vm-ipad-poweroff__myear">(2015)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-3/ne-vklyuchaetsya-8860/">iPad Mini 3 <span class="irepair-vm-ipad-poweroff__myear">(2014)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-2/ne-vklyuchaetsya-8870/">iPad Mini 2 <span class="irepair-vm-ipad-poweroff__myear">(2013)</span></a>
+        <a href="/catalog/remont-ipad/ipad-mini/remont-ipad-mini-1/ne-vklyuchaetsya-8880/">iPad Mini 1 <span class="irepair-vm-ipad-poweroff__myear">(2012)</span></a>
       </div>
     </div>
 
@@ -665,4 +703,201 @@
     line-height: 16px;
   }
 }
+/* iRepair: мобильный выбор модели (≤1180px) — плитки серий, тап раскрывает модели (как на старом сайте) */
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__models-mob {
+  display: none;
+}
+@media (max-width: 1180px) {
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__models,
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__models-group {
+    display: none;
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__models-mob {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 520px;
+    margin: 0 auto 48px;
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: calc(50% - 6px);
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup.is-open {
+    width: 100%;
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mseries,
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup a {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 10px 0 0;
+    padding: 22px 8px;
+    border: 0;
+    border-radius: 33px;
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mseries {
+    color: #ffffff;
+    background: #010306;
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup.is-open .irepair-vm-ipad-poweroff__mseries {
+    background: linear-gradient(103.87deg, #36d97b 29.3%, #19d4e0 96.89%);
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup a:not(.irepair-vm-ipad-poweroff__mseries) {
+    display: none;
+    color: #010306;
+    background: #ededed;
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup.is-open a:not(.irepair-vm-ipad-poweroff__mseries) {
+    display: block;
+    width: calc(50% - 6px);
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup a.irepair-vm-ipad-poweroff__mall {
+    font-size: 14px;
+  }
+  /* длинные подписи — перенос, год выпуска второй строкой мелко */
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup a:not(.irepair-vm-ipad-poweroff__mseries) {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    line-height: 18px;
+    white-space: normal;
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__myear {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 400;
+    opacity: 0.6;
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup a:not(.irepair-vm-ipad-poweroff__mseries):hover,
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup a:not(.irepair-vm-ipad-poweroff__mseries):active {
+    color: #ffffff;
+    background: #37d97b;
+  }
+}
+@media (max-width: 650px) {
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__models-mob {
+    margin-bottom: 32px;
+  }
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mseries,
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__mgroup a {
+    padding: 20px 6px;
+  }
+}
+
+
+/* iRepair (2026-09-30): ПК — выбор модели «серии → модели» (на телефоне — плитки __models-mob) */
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dpicker {
+  margin-bottom: 48px;
+}
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dtab {
+  padding: 13px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: #1d1d1f;
+  color: #ffffff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dtab:hover {
+  background: #37d97b;
+}
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dtab.is-active {
+  background: linear-gradient(103.87deg, #36d97b 29.3%, #19d4e0 96.89%);
+}
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dpanel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 20px;
+  background: #f4f6f5;
+}
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dpanel[hidden] {
+  display: none;
+}
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dpanel a {
+  padding: 10px 18px;
+  border: 1px solid #e3e8e6;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1d1d1f;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dpanel a:hover {
+  border-color: #37d97b;
+  background: #37d97b;
+  color: #ffffff;
+}
+.irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dyear {
+  opacity: 0.55;
+}
+@media (max-width: 1180px) {
+  .irepair-vm-ipad-poweroff .irepair-vm-ipad-poweroff__dpicker {
+    display: none;
+  }
+}
 </style>
+<script>
+/* iRepair: «Выбор модели» — телефон: тап по серии раскрывает её модели */
+(function () {
+  if (window.irpVmModelsMob) { return; }
+  window.irpVmModelsMob = true;
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('[data-irp-mseries]') : null;
+    if (!btn) { return; }
+    e.preventDefault();
+    btn.parentNode.classList.toggle('is-open');
+  });
+}());
+</script>
+<script>
+/* iRepair: ПК-выбор модели — нажатие на серию раскрывает её модели (повторное — сворачивает) */
+(function () {
+  if (window.irpDpicker) { return; }
+  window.irpDpicker = true;
+  document.addEventListener('click', function (e) {
+    var tab = e.target.closest ? e.target.closest('[data-irp-dtab]') : null;
+    if (!tab) { return; }
+    var picker = tab.closest('[data-irp-dpicker]');
+    var key = tab.getAttribute('data-irp-dtab');
+    var open = !tab.classList.contains('is-active');
+    Array.prototype.forEach.call(picker.querySelectorAll('[data-irp-dtab]'), function (t) {
+      var on = open && t === tab;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-expanded', on ? 'true' : 'false');
+    });
+    Array.prototype.forEach.call(picker.querySelectorAll('[data-irp-dpanel]'), function (p) {
+      p.hidden = !(open && p.getAttribute('data-irp-dpanel') === key);
+    });
+  });
+}());
+</script>
+
