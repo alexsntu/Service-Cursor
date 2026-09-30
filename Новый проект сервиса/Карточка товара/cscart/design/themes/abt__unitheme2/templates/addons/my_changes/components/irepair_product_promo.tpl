@@ -1,7 +1,8 @@
 {* iRepair — промо-блок карточки товара: срок ремонта / курьер / гарантия.
    Тип блока CS-Cart: «HTML блок с поддержкой Smarty», размещается в макете страницы товара.
-   Гарантия берётся из характеристики товара id 4 «Гарантия» (число месяцев);
-   если у товара она не заполнена — строка гарантии не выводится. *}
+   Гарантия берётся из характеристики товара id 4 «Гарантия» — готовым текстом («3 месяца», «14 дней»), выводится как есть;
+   если там только число (старый формат) — считается месяцами и слово подбирается автоматически.
+   Если у товара она не заполнена — строка гарантии не выводится. *}
 {assign var="irp_warranty" value=""}
 {if $product.product_features.4.value}
     {assign var="irp_warranty" value=$product.product_features.4.value|trim}
@@ -31,6 +32,7 @@
     </li>
 
     {if $irp_warranty}
+    {if $irp_warranty|regex_replace:"/[0-9]/":"" == ""}
     {assign var="irp_w_mod100" value=$irp_warranty % 100}
     {assign var="irp_w_mod10" value=$irp_warranty % 10}
     {if $irp_w_mod100 >= 11 && $irp_w_mod100 <= 14}
@@ -42,13 +44,17 @@
     {else}
         {assign var="irp_w_word" value="месяцев"}
     {/if}
+    {assign var="irp_warranty_text" value="`$irp_warranty` `$irp_w_word`"}
+    {else}
+    {assign var="irp_warranty_text" value=$irp_warranty}
+    {/if}
     <li class="irepair-product-promo__item">
       <span class="irepair-product-promo__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6.4 12.6L10.4 16.6L18 7.6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
       </span>
-      <span class="irepair-product-promo__text">Гарантия {$irp_warranty}&nbsp;{$irp_w_word}</span>
+      <span class="irepair-product-promo__text">Гарантия {$irp_warranty_text|escape|replace:" ":"&nbsp;" nofilter}</span>
     </li>
     {/if}
 

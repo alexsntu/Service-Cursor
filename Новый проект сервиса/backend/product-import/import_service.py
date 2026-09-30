@@ -60,6 +60,8 @@ ap.add_argument('--slug', help='свой адрес (seo_name) главного 
 ap.add_argument('--name', help='своё название услуги вместо старого (если старое общее, напр. «iPad Pro 13» на две категории M4/M5)')
 ap.add_argument('--old-product', type=int, help='услуги нет в RemOnline/таблице: варианты и цены — из опций старого товара '
                                                '(«Выберите модель» × «Тип запчасти»), код OLD-<товар>-<опция>; потом привязать к RO')
+ap.add_argument('--position', type=int, default=0, help='позиция услуги в категории (порядок услуг владельца: ранг×10, '
+                                                       'напр. аккумулятор iPhone 10, дисплей 20); категории сортируются по позиции')
 ap.add_argument('--dry-run', action='store_true')
 ap.add_argument('ro_ids', nargs='*')
 args = ap.parse_args()
@@ -136,6 +138,14 @@ def model_label(modelno, model=''):
     return f"{' / '.join(chips)} | {' / '.join(parts)}", rank * 10000 + int(parts[0][1:])
 
 
+def warranty_text(n, days=False):
+    # гарантия хранится текстом (характеристика 4): «1 месяц», «3 месяца», «12 месяцев», «14 дней»
+    n = int(n)
+    forms = ('день', 'дня', 'дней') if days else ('месяц', 'месяца', 'месяцев')
+    w = forms[2] if 11 <= n % 100 <= 14 else forms[0] if n % 10 == 1 else forms[1] if 2 <= n % 10 <= 4 else forms[2]
+    return f'{n} {w}'
+
+
 def sql_new(q):
     # _run: SSH до dev иногда рвётся («Connection closed», 255) — до 6 попыток
     return _run(NEW_SSH + ['mysql --defaults-extra-file=/root/.my.cscart.cnf irepair_cscart -N -e ' + json.dumps(q)],
@@ -188,7 +198,7 @@ if args.old_product:
     for mvid, mname, mprice in (models or [(None, '', None)]):
         for tvid, tname, tprice in types:
             it = {'ro': f"OLD-{args.old_product}" + (f"-{mvid or tvid}" if (mvid or tvid) else ''), 'value': tname, 'price': mprice or tprice,
-                  'ro_price': 0, 'old_id': args.old_product, 'warranty': '1'}
+                  'ro_price': 0, 'old_id': args.old_product, 'warranty': warranty_text(1)}
             if models:
                 mlabel = re.sub(r'^Модель\s+', '', mname)
                 ext = re.fullmatch(r'(A\d{4})\s+(\S.*)', mlabel)  # iMac 21.5: «A1418 2K» / «A1418 4K» — подпись как есть; позиция = A-номер (при равной CS-Cart сортирует по названию)
@@ -212,7 +222,8 @@ rows = {str(r[4]).replace('.0', ''): r for r in all_rows if r[4] is not None}
 module_warranty, cur_mod = {}, {}
 for r in all_rows:
     if r[0] == 'Модуль':
-        cur_mod = {k.upper().replace('ОЕМ', 'OEM'): v for k, v in re.findall(r'(AASP|OEM|ОЕМ)\s+(\d+)', str(r[13] or ''))}
+        # «AASP 12 | ОЕМ 3 | HQ 14д» → месяцы, «д» — дни
+        cur_mod = {k.upper().replace('ОЕМ', 'OEM'): warranty_text(v, bool(d)) for k, v, d in re.findall(r'(AASP|OEM|ОЕМ|HQ)\s+(\d+)\s*(д)?', str(r[13] or ''))}
     elif r[4] is not None:
         module_warranty[str(r[4]).replace('.0', '')] = cur_mod
 for it in items:
@@ -227,9 +238,9 @@ for it in items:
     if it['ro_price'] != it['price']:
         print(f"!!! RO {it['ro']}: цена в таблице {it['price']}, в RemOnline {it['ro_price']} — берём из таблицы")
     it['old_id'] = int(re.search(r'product_id=(\d+)', r[1]).group(1))
-    it['warranty'] = str(int(r[11])) if r[11] not in (None, '') else module_warranty.get(it['ro'], {}).get(it['value'].upper(), '')
+    it['warranty'] = warranty_text(r[11]) if r[11] not in (None, '') else module_warranty.get(it['ro'], {}).get(it['value'].upper(), '')
     # владелец 2026-09-28: гарантия нигде не указана → всегда 1 месяц
-    it['warranty'] = it['warranty'] or '1'
+    it['warranty'] = it['warranty'] or warranty_text(1)
     if args.model_feature:
         it['model'], it['model_pos'] = model_label(str(r[13] or ''), str(r[7] or ''))
 items.sort(key=lambda x: x['price'])
@@ -402,6 +413,11 @@ if len(ids) > 1 or args.model_feature:
     # (my_changes: schemas/product_variations/product_data_sync.post.php исключает характеристики 4 и 5)
     for pid, it in zip(ids, items):
         cs('PUT', f'products/{pid}', {'product_features': it['features']})
+
+# 6a. Позиция услуги в категории (порядок услуг владельца)
+if args.position:
+    sql_new(f"update cscart_products_categories set position={args.position} where category_id={args.cat} and product_id in ({','.join(map(str, ids))})")
+    print('позиция в категории', args.position)
 
 # 7. Редиректы: удалить авто-редирект, созданный при создании главного товара; добавить 301 со старого адреса
 main = ids[0]
