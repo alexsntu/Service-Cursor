@@ -43,6 +43,7 @@ import urllib.request
 import openpyxl
 
 from crop_images import _run, crop_products
+import title_check
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TABLE = os.path.expanduser('~/Документы/Сервис/Новая таблица888.xlsx')
@@ -228,10 +229,18 @@ for r in all_rows:
         cur_mod = {k.upper().replace('ОЕМ', 'OEM'): warranty_text(v, bool(d)) for k, v, d in re.findall(r'(AASP|OEM|ОЕМ|HQ)\s+(\d+)\s*(д)?', str(r[13] or ''))}
     elif r[4] is not None:
         module_warranty[str(r[4]).replace('.0', '')] = cur_mod
+title_errors = []
 for it in items:
     if it['ro'].startswith('OLD-'):
         continue  # --old-product: в таблице строки нет
     r = rows[it['ro']]
+    # Проверка (владелец 2026-09-30): название услуги в RemOnline должно соответствовать таблице (title_check.py) —
+    # иначе код перепутан; все расхождения собираем и останавливаемся до создания
+    _err = title_check.check(it['title'], r)
+    if _err:
+        title_errors.append(f"RO {it['ro']} «{it['title']}»: {_err}")
+    elif str(r[8] or '').strip() in ('', '-') and '|' in it['title'] and it['title'].rpartition('|')[2].strip():
+        print(f"!!! RO {it['ro']}: в RemOnline есть тип «{it['title'].rpartition('|')[2].strip()}», в таблице тип не указан («-») — опцию не присваиваем")
     # цена — из нашей таблицы (столбец AY «Текущая цена», как у прайса/калькулятора); RemOnline — только для сверки
     it['ro_price'] = it['price']
     tab_price, approx = _bp.parse_price(r[50])
@@ -248,6 +257,7 @@ for it in items:
     it['warranty'] = it['warranty'] or warranty_text(1)
     if args.model_feature:
         it['model'], it['model_pos'] = model_label(str(r[13] or ''), str(r[7] or ''))
+assert not title_errors, 'название услуги в RemOnline не совпадает с таблицей:\n  ' + '\n  '.join(title_errors)
 items.sort(key=lambda x: x['price'])
 bad = [it['ro'] for it in items if not it['price']]
 if bad:
