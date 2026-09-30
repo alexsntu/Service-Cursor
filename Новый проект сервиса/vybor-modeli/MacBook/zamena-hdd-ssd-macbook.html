@@ -20,20 +20,20 @@
         <button type="button" class="irepair-vm-macbook-ssd__dtab" data-irp-dtab="pro" aria-expanded="false">MacBook Pro</button>
         <button type="button" class="irepair-vm-macbook-ssd__dtab" data-irp-dtab="air" aria-expanded="false">MacBook Air</button>
         <button type="button" class="irepair-vm-macbook-ssd__dtab" data-irp-dtab="12" aria-expanded="false">MacBook 12</button>
-      </div>
-      <div class="irepair-vm-macbook-ssd__dpanel" data-irp-dpanel="pro" hidden>
-        <a href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-13/">MacBook Pro 13</a>
-        <a href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-14/">MacBook Pro 14</a>
-        <a href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-15/">MacBook Pro 15</a>
-        <a href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-16/">MacBook Pro 16</a>
-      </div>
-      <div class="irepair-vm-macbook-ssd__dpanel" data-irp-dpanel="air" hidden>
-        <a href="/catalog/remont-macbook/macbook-air/remont-macbook-air-11/">MacBook Air 11"</a>
-        <a href="/catalog/remont-macbook/macbook-air/remont-macbook-air-13/">MacBook Air 13"</a>
-        <a href="/catalog/remont-macbook/macbook-air/remont-macbook-air-15/">MacBook Air 15"</a>
-      </div>
-      <div class="irepair-vm-macbook-ssd__dpanel" data-irp-dpanel="12" hidden>
-        <a href="/catalog/remont-macbook/macbook-12/remont-macbook-12/">MacBook 12"</a>
+        <div class="irepair-vm-macbook-ssd__dpanel" data-irp-dpanel="pro" hidden>
+          <a href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-13/">MacBook Pro 13</a>
+          <a href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-14/">MacBook Pro 14</a>
+          <a href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-15/">MacBook Pro 15</a>
+          <a href="/catalog/remont-macbook/macbook-pro/remont-macbook-pro-16/">MacBook Pro 16</a>
+        </div>
+        <div class="irepair-vm-macbook-ssd__dpanel" data-irp-dpanel="air" hidden>
+          <a href="/catalog/remont-macbook/macbook-air/remont-macbook-air-11/">MacBook Air 11"</a>
+          <a href="/catalog/remont-macbook/macbook-air/remont-macbook-air-13/">MacBook Air 13"</a>
+          <a href="/catalog/remont-macbook/macbook-air/remont-macbook-air-15/">MacBook Air 15"</a>
+        </div>
+        <div class="irepair-vm-macbook-ssd__dpanel" data-irp-dpanel="12" hidden>
+          <a href="/catalog/remont-macbook/macbook-12/remont-macbook-12/">MacBook 12"</a>
+        </div>
       </div>
     </div>
     <!-- iRepair (2026-09-30): телефон — серии плитками, тап раскрывает модели -->
@@ -775,8 +775,10 @@
 .irepair-vm-macbook-ssd .irepair-vm-macbook-ssd__dpanel {
   display: flex;
   flex-wrap: wrap;
+  flex-basis: 100%;
+  box-sizing: border-box;
   gap: 10px;
-  margin-top: 14px;
+  margin: 4px 0;
   padding: 16px;
   border-radius: 20px;
   background: #f4f6f5;
@@ -824,7 +826,7 @@
 }());
 </script>
 <script>
-/* iRepair: ПК-выбор модели — нажатие на серию раскрывает её модели (повторное — сворачивает) */
+/* iRepair: ПК-выбор модели — нажатие на серию раскрывает её модели сразу под пилюлей, остальные серии уходят ниже (повторное — сворачивает) */
 (function () {
   if (window.irpDpicker) { return; }
   window.irpDpicker = true;
@@ -840,7 +842,9 @@
       t.setAttribute('aria-expanded', on ? 'true' : 'false');
     });
     Array.prototype.forEach.call(picker.querySelectorAll('[data-irp-dpanel]'), function (p) {
-      p.hidden = !(open && p.getAttribute('data-irp-dpanel') === key);
+      var on = open && p.getAttribute('data-irp-dpanel') === key;
+      if (on) { tab.parentNode.insertBefore(p, tab.nextSibling); }
+      p.hidden = !on;
     });
   });
 }());
