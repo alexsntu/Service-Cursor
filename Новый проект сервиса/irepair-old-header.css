@@ -3305,3 +3305,11 @@ html.irepair-search-lock body {
     cursor: pointer;
   }
 }
+
+/* iRepair (2026-09-30): описание товара — вопросы FAQ со старого сайта (.faq__block h3) были 26px жирные;
+   владелец: без жирности и меньше — 16px */
+.ty-wysiwyg-content .faq__block .faq__block-header h3 {
+  font-size: 16px;
+  line-height: 23px;
+  font-weight: 400;
+}
