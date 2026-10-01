@@ -66,6 +66,7 @@ ap.add_argument('--old-product', type=int, help='услуги нет в RemOnlin
 ap.add_argument('--position', type=int, default=0, help='позиция услуги в категории (порядок услуг владельца: ранг×10, '
                                                        'напр. аккумулятор iPhone 10, дисплей 20); категории сортируются по позиции')
 ap.add_argument('--old-id', type=int, help='свой старый товар вместо столбца B таблицы — если в таблице ссылка перепутана (напр. 6S ↔ 6 Plus)')
+ap.add_argument('--skip-title-check', nargs='*', default=[], help='RO id, у которых кривое название в RemOnline — сверено вручную')
 ap.add_argument('--dry-run', action='store_true')
 ap.add_argument('ro_ids', nargs='*')
 args = ap.parse_args()
@@ -237,7 +238,7 @@ for it in items:
     r = rows[it['ro']]
     # Проверка (владелец 2026-09-30): название услуги в RemOnline должно соответствовать таблице (title_check.py) —
     # иначе код перепутан; все расхождения собираем и останавливаемся до создания
-    _err = title_check.check(it['title'], r)
+    _err = None if it['ro'] in args.skip_title_check else title_check.check(it['title'], r)
     if _err:
         title_errors.append(f"RO {it['ro']} «{it['title']}»: {_err}")
     elif title_check.extra_type(it['title'], r):

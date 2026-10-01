@@ -35,6 +35,15 @@ def check(title, row):
     if ttype and _n(typ) != ttype:
         return f'тип: в RemOnline «{typ.strip()}», в таблице «{part}»'
     if not _n(main).startswith(_n(service)):
+        # вариант RemOnline «Замена динамика iPhone 16 | Замена слухового динамика»: общая услуга + модель, после «|» — услуга таблицы
+        parts = [p.strip() for p in str(title).split('|')]
+        if not subtype.strip() and len(parts) >= 2 and _n(parts[1]) == _n(service) and not ttype:
+            toks = _tokens(parts[0])
+            dev = _tokens(device)
+            if dev and dev[0] in toks:
+                got = toks[toks.index(dev[0]) + len(dev):]
+                if got == [t for t in _tokens(model) if t not in dev or t in ('se',)] or (device.strip().lower() != 'iphone' and all(t in got for t in need_tokens(model, device))):
+                    return None
         return f'услуга: в RemOnline «{main.strip()}», в таблице «{service}»'
     rest = _tokens(_n(main)[len(_n(service)):])
     need = [t for t in _tokens(model) if t not in _tokens(device) or t in ('se',)]
@@ -58,6 +67,8 @@ def extra_type(title, row):
     parts = [p.strip() for p in str(title).split('|')]
     if '|' in str(row[9]):
         return '|'.join(parts[2:]).strip()
+    if len(parts) > 1 and _n(parts[1]) == _n(str(row[9])):
+        return '|'.join(parts[2:]).strip()  # «… | Замена слухового динамика» — это услуга, а не тип
     return parts[-1] if len(parts) > 1 else ''
 
 
@@ -78,3 +89,8 @@ def check_old_name(name, row):
     exp = _tokens(model)
     ok = got == exp or (exp == ['se', '1'] and got == ['se']) or (exp == ['17', 'air'] and got == ['air'])
     return None if ok else f'в названии «iPhone {" ".join(got)}», в таблице «iPhone {model}»'
+
+
+def need_tokens(model, device):
+    need = [t for t in _tokens(model) if t not in _tokens(device) or t in ('se',)]
+    return [t for t in need if not re.fullmatch(r'm\d', t)]
