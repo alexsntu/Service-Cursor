@@ -26,6 +26,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument('photo')
 ap.add_argument('slug')
 ap.add_argument('cat', type=int)
+ap.add_argument('--no-crop', action='store_true', help='ставить фото как есть, без обрезки полей и без увеличения (владелец 2026-10-01)')
 ap.add_argument('--dry-run', action='store_true')
 args = ap.parse_args()
 
@@ -46,10 +47,16 @@ def cs(method, path, data=None):
 im = Image.open(os.path.expanduser(args.photo))
 fmt = im.format or 'JPEG'
 ext = {'JPEG': 'jpg', 'PNG': 'png', 'WEBP': 'webp'}.get(fmt, 'jpg')
-b = _bbox(im)
+b = None if args.no_crop else _bbox(im)
 if b:
     im = im.crop(b)
-print(f'фото {os.path.basename(args.photo)}: обрезано до {im.size[0]}×{im.size[1]}' + ('  ⚠️ меньше 500 по стороне' if min(im.size) < 500 else ''))
+print(f'фото {os.path.basename(args.photo)}: обрезано до {im.size[0]}×{im.size[1]}')
+# Карточка (UT2) берёт миниатюру до 750 px и меньшие фото НЕ увеличивает — маленький исходник выглядит мелко.
+# Поэтому доводим длинную сторону до 750 (LANCZOS); лучше присылать исходники от 1000 px.
+if max(im.size) < 750 and not args.no_crop:
+    k = 750 / max(im.size)
+    im = im.resize((round(im.size[0] * k), round(im.size[1] * k)), Image.LANCZOS)
+    print(f'  увеличено до {im.size[0]}×{im.size[1]} (исходник мал; лучше от 1000 px)')
 name = f'{args.slug}-service.{ext}'
 url = f'https://dev.irepair.ru/images/content/catalog/{name}'
 
