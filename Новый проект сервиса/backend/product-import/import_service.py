@@ -244,20 +244,22 @@ for r in all_rows:
 for _n_row in args.table_row:
     r = all_rows[_n_row - 1]
     _m = re.search(r'product_id=(\d+)', str(r[1] or ''))
-    assert _m, f'строка {_n_row}: нет ссылки на старый товар (столбец B)'
+    _oid = int(_m.group(1)) if _m else (args.old_id or None)  # нет ссылки и нет --old-id — товара на старом сайте нет: без описания и фото
+    if _oid is None:
+        assert args.code and args.name and args.slug, f'строка {_n_row}: нет старого товара — нужны --code, --name, --slug'
     _price, _approx = _bp.parse_price(r[50])
     assert _price, f'строка {_n_row}: нет цены в столбце AY ({r[50]!r})'
     _part = str(r[8] or '').strip()
-    items.append({'ro': f'OLD-{_m.group(1)}', 'title': '', 'price': int(_price), 'ro_price': 0, 'from_price': bool(_approx), 'row': r,
-                  'value': '' if _part in ('', '-') else _part, 'old_id': int(_m.group(1)),
+    items.append({'ro': f'OLD-{_oid}' if _oid else (args.code or ''), 'title': args.name or '', 'price': int(_price), 'ro_price': 0, 'from_price': bool(_approx), 'row': r,
+                  'value': '' if _part in ('', '-') else _part, 'old_id': _oid,
                   'warranty': warranty_text(r[11]) if r[11] not in (None, '') else warranty_text(1)})
-    print(f'строка таблицы {_n_row}: {r[9]} {r[6]} {r[7]} | цена {"от " if _approx else ""}{int(_price)} | старый товар {_m.group(1)}')
+    print(f'строка таблицы {_n_row}: {r[9]} {r[6]} {r[7]} | цена {"от " if _approx else ""}{int(_price)} | старый товар {_oid or "нет"}')
 title_errors = []
 _models = {re.sub(r'\s+', ' ', str(rows[it['ro']][7]).replace('.0', '')).strip().lower() for it in items if not it['ro'].startswith('OLD-') and it['ro'] in rows}
 assert len(_models) <= 1, f'в одном запуске строки разных моделей: {_models} — проверить столбец B таблицы (один старый товар на две модели?)'
 for it in items:
-    if it['ro'].startswith('OLD-'):
-        continue  # --old-product: в таблице строки нет
+    if it['ro'].startswith('OLD-') or it.get('row') is not None:
+        continue  # --old-product / --table-row: данные уже взяты
     r = rows[it['ro']]
     # Проверка (владелец 2026-09-30): название услуги в RemOnline должно соответствовать таблице (title_check.py) —
     # иначе код перепутан; все расхождения собираем и останавливаемся до создания
