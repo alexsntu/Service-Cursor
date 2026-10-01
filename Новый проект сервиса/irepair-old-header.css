@@ -3313,3 +3313,10 @@ html.irepair-search-lock body {
   line-height: 28px;
   font-weight: 400;
 }
+
+/* iRepair (2026-10-01): карточка услуги — цена ориентировочная (характеристика 19 «Цена «от»»):
+   шаблон оборачивает цену в .irepair-price-from, здесь дописываем «от» перед суммой */
+.irepair-price-from .ty-price bdi::before,
+body:has(.irepair-price-from) .ut2-pb__sticky-add-to-cart_price .ty-price bdi::before {
+  content: "от ";
+}
