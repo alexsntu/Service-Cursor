@@ -10,6 +10,7 @@ import re
 
 def _n(x):
     x = str(x or '').replace('ё', 'е').replace('Ё', 'Е').replace('М', 'M')  # кириллическая «М4» в таблице
+    x = re.sub(r'(?<=\d)[еЕ]\b', 'e', x)  # «16е» кириллицей = «16e»
     x = re.sub(r'\s*/\s*', '/', x)  # «громкости/блокировки» = «громкости / блокировки»
     return re.sub(r'\s+', ' ', x).strip().lower()
 

@@ -232,6 +232,8 @@ for r in all_rows:
     elif r[4] is not None:
         module_warranty[str(r[4]).replace('.0', '')] = cur_mod
 title_errors = []
+_models = {re.sub(r'\s+', ' ', str(rows[it['ro']][7]).replace('.0', '')).strip().lower() for it in items if not it['ro'].startswith('OLD-') and it['ro'] in rows}
+assert len(_models) <= 1, f'в одном запуске строки разных моделей: {_models} — проверить столбец B таблицы (один старый товар на две модели?)'
 for it in items:
     if it['ro'].startswith('OLD-'):
         continue  # --old-product: в таблице строки нет
