@@ -300,6 +300,8 @@ if args.old_id:
     print(f'старый товар задан вручную: {args.old_id} (в таблице: {sorted({it["old_id"] for it in items})})')
     for it in items:
         it['old_id'] = args.old_id
+        if it['ro'].startswith('OLD-') and it.get('row') is not None:
+            it['ro'] = f'OLD-{args.old_id}'  # строка таблицы на серию: код — по своему старому товару модели
 old_ids = {it['old_id'] for it in items}
 assert len(old_ids) == 1, f'варианты ссылаются на разные старые товары: {old_ids}'
 old_id = old_ids.pop()

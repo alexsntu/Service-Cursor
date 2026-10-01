@@ -88,6 +88,10 @@ def check_old_name(name, row):
         else:
             break
     exp = _tokens(model)
+    _ser = re.match(r'(\d+)\s*я?\s*серия', str(model).strip().lower())
+    if _ser:  # строка таблицы на всю серию («17я серия») — модель старого товара должна быть из этой серии
+        return None if got and re.match(_ser.group(1) + r'(?!\d)', got[0]) or (got and got[0] == 'air' and _ser.group(1) == '17') \
+            else f'в названии «iPhone {" ".join(got)}», в таблице «{model}»'
     ok = got == exp or (exp == ['se', '1'] and got == ['se']) or (exp == ['17', 'air'] and got == ['air'])
     return None if ok else f'в названии «iPhone {" ".join(got)}», в таблице «iPhone {model}»'
 
