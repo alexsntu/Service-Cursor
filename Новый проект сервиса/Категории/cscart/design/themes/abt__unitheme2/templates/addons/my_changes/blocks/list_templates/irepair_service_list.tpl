@@ -122,6 +122,16 @@
                     {/if}
                 </div>
 
+                {* характеристики товара (в списке категории CS-Cart их не грузит — берём сами): 5 «Время ремонта», 19 «Цена «от»» *}
+                {$irp_sl_features = ["product_id" => $product.product_id]|fn_get_product_features_list:"A"}
+                {$irp_sl_from = ($irp_sl_features.19.value == "Y")}
+                {* «от» у группы вариантов — только если в ней больше одного товара (у групп из одного товара цена точная) *}
+                {$irp_sl_vcount = 0}
+                {foreach $product.variation_features_variants|default:[] as $irp_sl_vf}
+                    {$irp_sl_vc = 0}
+                    {foreach $irp_sl_vf.variants as $irp_sl_vv}{if $irp_sl_vv.product.product_id}{$irp_sl_vc = $irp_sl_vc + 1}{/if}{/foreach}
+                    {if $irp_sl_vc > $irp_sl_vcount}{$irp_sl_vcount = $irp_sl_vc}{/if}
+                {/foreach}
                 <div class="irepair-sl__price">
                     {if $irp_sl_mx_on}
                         {* цена каждого товара группы (видна выбранного) + его значения и подпись для кнопки заявки *}
@@ -129,18 +139,17 @@
                             {$irp_sl_vals = []}
                             {foreach $irp_sl_p.values as $irp_sl_fid => $irp_sl_vid}{$irp_sl_vals[] = "`$irp_sl_fid`:`$irp_sl_vid`"}{/foreach}
                             <p class="irepair-sl__price-value" data-irp-mx-p="{$irp_sl_pid}" data-irp-mx-vals="{","|implode:$irp_sl_vals}"
-                               data-service="{$irp_sl_mx_label[$irp_sl_pid]}" data-price="{$irp_sl_p.price|intval}"{if $irp_sl_pid != $product.product_id} hidden{/if}>{include file="common/price.tpl" value=$irp_sl_p.price}</p>
+                               data-service="{$irp_sl_mx_label[$irp_sl_pid]}" data-price="{$irp_sl_p.price|intval}"{if $irp_sl_pid != $product.product_id} hidden{/if}>{if $irp_sl_from}от {/if}{include file="common/price.tpl" value=$irp_sl_p.price}</p>
                         {/foreach}
                     {elseif $irp_sl_opts}
                         {* цена каждого варианта; видна цена выбранного *}
                         {foreach $irp_sl_opts as $irp_sl_o}
-                            <p class="irepair-sl__price-value" data-irp-opt-price="{$irp_sl_o.id}"{if $irp_sl_o.id != $irp_sl_active.id} hidden{/if}>{include file="common/price.tpl" value=$irp_sl_o.price}</p>
+                            <p class="irepair-sl__price-value" data-irp-opt-price="{$irp_sl_o.id}"{if $irp_sl_o.id != $irp_sl_active.id} hidden{/if}>{if $irp_sl_from}от {/if}{include file="common/price.tpl" value=$irp_sl_o.price}</p>
                         {/foreach}
                     {else}
-                        <p class="irepair-sl__price-value">{if $product.variation_group_id}от {/if}{include file="common/price.tpl" value=$product.price}</p>
+                        <p class="irepair-sl__price-value">{if ($product.variation_group_id && $irp_sl_vcount > 1) || $irp_sl_from}от {/if}{include file="common/price.tpl" value=$product.price}</p>
                     {/if}
-                    {* время ремонта — характеристика id 5 «Время ремонта» (в списке категории CS-Cart характеристики не грузит — берём сами) *}
-                    {$irp_sl_features = ["product_id" => $product.product_id]|fn_get_product_features_list:"A"}
+                    {* время ремонта — характеристика id 5 (загружены выше) *}
                     {if $irp_sl_features.5.value}
                         <span class="irepair-sl__time">{$irp_sl_features.5.value}</span>
                     {/if}

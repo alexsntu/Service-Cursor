@@ -67,10 +67,14 @@ ap.add_argument('--position', type=int, default=0, help='позиция услу
                                                        'напр. аккумулятор iPhone 10, дисплей 20); категории сортируются по позиции')
 ap.add_argument('--old-id', type=int, help='свой старый товар вместо столбца B таблицы — если в таблице ссылка перепутана (напр. 6S ↔ 6 Plus)')
 ap.add_argument('--skip-title-check', nargs='*', default=[], help='RO id, у которых кривое название в RemOnline — сверено вручную')
+ap.add_argument('--time', help='своё время ремонта вместо старого (если на старом сайте опечатка/мусор)')
 ap.add_argument('--dry-run', action='store_true')
 ap.add_argument('ro_ids', nargs='*')
+ap.add_argument('--table-row', type=int, nargs='*', default=[], help='услуги нет в RemOnline (владелец 2026-10-01: «Ремонт материнской платы»): '
+                                                                  'берём строки таблицы по номерам — цена AY («от …» → признак 19 «Цена «от»»), '
+                                                                  'старый товар B, код товара OLD-<старый товар>; обновлять потом из таблицы/вручную')
 args = ap.parse_args()
-assert bool(args.ro_ids) != bool(args.old_product), 'нужны либо RO id, либо --old-product'
+assert sum(map(bool, (args.ro_ids, args.old_product, args.table_row))) == 1, 'нужны либо RO id, либо --old-product, либо --table-row'
 
 AUTH = 'Basic ' + base64.b64encode(os.environ['CSCART_AUTH'].encode()).decode()
 
@@ -231,6 +235,19 @@ for r in all_rows:
         cur_mod = {k.upper().replace('ОЕМ', 'OEM'): warranty_text(v, bool(d)) for k, v, d in re.findall(r'(AASP|OEM|ОЕМ|HQ)\s+(\d+)\s*(д)?', str(r[13] or ''))}
     elif r[4] is not None:
         module_warranty[str(r[4]).replace('.0', '')] = cur_mod
+
+# 1''. Строки таблицы без кода RemOnline (--table-row)
+for _n_row in args.table_row:
+    r = all_rows[_n_row - 1]
+    _m = re.search(r'product_id=(\d+)', str(r[1] or ''))
+    assert _m, f'строка {_n_row}: нет ссылки на старый товар (столбец B)'
+    _price, _approx = _bp.parse_price(r[50])
+    assert _price, f'строка {_n_row}: нет цены в столбце AY ({r[50]!r})'
+    _part = str(r[8] or '').strip()
+    items.append({'ro': f'OLD-{_m.group(1)}', 'title': '', 'price': int(_price), 'ro_price': 0, 'from_price': bool(_approx), 'row': r,
+                  'value': '' if _part in ('', '-') else _part, 'old_id': int(_m.group(1)),
+                  'warranty': warranty_text(r[11]) if r[11] not in (None, '') else warranty_text(1)})
+    print(f'строка таблицы {_n_row}: {r[9]} {r[6]} {r[7]} | цена {"от " if _approx else ""}{int(_price)} | старый товар {_m.group(1)}')
 title_errors = []
 _models = {re.sub(r'\s+', ' ', str(rows[it['ro']][7]).replace('.0', '')).strip().lower() for it in items if not it['ro'].startswith('OLD-') and it['ro'] in rows}
 assert len(_models) <= 1, f'в одном запуске строки разных моделей: {_models} — проверить столбец B таблицы (один старый товар на две модели?)'
@@ -327,8 +344,9 @@ if old_id is not None:
     name, meta_title, meta_desc = [html.unescape(unesc(x)).strip() for x in (name, meta_title, meta_desc)]
     # Проверка (2026-09-30): старый товар должен быть той же модели, что строка таблицы (ссылка в столбце B бывает перепутана)
     if not args.old_product:
-        _oerr = title_check.check_old_name(name, rows[items[0]['ro']])
+        _oerr = title_check.check_old_name(name, items[0].get('row') or rows[items[0]['ro']])
         assert not _oerr, f'старый товар {old_id} «{name}» не той модели: {_oerr} — поправить столбец B таблицы или --old-id'
+    name = re.sub(r'\s+', ' ', name).strip()  # на старом сайте бывают двойные пробелы
     if args.name:
         print(f'название: «{name}» → «{args.name}»')
         name = args.name
@@ -336,6 +354,9 @@ if old_id is not None:
     main_img, upc = (blocks[2][0].split('\t') + [''])[:2]
     extra_imgs = [x.strip() for x in blocks[3]] if len(blocks) > 3 and blocks[3] is not cat_path_rows else []
     upc = upc.strip()
+    if args.time:
+        print(f'время ремонта: «{upc}» → «{args.time}»')
+        upc = args.time
     desc_in = html.unescape(unesc(desc_raw))
     assert not any(ord(ch) > 0xFFFF for ch in name + meta_title + meta_desc + desc_in), '4-байтовые символы (эмодзи) — CS-Cart их не сохранит'
     # старый адрес — только по столбцу B (номер старого товара) через старую базу: путь главной категории + slug товара.
@@ -432,6 +453,8 @@ for n, it in enumerate(items):
         features['4'] = it['warranty']
     if upc:
         features['5'] = upc
+    if it.get('from_price'):
+        features['19'] = 'Y'  # «Цена «от»» — карточка и список показывают «от 35 000 ₽»
     it['features'] = features
     body = dict(product=name if n == 0 else variant_name(it), price=it['price'], product_code=it['ro'] if it['ro'].startswith('OLD-') else f"RO-{it['ro']}",
                 status='A', category_ids=[args.cat], main_category=args.cat, company_id=1,

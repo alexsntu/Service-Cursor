@@ -90,7 +90,11 @@
                                 {assign var="list_discount" value="list_discount_`$obj_id`"}
                                 {assign var="discount_label" value="discount_label_`$obj_id`"}
 
+                                {* iRepair (2026-10-01): характеристика 19 «Цена «от»» — цена ориентировочная, CSS (irepair-old-header.css) пишет «от» перед ценой *}
+                                {$irp_pf = ["product_id" => $product.product_id]|fn_get_product_features_list:"A"}
+                                {if $irp_pf.19.value == "Y"}<div class="irepair-price-from">{/if}
                                 {include file="blocks/product_templates/components/product_price.tpl"}
+                                {if $irp_pf.19.value == "Y"}</div>{/if}
 
                                 {hook name="products:promo_text"}
                                 {if $product.promo_text}

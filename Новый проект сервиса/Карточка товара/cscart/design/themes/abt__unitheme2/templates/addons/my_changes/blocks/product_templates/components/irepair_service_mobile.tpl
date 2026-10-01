@@ -94,7 +94,11 @@
                     {include file="blocks/product_templates/components/product_rating.tpl"}
                 </div>
 
+                {* iRepair (2026-10-01): характеристика 19 «Цена «от»» — цена ориентировочная, CSS (irepair-old-header.css) пишет «от» перед ценой *}
+                {$irp_pf = ["product_id" => $product.product_id]|fn_get_product_features_list:"A"}
+                {if $irp_pf.19.value == "Y"}<div class="irepair-price-from">{/if}
                 {include file="blocks/product_templates/components/product_price.tpl"}
+                {if $irp_pf.19.value == "Y"}</div>{/if}
 
                 {* iRepair: промо-блок (ремонт / курьер / гарантия) — на мобильном под ценой *}
                 {include file="addons/my_changes/components/irepair_product_promo.tpl"}
