@@ -68,9 +68,13 @@ def check_old_name(name, row):
     if device.lower() != 'iphone':
         return None
     toks = _tokens(name)
-    if 'iphone' not in toks and 'айфон' not in toks:
-        return None
-    i = toks.index('iphone') if 'iphone' in toks else toks.index('айфон')
-    got, exp = toks[i + 1:], _tokens(model)
+    # модель — в конце названия: собираем «модельные» слова с конца («… блокировки 15 Pro Max» — без слова iPhone тоже)
+    got = []
+    for t in reversed(toks):
+        if re.fullmatch(r'\d+[es]?|se|x|xr|xs|pro|max|plus|mini|air', t):
+            got.insert(0, t)
+        else:
+            break
+    exp = _tokens(model)
     ok = got == exp or (exp == ['se', '1'] and got == ['se']) or (exp == ['17', 'air'] and got == ['air'])
     return None if ok else f'в названии «iPhone {" ".join(got)}», в таблице «iPhone {model}»'

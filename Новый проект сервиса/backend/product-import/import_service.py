@@ -249,7 +249,9 @@ for it in items:
     assert not approx, f"RO {it['ro']}: в таблице цена «от …» ({r[50]}) — уточнить у владельца"
     if it['ro_price'] != it['price']:
         print(f"!!! RO {it['ro']}: цена в таблице {it['price']}, в RemOnline {it['ro_price']} — берём из таблицы")
-    it['old_id'] = int(re.search(r'product_id=(\d+)', r[1]).group(1))
+    _m = re.search(r'product_id=(\d+)', str(r[1] or ''))
+    # нет ссылки на старый товар (услуги не было на старом сайте) — владелец 2026-10-01: создаём без описания и фото
+    it['old_id'] = int(_m.group(1)) if _m else None
     mod = module_warranty.get(it['ro'], {})
     # тип запчасти не указан (в таблице «-»), а в «Модуле» у всех типов один срок («AASP 12 | ОЕМ 12») — берём его
     mod_same = next(iter(mod.values())) if mod and len(set(mod.values())) == 1 else ''
@@ -278,71 +280,81 @@ old_ids = {it['old_id'] for it in items}
 assert len(old_ids) == 1, f'варианты ссылаются на разные старые товары: {old_ids}'
 old_id = old_ids.pop()
 
-# 3. Старый сайт (только чтение)
-q = (f'select name, meta_title, meta_description, description from oc_product_description where product_id={old_id} and language_id=1;'
-     f'select keyword from oc_seo_url where query="product_id={old_id}";'
-     f'select image, upc from oc_product where product_id={old_id};'
-     f'select image from oc_product_image where product_id={old_id} order by sort_order;'
-     # путь главной категории товара (для старого адреса, если столбец D пуст)
-     f'select cp.level, su.keyword as cat_keyword from oc_product_to_category p2c '
-     f'join oc_category_path cp on cp.category_id = p2c.category_id '
-     f'join oc_seo_url su on su.query = concat("category_id=", cp.path_id) and su.language_id = 1 '
-     f'where p2c.product_id = {old_id} and p2c.main_category = 1 order by cp.level;')
-remote = ('cd ~/www/irepair.ru && P=$(php -r "include \\"config.php\\"; echo DB_PASSWORD;") && '
-          f"mysql -uocstore -p\"$P\" ocstore --batch -e '{q}' 2>/dev/null")
-# байты, а не text=True: в старых данных бывает \r, текстовый режим превратил бы его в перенос строки
-# SSH до старого сервера иногда отвечает 255, бывает по минуте подряд — повторяем (до 8 попыток, пауза 20 с)
-for attempt in range(8):
-    try:
-        out = subprocess.run(['sshpass', '-e', 'ssh', '-o', 'ConnectTimeout=20', OLD_SSH, remote],
-                             capture_output=True, check=True).stdout.decode('utf-8').split('\n')
-        break
-    except subprocess.CalledProcessError:
-        if attempt == 7:
-            raise
-        time.sleep(20)
+if old_id is not None:
+    # 3. Старый сайт (только чтение)
+    q = (f'select name, meta_title, meta_description, description from oc_product_description where product_id={old_id} and language_id=1;'
+         f'select keyword from oc_seo_url where query="product_id={old_id}";'
+         f'select image, upc from oc_product where product_id={old_id};'
+         f'select image from oc_product_image where product_id={old_id} order by sort_order;'
+         # путь главной категории товара (для старого адреса, если столбец D пуст)
+         f'select cp.level, su.keyword as cat_keyword from oc_product_to_category p2c '
+         f'join oc_category_path cp on cp.category_id = p2c.category_id '
+         f'join oc_seo_url su on su.query = concat("category_id=", cp.path_id) and su.language_id = 1 '
+         f'where p2c.product_id = {old_id} and p2c.main_category = 1 order by cp.level;')
+    remote = ('cd ~/www/irepair.ru && P=$(php -r "include \\"config.php\\"; echo DB_PASSWORD;") && '
+              f"mysql -uocstore -p\"$P\" ocstore --batch -e '{q}' 2>/dev/null")
+    # байты, а не text=True: в старых данных бывает \r, текстовый режим превратил бы его в перенос строки
+    # SSH до старого сервера иногда отвечает 255, бывает по минуте подряд — повторяем (до 8 попыток, пауза 20 с)
+    for attempt in range(8):
+        try:
+            out = subprocess.run(['sshpass', '-e', 'ssh', '-o', 'ConnectTimeout=20', OLD_SSH, remote],
+                                 capture_output=True, check=True).stdout.decode('utf-8').split('\n')
+            break
+        except subprocess.CalledProcessError:
+            if attempt == 7:
+                raise
+            time.sleep(20)
 
 
-def unesc(s):
-    return s.replace('\\\\', '\x00').replace('\\n', '\n').replace('\\t', '\t').replace('\\r', '\r').replace('\x00', '\\')
+    def unesc(s):
+        return s.replace('\\\\', '\x00').replace('\\n', '\n').replace('\\t', '\t').replace('\\r', '\r').replace('\x00', '\\')
 
 
-# вывод --batch: заголовок + строки для каждого запроса
-blocks, cur, cat_path_rows = [], None, []
-for line in out:
-    if line in ('name\tmeta_title\tmeta_description\tdescription', 'keyword', 'image\tupc', 'image', 'level\tcat_keyword'):
-        cur = []
-        blocks.append(cur)
-        if line == 'level\tcat_keyword':
-            cat_path_rows = cur
-    elif cur is not None and line:
-        cur.append(line)
-name, meta_title, meta_desc, desc_raw = blocks[0][0].split('\t')
-name, meta_title, meta_desc = [html.unescape(unesc(x)).strip() for x in (name, meta_title, meta_desc)]
-# Проверка (2026-09-30): старый товар должен быть той же модели, что строка таблицы (ссылка в столбце B бывает перепутана)
-if not args.old_product:
-    _oerr = title_check.check_old_name(name, rows[items[0]['ro']])
-    assert not _oerr, f'старый товар {old_id} «{name}» не той модели: {_oerr} — поправить столбец B таблицы или --old-id'
-if args.name:
-    print(f'название: «{name}» → «{args.name}»')
-    name = args.name
-slug = blocks[1][0].strip()
-main_img, upc = (blocks[2][0].split('\t') + [''])[:2]
-extra_imgs = [x.strip() for x in blocks[3]] if len(blocks) > 3 and blocks[3] is not cat_path_rows else []
-upc = upc.strip()
-desc_in = html.unescape(unesc(desc_raw))
-assert not any(ord(ch) > 0xFFFF for ch in name + meta_title + meta_desc + desc_in), '4-байтовые символы (эмодзи) — CS-Cart их не сохранит'
-# старый адрес — только по столбцу B (номер старого товара) через старую базу: путь главной категории + slug товара.
-# Столбец D не используем: там бывали чужие адреса (9005) и мусор (у iPad 10 — число 160).
-old_url = ''
-if cat_path_rows:
-    old_url = 'https://irepair.ru/' + '/'.join(x.split('\t')[1].strip() for x in cat_path_rows) + '/' + slug + '/'
-    code = head(old_url)[0]
-    if code != 200:
-        print(f'!!! старый адрес {old_url} отвечает {code} — редирект не создаём, проверить вручную')
-        old_url = ''
+    # вывод --batch: заголовок + строки для каждого запроса
+    blocks, cur, cat_path_rows = [], None, []
+    for line in out:
+        if line in ('name\tmeta_title\tmeta_description\tdescription', 'keyword', 'image\tupc', 'image', 'level\tcat_keyword'):
+            cur = []
+            blocks.append(cur)
+            if line == 'level\tcat_keyword':
+                cat_path_rows = cur
+        elif cur is not None and line:
+            cur.append(line)
+    name, meta_title, meta_desc, desc_raw = blocks[0][0].split('\t')
+    name, meta_title, meta_desc = [html.unescape(unesc(x)).strip() for x in (name, meta_title, meta_desc)]
+    # Проверка (2026-09-30): старый товар должен быть той же модели, что строка таблицы (ссылка в столбце B бывает перепутана)
+    if not args.old_product:
+        _oerr = title_check.check_old_name(name, rows[items[0]['ro']])
+        assert not _oerr, f'старый товар {old_id} «{name}» не той модели: {_oerr} — поправить столбец B таблицы или --old-id'
+    if args.name:
+        print(f'название: «{name}» → «{args.name}»')
+        name = args.name
+    slug = blocks[1][0].strip()
+    main_img, upc = (blocks[2][0].split('\t') + [''])[:2]
+    extra_imgs = [x.strip() for x in blocks[3]] if len(blocks) > 3 and blocks[3] is not cat_path_rows else []
+    upc = upc.strip()
+    desc_in = html.unescape(unesc(desc_raw))
+    assert not any(ord(ch) > 0xFFFF for ch in name + meta_title + meta_desc + desc_in), '4-байтовые символы (эмодзи) — CS-Cart их не сохранит'
+    # старый адрес — только по столбцу B (номер старого товара) через старую базу: путь главной категории + slug товара.
+    # Столбец D не используем: там бывали чужие адреса (9005) и мусор (у iPad 10 — число 160).
+    old_url = ''
+    if cat_path_rows:
+        old_url = 'https://irepair.ru/' + '/'.join(x.split('\t')[1].strip() for x in cat_path_rows) + '/' + slug + '/'
+        code = head(old_url)[0]
+        if code != 200:
+            print(f'!!! старый адрес {old_url} отвечает {code} — редирект не создаём, проверить вручную')
+            old_url = ''
+    else:
+        print('!!! у старого товара нет главной категории — старый адрес не найден, редирект не создаём')
 else:
-    print('!!! у старого товара нет главной категории — старый адрес не найден, редирект не создаём')
+    # услуги нет на старом сайте: название — из RemOnline («… iPhone 17e -» → без «-»), адрес — --slug (обязателен),
+    # без описания, мета, фото, времени ремонта и редиректа (владелец добавит сам)
+    assert args.slug, 'услуги нет на старом сайте — нужен --slug'
+    name = args.name or re.sub(r'\s*[-|]\s*$', '', items[0]['title'].split('|')[0]).strip()
+    meta_title = meta_desc = desc_in = upc = main_img = ''
+    extra_imgs, cat_path_rows, old_url = [], [], ''
+    slug = args.slug
+    print(f'!!! услуги нет на старом сайте (столбец B пуст) — создаём без описания и фото: «{name}»')
 
 with tempfile.TemporaryDirectory() as tmp:
     open(os.path.join(tmp, 'in.html'), 'w', encoding='utf-8').write(desc_in)
@@ -381,7 +393,7 @@ if args.model_feature:
     for label, pos in new_models:
         print(f'  новое значение «{label}» у характеристики {args.model_feature}' + (' (dry-run — не создаём)' if args.dry_run else ''))
 
-print(f'Старый товар {old_id}: «{name}» | slug {slug}' + (f' → новый {args.slug}' if args.slug else '') + f' | upc «{upc}» | картинок {1 + len(extra_imgs)} | описание {len(desc)} симв.')
+print(f'Старый товар {old_id}: «{name}» | slug {slug}' + (f' → новый {args.slug}' if args.slug else '') + f' | upc «{upc}» | картинок {(1 if main_img else 0) + len(extra_imgs)} | описание {len(desc)} симв.')
 print('Старый URL:', old_url)
 for it in items:
     print(f"  RO {it['ro']} {it.get('model', '') + ' · ' if args.model_feature else ''}{it['value']} {it['price']} ₽ гарантия «{it['warranty']}»")
@@ -421,7 +433,7 @@ for n, it in enumerate(items):
     body = dict(product=name if n == 0 else variant_name(it), price=it['price'], product_code=it['ro'] if it['ro'].startswith('OLD-') else f"RO-{it['ro']}",
                 status='A', category_ids=[args.cat], main_category=args.cat, company_id=1,
                 page_title=meta_title, meta_description=meta_desc, full_description=desc, product_features=features,
-                main_pair={'detailed': {'image_path': 'https://irepair.ru/image/' + main_img, 'alt': name}})
+                **({'main_pair': {'detailed': {'image_path': 'https://irepair.ru/image/' + main_img, 'alt': name}}} if main_img else {}))
     if extra_imgs:
         body['image_pairs'] = [{'detailed': {'image_path': 'https://irepair.ru/image/' + x, 'alt': name}} for x in extra_imgs]
     if n == 0:
