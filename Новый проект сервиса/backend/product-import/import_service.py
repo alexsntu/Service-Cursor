@@ -68,6 +68,10 @@ ap.add_argument('--position', type=int, default=0, help='позиция услу
 ap.add_argument('--old-id', type=int, help='свой старый товар вместо столбца B таблицы — если в таблице ссылка перепутана (напр. 6S ↔ 6 Plus)')
 ap.add_argument('--skip-title-check', nargs='*', default=[], help='RO id, у которых кривое название в RemOnline — сверено вручную')
 ap.add_argument('--time', help='своё время ремонта вместо старого (если на старом сайте опечатка/мусор)')
+ap.add_argument('--no-redirect', action='store_true', help='не ставить 301 со старого адреса (товар-копия другой модели, напр. 17e по данным 17)')
+ap.add_argument('--code', help='свой код товара (напр. OLD-9074-17e — копия, чтобы не совпасть с кодом исходного товара)')
+ap.add_argument('--rename-model', nargs=2, metavar=('FROM', 'TO'), help='копия другой модели: заменить «iPhone 17» → «iPhone 17e» в мета и описании '
+                                                                       '(не трогая «iPhone 17 Pro», «17 Air» и т. п.)')
 ap.add_argument('--dry-run', action='store_true')
 ap.add_argument('ro_ids', nargs='*')
 ap.add_argument('--table-row', type=int, nargs='*', default=[], help='услуги нет в RemOnline (владелец 2026-10-01: «Ремонт материнской платы»): '
@@ -402,6 +406,13 @@ desc = re.sub(r'<svg\b(?:(?!</svg>).)*?59B561.*?</svg>\s*', '', desc, flags=re.S
 if _n:
     print(f'FAQ: убраны заголовок «Популярные вопросы» и {_n} иконок')
 
+if args.rename_model:
+    _from, _to = args.rename_model
+    _rx = re.compile(re.escape(_from) + r'(?![0-9A-Za-zА-Яа-я]|\s+(?:Pro|Plus|Max|Mini|mini|Air|e|E)\b)')
+    _cnt = sum(len(_rx.findall(x)) for x in (meta_title, meta_desc, desc))
+    meta_title, meta_desc, desc = (_rx.sub(_to, x) for x in (meta_title, meta_desc, desc))
+    print(f'«{_from}» → «{_to}» в мета и описании: {_cnt} замен')
+
 # значения характеристики вариантов
 variant_ids = {}
 if args.feature:
@@ -456,7 +467,7 @@ for n, it in enumerate(items):
     if it.get('from_price'):
         features['19'] = 'Y'  # «Цена «от»» — карточка и список показывают «от 35 000 ₽»
     it['features'] = features
-    body = dict(product=name if n == 0 else variant_name(it), price=it['price'], product_code=it['ro'] if it['ro'].startswith('OLD-') else f"RO-{it['ro']}",
+    body = dict(product=name if n == 0 else variant_name(it), price=it['price'], product_code=(args.code if args.code and n == 0 else it['ro'] if it['ro'].startswith('OLD-') else f"RO-{it['ro']}"),
                 status='A', category_ids=[args.cat], main_category=args.cat, company_id=1,
                 page_title=meta_title, meta_description=meta_desc, full_description=desc, product_features=features,
                 **({'main_pair': {'detailed': {'image_path': 'https://irepair.ru/image/' + main_img, 'alt': name}}} if main_img else {}))
@@ -497,7 +508,9 @@ for line in filter(None, auto.split('\n')):
     rid, src = line.split('\t')
     sql_new(f'delete from cscart_seo_redirects where redirect_id={rid}')
     print('удалён авто-редирект', rid, src)
-src = re.sub(r'^https?://[^/]+', '', old_url).rstrip('/') if old_url else ''
+src = re.sub(r'^https?://[^/]+', '', old_url).rstrip('/') if old_url and not args.no_redirect else ''
+if args.no_redirect:
+    print('редирект со старого адреса не ставим (--no-redirect)')
 if src:
     # если новый адрес товара совпадает со старым — редирект не нужен
     if head('https://dev.irepair.ru' + src + '/')[0] == 200:
