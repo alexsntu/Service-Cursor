@@ -12,7 +12,8 @@ def _n(x):
     x = str(x or '').replace('ё', 'е').replace('Ё', 'Е').replace('М', 'M')  # кириллическая «М4» в таблице
     x = re.sub(r'(?<=\d)[еЕ]\b', 'e', x)  # «16е» кириллицей = «16e»
     x = re.sub(r'\s*/\s*', '/', x)  # «громкости/блокировки» = «громкости / блокировки»
-    return re.sub(r'\s+', ' ', x).strip().lower()
+    x = re.sub(r'\s+', ' ', x).strip().lower()
+    return re.sub(r'(?<![а-яa-z])[оo][еe][мm](?![а-яa-z])', 'oem', x)  # «ОЕМ» кириллицей = OEM
 
 
 def _tokens(x):

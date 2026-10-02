@@ -72,6 +72,9 @@ ap.add_argument('--no-redirect', action='store_true', help='не ставить 
 ap.add_argument('--code', help='свой код товара (напр. OLD-9074-17e — копия, чтобы не совпасть с кодом исходного товара)')
 ap.add_argument('--rename-model', nargs=2, metavar=('FROM', 'TO'), help='копия другой модели: заменить «iPhone 17» → «iPhone 17e» в мета и описании '
                                                                        '(не трогая «iPhone 17 Pro», «17 Air» и т. п.)')
+ap.add_argument('--type-with-service', action='store_true', help='значение опции = тип + услуга таблицы: «OEM (Замена матрицы)» (MacBook дисплей)')
+ap.add_argument('--model-n-alias', nargs=2, action='append', default=[], metavar=('FROM', 'TO'),
+                help='заменить столбец N «FROM» на «TO» (одна конфигурация вместо двух, напр. Pro 14 M5 «A3434» → «A3434 / A3426 / A3427»)')
 ap.add_argument('--dry-run', action='store_true')
 ap.add_argument('ro_ids', nargs='*')
 ap.add_argument('--table-row', type=int, nargs='*', default=[], help='услуги нет в RemOnline (владелец 2026-10-01: «Ремонт материнской платы»): '
@@ -223,7 +226,9 @@ if args.old_product:
 # 1. RemOnline
 for sid in args.ro_ids:
     title, price = ro(sid)
-    items.append({'ro': sid, 'title': title, 'price': price, 'value': title.split('|')[-1].strip() if '|' in title else ''})
+    _v = title.split('|')[-1].strip() if '|' in title else ''
+    _v = {'ОЕМ': 'OEM', 'ОЕM': 'OEM', 'OЕМ': 'OEM'}.get(_v, _v)  # в RemOnline бывает кириллица
+    items.append({'ro': sid, 'title': title, 'price': price, 'value': _v})
     time.sleep(0.4)
 items.sort(key=lambda x: x['price'])
 
@@ -284,8 +289,15 @@ for it in items:
     it['warranty'] = warranty_text(r[11]) if r[11] not in (None, '') else mod.get(it['value'].upper(), '' if it['value'] else mod_same)
     # владелец 2026-09-28: гарантия нигде не указана → всегда 1 месяц
     it['warranty'] = it['warranty'] or warranty_text(1)
+    if not it['value'] and str(r[8] or '').strip() not in ('', '-'):
+        it['value'] = str(r[8]).strip()  # в названии RemOnline нет «| тип» — берём тип из таблицы
+    if args.type_with_service:
+        # MacBook дисплей: «OEM (Замена матрицы)» / «AASP (Замена дисплея в сборе)» — тип + услуга таблицы
+        it['value'] = f"{it['value']} ({str(r[9]).split('|')[0].strip()})"
     if args.model_feature:
-        it['model'], it['model_pos'] = model_label(str(r[13] or ''), str(r[7] or ''))
+        _nval = str(r[13] or '').strip()
+        _nval = dict((a.strip(), b.strip()) for a, b in args.model_n_alias).get(_nval, _nval)
+        it['model'], it['model_pos'] = model_label(_nval, str(r[7] or ''))
 assert not title_errors, 'название услуги в RemOnline не совпадает с таблицей:\n  ' + '\n  '.join(title_errors)
 items.sort(key=lambda x: x['price'])
 bad = [it['ro'] for it in items if not it['price']]
@@ -304,6 +316,11 @@ if args.old_id:
         it['old_id'] = args.old_id
         if it['ro'].startswith('OLD-') and it.get('row') is not None:
             it['ro'] = f'OLD-{args.old_id}'  # строка таблицы на серию: код — по своему старому товару модели
+_known = {it['old_id'] for it in items if it['old_id']}
+if len(_known) == 1:
+    for it in items:
+        if not it['old_id']:
+            it['old_id'] = next(iter(_known))  # строка без ссылки на старый товар — в товар своей группы
 old_ids = {it['old_id'] for it in items}
 assert len(old_ids) == 1, f'варианты ссылаются на разные старые товары: {old_ids}'
 old_id = old_ids.pop()
