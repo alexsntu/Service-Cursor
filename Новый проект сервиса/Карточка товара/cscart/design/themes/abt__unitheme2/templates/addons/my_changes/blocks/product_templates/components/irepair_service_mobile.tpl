@@ -100,9 +100,8 @@
                 {include file="blocks/product_templates/components/product_price.tpl"}
                 {if $irp_pf.19.value == "Y"}</div>{/if}
 
-                {* iRepair: промо-блок (ремонт / курьер / гарантия) — на мобильном под ценой *}
-                {include file="addons/my_changes/components/irepair_product_promo.tpl"}
-                {* iRepair: бонусные баллы «N вернем баллами» — под преимуществами *}
+                {* iRepair (2026-10-02, владелец): на телефоне порядок — цена → баллы → опции → кнопка → промо *}
+                {* iRepair: бонусные баллы «N вернем баллами» — сразу под ценой *}
                 {include file="addons/my_changes/components/irepair_reward_points.tpl"}
                 {* iRepair: «Оформить заявку» открывает попап заявки вместо корзины *}
                 {include file="addons/my_changes/components/irepair_lead_button.tpl"}
@@ -171,6 +170,9 @@
                     {$smarty.capture.$list_buttons nofilter}
                 </div>
                 {if $capture_buttons}{/capture}{/if}
+
+                {* iRepair: промо-блок (ремонт / курьер / гарантия) — на телефоне после кнопки *}
+                {include file="addons/my_changes/components/irepair_product_promo.tpl"}
 
                 {hook name="products:ab__s_pictograms_pos_2"}{/hook}
 
