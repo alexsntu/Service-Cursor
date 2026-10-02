@@ -54,6 +54,8 @@ function fn_my_changes_irepair_variation_matrix($group_id)
                 $feature_id, CART_LANGUAGE
             ),
             'variants' => [],
+            // вид характеристики: dropdown_labels = плитки (тип запчасти) — в списке категории показываем только их
+            'style' => (string) db_get_field('SELECT feature_style FROM ?:product_features WHERE feature_id = ?i', $feature_id),
         ];
     }
 

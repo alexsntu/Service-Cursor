@@ -33,14 +33,20 @@
             {if $product.variation_group_id}{$irp_sl_mx = $product.variation_group_id|fn_my_changes_irepair_variation_matrix}{/if}
             {$irp_sl_mx_on = ($irp_sl_mx.features|default:[]|count > 1 && $irp_sl_mx.products|count > 1 && $irp_sl_mx.products[$product.product_id])}
             {$irp_sl_opts = []}
-            {* MacBook (в группе есть выбор 6 «Модель MacBook», владелец 2026-10-02): конфигурацию в списке не показываем —
-               только тип запчасти; у каждого типа цена самой дешёвой конфигурации с «от» *}
+            {* Глобально (владелец 2026-10-02): в списке категории показываем только выбор типа запчасти (характеристика-плитки,
+               feature_style dropdown_labels); модель, конфигурацию, размер корпуса и др. — нет. У каждого типа цена самой
+               дешёвой конфигурации с «от». В карточке товара все выборы остаются. *}
             {$irp_sl_cfg = false}
-            {if $irp_sl_mx_on && $irp_sl_mx.features[6]}
+            {$irp_sl_hide = false}
+            {$irp_sl_tiles = false}
+            {foreach $irp_sl_mx.features|default:[] as $irp_sl_fid => $irp_sl_f}
+                {if $irp_sl_f.style == "dropdown_labels"}{$irp_sl_tiles = true}{else}{$irp_sl_hide = true}{/if}
+            {/foreach}
+            {if $irp_sl_mx_on && $irp_sl_hide && $irp_sl_tiles}
                 {$irp_sl_cfg = true}
                 {$irp_sl_mx_on = false}
                 {foreach $irp_sl_mx.features as $irp_sl_fid => $irp_sl_f}
-                    {if $irp_sl_fid != 6}
+                    {if $irp_sl_f.style == "dropdown_labels"}
                         {foreach $irp_sl_f.variants as $irp_sl_vid => $irp_sl_v}
                             {$irp_sl_best = 0}
                             {$irp_sl_bestp = 0}
