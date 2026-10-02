@@ -50,7 +50,11 @@ ext = {'JPEG': 'jpg', 'PNG': 'png', 'WEBP': 'webp'}.get(fmt, 'jpg')
 b = None if args.no_crop else _bbox(im)
 if b:
     im = im.crop(b)
-print(f'фото {os.path.basename(args.photo)}: обрезано до {im.size[0]}×{im.size[1]}')
+print(f'фото {os.path.basename(args.photo)}: {im.size[0]}×{im.size[1]}' + ('' if args.no_crop else ' после обрезки'))
+# владелец 2026-10-01: фото больше 1500×1500 — всегда уменьшать до 1500 по длинной стороне (иначе много весит)
+if max(im.size) > 1500:
+    im.thumbnail((1500, 1500), Image.LANCZOS)
+    print(f'  уменьшено до {im.size[0]}×{im.size[1]}')
 # Карточка (UT2) берёт миниатюру до 750 px и меньшие фото НЕ увеличивает — маленький исходник выглядит мелко.
 # Поэтому доводим длинную сторону до 750 (LANCZOS); лучше присылать исходники от 1000 px.
 if max(im.size) < 750 and not args.no_crop:
