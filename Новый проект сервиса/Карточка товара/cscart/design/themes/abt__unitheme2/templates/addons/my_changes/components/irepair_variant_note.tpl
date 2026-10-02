@@ -46,6 +46,7 @@
 .ut2-pb .cm-picker-product-variation-features .ty-product-options__item .ty-product-options__radio--label {
   box-sizing: border-box;
   width: 100%;
+  max-width: none; /* UT2 на телефоне ограничивает плитку 142px — колонки были с разрывом */
   min-height: 40px;
   margin: 0;
   padding: 6px 10px;
