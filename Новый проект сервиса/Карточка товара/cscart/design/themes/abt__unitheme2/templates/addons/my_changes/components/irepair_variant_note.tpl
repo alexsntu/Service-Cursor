@@ -35,5 +35,36 @@
     min-height: 44px;
   }
 }
+/* карточка услуги (2026-10-02): плитки «Тип запчасти» одинакового размера, по 2 в ряд,
+   длинное название — в 2 строки целыми словами (без переноса с дефисом) */
+.ut2-pb .cm-picker-product-variation-features .ty-product-options__item .ty-clear-both {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 8px;
+}
+.ut2-pb .cm-picker-product-variation-features .ty-product-options__item .ty-product-options__radio--label {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 40px;
+  margin: 0;
+  padding: 6px 10px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1.25;
+}
+.ut2-pb .cm-picker-product-variation-features .ty-product-options__radio--label,
+.ut2-pb .cm-picker-product-variation-features .ty-product-options__radio--label * {
+  -webkit-hyphens: manual !important;
+  hyphens: manual !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+@media (max-width: 767px) {
+  .ut2-pb .cm-picker-product-variation-features .ty-product-options__item .ty-product-options__radio--label {
+    padding: 6px 4px;
+  }
+}
 </style>
 {/literal}
