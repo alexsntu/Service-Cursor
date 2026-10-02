@@ -33,7 +33,37 @@
             {if $product.variation_group_id}{$irp_sl_mx = $product.variation_group_id|fn_my_changes_irepair_variation_matrix}{/if}
             {$irp_sl_mx_on = ($irp_sl_mx.features|default:[]|count > 1 && $irp_sl_mx.products|count > 1 && $irp_sl_mx.products[$product.product_id])}
             {$irp_sl_opts = []}
-            {if !$irp_sl_mx_on}
+            {* MacBook (в группе есть выбор 6 «Модель MacBook», владелец 2026-10-02): конфигурацию в списке не показываем —
+               только тип запчасти; у каждого типа цена самой дешёвой конфигурации с «от» *}
+            {$irp_sl_cfg = false}
+            {if $irp_sl_mx_on && $irp_sl_mx.features[6]}
+                {$irp_sl_cfg = true}
+                {$irp_sl_mx_on = false}
+                {foreach $irp_sl_mx.features as $irp_sl_fid => $irp_sl_f}
+                    {if $irp_sl_fid != 6}
+                        {foreach $irp_sl_f.variants as $irp_sl_vid => $irp_sl_v}
+                            {$irp_sl_best = 0}
+                            {$irp_sl_bestp = 0}
+                            {foreach $irp_sl_mx.products as $irp_sl_pid => $irp_sl_p}
+                                {if $irp_sl_p.values[$irp_sl_fid] == $irp_sl_vid && (!$irp_sl_best || $irp_sl_p.price < $irp_sl_bestp)}
+                                    {$irp_sl_best = $irp_sl_pid}
+                                    {$irp_sl_bestp = $irp_sl_p.price}
+                                {/if}
+                            {/foreach}
+                            {if $irp_sl_best}
+                                {$irp_sl_opts[] = [
+                                    "id" => $irp_sl_best,
+                                    "name" => $irp_sl_v.name,
+                                    "price" => $irp_sl_bestp,
+                                    "variant_id" => $irp_sl_vid,
+                                    "active" => ($irp_sl_vid == $irp_sl_mx.products[$product.product_id].values[$irp_sl_fid])
+                                ]}
+                            {/if}
+                        {/foreach}
+                    {/if}
+                {/foreach}
+            {/if}
+            {if !$irp_sl_mx_on && !$irp_sl_cfg}
             {foreach $product.variation_features_variants|default:[] as $irp_sl_feature}
                 {if $irp_sl_feature.variants|count > 1}
                     {* цен вариантов в этих данных нет — берём их одним запросом fn_get_products (вместе с дочерними вариациями) *}
@@ -144,7 +174,7 @@
                     {elseif $irp_sl_opts}
                         {* цена каждого варианта; видна цена выбранного *}
                         {foreach $irp_sl_opts as $irp_sl_o}
-                            <p class="irepair-sl__price-value" data-irp-opt-price="{$irp_sl_o.id}"{if $irp_sl_o.id != $irp_sl_active.id} hidden{/if}>{if $irp_sl_from}от {/if}{include file="common/price.tpl" value=$irp_sl_o.price}</p>
+                            <p class="irepair-sl__price-value" data-irp-opt-price="{$irp_sl_o.id}"{if $irp_sl_o.id != $irp_sl_active.id} hidden{/if}>{if $irp_sl_from || $irp_sl_cfg}от {/if}{include file="common/price.tpl" value=$irp_sl_o.price}</p>
                         {/foreach}
                     {else}
                         <p class="irepair-sl__price-value">{if ($product.variation_group_id && $irp_sl_vcount > 1) || $irp_sl_from}от {/if}{include file="common/price.tpl" value=$product.price}</p>
