@@ -103,6 +103,8 @@
                 {* iRepair (2026-10-02, владелец): на телефоне порядок — цена → баллы → опции → кнопка → промо *}
                 {* iRepair: бонусные баллы «N вернем баллами» — сразу под ценой *}
                 {include file="addons/my_changes/components/irepair_reward_points.tpl"}
+                {* iRepair (2026-10-02, владелец): отступ цена → баллы вдвое меньше (было ≈43px от цены, стало ≈23px) *}
+                <style>.ut2-pb-mobile .irepair-reward .irepair-reward__card { margin-top: 0; }</style>
                 {* iRepair: «Оформить заявку» открывает попап заявки вместо корзины *}
                 {include file="addons/my_changes/components/irepair_lead_button.tpl"}
 
