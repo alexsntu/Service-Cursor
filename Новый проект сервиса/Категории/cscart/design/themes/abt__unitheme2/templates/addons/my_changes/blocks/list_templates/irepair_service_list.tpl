@@ -175,15 +175,15 @@
                             {$irp_sl_vals = []}
                             {foreach $irp_sl_p.values as $irp_sl_fid => $irp_sl_vid}{$irp_sl_vals[] = "`$irp_sl_fid`:`$irp_sl_vid`"}{/foreach}
                             <p class="irepair-sl__price-value" data-irp-mx-p="{$irp_sl_pid}" data-irp-mx-vals="{","|implode:$irp_sl_vals}"
-                               data-service="{$irp_sl_mx_label[$irp_sl_pid]}" data-price="{$irp_sl_p.price|intval}"{if $irp_sl_pid != $product.product_id} hidden{/if}>{if $irp_sl_from}от {/if}{include file="common/price.tpl" value=$irp_sl_p.price}</p>
+                               data-service="{$irp_sl_mx_label[$irp_sl_pid]}" data-price="{$irp_sl_p.price|intval}"{if $irp_sl_pid != $product.product_id} hidden{/if}>{if $irp_sl_from}от&nbsp;{/if}{include file="common/price.tpl" value=$irp_sl_p.price}</p>
                         {/foreach}
                     {elseif $irp_sl_opts}
                         {* цена каждого варианта; видна цена выбранного *}
                         {foreach $irp_sl_opts as $irp_sl_o}
-                            <p class="irepair-sl__price-value" data-irp-opt-price="{$irp_sl_o.id}"{if $irp_sl_o.id != $irp_sl_active.id} hidden{/if}>{if $irp_sl_from || $irp_sl_cfg}от {/if}{include file="common/price.tpl" value=$irp_sl_o.price}</p>
+                            <p class="irepair-sl__price-value" data-irp-opt-price="{$irp_sl_o.id}"{if $irp_sl_o.id != $irp_sl_active.id} hidden{/if}>{if $irp_sl_from || $irp_sl_cfg}от&nbsp;{/if}{include file="common/price.tpl" value=$irp_sl_o.price}</p>
                         {/foreach}
                     {else}
-                        <p class="irepair-sl__price-value">{if ($product.variation_group_id && $irp_sl_vcount > 1) || $irp_sl_from}от {/if}{include file="common/price.tpl" value=$product.price}</p>
+                        <p class="irepair-sl__price-value">{if ($product.variation_group_id && $irp_sl_vcount > 1) || $irp_sl_from}от&nbsp;{/if}{include file="common/price.tpl" value=$product.price}</p>
                     {/if}
                     {* время ремонта — характеристика id 5 (загружены выше) *}
                     {if $irp_sl_features.5.value}
