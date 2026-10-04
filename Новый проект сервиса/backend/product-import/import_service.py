@@ -70,6 +70,7 @@ ap.add_argument('--skip-title-check', nargs='*', default=[], help='RO id, у к�
 ap.add_argument('--time', help='своё время ремонта вместо старого (если на старом сайте опечатка/мусор)')
 ap.add_argument('--old-types-json', help='с --old-product: файл {название старой опции «Тип запчасти»: [тип, значение второй характеристики, позиция, цена]} — '
                 'старый выбор модели отбрасываем, цены и названия свои (SSD MacBook: тип HQ/AASP × объём, решение владельца 2026-10-04)')
+ap.add_argument('--code-suffix', help='с --old-product: хвост к кодам OLD-… (товар-копия для другой модели, чтобы коды не совпали с исходным, напр. -pro14)')
 ap.add_argument('--price', type=int, help='своя цена для всех вариантов (владелец назвал цену: на старом сайте 0 или цены выравниваем)')
 ap.add_argument('--price-from', action='store_true', help='цена ориентировочная — показывать «от …» (характеристика 19)')
 ap.add_argument('--no-redirect', action='store_true', help='не ставить 301 со старого адреса (товар-копия другой модели, напр. 17e по данным 17)')
@@ -310,6 +311,9 @@ for it in items:
         _nval = str(r[13] or '').strip()
         _nval = dict((a.strip(), b.strip()) for a, b in args.model_n_alias).get(_nval, _nval)
         it['model'], it['model_pos'] = model_label(_nval, str(r[7] or ''))
+if args.code_suffix:
+    for it in items:
+        it['ro'] += args.code_suffix
 if args.price:
     for it in items:
         it['price'] = args.price
