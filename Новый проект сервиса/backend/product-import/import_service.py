@@ -70,6 +70,8 @@ ap.add_argument('--skip-title-check', nargs='*', default=[], help='RO id, у к�
 ap.add_argument('--time', help='своё время ремонта вместо старого (если на старом сайте опечатка/мусор)')
 ap.add_argument('--old-types-json', help='с --old-product: файл {название старой опции «Тип запчасти»: [тип, значение второй характеристики, позиция, цена]} — '
                 'старый выбор модели отбрасываем, цены и названия свои (SSD MacBook: тип HQ/AASP × объём, решение владельца 2026-10-04)')
+ap.add_argument('--old-models-json', help='с --old-product: файл {название старой опции «Выберите модель»: [значение характеристики --feature, цена]} — '
+                'старый выбор модели становится выбором варианта плитками (термопаста MacBook: процессор M1 / остальные)')
 ap.add_argument('--code-suffix', help='с --old-product: хвост к кодам OLD-… (товар-копия для другой модели, чтобы коды не совпали с исходным, напр. -pro14)')
 ap.add_argument('--price', type=int, help='своя цена для всех вариантов (владелец назвал цену: на старом сайте 0 или цены выравниваем)')
 ap.add_argument('--price-from', action='store_true', help='цена ориентировочная — показывать «от …» (характеристика 19)')
@@ -206,6 +208,9 @@ if args.old_product:
             opts.setdefault(oname.strip(), []).append((vid, html.unescape(vname).strip(), int(float(price))))
     models = opts.pop('Выберите модель', [])
     types = opts.pop('Тип запчасти', [])
+    if args.old_models_json:
+        _mm = json.load(open(args.old_models_json, encoding='utf-8'))
+        types, models = [(vid, _mm[v][0], _mm[v][1]) for vid, v, _ in models], []
     if args.old_types_json:
         _tm = json.load(open(args.old_types_json, encoding='utf-8'))
         models = []
