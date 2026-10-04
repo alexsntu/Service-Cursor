@@ -467,9 +467,10 @@
   .irepair-sl .irepair-sl__price {
     margin-top: 6px;
   }
+  /* владелец 2026-10-04: на телефоне цена везде одного размера и в одном месте — отдельной строкой слева */
   .irepair-sl .irepair-sl__price-value {
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 20px;
+    line-height: 24px;
   }
   .irepair-sl .irepair-sl__time {
     margin-top: 2px;
@@ -488,7 +489,7 @@
     padding: 6px 14px;
     font-size: 13px;
   }
-  /* телефон, услуга с вариантами: варианты и цена — на одной строке под названием */
+  /* телефон, услуга с вариантами: название → варианты → цена → пояснение */
   .irepair-sl .irepair-sl__row.irepair-sl__row--opts {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
@@ -511,36 +512,22 @@
     grid-row: 2;
     margin-top: 8px;
   }
-  .irepair-sl .irepair-sl__row--opts .irepair-sl__price-value {
-    /* ровно по центру «таблетки» варианта (её высота 32px), цена крупнее */
-    display: flex;
-    align-items: center;
-    height: 32px;
-    font-size: 20px;
-    line-height: 1;
-  }
-  .irepair-sl .irepair-sl__row--opts .irepair-sl__price-value[hidden] {
-    display: none;
-  }
-  .irepair-sl .irepair-sl__row--opts .irepair-sl__time {
-    margin-top: 0;
-  }
   .irepair-sl .irepair-sl__row--opts .irepair-sl__note {
     grid-column: 1 / -1;
     grid-row: 3;
     font-size: 12px;
     line-height: 16px;
   }
-  /* 3–4 варианта (максимум у нас 4) в одну строку с ценой не помещаются: варианты — вся строка, цена — под ними */
-  .irepair-sl .irepair-sl__row--opts-many .irepair-sl__opts {
+  /* варианты — вся строка, цена — под ними (при любом числе вариантов, как у услуг без вариантов) */
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__opts {
     grid-column: 1 / -1;
   }
-  .irepair-sl .irepair-sl__row--opts-many .irepair-sl__price {
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__price {
     grid-column: 1 / -1;
     grid-row: 3;
     margin-top: 6px;
   }
-  .irepair-sl .irepair-sl__row--opts-many .irepair-sl__note {
+  .irepair-sl .irepair-sl__row--opts .irepair-sl__note {
     grid-row: 4;
   }
   .irepair-sl .irepair-sl__row-link {
