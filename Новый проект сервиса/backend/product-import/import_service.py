@@ -68,6 +68,8 @@ ap.add_argument('--position', type=int, default=0, help='позиция услу
 ap.add_argument('--old-id', type=int, help='свой старый товар вместо столбца B таблицы — если в таблице ссылка перепутана (напр. 6S ↔ 6 Plus)')
 ap.add_argument('--skip-title-check', nargs='*', default=[], help='RO id, у которых кривое название в RemOnline — сверено вручную')
 ap.add_argument('--time', help='своё время ремонта вместо старого (если на старом сайте опечатка/мусор)')
+ap.add_argument('--price', type=int, help='своя цена для всех вариантов (владелец назвал цену: на старом сайте 0 или цены выравниваем)')
+ap.add_argument('--price-from', action='store_true', help='цена ориентировочная — показывать «от …» (характеристика 19)')
 ap.add_argument('--no-redirect', action='store_true', help='не ставить 301 со старого адреса (товар-копия другой модели, напр. 17e по данным 17)')
 ap.add_argument('--code', help='свой код товара (напр. OLD-9074-17e — копия, чтобы не совпасть с кодом исходного товара)')
 ap.add_argument('--rename-model', nargs=2, metavar=('FROM', 'TO'), help='копия другой модели: заменить «iPhone 17» → «iPhone 17e» в мета и описании '
@@ -298,6 +300,12 @@ for it in items:
         _nval = str(r[13] or '').strip()
         _nval = dict((a.strip(), b.strip()) for a, b in args.model_n_alias).get(_nval, _nval)
         it['model'], it['model_pos'] = model_label(_nval, str(r[7] or ''))
+if args.price:
+    for it in items:
+        it['price'] = args.price
+if args.price_from:
+    for it in items:
+        it['from_price'] = True
 assert not title_errors, 'название услуги в RemOnline не совпадает с таблицей:\n  ' + '\n  '.join(title_errors)
 items.sort(key=lambda x: x['price'])
 bad = [it['ro'] for it in items if not it['price']]
