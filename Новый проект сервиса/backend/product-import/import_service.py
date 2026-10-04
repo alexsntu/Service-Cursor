@@ -73,6 +73,7 @@ ap.add_argument('--old-types-json', help='с --old-product: файл {назва
 ap.add_argument('--old-models-json', help='с --old-product: файл {название старой опции «Выберите модель»: [значение характеристики --feature, цена]} — '
                 'старый выбор модели становится выбором варианта плитками (термопаста MacBook: процессор M1 / остальные)')
 ap.add_argument('--multi-model', action='store_true', help='в одной категории несколько моделей таблицы (iPad Pro 12.9 S1–S5, Air 6 11/13): не считать это ошибкой столбца B')
+ap.add_argument('--old-ignore-options', action='store_true', help='с --old-product: опции старого товара не переносим (общая услуга на все модели с ценой --price)')
 ap.add_argument('--code-suffix', help='с --old-product: хвост к кодам OLD-… (товар-копия для другой модели, чтобы коды не совпали с исходным, напр. -pro14)')
 ap.add_argument('--price', type=int, help='своя цена для всех вариантов (владелец назвал цену: на старом сайте 0 или цены выравниваем)')
 ap.add_argument('--price-from', action='store_true', help='цена ориентировочная — показывать «от …» (характеристика 19)')
@@ -207,6 +208,8 @@ if args.old_product:
             oname, vid, vname, price, prefix = line.split('\t')
             assert prefix.strip() in ('', '='), f'опция «{vname}»: цена с префиксом «{prefix}» — разобрать вручную'
             opts.setdefault(oname.strip(), []).append((vid, html.unescape(vname).strip(), int(float(price))))
+    if args.old_ignore_options:
+        opts = {}
     models = opts.pop('Выберите модель', [])
     types = opts.pop('Тип запчасти', [])
     if args.old_models_json:
