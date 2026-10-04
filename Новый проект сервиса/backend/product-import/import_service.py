@@ -72,6 +72,7 @@ ap.add_argument('--old-types-json', help='с --old-product: файл {назва
                 'старый выбор модели отбрасываем, цены и названия свои (SSD MacBook: тип HQ/AASP × объём, решение владельца 2026-10-04)')
 ap.add_argument('--old-models-json', help='с --old-product: файл {название старой опции «Выберите модель»: [значение характеристики --feature, цена]} — '
                 'старый выбор модели становится выбором варианта плитками (термопаста MacBook: процессор M1 / остальные)')
+ap.add_argument('--multi-model', action='store_true', help='в одной категории несколько моделей таблицы (iPad Pro 12.9 S1–S5, Air 6 11/13): не считать это ошибкой столбца B')
 ap.add_argument('--code-suffix', help='с --old-product: хвост к кодам OLD-… (товар-копия для другой модели, чтобы коды не совпали с исходным, напр. -pro14)')
 ap.add_argument('--price', type=int, help='своя цена для всех вариантов (владелец назвал цену: на старом сайте 0 или цены выравниваем)')
 ap.add_argument('--price-from', action='store_true', help='цена ориентировочная — показывать «от …» (характеристика 19)')
@@ -279,7 +280,7 @@ for _n_row in args.table_row:
     print(f'строка таблицы {_n_row}: {r[9]} {r[6]} {r[7]} | цена {"от " if _approx else ""}{int(_price)} | старый товар {_oid or "нет"}')
 title_errors = []
 _models = {re.sub(r'\s+', ' ', str(rows[it['ro']][7]).replace('.0', '')).strip().lower() for it in items if not it['ro'].startswith('OLD-') and it['ro'] in rows}
-assert len(_models) <= 1, f'в одном запуске строки разных моделей: {_models} — проверить столбец B таблицы (один старый товар на две модели?)'
+assert args.multi_model or len(_models) <= 1, f'в одном запуске строки разных моделей: {_models} — проверить столбец B таблицы (один старый товар на две модели?)'
 for it in items:
     if it['ro'].startswith('OLD-') or it.get('row') is not None:
         continue  # --old-product / --table-row: данные уже взяты
