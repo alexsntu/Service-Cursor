@@ -247,6 +247,8 @@ for sid in args.ro_ids:
     title, price = ro(sid)
     _v = title.split('|')[-1].strip() if '|' in title else ''
     _v = {'ОЕМ': 'OEM', 'ОЕM': 'OEM', 'OЕМ': 'OEM'}.get(_v, _v)  # в RemOnline бывает кириллица
+    if re.match(r'\(?\s*A\d{4}', _v):
+        _v = ''  # после последней «|» — A-номера, а не тип запчасти («… iPad 10 - 2022 | (A2696 / …)») → тип берём из таблицы
     items.append({'ro': sid, 'title': title, 'price': price, 'value': _v})
     time.sleep(0.4)
 items.sort(key=lambda x: x['price'])
