@@ -68,6 +68,8 @@ ap.add_argument('--position', type=int, default=0, help='позиция услу
 ap.add_argument('--old-id', type=int, help='свой старый товар вместо столбца B таблицы — если в таблице ссылка перепутана (напр. 6S ↔ 6 Plus)')
 ap.add_argument('--skip-title-check', nargs='*', default=[], help='RO id, у которых кривое название в RemOnline — сверено вручную')
 ap.add_argument('--time', help='своё время ремонта вместо старого (если на старом сайте опечатка/мусор)')
+ap.add_argument('--old-types-json', help='с --old-product: файл {название старой опции «Тип запчасти»: [тип, значение второй характеристики, позиция, цена]} — '
+                'старый выбор модели отбрасываем, цены и названия свои (SSD MacBook: тип HQ/AASP × объём, решение владельца 2026-10-04)')
 ap.add_argument('--price', type=int, help='своя цена для всех вариантов (владелец назвал цену: на старом сайте 0 или цены выравниваем)')
 ap.add_argument('--price-from', action='store_true', help='цена ориентировочная — показывать «от …» (характеристика 19)')
 ap.add_argument('--no-redirect', action='store_true', help='не ставить 301 со старого адреса (товар-копия другой модели, напр. 17e по данным 17)')
@@ -203,6 +205,10 @@ if args.old_product:
             opts.setdefault(oname.strip(), []).append((vid, html.unescape(vname).strip(), int(float(price))))
     models = opts.pop('Выберите модель', [])
     types = opts.pop('Тип запчасти', [])
+    if args.old_types_json:
+        _tm = json.load(open(args.old_types_json, encoding='utf-8'))
+        models = []
+        types = [(vid, '|'.join(map(str, _tm[v][:3])), _tm[v][3]) for vid, v, _ in types]
     assert not opts, f'неизвестные опции старого товара: {list(opts)}'
     if not models and not types:
         # опций нет (напр. «Чистка системы охлаждения iMac 27») — один товар без выбора, цена товара
@@ -212,7 +218,7 @@ if args.old_product:
     assert types, 'у старого товара нет опции «Тип запчасти»'
     assert args.feature or types == [(None, '', types[0][2])], 'у старого товара есть опции — нужен --feature'
     assert not (len(models) > 1 and len(types) > 1), 'и моделей, и типов больше одного — цены не разложить, спросить владельца'
-    assert bool(models) == bool(args.model_feature), 'опция «Выберите модель» ↔ --model-feature должны совпадать'
+    assert args.old_types_json or bool(models) == bool(args.model_feature), 'опция «Выберите модель» ↔ --model-feature должны совпадать'
     for mvid, mname, mprice in (models or [(None, '', None)]):
         for tvid, tname, tprice in types:
             it = {'ro': f"OLD-{args.old_product}" + (f"-{mvid or tvid}" if (mvid or tvid) else ''), 'value': tname, 'price': mprice or tprice,
@@ -222,6 +228,10 @@ if args.old_product:
                 ext = re.fullmatch(r'(A\d{4})\s+(\S.*)', mlabel)  # iMac 21.5: «A1418 2K» / «A1418 4K» — подпись как есть; позиция = A-номер (при равной CS-Cart сортирует по названию)
                 it['model'], it['model_pos'] = (mlabel, int(ext.group(1)[1:])) if ext else model_label(mlabel)
             items.append(it)
+    if args.old_types_json:
+        for it in items:
+            it['value'], it['model'], _pos = it['value'].split('|')
+            it['model_pos'] = int(_pos)
     items.sort(key=lambda x: (x['price'], x.get('model_pos', 0), x['value']))
     print(f'!!! старый товар {args.old_product}: нет в RemOnline/таблице — цены со старого сайта, код OLD-…, гарантия 1 мес.')
 
