@@ -676,3 +676,4 @@ H1 в баннере стоит на всех пяти страницах уст
 | 2026-10-05 | Фото моделей Apple Watch: Watch SE 2 — `Apple_Watch_SE_(2nd_generation).png` (1119×1294) всем услугам модели |
 | 2026-10-05 | Фото моделей Apple Watch: Watch SE 3 — `se3.webp` (1500×1500) всем услугам модели |
 | 2026-10-05 | Фото моделей Apple Watch: Watch Ultra — `Apple_Watch_Ultra.png` (1156×1366) всем услугам модели |
+| 2026-10-05 | Фото моделей Apple Watch: Watch Ultra 2 — `1280px-Apple_Watch_Ultra_2.png.webp` (уменьшено до 1269×1500) всем услугам модели |
