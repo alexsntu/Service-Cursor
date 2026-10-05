@@ -668,3 +668,4 @@ H1 в баннере стоит на всех пяти страницах уст
 | 2026-10-05 | Фото моделей Apple Watch: Watch 3 — `Apple_Watch_Series_3.webp` (626×776) всем услугам модели |
 | 2026-10-05 | Фото моделей Apple Watch: Watch 4 — `1920px-Apple_Watch_Series_4.png.webp` (уменьшено до 1500×1500) всем услугам модели |
 | 2026-10-05 | Фото моделей Apple Watch: Watch 5 — `Apple-watch-series-5_4.jpeg` (800×800) всем услугам модели |
+| 2026-10-05 | Фото моделей Apple Watch: Watch 6 — `Apple_Watch_Series_6.jpg` (700×700) всем услугам модели |
