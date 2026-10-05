@@ -282,6 +282,11 @@ for _n_row in args.table_row:
     items.append({'ro': f'OLD-{_oid}' if _oid else (args.code or ''), 'title': args.name or '', 'price': int(_price), 'ro_price': 0, 'from_price': bool(_approx), 'row': r,
                   'value': '' if _part in ('', '-') else _part, 'old_id': _oid,
                   'warranty': warranty_text(r[11]) if r[11] not in (None, '') else warranty_text(1)})
+    if args.model_feature:
+        # несколько строк одной услуги без кодов RemOnline (Watch SE 3: размеры корпуса) — модель из столбца N, свой код на строку
+        items[-1]['model'], items[-1]['model_pos'] = model_label(str(r[13] or '').strip(), str(r[7] or ''))
+        if len(args.table_row) > 1:
+            items[-1]['ro'] = f'TAB-{_n_row}'
     print(f'строка таблицы {_n_row}: {r[9]} {r[6]} {r[7]} | цена {"от " if _approx else ""}{int(_price)} | старый товар {_oid or "нет"}')
 title_errors = []
 _models = {re.sub(r'\s+', ' ', str(rows[it['ro']][7]).replace('.0', '')).strip().lower() for it in items if not it['ro'].startswith('OLD-') and it['ro'] in rows}
@@ -521,7 +526,7 @@ for n, it in enumerate(items):
     if it.get('from_price'):
         features['19'] = 'Y'  # «Цена «от»» — карточка и список показывают «от 35 000 ₽»
     it['features'] = features
-    body = dict(product=name if n == 0 else variant_name(it), price=it['price'], product_code=(args.code if args.code and n == 0 else it['ro'] if it['ro'].startswith('OLD-') else f"RO-{it['ro']}"),
+    body = dict(product=name if n == 0 else variant_name(it), price=it['price'], product_code=(args.code if args.code and n == 0 else it['ro'] if it['ro'].startswith(('OLD-', 'TAB-')) else f"RO-{it['ro']}"),
                 status='A', category_ids=[args.cat], main_category=args.cat, company_id=1,
                 page_title=meta_title, meta_description=meta_desc, full_description=desc, product_features=features,
                 **({'main_pair': {'detailed': {'image_path': 'https://irepair.ru/image/' + main_img, 'alt': name}}} if main_img else {}))
