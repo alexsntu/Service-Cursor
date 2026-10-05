@@ -320,6 +320,9 @@ for it in items:
     it['warranty'] = it['warranty'] or warranty_text(1)
     if not it['value'] and str(r[8] or '').strip() not in ('', '-'):
         it['value'] = str(r[8]).strip()  # в названии RemOnline нет «| тип» — берём тип из таблицы
+    if '💎' in str(r[9]):
+        # Watch «Замена стекла 💎» (владелец 2026-10-05): сапфировое стекло — та же услуга, отдельная опция с припиской
+        it['value'] = f"{str(r[8]).strip()} (Сапфир)"
     if args.type_with_service:
         # MacBook дисплей: «OEM (Замена матрицы)» / «AASP (Замена дисплея в сборе)» — тип + услуга таблицы
         it['value'] = f"{it['value']} ({str(r[9]).split('|')[0].strip()})"

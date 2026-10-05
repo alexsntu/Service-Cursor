@@ -33,6 +33,13 @@ def check(title, row):
     else:
         # тип — после последней «|»; у MacBook в середине названия тоже бывают «|» (A-номера)
         main, _, typ = str(title).rpartition('|') if '|' in str(title) else (str(title), '', '')
+    if '💎' in service:
+        # Watch «Замена стекла 💎» = сапфировое стекло: в RemOnline «… | AASP (Сапфировое стекло)», в таблице тип «AASP»
+        if 'сапфир' not in _n(typ):
+            return f'сапфир: в таблице услуга «{service.strip()}», в RemOnline тип «{typ.strip()}» без сапфира'
+        service, typ = service.replace('💎', ''), re.sub(r'\(\s*сапфир[^)]*\)', '', typ, flags=re.I)
+    elif 'сапфир' in _n(typ):
+        return f'сапфир: в RemOnline тип «{typ.strip()}», в таблице услуга без 💎'
     ttype = '' if _n(part) in ('', '-', 'none') else _n(part)
     if ttype and _n(typ) != ttype:
         return f'тип: в RemOnline «{typ.strip()}», в таблице «{part}»'
