@@ -433,7 +433,7 @@ switch ($action) {
                 $current[] = $item;
             }
             // по этому списку проверяется доступ к заказу; дата закрытия нужна для срока гарантии (отказы — без гарантии)
-            $map[$id] = ['s' => $statusId, 'c' => $group === 7 ? 0 : lk_ts($o['closed_at'] ?? null)];
+            $map[$id] = ['s' => $statusId, 'c' => $group === 7 ? 0 : lk_ts($o['closed_at'] ?? null), 'l' => (string) ($o['id_label'] ?? $id)];
         }
         $pdo->prepare('UPDATE irepair_lk_sessions SET orders_json = ? WHERE token_hash = ?')->execute([json_encode($map), $s['token_hash']]);
 
@@ -478,6 +478,66 @@ switch ($action) {
             ];
         }
         lk_out(['ok' => true, 'items' => $items]);
+
+    /* История баллов: начисления и списания из BonusPlus, с привязкой к заказам там, где она известна */
+    case 'bonus_history':
+        $s = lk_require_session();
+        $phone = $s['phone'];
+        [$code, $r] = lk_bonusplus('POST', 'retail/bonusActivities', ['phone' => $phone]);
+        if ($code !== 200 || !is_array($r)) {
+            lk_fail('service', 502);
+        }
+        $own = json_decode((string) ($s['orders_json'] ?? ''), true) ?: [];
+        $label = static fn(int $id): string => (string) ($own[$id]['l'] ?? '');
+
+        // наши списания (скидка в заказе) и начисления после закрытия заказа
+        $st = $pdo->prepare('SELECT order_id, SUM(amount) amount, MIN(created_at) t FROM irepair_lk_bonus_history WHERE phone = ? GROUP BY order_id');
+        $st->execute([$phone]);
+        $debits = $st->fetchAll();
+        $st = $pdo->prepare("SELECT order_id, sale_id FROM irepair_lk_accruals WHERE phone = ? AND status = 'done'");
+        $st->execute([$phone]);
+        $sales = [];
+        foreach ($st as $a) {
+            $sales[(int) $a['sale_id']] = (int) $a['order_id'];
+        }
+
+        $rows = [];
+        $byPurchase = [];
+        foreach ($r['bonusActivities'] ?? [] as $a) {
+            if (!is_array($a) || $a['phoneNumber'] !== $phone) {
+                continue;
+            }
+            $amount = (int) round((float) ($a['amount'] ?? 0));
+            if ($amount === 0) {
+                continue;
+            }
+            $ts = strtotime(($a['receiptDate'] ?? '') . ' UTC') ?: 0;   // BonusPlus отдаёт время по Гринвичу
+            $purchase = (int) ($a['purchaseId'] ?? 0);
+            $order = $sales[$purchase] ?? $sales[(int) ($a['purchaseNumber'] ?? 0)] ?? 0;
+            if (!$order && $amount < 0) {
+                foreach ($debits as $d) {
+                    if ((int) $d['amount'] === -$amount && abs((int) $d['t'] - $ts) <= 600) {
+                        $order = (int) $d['order_id'];
+                        break;
+                    }
+                }
+            }
+            if ($order && $purchase) {
+                $byPurchase[$purchase] = $order;
+            }
+            $rows[] = ['ts' => $ts, 'amount' => $amount, 'title' => trim((string) ($a['transactionName'] ?? $a['description'] ?? '')), 'order' => $order, 'purchase' => $purchase];
+        }
+        usort($rows, static fn($x, $y) => $y['ts'] <=> $x['ts']);
+        $out = [];
+        foreach (array_slice($rows, 0, 100) as $row) {
+            $order = $row['order'] ?: ($byPurchase[$row['purchase']] ?? 0);   // начисление и списание одной продажи — один заказ
+            $title = $row['title'] !== '' ? $row['title'] : ($row['amount'] > 0 ? 'Начисление' : 'Списание');
+            if (stripos($title, 'ручн') !== false || stripos($title, 'manual') !== false) {
+                $title = $row['amount'] > 0 ? 'Начисление баллов' : 'Списание баллов';
+            }
+            $out[] = ['date' => $row['ts'] ? date('d.m.Y', $row['ts']) : '', 'amount' => $row['amount'], 'title' => $title, 'order' => $order ? $label($order) : ''];
+        }
+        lk_out(['ok' => true, 'items' => $out]);
 
     /* Списание баллов в счёт заказа */
     case 'spend_bonus':

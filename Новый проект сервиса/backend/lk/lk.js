@@ -269,11 +269,38 @@
     var reload = function () { loadCabinet(true); };
     var name = [p.first_name, p.last_name].join(' ').trim();
 
+    /* История баллов: раскрывается под картой, загружается при первом открытии */
+    var bonusList = el('div.bonus-list', { hidden: true });
+    var bonusLoaded = false;
+    var bonusToggle = el('button.text-btn', { type: 'button' }, 'История баллов');
+    bonusToggle.addEventListener('click', function () {
+      bonusList.hidden = !bonusList.hidden;
+      bonusToggle.textContent = bonusList.hidden ? 'История баллов' : 'Скрыть историю баллов';
+      if (bonusLoaded || bonusList.hidden) return;
+      bonusLoaded = true;
+      bonusList.appendChild(el('p.empty', null, 'Загружаем…'));
+      api('bonus_history').then(function (res) {
+        bonusList.innerHTML = '';
+        if (!res.ok) { bonusLoaded = false; bonusList.appendChild(el('p.empty', null, errText(res))); return; }
+        if (!res.items.length) { bonusList.appendChild(el('p.empty', null, 'Операций с баллами пока не было.')); return; }
+        res.items.forEach(function (it) {
+          bonusList.appendChild(el('div.bonus-row', null, [
+            el('span.bonus-main', null, [
+              el('span.bonus-title', null, it.title + (it.order ? ' · заказ №' + it.order : '')),
+              el('span.bonus-date', null, it.date)
+            ]),
+            el('span.bonus-amount' + (it.amount > 0 ? '.bonus-plus' : ''), null, (it.amount > 0 ? '+' : '\u2212') + Math.abs(it.amount).toLocaleString('ru-RU'))
+          ]));
+        });
+      });
+    });
+
     var card = b.found
       ? el('div.card.loyalty.loyalty-' + (b.card || 'silver').toLowerCase(), null, [
           el('div.loyalty-top', null, [el('div.loyalty-tier', null, b.card), el('div.loyalty-points', null, points(b.points))]),
           el('div.loyalty-text', null, 'Кешбэк ' + b.cashback_percent + '% · оплата баллами до ' + b.debit_percent + '% стоимости ремонта'),
-          el('a.loyalty-link', { href: '/programma-loyalnosti/' }, 'Подробнее о программе лояльности')
+          el('div.loyalty-links', null, [bonusToggle, el('a.loyalty-link', { href: '/programma-loyalnosti/' }, 'Подробнее о программе лояльности')]),
+          bonusList
         ])
       : el('div.card.loyalty', null, [
           el('div.loyalty-tier', null, 'Программа лояльности'),
