@@ -77,6 +77,21 @@ foreach ($phones as $phone) {
         continue;
     }
     [$code, $cust] = $bp('GET', 'customer?phone=' . $phone);
+    // клиента нет в программе лояльности — заводим карту с начальным уровнем (как при первом входе в кабинет)
+    $absent = $code === 412 && is_array($cust) && ($cust['code'] ?? '') === 'CUSTOMER_NOT_FOUND';
+    if ($absent && !empty($cfg['bonusplus']['auto_create'])) {
+        if (!$run) {
+            echo "$phone: карты в BonusPlus нет — при проведении будет создана\n";
+            continue;
+        }
+        $client = $r['data'][0]['client'] ?? [];
+        $gift = (float) ($cfg['bonusplus']['welcome_bonus'] ?? 0);
+        $new = array_filter(['phone' => $phone, 'fn' => trim((string) ($client['first_name'] ?? $client['name'] ?? '')), 'ln' => trim((string) ($client['last_name'] ?? ''))], 'strlen')
+            + ['noRegNotification' => true, 'creditBonuses' => $gift > 0, 'smsCreditBonuses' => false] + ($gift > 0 ? ['regBonus' => $gift] : []);
+        [$code, $created] = $bp('POST', 'customer', $new);
+        echo "$phone: карта в BonusPlus " . ($code >= 200 && $code < 300 ? 'создана' : "НЕ создана ($code)") . "\n";
+        [$code, $cust] = $bp('GET', 'customer?phone=' . $phone);
+    }
     $card = is_array($cust) ? strtoupper((string) ($cust['discountCardName'] ?? '')) : '';
     if ($code !== 200 || $card === '') {
         echo "$phone: нет карты в BonusPlus — пропуск\n";

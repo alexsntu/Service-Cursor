@@ -149,6 +149,36 @@ function lk_bonus_info(string $phone): array
     ];
 }
 
+/**
+ * Карта в BonusPlus для клиента сервиса: если BonusPlus определённо отвечает «клиент не найден» — создаём его
+ * с начальным уровнем карты (без СМС о регистрации). При любой другой ошибке ничего не создаём.
+ */
+function lk_bonus_ensure(string $phone, string $first = '', string $last = '', string $email = ''): bool
+{
+    global $cfg;
+    if (empty($cfg['bonusplus']['auto_create'])) {
+        return false;
+    }
+    [$code, $r] = lk_bonusplus('GET', 'customer?phone=' . $phone);
+    if ($code !== 412 || !is_array($r) || ($r['code'] ?? '') !== 'CUSTOMER_NOT_FOUND') {
+        return false;
+    }
+    $gift = (float) ($cfg['bonusplus']['welcome_bonus'] ?? 0);
+    $body = ['phone' => $phone, 'noRegNotification' => true, 'creditBonuses' => $gift > 0, 'smsCreditBonuses' => false];
+    if ($gift > 0) {
+        $body['regBonus'] = $gift;
+    }
+    foreach (['fn' => $first, 'ln' => $last, 'email' => $email] as $k => $v) {
+        if (trim($v) !== '') {
+            $body[$k] = trim($v);
+        }
+    }
+    [$code, $res] = lk_bonusplus('POST', 'customer', $body);
+    $ok = $code >= 200 && $code < 300;
+    lk_log('BonusPlus: клиент ' . substr($phone, 0, 4) . '…' . substr($phone, -2) . ($ok ? ' создан' : " не создан, ответ $code: " . mb_substr(json_encode($res, JSON_UNESCAPED_UNICODE) ?: '', 0, 200)));
+    return $ok;
+}
+
 /** Все заказы клиента из RemOnline (до 6 страниц по 50). null — сервис не ответил. */
 function lk_ro_orders(string $phone): ?array
 {
@@ -380,6 +410,10 @@ switch ($action) {
         $c = $st->fetch() ?: [];
 
         $bonus = lk_bonus_info($phone);
+        // клиента сервиса ещё нет в программе лояльности — заводим карту при первом входе
+        if (!$bonus['found'] && lk_bonus_ensure($phone, (string) ($c['first_name'] ?? ''), (string) ($c['last_name'] ?? ''), (string) ($c['email'] ?? ''))) {
+            $bonus = lk_bonus_info($phone);
+        }
         $raw = lk_ro_orders($phone);
 
         $spent = [];
