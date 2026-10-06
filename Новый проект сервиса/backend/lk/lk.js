@@ -194,27 +194,46 @@
     return el('li', null, [el('span.row-label', null, label), el('span.row-value', null, value)]);
   }
 
-  function orderCard(o, isCurrent, reload) {
+  /* Заказ — сворачиваемая строка: в шапке номер, устройство, статус и сумма; подробности и кнопки — по нажатию */
+  function orderCard(o, isCurrent, reload, open) {
     var actions = el('div.order-actions', null, [
-      el('button.btn-light', { type: 'button', onclick: function () { openOrder(o); } }, 'Подробнее')
+      el('button.btn-light', { type: 'button', onclick: function () { openOrder(o); } }, 'Состав заказа')
     ]);
     if (isCurrent && o.can_spend) {
       actions.appendChild(el('button.btn.btn-small', { type: 'button', onclick: function () { confirmSpend(o, reload); } }, 'Списать баллы'));
     }
-    return el('div.order', null, [
-      el('div.order-head', null, [
-        el('div', null, [el('div.order-title', null, 'Заказ №' + o.label), o.device ? el('div.order-device', null, o.device) : null]),
-        el('div.order-meta', null, [o.status ? el('span.status' + (isCurrent ? '' : '.status-done'), null, o.status) : null, el('time', null, o.date)])
+    return el('details.order', { open: !!open }, [
+      el('summary.order-head', null, [
+        el('span.order-main', null, [el('span.order-title', null, 'Заказ №' + o.label), o.device ? el('span.order-device', null, o.device) : null]),
+        el('span.order-meta', null, [
+          o.status ? el('span.status' + (isCurrent ? '' : '.status-done'), null, o.status) : null,
+          el('span.order-price', null, money(o.price))
+        ]),
+        el('span.order-arrow', { 'aria-hidden': 'true' })
       ]),
-      el('ul.rows', null, [
-        row('Стоимость', money(o.price)),
-        row('Кешбэк', points(o.cashback)),
-        isCurrent && !o.spent && o.available > 0 ? row('Доступно к списанию', points(o.available)) : null
-      ]),
-      o.spent > 0 ? el('div.success', { html: CHECK + '<span>Списано ' + points(o.spent).replace(/&/g, '&amp;') + '</span>' }) : null,
-      isCurrent && o.spend_review && !o.spent ? el('p.note', null, 'Списание баллов по этому заказу проверяет менеджер. Вопросы — по телефону 8 800 555-21-90.') : null,
-      actions
+      el('div.order-body', null, [
+        el('ul.rows', null, [
+          row('Дата', o.date),
+          row('Стоимость', money(o.price)),
+          row('Кешбэк', points(o.cashback)),
+          isCurrent && !o.spent && o.available > 0 ? row('Доступно к списанию', points(o.available)) : null
+        ]),
+        o.spent > 0 ? el('div.success', { html: CHECK + '<span>Списано ' + points(o.spent).replace(/&/g, '&amp;') + '</span>' }) : null,
+        isCurrent && o.spend_review && !o.spent ? el('p.note', null, 'Списание баллов по этому заказу проверяет менеджер. Вопросы — по телефону 8 800 555-21-90.') : null,
+        actions
+      ])
     ]);
+  }
+
+  /* Список заказов: длинный хвост прячем под «Показать все» */
+  function orderList(list, isCurrent, reload, limit) {
+    // текущие раскрыты, если их один-два или по заказу можно списать баллы; история свёрнута
+    var nodes = list.map(function (o) { return orderCard(o, isCurrent, reload, isCurrent && (list.length <= 2 || o.can_spend)); });
+    if (nodes.length <= limit) return nodes;
+    var rest = el('div', { hidden: true }, nodes.slice(limit));
+    var more = el('button.text-btn.more', { type: 'button' }, 'Показать все заказы (' + nodes.length + ')');
+    more.addEventListener('click', function () { rest.hidden = false; more.remove(); });
+    return nodes.slice(0, limit).concat([rest, more]);
   }
 
   function renderCabinet(data) {
@@ -237,13 +256,13 @@
     var current = el('div.card', null, [
       el('h2.title', null, 'Текущие заказы'),
       !data.orders_ok ? el('p.empty', null, 'Не удалось загрузить заказы. Обновите страницу чуть позже.')
-        : data.orders.length ? data.orders.map(function (o) { return orderCard(o, true, reload); })
+        : data.orders.length ? orderList(data.orders, true, reload, 10)
         : el('p.empty', null, 'Сейчас у вас нет заказов в работе.')
     ]);
 
     var history = el('div.card', null, [
       el('h2.title', null, 'История заказов'),
-      data.history.length ? data.history.map(function (o) { return orderCard(o, false, reload); })
+      data.history.length ? orderList(data.history, false, reload, 5)
         : el('p.empty', { html: 'У вас нет ни одного выполненного заказа.<br>Но скоро будет :)' })
     ]);
 

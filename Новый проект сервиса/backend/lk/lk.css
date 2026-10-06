@@ -198,13 +198,39 @@
 .irepair-lk .irepair-lk__loyalty-text { position: relative; z-index: 1; color: #5c5b5b; font-size: 14px; }
 .irepair-lk .irepair-lk__loyalty-link { position: relative; z-index: 1; display: inline-block; margin-top: 14px; font-size: 14px; }
 
-.irepair-lk .irepair-lk__order { padding: 18px 0; border-top: 1px solid #ececec; }
-.irepair-lk .irepair-lk__title + .irepair-lk__order { border-top: none; padding-top: 0; }
-.irepair-lk .irepair-lk__order:last-child { padding-bottom: 0; }
-.irepair-lk .irepair-lk__order-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
-.irepair-lk .irepair-lk__order-title { font-family: 'Montserrat-SemiBold', Arial, sans-serif; font-size: 16px; line-height: 1.3; }
-.irepair-lk .irepair-lk__order-device { margin-top: 4px; color: #5c5b5b; font-size: 14px; overflow-wrap: anywhere; }
-.irepair-lk .irepair-lk__order-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: none; max-width: 50%; color: #939393; font-size: 13px; }
+.irepair-lk .irepair-lk__order { border-top: 1px solid #ececec; }
+.irepair-lk .irepair-lk__title + .irepair-lk__order { border-top: none; }
+.irepair-lk .irepair-lk__order-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+  outline: none;
+}
+.irepair-lk .irepair-lk__order-head::-webkit-details-marker { display: none; }
+.irepair-lk .irepair-lk__title + .irepair-lk__order .irepair-lk__order-head { padding-top: 0; }
+.irepair-lk .irepair-lk__order-main { display: block; flex: 1 1 auto; min-width: 0; }
+.irepair-lk .irepair-lk__order-title { display: block; font-family: 'Montserrat-SemiBold', Arial, sans-serif; font-size: 16px; line-height: 1.3; transition: color 0.2s ease; }
+.irepair-lk .irepair-lk__order-head:hover .irepair-lk__order-title { color: #1fb866; }
+.irepair-lk .irepair-lk__order-device { display: block; margin-top: 3px; color: #5c5b5b; font-size: 14px; overflow-wrap: anywhere; }
+.irepair-lk .irepair-lk__order-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: none; max-width: 45%; }
+.irepair-lk .irepair-lk__order-price { font-size: 14px; font-weight: 500; white-space: nowrap; }
+.irepair-lk .irepair-lk__order-arrow {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  margin: 0 4px 4px 2px;
+  border-right: 1.6px solid #a7a6a9;
+  border-bottom: 1.6px solid #a7a6a9;
+  rotate: 45deg;
+  transition: rotate 0.2s ease, margin 0.2s ease;
+}
+.irepair-lk .irepair-lk__order[open] .irepair-lk__order-arrow { rotate: -135deg; margin-bottom: -4px; }
+.irepair-lk .irepair-lk__order-body { padding: 0 0 18px; }
+.irepair-lk .irepair-lk__order:last-child .irepair-lk__order-body { padding-bottom: 0; }
+.irepair-lk .irepair-lk__more { margin-top: 14px; }
 .irepair-lk .irepair-lk__status {
   padding: 4px 12px;
   border-radius: 999px;
