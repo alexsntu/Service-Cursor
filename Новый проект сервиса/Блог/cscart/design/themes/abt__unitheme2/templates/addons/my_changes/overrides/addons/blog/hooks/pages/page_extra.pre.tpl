@@ -6,6 +6,8 @@
 {if $page.page_type == $smarty.const.PAGE_TYPE_BLOG}
 
     {if $subpages}
+        {* на странице списка свой H1 внутри серого фона — стандартный заголовок страницы не выводим (иначе два H1) *}
+        {capture name="mainbox_title"}{/capture}
         <div class="irepair-blog">
             <div class="irepair-blog__inner">
                 <h1 class="irepair-blog__title">{$page.page}</h1>

@@ -1,0 +1,56 @@
+# iRepair — сервисный центр Apple в Москве
+
+> iRepair ремонтирует iPhone, MacBook, iPad, iMac и Apple Watch в Москве с 2011 года. Диагностика бесплатно, цены на услуги указаны на сайте с запчастью и работой, на ремонт даётся гарантия. Адрес: Москва, ул. Большая Садовая, д. 5, под. 2, этаж 1А, офис А25 (м. Маяковская). Ежедневно 10:00–20:00. Телефон: 8 800 555-21-90.
+
+Цены и сроки зависят от модели устройства и типа запчасти (оригинальная или аналог); актуальные значения — на странице конкретной услуги. Устройство можно привезти в сервис или передать курьером по Москве.
+
+## Ремонт по устройствам
+
+- [Ремонт iPhone](https://irepair.ru/catalog/remont-iphone/): все модели от iPhone 6 до iPhone 17, услуги и цены по каждой модели
+- [Ремонт MacBook](https://irepair.ru/catalog/remont-macbook/): MacBook Air, MacBook Pro, MacBook 12
+- [Ремонт iPad](https://irepair.ru/catalog/remont-ipad/): iPad, iPad Air, iPad mini, iPad Pro
+- [Ремонт Apple Watch](https://irepair.ru/catalog/remont-apple-watch/): Series 2–11, SE, Ultra
+- [Ремонт iMac](https://irepair.ru/catalog/remont-imac/): iMac 21.5, 24 и 27 дюймов
+- [Каталог услуг](https://irepair.ru/catalog/): все устройства и модели на одной странице
+
+## Популярные услуги
+
+- [Замена экрана iPhone](https://irepair.ru/vybor-modeli/zamena-displeya-na-iphone/)
+- [Замена аккумулятора iPhone](https://irepair.ru/vybor-modeli/zamena-akkumulyatora-na-iphone/)
+- [Замена стекла iPhone](https://irepair.ru/vybor-modeli/zamena-stekla-iphone/)
+- [Замена заднего стекла iPhone](https://irepair.ru/vybor-modeli/zamena-zadnego-stekla-na-iphone/)
+- [Замена камеры iPhone](https://irepair.ru/vybor-modeli/zamena-kamery-na-iphone/)
+- [Замена динамика iPhone](https://irepair.ru/vybor-modeli/zamena-dinamika-na-iphone/)
+- [Замена корпуса iPhone](https://irepair.ru/vybor-modeli/zamena-korpusa-na-iphone/)
+- [iPhone не включается](https://irepair.ru/vybor-modeli/ne-vklyuchaetsya-iphone/)
+- [В iPhone попала жидкость](https://irepair.ru/vybor-modeli/popala-zhidkost-v-iphone/)
+- [Замена дисплея MacBook](https://irepair.ru/vybor-modeli/zamena-displeya-na-macbook/)
+- [Замена аккумулятора MacBook](https://irepair.ru/vybor-modeli/zamena-akkumulyatora-macbook/)
+- [Замена клавиатуры MacBook](https://irepair.ru/vybor-modeli/zamena-klaviatury-macbook/)
+- [Замена тачпада MacBook](https://irepair.ru/vybor-modeli/zamena-touchpad-na-macbook-pro/)
+- [Замена SSD MacBook](https://irepair.ru/vybor-modeli/zamena-hdd-ssd-macbook/)
+- [MacBook не включается](https://irepair.ru/vybor-modeli/ne-vklyuchaetsya-macbook/)
+- [Замена стекла iPad](https://irepair.ru/vybor-modeli/zamena-stekla-ipad/)
+- [Замена аккумулятора iPad](https://irepair.ru/vybor-modeli/zamena-akumulyatora-ipad/)
+- [iPad не включается](https://irepair.ru/vybor-modeli/ne-vklyuchaetsya-ipad/)
+- [В iPad попала жидкость](https://irepair.ru/vybor-modeli/popala-zhidkost-ipad/)
+- [Замена дисплея Apple Watch](https://irepair.ru/vybor-modeli/zamena-displeya-na-apple-watch/)
+- [Замена стекла Apple Watch](https://irepair.ru/vybor-modeli/zamena-stekla-na-apple-watch/)
+- [Замена аккумулятора Apple Watch](https://irepair.ru/vybor-modeli/zamena-akkumulyatora-na-apple-watch/)
+- [Apple Watch не включаются](https://irepair.ru/vybor-modeli/ne-vklyuchaetsya-apple-watch/)
+- [Замена дисплея iMac](https://irepair.ru/vybor-modeli/zamena-displeya-na-imac/)
+
+## О сервисе
+
+- [Стоимость услуг](https://irepair.ru/prices/): прайс по устройству и модели
+- [Гарантия](https://irepair.ru/garanties/): сроки гарантии по видам работ
+- [Диагностика](https://irepair.ru/diagnostics/): бесплатно, сроки
+- [Доставка](https://irepair.ru/delivery/): курьер по Москве
+- [Контакты](https://irepair.ru/kontakty/): адрес, как пройти от метро, часы работы
+- [О компании](https://irepair.ru/o-kompanii/): команда и история
+- [Программа лояльности](https://irepair.ru/programma-loyalnosti/): кешбэк баллами
+- [Trade-in](https://irepair.ru/trade-in/): обмен старого iPhone
+
+## Блог
+
+- [Блог iRepair](https://irepair.ru/blog/): советы мастеров по уходу за техникой Apple и диагностике неисправностей
