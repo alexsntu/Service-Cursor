@@ -65,3 +65,10 @@ CREATE TABLE IF NOT EXISTS irepair_lk_spend_lock (
   updated_at INT UNSIGNED NOT NULL DEFAULT 0,
   KEY status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Небольшой кэш справочников (статусы заказов RemOnline и т. п.)
+CREATE TABLE IF NOT EXISTS irepair_lk_cache (
+  k          VARCHAR(40)  NOT NULL PRIMARY KEY,
+  v          MEDIUMTEXT   NOT NULL,
+  expires_at INT UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -172,6 +172,32 @@ function lk_ro_orders(string $phone): ?array
     return $all;
 }
 
+/**
+ * Статусы заказов RemOnline: id → группа (1 новый, 2 в работе, 3 ожидание, 4 готов, 5 доставка, 6 закрыт успешно, 7 закрыт неуспешно).
+ * Список меняется редко — храним сутки в базе.
+ */
+function lk_status_groups(): array
+{
+    global $pdo, $now;
+    $st = $pdo->prepare("SELECT v FROM irepair_lk_cache WHERE k = 'status_groups' AND expires_at > ?");
+    $st->execute([$now]);
+    $cached = json_decode((string) $st->fetchColumn(), true);
+    if (is_array($cached) && $cached) {
+        return $cached;
+    }
+    [$code, $r] = lk_ro('GET', 'statuses/');
+    $map = [];
+    foreach (($code === 200 && is_array($r)) ? ($r['data'] ?? $r) : [] as $row) {
+        if (is_array($row) && isset($row['id'])) {
+            $map[(int) $row['id']] = (int) ($row['group'] ?? 0);
+        }
+    }
+    if ($map) {
+        $pdo->prepare("REPLACE INTO irepair_lk_cache (k, v, expires_at) VALUES ('status_groups', ?, ?)")->execute([json_encode($map), $now + 86400]);
+    }
+    return $map;
+}
+
 function lk_date($v): string
 {
     if ($v === null || $v === '') {
@@ -338,20 +364,24 @@ switch ($action) {
             }
         }
 
+        $groups = $raw ? lk_status_groups() : [];
         $current = $history = $map = [];
         foreach ($raw ?? [] as $o) {
             $id = (int) ($o['id'] ?? 0);
             $statusId = (int) ($o['status']['id'] ?? 0);
             $price = (float) ($o['price'] ?? 0);
-            $closed = in_array($statusId, $cfg['closed_statuses'], true);
+            $group = (int) ($groups[$statusId] ?? 0);
+            // в «Историю»: статусы из настроек (как на старом сайте) и все закрытые заказы по группе статуса
+            $closed = in_array($statusId, $cfg['closed_statuses'], true) || in_array($group, $cfg['closed_groups'] ?? [], true);
             $item = [
                 'id' => $id,
                 'label' => (string) ($o['id_label'] ?? $id),
                 'price' => (int) round($price),
                 'date' => lk_date($o['created_at'] ?? null),
                 'device' => trim((string) ($o['custom_fields'][$cfg['device_field']] ?? '')),
-                // у статусов в RemOnline служебная приставка («С | Готов») — клиенту показываем без неё
-                'status' => trim((string) preg_replace('/^.{1,3}\|\s*/u', '', (string) ($o['status']['name'] ?? ''))),
+                // названия статусов в RemOnline служебные («ПРИМЕНИТЬ СКИДКУ!», «Создать заказ в МС») — клиенту показываем
+                // понятную подпись по группе статуса; если группы нет — название без приставки («С | Готов» → «Готов»)
+                'status' => $cfg['status_labels'][$group] ?? trim((string) preg_replace('/^.{1,3}\|\s*/u', '', (string) ($o['status']['name'] ?? ''))),
                 'cashback' => (int) floor($price * $bonus['cashback_percent'] / 100),
                 'spent' => $spent[$id] ?? 0,
             ];
