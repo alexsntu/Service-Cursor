@@ -1,0 +1,287 @@
+/* Личный кабинет iRepair. На сервере: /ajax/lk/lk.css. Все правила — внутри .irepair-lk */
+
+.irepair-lk {
+  font-family: 'Roboto', Arial, sans-serif;
+  color: #010306;
+  font-size: 15px;
+  line-height: 1.45;
+  padding: 8px 0 60px;
+  min-height: 420px;
+}
+.irepair-lk *,
+.irepair-lk *::before,
+.irepair-lk *::after { box-sizing: border-box; }
+.irepair-lk [hidden] { display: none !important; }
+.irepair-lk a { color: #1fb866; text-decoration: none; transition: color 0.2s ease; }
+.irepair-lk a:hover { color: #12b857; text-decoration: underline; }
+.irepair-lk ul { list-style: none; margin: 0; padding: 0; }
+.irepair-lk p { margin: 0; }
+.irepair-lk button { font-family: inherit; }
+
+.irepair-lk .irepair-lk__loading { padding: 80px 0; text-align: center; color: #939393; }
+
+/* ---------- общие элементы ---------- */
+
+.irepair-lk .irepair-lk__card {
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 8px 30px rgba(1, 3, 6, 0.08);
+  padding: 28px;
+}
+.irepair-lk .irepair-lk__title,
+.irepair-lk .irepair-lk__auth-title {
+  margin: 0 0 20px;
+  padding: 0;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #010306;
+}
+.irepair-lk .irepair-lk__input {
+  display: block;
+  width: 100%;
+  height: 48px;
+  margin: 0;
+  padding: 0 18px;
+  font: inherit;
+  font-size: 15px;
+  color: #010306;
+  background: #fff;
+  border: 1px solid #d5d5d5;
+  border-radius: 14px;
+  box-shadow: none;
+  outline: none;
+  transition: border-color 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.irepair-lk .irepair-lk__input:hover,
+.irepair-lk .irepair-lk__input:focus { border-color: #37d97b; }
+.irepair-lk .irepair-lk__input:disabled { background: #f5f5f5; border-color: #f5f5f5; color: rgba(51, 51, 51, 0.5); }
+.irepair-lk select.irepair-lk__input {
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23a7a6a9' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+.irepair-lk .irepair-lk__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #37d97b 0%, #20ccbe 100%);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
+}
+.irepair-lk .irepair-lk__btn:hover { box-shadow: 0 6px 14px rgba(32, 204, 190, 0.26); }
+.irepair-lk .irepair-lk__btn:disabled { opacity: 0.5; pointer-events: none; }
+.irepair-lk .irepair-lk__btn-small { width: auto; min-height: 40px; padding: 8px 20px; font-size: 14px; }
+.irepair-lk .irepair-lk__btn-light {
+  min-height: 40px;
+  padding: 8px 20px;
+  border: 1px solid #d5d5d5;
+  border-radius: 999px;
+  background: #fff;
+  color: #010306;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.irepair-lk .irepair-lk__btn-light:hover { border-color: #37d97b; color: #1fb866; }
+.irepair-lk .irepair-lk__text-btn {
+  display: inline-block;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #1fb866;
+  font-size: 14px;
+  cursor: pointer;
+}
+.irepair-lk .irepair-lk__text-btn:hover { text-decoration: underline; }
+.irepair-lk .irepair-lk__text-btn:disabled { opacity: 0.5; pointer-events: none; }
+.irepair-lk .irepair-lk__error { min-height: 20px; margin: 6px 0 10px; color: #eb001b; font-size: 14px; line-height: 20px; }
+.irepair-lk .irepair-lk__note { color: #939393; font-size: 13px; line-height: 1.5; }
+.irepair-lk .irepair-lk__empty { color: #939393; font-size: 14px; }
+.irepair-lk .irepair-lk__link { display: inline-block; margin-top: 14px; font-size: 14px; }
+
+/* ---------- вход ---------- */
+
+.irepair-lk .irepair-lk__auth { display: flex; justify-content: center; padding: 40px 0 20px; }
+.irepair-lk .irepair-lk__auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  background: #fff;
+  border-radius: 26px;
+  box-shadow: 0 12px 40px rgba(1, 3, 6, 0.12);
+}
+.irepair-lk .irepair-lk__auth-title { font-size: 24px; margin-bottom: 24px; }
+.irepair-lk .irepair-lk__auth-text { margin-bottom: 12px; color: #5c5b5b; font-size: 14px; }
+.irepair-lk .irepair-lk__auth-text b { color: #010306; font-weight: 500; white-space: nowrap; }
+.irepair-lk .irepair-lk__auth-card .irepair-lk__btn { margin-bottom: 16px; }
+.irepair-lk .irepair-lk__input-code {
+  margin-top: 20px;
+  height: 60px;
+  text-align: center;
+  font-size: 28px;
+  letter-spacing: 14px;
+  padding-left: 32px;
+}
+.irepair-lk .irepair-lk__contacts { display: flex; gap: 24px; justify-content: center; font-size: 15px; }
+
+/* ---------- кабинет ---------- */
+
+.irepair-lk .irepair-lk__top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.irepair-lk .irepair-lk__hello { font-family: 'Montserrat-SemiBold', Arial, sans-serif; font-size: 22px; line-height: 1.25; }
+.irepair-lk .irepair-lk__logout {
+  flex: none;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(1, 3, 6, 0.1);
+  color: #010306;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.irepair-lk .irepair-lk__logout:hover { color: #1fb866; }
+.irepair-lk .irepair-lk__grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.irepair-lk .irepair-lk__col { display: grid; gap: 24px; min-width: 0; }
+
+.irepair-lk .irepair-lk__loyalty {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #f4fff8 0%, #edfafa 100%);
+}
+.irepair-lk .irepair-lk__loyalty::after {
+  content: '';
+  position: absolute;
+  right: -60px;
+  bottom: -90px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(55, 217, 123, 0.1);
+  pointer-events: none;
+}
+.irepair-lk .irepair-lk__loyalty-top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.irepair-lk .irepair-lk__loyalty-tier {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 22px;
+  line-height: 1.2;
+}
+.irepair-lk .irepair-lk__loyalty-tier::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5ee596 0%, #20ccbe 100%);
+}
+.irepair-lk .irepair-lk__loyalty-silver .irepair-lk__loyalty-tier::before { background: linear-gradient(135deg, #e3e3e3 0%, #a9a9a9 100%); }
+.irepair-lk .irepair-lk__loyalty-gold .irepair-lk__loyalty-tier::before { background: linear-gradient(135deg, #ffe08a 0%, #d9a520 100%); }
+.irepair-lk .irepair-lk__loyalty-platinum .irepair-lk__loyalty-tier::before { background: linear-gradient(135deg, #cfd8e6 0%, #6f7c91 100%); }
+.irepair-lk .irepair-lk__loyalty-points { font-family: 'Montserrat-SemiBold', Arial, sans-serif; font-size: 26px; line-height: 1.2; white-space: nowrap; }
+.irepair-lk .irepair-lk__loyalty-text { position: relative; z-index: 1; color: #5c5b5b; font-size: 14px; }
+.irepair-lk .irepair-lk__loyalty-link { position: relative; z-index: 1; display: inline-block; margin-top: 14px; font-size: 14px; }
+
+.irepair-lk .irepair-lk__order { padding: 18px 0; border-top: 1px solid #ececec; }
+.irepair-lk .irepair-lk__title + .irepair-lk__order { border-top: none; padding-top: 0; }
+.irepair-lk .irepair-lk__order:last-child { padding-bottom: 0; }
+.irepair-lk .irepair-lk__order-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.irepair-lk .irepair-lk__order-title { font-family: 'Montserrat-SemiBold', Arial, sans-serif; font-size: 16px; line-height: 1.3; }
+.irepair-lk .irepair-lk__order-device { margin-top: 4px; color: #5c5b5b; font-size: 14px; overflow-wrap: anywhere; }
+.irepair-lk .irepair-lk__order-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: none; max-width: 50%; color: #939393; font-size: 13px; }
+.irepair-lk .irepair-lk__status {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(55, 217, 123, 0.14);
+  color: #14934b;
+  font-size: 12px;
+  line-height: 1.3;
+  text-align: center;
+}
+.irepair-lk .irepair-lk__status-done { background: #f2f2f2; color: #5c5b5b; }
+.irepair-lk .irepair-lk__rows li { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; font-size: 14px; }
+.irepair-lk .irepair-lk__row-label { color: #5c5b5b; }
+.irepair-lk .irepair-lk__row-value { text-align: right; overflow-wrap: anywhere; }
+.irepair-lk .irepair-lk__success { display: flex; align-items: center; gap: 8px; margin-top: 10px; color: #14934b; font-size: 14px; }
+.irepair-lk .irepair-lk__order-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+
+.irepair-lk .irepair-lk__field { display: block; margin-bottom: 16px; }
+.irepair-lk .irepair-lk__field-label { display: block; margin-bottom: 6px; color: #5c5b5b; font-size: 13px; }
+.irepair-lk .irepair-lk__saved { min-height: 20px; font-size: 14px; line-height: 20px; }
+.irepair-lk .irepair-lk__saved-ok { color: #14934b; }
+.irepair-lk .irepair-lk__saved-err { color: #eb001b; }
+
+/* ---------- окна ---------- */
+
+.irepair-lk .irepair-lk__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(1, 3, 6, 0.6);
+}
+.irepair-lk .irepair-lk__modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 36px;
+  background: #fff;
+  border-radius: 26px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
+}
+.irepair-lk .irepair-lk__modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #3e3e3e;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+.irepair-lk .irepair-lk__modal-close:hover { color: #37d97b; }
+.irepair-lk .irepair-lk__items { margin-top: 18px; padding-top: 18px; border-top: 1px solid #ececec; }
+.irepair-lk .irepair-lk__item { padding: 12px 0; border-top: 1px solid #ececec; }
+.irepair-lk .irepair-lk__item:first-child { border-top: none; padding-top: 0; }
+.irepair-lk .irepair-lk__item-title { margin-bottom: 6px; font-weight: 500; font-size: 14px; }
+
+@media (max-width: 900px) {
+  .irepair-lk .irepair-lk__grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 650px) {
+  .irepair-lk { padding-bottom: 40px; }
+  .irepair-lk .irepair-lk__card { padding: 22px 18px; border-radius: 18px; }
+  .irepair-lk .irepair-lk__auth { padding-top: 16px; }
+  .irepair-lk .irepair-lk__auth-card { padding: 28px 22px; border-radius: 22px; }
+  .irepair-lk .irepair-lk__hello { font-size: 19px; }
+  .irepair-lk .irepair-lk__title { font-size: 19px; }
+  .irepair-lk .irepair-lk__grid,
+  .irepair-lk .irepair-lk__col { gap: 16px; }
+  .irepair-lk .irepair-lk__modal { padding: 0; align-items: flex-end; }
+  .irepair-lk .irepair-lk__modal-card { padding: 30px 20px 26px; border-radius: 22px 22px 0 0; max-height: 92%; }
+}

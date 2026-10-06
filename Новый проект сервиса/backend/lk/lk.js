@@ -1,0 +1,358 @@
+/* Личный кабинет iRepair — интерфейс. На сервере: /ajax/lk/lk.js. Рисует всё внутри <div id="irepair-lk">. */
+(function () {
+  'use strict';
+
+  var root = document.getElementById('irepair-lk');
+  if (!root) return;
+
+  var API = '/ajax/lk/api.php';
+  var ERRORS = {
+    bad_phone: 'Некорректный номер телефона',
+    bad_code: 'Неверный код подтверждения',
+    code_expired: 'Код больше не действует. Запросите новый',
+    too_many: 'Слишком много запросов. Попробуйте позже',
+    sms: 'Не удалось отправить СМС. Попробуйте ещё раз',
+    service: 'Сервис временно недоступен. Попробуйте позже',
+    bad_email: 'Проверьте адрес почты',
+    bad_birthday: 'Проверьте дату рождения',
+    already: 'Баллы по этому заказу уже списаны',
+    bad_status: 'По этому заказу баллы сейчас списать нельзя',
+    no_points: 'Нет баллов для списания',
+    disabled: 'Списание баллов временно недоступно'
+  };
+  var CHECK = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1 6.6l3 3.1L11 2.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function api(action, data) {
+    var body = new URLSearchParams();
+    body.set('action', action);
+    Object.keys(data || {}).forEach(function (k) { body.set(k, data[k]); });
+    return fetch(API, { method: 'POST', credentials: 'same-origin', headers: { 'X-Requested-With': 'irepair-lk' }, body: body })
+      .then(function (r) { return r.json(); })
+      .catch(function () { return { ok: false, error: 'service' }; });
+  }
+
+  function errText(res) {
+    if (res && res.error === 'wait') return 'Новый код можно запросить через ' + (res.wait || 60) + ' сек.';
+    return ERRORS[res && res.error] || 'Что-то пошло не так. Попробуйте ещё раз';
+  }
+
+  /* el('div.cls', {attr: value}, [children | text]) */
+  function el(spec, attrs, children) {
+    var parts = spec.split('.');
+    var node = document.createElement(parts[0] || 'div');
+    if (parts.length > 1) node.className = parts.slice(1).map(function (c) { return 'irepair-lk__' + c; }).join(' ');
+    Object.keys(attrs || {}).forEach(function (k) {
+      if (k === 'html') node.innerHTML = attrs[k];
+      else if (k.indexOf('on') === 0) node.addEventListener(k.slice(2), attrs[k]);
+      else if (attrs[k] !== false && attrs[k] != null) node.setAttribute(k, attrs[k] === true ? '' : attrs[k]);
+    });
+    (function add(c) {
+      if (c == null || c === false) return;
+      if (Array.isArray(c)) c.forEach(add);
+      else node.appendChild(typeof c === 'object' ? c : document.createTextNode(String(c)));
+    })(children);
+    return node;
+  }
+
+  function show(node) {
+    root.innerHTML = '';
+    root.appendChild(node);
+  }
+
+  function money(n) { return Number(n || 0).toLocaleString('ru-RU') + ' ₽'; }
+
+  function points(n) {
+    n = Number(n || 0);
+    var a = Math.abs(n) % 100, b = a % 10;
+    var word = a > 10 && a < 20 ? 'баллов' : b === 1 ? 'балл' : b >= 2 && b <= 4 ? 'балла' : 'баллов';
+    return n.toLocaleString('ru-RU') + ' ' + word;
+  }
+
+  /* ---------- вход ---------- */
+
+  function authCard(children) {
+    return el('div.auth', null, [el('div.auth-card', null, children)]);
+  }
+
+  function renderLogin(prefill, notice) {
+    var input = el('input.input', { type: 'tel', name: 'phone', placeholder: '+7 (___) ___-__-__', autocomplete: 'tel', inputmode: 'tel', required: true });
+    var error = el('div.error', { role: 'alert' }, notice || '');
+    var button = el('button.btn', { type: 'submit' }, 'Получить код');
+    var mask = window.IMask ? window.IMask(input, { mask: '+{7} (000) 000-00-00' }) : null;
+    if (prefill) { if (mask) mask.value = prefill; else input.value = prefill; }
+
+    var form = el('form', {
+      novalidate: true,
+      onsubmit: function (e) {
+        e.preventDefault();
+        var digits = input.value.replace(/\D/g, '');
+        if (digits.length !== 11) { error.textContent = ERRORS.bad_phone; return; }
+        error.textContent = '';
+        button.disabled = true;
+        api('send_code', { phone: digits }).then(function (res) {
+          button.disabled = false;
+          if (res.ok && res.status === 'sent') renderCode(digits, input.value, res.wait || 60);
+          else if (res.ok && res.status === 'not_found') renderNotFound(input.value);
+          else error.textContent = errText(res);
+        });
+      }
+    }, [
+      input, error, button,
+      el('p.note', null, ['Нажимая «Получить код», вы соглашаетесь с условиями обработки ', el('a', { href: '/privacy/' }, 'персональных данных')]),
+      el('a.link', { href: '/programma-loyalnosti/' }, 'Подробнее о программе лояльности')
+    ]);
+    show(authCard([el('h2.auth-title', null, 'Вход в личный кабинет'), form]));
+    input.focus();
+  }
+
+  function renderCode(digits, shown, wait) {
+    var input = el('input.input.input-code', { type: 'text', name: 'code', maxlength: 4, inputmode: 'numeric', autocomplete: 'one-time-code', placeholder: '••••' });
+    var error = el('div.error', { role: 'alert' });
+    var timer = el('p.note');
+    var resend = el('button.text-btn', { type: 'button', hidden: true }, 'Отправить код заново');
+    var busy = false, left = wait, tick, abort;
+
+    function countdown() {
+      clearInterval(tick);
+      resend.hidden = true;
+      timer.hidden = false;
+      timer.textContent = 'Получить новый код можно через ' + left + ' сек.';
+      tick = setInterval(function () {
+        left -= 1;
+        if (left > 0) { timer.textContent = 'Получить новый код можно через ' + left + ' сек.'; return; }
+        clearInterval(tick);
+        timer.hidden = true;
+        resend.hidden = false;
+      }, 1000);
+    }
+
+    function leave() {
+      clearInterval(tick);
+      if (abort) abort.abort();
+    }
+
+    function check() {
+      var code = input.value.replace(/\D/g, '');
+      if (code !== input.value) input.value = code;
+      error.textContent = '';
+      if (code.length !== 4 || busy) return;
+      busy = true;
+      api('check_code', { phone: digits, code: code }).then(function (res) {
+        busy = false;
+        if (res.ok) { leave(); loadCabinet(); return; }
+        error.textContent = errText(res);
+        input.value = '';
+        input.focus();
+      });
+    }
+
+    input.addEventListener('input', check);
+    resend.addEventListener('click', function () {
+      resend.disabled = true;
+      api('send_code', { phone: digits }).then(function (res) {
+        resend.disabled = false;
+        if (res.ok && res.status === 'sent') { left = res.wait || 60; error.textContent = ''; countdown(); }
+        else error.textContent = errText(res);
+      });
+    });
+
+    show(authCard([
+      el('h2.auth-title', null, 'Введите код'),
+      el('p.auth-text', null, ['Мы отправили код подтверждения на номер ', el('b', null, shown)]),
+      el('button.text-btn', { type: 'button', onclick: function () { leave(); renderLogin(shown); } }, 'Изменить номер'),
+      input, error, timer, resend
+    ]));
+    input.focus();
+    countdown();
+
+    // Автоподстановка кода из СМС (Android/Chrome)
+    if ('OTPCredential' in window && navigator.credentials && window.AbortController) {
+      abort = new AbortController();
+      navigator.credentials.get({ otp: { transport: ['sms'] }, signal: abort.signal })
+        .then(function (otp) { if (otp && otp.code) { input.value = otp.code; check(); } })
+        .catch(function () {});
+    }
+  }
+
+  function renderNotFound(shown) {
+    show(authCard([
+      el('h2.auth-title', null, 'Пользователь не найден'),
+      el('p.auth-text', null, ['Войти могут клиенты, зарегистрированные в ', el('a', { href: '/programma-loyalnosti/' }, 'программе лояльности'), '. Проверьте номер или свяжитесь с нами — поможем.']),
+      el('button.btn', { type: 'button', onclick: function () { renderLogin(shown); } }, 'Ввести другой номер'),
+      el('div.contacts', null, [
+        el('a', { href: 'tel:+78005552190' }, '8 800 555-21-90'),
+        el('a', { href: 'https://t.me/iRepair_Moscow_bot', target: '_blank', rel: 'noopener' }, 'Telegram')
+      ])
+    ]));
+  }
+
+  /* ---------- кабинет ---------- */
+
+  function row(label, value) {
+    return el('li', null, [el('span.row-label', null, label), el('span.row-value', null, value)]);
+  }
+
+  function orderCard(o, isCurrent, reload) {
+    var actions = el('div.order-actions', null, [
+      el('button.btn-light', { type: 'button', onclick: function () { openOrder(o); } }, 'Подробнее')
+    ]);
+    if (isCurrent && o.can_spend) {
+      actions.appendChild(el('button.btn.btn-small', { type: 'button', onclick: function () { confirmSpend(o, reload); } }, 'Списать баллы'));
+    }
+    return el('div.order', null, [
+      el('div.order-head', null, [
+        el('div', null, [el('div.order-title', null, 'Заказ №' + o.label), o.device ? el('div.order-device', null, o.device) : null]),
+        el('div.order-meta', null, [o.status ? el('span.status' + (isCurrent ? '' : '.status-done'), null, o.status) : null, el('time', null, o.date)])
+      ]),
+      el('ul.rows', null, [
+        row('Стоимость', money(o.price)),
+        row('Кешбэк', points(o.cashback)),
+        isCurrent && !o.spent && o.available > 0 ? row('Доступно к списанию', points(o.available)) : null
+      ]),
+      o.spent > 0 ? el('div.success', { html: CHECK + '<span>Списано ' + points(o.spent).replace(/&/g, '&amp;') + '</span>' }) : null,
+      actions
+    ]);
+  }
+
+  function renderCabinet(data) {
+    var p = data.profile, b = data.bonus;
+    var reload = function () { loadCabinet(true); };
+    var name = [p.first_name, p.last_name].join(' ').trim();
+
+    var card = b.found
+      ? el('div.card.loyalty.loyalty-' + (b.card || 'silver').toLowerCase(), null, [
+          el('div.loyalty-top', null, [el('div.loyalty-tier', null, b.card), el('div.loyalty-points', null, points(b.points))]),
+          el('div.loyalty-text', null, 'Кешбэк ' + b.cashback_percent + '% · оплата баллами до ' + b.debit_percent + '% стоимости ремонта'),
+          el('a.loyalty-link', { href: '/programma-loyalnosti/' }, 'Подробнее о программе лояльности')
+        ])
+      : el('div.card.loyalty', null, [
+          el('div.loyalty-tier', null, 'Программа лояльности'),
+          el('div.loyalty-text', null, 'Карта пока не найдена. Напишите нам — проверим и подключим.'),
+          el('a.loyalty-link', { href: '/programma-loyalnosti/' }, 'Подробнее о программе лояльности')
+        ]);
+
+    var current = el('div.card', null, [
+      el('h2.title', null, 'Текущие заказы'),
+      !data.orders_ok ? el('p.empty', null, 'Не удалось загрузить заказы. Обновите страницу чуть позже.')
+        : data.orders.length ? data.orders.map(function (o) { return orderCard(o, true, reload); })
+        : el('p.empty', null, 'Сейчас у вас нет заказов в работе.')
+    ]);
+
+    var history = el('div.card', null, [
+      el('h2.title', null, 'История заказов'),
+      data.history.length ? data.history.map(function (o) { return orderCard(o, false, reload); })
+        : el('p.empty', { html: 'У вас нет ни одного выполненного заказа.<br>Но скоро будет :)' })
+    ]);
+
+    /* Личные данные: сохраняются сразу при изменении поля */
+    var email = el('input.input', { type: 'email', value: p.email, placeholder: 'Email', autocomplete: 'email' });
+    var birthday = el('input.input', { type: 'date', value: p.birthday || '', max: new Date().toISOString().slice(0, 10) });
+    var gender = el('select.input', null, [
+      el('option', { value: '' }, 'Не выбрано'),
+      el('option', { value: 'M', selected: p.gender === 'M' }, 'Мужской'),
+      el('option', { value: 'F', selected: p.gender === 'F' }, 'Женский')
+    ]);
+    var saved = el('div.saved', { role: 'status' });
+    var savedTimer;
+    function save() {
+      api('save_profile', { email: email.value.trim(), birthday: birthday.value, gender: gender.value }).then(function (res) {
+        clearTimeout(savedTimer);
+        saved.className = 'irepair-lk__saved' + (res.ok ? ' irepair-lk__saved-ok' : ' irepair-lk__saved-err');
+        saved.textContent = res.ok ? 'Сохранено' : errText(res);
+        if (res.ok) savedTimer = setTimeout(function () { saved.textContent = ''; }, 2500);
+      });
+    }
+    [email, birthday, gender].forEach(function (f) { f.addEventListener('change', save); });
+    function field(label, input) { return el('label.field', null, [el('span.field-label', null, label), input]); }
+
+    var personal = el('div.card', null, [
+      el('h2.title', null, 'Личные данные'),
+      field('Телефон', el('input.input', { type: 'tel', value: p.phone, disabled: true })),
+      field('Email', email),
+      field('Дата рождения', birthday),
+      field('Пол', gender),
+      saved
+    ]);
+
+    show(el('div.cabinet', null, [
+      el('div.top', null, [
+        el('div.hello', null, name ? 'Здравствуйте, ' + name : 'Здравствуйте'),
+        el('button.logout', { type: 'button', onclick: function () { api('logout').then(function () { renderLogin(); }); } }, 'Выйти')
+      ]),
+      el('div.grid', null, [el('div.col', null, [card, current]), el('div.col', null, [personal, history])])
+    ]));
+  }
+
+  /* ---------- окна ---------- */
+
+  function modal(children) {
+    var overlay = el('div.modal', { role: 'dialog', 'aria-modal': 'true' });
+    function close() {
+      document.removeEventListener('keydown', onKey);
+      overlay.remove();
+    }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+    document.addEventListener('keydown', onKey);
+    overlay.appendChild(el('div.modal-card', null, [el('button.modal-close', { type: 'button', 'aria-label': 'Закрыть', onclick: close }, '×')].concat(children)));
+    root.appendChild(overlay);
+    return close;
+  }
+
+  function openOrder(o) {
+    var list = el('div.items', null, el('p.empty', null, 'Загружаем состав заказа…'));
+    modal([
+      el('h2.title', null, 'Заказ №' + o.label),
+      el('ul.rows', null, [
+        o.device ? row('Устройство', o.device) : null,
+        row('Дата', o.date),
+        row('Стоимость', money(o.price)),
+        row('Кешбэк', points(o.cashback))
+      ]),
+      list
+    ]);
+    api('order_items', { order_id: o.id }).then(function (res) {
+      list.innerHTML = '';
+      if (!res.ok) { list.appendChild(el('p.empty', null, errText(res))); return; }
+      if (!res.items.length) { list.appendChild(el('p.empty', null, 'В заказ пока не добавлены услуги.')); return; }
+      res.items.forEach(function (it) {
+        list.appendChild(el('div.item', null, [
+          el('div.item-title', null, it.title),
+          el('ul.rows', null, [it.warranty ? row('Гарантия', it.warranty) : null, row('Стоимость услуги', money(it.price))])
+        ]));
+      });
+    });
+  }
+
+  function confirmSpend(o, reload) {
+    var error = el('div.error', { role: 'alert' });
+    var button = el('button.btn', { type: 'button' }, 'Списать ' + points(o.available));
+    var close = modal([
+      el('h2.title', null, 'Списать баллы'),
+      el('p.auth-text', null, 'В счёт заказа №' + o.label + ' будет списано до ' + points(o.available) + '. Стоимость заказа уменьшится на эту сумму. Отменить списание из кабинета нельзя.'),
+      error, button
+    ]);
+    button.addEventListener('click', function () {
+      button.disabled = true;
+      error.textContent = '';
+      api('spend_bonus', { order_id: o.id }).then(function (res) {
+        if (res.ok) { close(); reload(); return; }
+        button.disabled = false;
+        error.textContent = errText(res) + '. Если ошибка сохранится, позвоните нам: 8 800 555-21-90';
+      });
+    });
+  }
+
+  /* ---------- запуск ---------- */
+
+  function loadCabinet(silent) {
+    if (!silent) show(el('div.loading', null, 'Загружаем…'));
+    api('me').then(function (res) {
+      if (res.ok && res.auth) renderCabinet(res);
+      else if (res.ok) renderLogin();
+      else renderLogin('', errText(res));
+    });
+  }
+
+  loadCabinet();
+})();
