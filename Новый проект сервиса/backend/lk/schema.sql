@@ -10,7 +10,9 @@ CREATE TABLE IF NOT EXISTS irepair_lk_clients (
   gender        VARCHAR(1)   NOT NULL DEFAULT '',    -- M / F
   birthday      DATE         NULL,
   created_at    INT UNSIGNED NOT NULL DEFAULT 0,
-  last_login_at INT UNSIGNED NOT NULL DEFAULT 0
+  last_login_at INT UNSIGNED NOT NULL DEFAULT 0,
+  consent_at    INT UNSIGNED NOT NULL DEFAULT 0,     -- когда клиент последний раз поставил галочку согласия на обработку данных
+  consent_ip    VARCHAR(45)  NOT NULL DEFAULT ''     -- и с какого адреса
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Действующий код из СМС (хранится только подпись кода)

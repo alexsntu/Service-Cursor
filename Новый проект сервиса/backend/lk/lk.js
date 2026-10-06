@@ -19,6 +19,7 @@
     bad_status: 'По этому заказу баллы сейчас списать нельзя',
     no_points: 'Нет баллов для списания',
     disabled: 'Списание баллов временно недоступно',
+    consent: 'Отметьте согласие на обработку персональных данных',
     bonus_failed: 'Баллы списать не удалось, стоимость заказа не изменилась',
     review: 'Списание по этому заказу проверяет менеджер',
     in_progress: 'Списание уже выполняется, подождите несколько секунд'
@@ -81,6 +82,13 @@
     var input = el('input.input', { type: 'tel', name: 'phone', placeholder: '+7 (___) ___-__-__', autocomplete: 'tel', inputmode: 'tel', required: true });
     var error = el('div.error', { role: 'alert' }, notice || '');
     var button = el('button.btn', { type: 'submit' }, 'Получить код');
+    // согласие на обработку персональных данных: галочку клиент ставит сам, по умолчанию она снята
+    var consent = el('input.check-input', { type: 'checkbox', name: 'consent', required: true });
+    var consentBox = el('label.check', null, [
+      consent,
+      el('span.check-text', null, ['Я согласен(на) на обработку ', el('a', { href: '/privacy/', target: '_blank', rel: 'noopener' }, 'персональных данных')])
+    ]);
+    consent.addEventListener('change', function () { consentBox.classList.remove('irepair-lk__check-error'); if (consent.checked) error.textContent = ''; });
     var mask = window.IMask ? window.IMask(input, { mask: '+{7} (000) 000-00-00' }) : null;
     if (prefill) { if (mask) mask.value = prefill; else input.value = prefill; }
 
@@ -90,9 +98,10 @@
         e.preventDefault();
         var digits = input.value.replace(/\D/g, '');
         if (digits.length !== 11) { error.textContent = ERRORS.bad_phone; return; }
+        if (!consent.checked) { error.textContent = ERRORS.consent; consentBox.classList.add('irepair-lk__check-error'); consent.focus(); return; }
         error.textContent = '';
         button.disabled = true;
-        api('send_code', { phone: digits }).then(function (res) {
+        api('send_code', { phone: digits, consent: 1 }).then(function (res) {
           button.disabled = false;
           if (res.ok && res.status === 'sent') renderCode(digits, input.value, res.wait || 60);
           else if (res.ok && res.status === 'not_found') renderNotFound(input.value);
@@ -100,8 +109,7 @@
         });
       }
     }, [
-      input, error, button,
-      el('p.note', null, ['Нажимая «Получить код», вы соглашаетесь с условиями обработки ', el('a', { href: '/privacy/' }, 'персональных данных')]),
+      input, consentBox, error, button,
       el('a.link', { href: '/programma-loyalnosti/' }, 'Подробнее о программе лояльности')
     ]);
     show(authCard([el('h2.auth-title', null, 'Вход в личный кабинет'), form]));
@@ -152,7 +160,8 @@
     input.addEventListener('input', check);
     resend.addEventListener('click', function () {
       resend.disabled = true;
-      api('send_code', { phone: digits }).then(function (res) {
+      // повторная отправка кода: согласие клиент уже дал на предыдущем шаге
+      api('send_code', { phone: digits, consent: 1 }).then(function (res) {
         resend.disabled = false;
         if (res.ok && res.status === 'sent') { left = res.wait || 60; error.textContent = ''; countdown(); }
         else error.textContent = errText(res);

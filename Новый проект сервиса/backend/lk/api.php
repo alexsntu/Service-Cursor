@@ -320,6 +320,10 @@ switch ($action) {
         if (!$phone) {
             lk_fail('bad_phone');
         }
+        // согласие на обработку персональных данных — отдельная галочка, без неё код не отправляем
+        if (($_POST['consent'] ?? '') !== '1') {
+            lk_fail('consent');
+        }
         $cnt = function (string $where, array $args) use ($pdo): int {
             $st = $pdo->prepare('SELECT COUNT(*) FROM irepair_lk_sms_log WHERE ' . $where);
             $st->execute($args);
@@ -356,12 +360,12 @@ switch ($action) {
             $first = trim((string) ($client['name'] ?? ''));
         }
         $pdo->prepare(
-            'INSERT INTO irepair_lk_clients (phone, ro_client_id, first_name, last_name, email, created_at)
-             VALUES (?, ?, ?, ?, ?, ?)
-             ON DUPLICATE KEY UPDATE ro_client_id = VALUES(ro_client_id),
+            'INSERT INTO irepair_lk_clients (phone, ro_client_id, first_name, last_name, email, created_at, consent_at, consent_ip)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE ro_client_id = VALUES(ro_client_id), consent_at = VALUES(consent_at), consent_ip = VALUES(consent_ip),
                 first_name = IF(name_custom = 1, first_name, VALUES(first_name)),
                 last_name = IF(name_custom = 1, last_name, VALUES(last_name))'
-        )->execute([$phone, (int) ($client['id'] ?? 0), mb_substr($first, 0, 100), mb_substr($lastName, 0, 100), mb_substr(trim((string) ($client['email'] ?? '')), 0, 190), $now]);
+        )->execute([$phone, (int) ($client['id'] ?? 0), mb_substr($first, 0, 100), mb_substr($lastName, 0, 100), mb_substr(trim((string) ($client['email'] ?? '')), 0, 190), $now, $now, $ip]);
 
         $otp = (string) random_int(1000, 9999);
         $msg = 'Ваш код для входа: ' . $otp . "\n\n@" . $cfg['otp_domain'] . ' #' . $otp;

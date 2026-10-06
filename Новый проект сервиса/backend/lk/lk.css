@@ -137,6 +137,19 @@
   letter-spacing: 14px;
   padding-left: 32px;
 }
+.irepair-lk .irepair-lk__check { display: flex; align-items: flex-start; gap: 10px; margin: 14px 0 0; cursor: pointer; }
+.irepair-lk .irepair-lk__check-input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: #37d97b;
+  cursor: pointer;
+}
+.irepair-lk .irepair-lk__check-text { color: #5c5b5b; font-size: 13px; line-height: 1.5; }
+.irepair-lk .irepair-lk__check-error .irepair-lk__check-input { outline: 2px solid #eb001b; outline-offset: 2px; }
+.irepair-lk .irepair-lk__check-error .irepair-lk__check-text { color: #eb001b; }
+.irepair-lk .irepair-lk__auth-card .irepair-lk__link { margin-top: 0; }
 .irepair-lk .irepair-lk__contacts { display: flex; gap: 24px; justify-content: center; font-size: 15px; }
 
 /* ---------- кабинет ---------- */
