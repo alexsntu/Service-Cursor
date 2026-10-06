@@ -9,7 +9,7 @@
         <div class="irepair-blog">
             <div class="irepair-blog__inner">
                 <h1 class="irepair-blog__title">{$page.page}</h1>
-                <div class="irepair-blog__desc">Лайфхаки, рекомендации, статьи<br> и всякие полезности</div>
+                <div class="irepair-blog__desc">Лайфхаки, рекомендации, статьи и всякие полезности</div>
 
                 {$ut2_load_more=$settings.abt__ut2.load_more.blog == 'Y'}
                 {if $ut2_load_more}{include file="common/abt__ut2_pagination.tpl" type="{"`$runtime.controller`_`$runtime.mode`"}" position="top" object="pages"}{/if}
@@ -50,6 +50,7 @@
   /* во всю ширину окна, как фон main.blogPage на старом сайте */
   width: 100vw;
   margin-left: calc(50% - 50vw);
+  margin-top: -20px; /* компактная шапка: серый фон начинается сразу под «хлебными крошками» */
   padding: 1px 0 100px;
   background: #f8f8f8;
 }
@@ -59,26 +60,26 @@
   padding: 0 35px;
 }
 .irepair-blog .irepair-blog__title {
-  margin: 39px 0 24px;
+  margin: 22px 0 6px;
   padding: 0;
   font-family: 'Montserrat-Bold', Arial, sans-serif;
-  font-size: 64px;
-  line-height: 64px;
+  font-size: 38px;
+  line-height: 44px;
   font-weight: 400;
   text-transform: none;
   color: #010306;
 }
 .irepair-blog .irepair-blog__desc {
   font-family: 'Montserrat-Medium', Arial, sans-serif;
-  font-size: 36px;
-  line-height: 45px;
-  color: #010306;
+  font-size: 18px;
+  line-height: 26px;
+  color: #5c5b5b;
 }
 .irepair-blog .irepair-blog__items {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 32px;
-  margin-top: 48px;
+  margin-top: 24px;
 }
 .irepair-blog .irepair-blog__item {
   display: flex;
@@ -181,19 +182,9 @@
   .irepair-blog {
     padding-bottom: 70px;
   }
-  .irepair-blog .irepair-blog__title {
-    margin: 36px 0 16px;
-    font-size: 48px;
-    line-height: 48px;
-  }
-  .irepair-blog .irepair-blog__desc {
-    font-size: 26px;
-    line-height: 34px;
-  }
   .irepair-blog .irepair-blog__items {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
-    margin-top: 36px;
   }
 }
 @media (max-width: 767px) {
@@ -206,21 +197,18 @@
     padding-bottom: 60px;
   }
   .irepair-blog .irepair-blog__title {
-    margin-top: 24px;
-    font-size: 36px;
-    line-height: 36px;
+    margin: 16px 0 4px;
+    font-size: 28px;
+    line-height: 34px;
   }
   .irepair-blog .irepair-blog__desc {
-    font-size: 20px;
-    line-height: 28px;
-  }
-  .irepair-blog .irepair-blog__desc br {
-    display: none;
+    font-size: 15px;
+    line-height: 21px;
   }
   .irepair-blog .irepair-blog__items {
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
-    margin-top: 24px;
+    margin-top: 16px;
   }
   .irepair-blog .irepair-blog__item {
     border-radius: 16px;
