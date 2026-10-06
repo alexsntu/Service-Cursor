@@ -226,11 +226,14 @@
     margin-bottom: 4px;
     font-size: 12px;
   }
+  /* заголовок целиком, без обрезки: шрифт мельче и легче */
   .irepair-index-blog .irepair-index-blog__card + .irepair-index-blog__card .irepair-index-blog__name {
+    display: block;
     margin: 0;
-    font-size: 14px;
-    line-height: 19px;
-    -webkit-line-clamp: 3;
+    overflow: visible;
+    font-family: 'Montserrat-Medium', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 17px;
   }
   .irepair-index-blog .irepair-index-blog__card + .irepair-index-blog__card .irepair-index-blog__more {
     display: none;

@@ -360,10 +360,14 @@
   .irepair-blog-rel .irepair-blog-rel__body {
     padding: 0;
   }
+  /* заголовок целиком, без обрезки */
   .irepair-blog-rel .irepair-blog-rel__name {
-    margin-bottom: 8px;
-    font-size: 15px;
-    line-height: 20px;
+    display: block;
+    margin-bottom: 6px;
+    overflow: visible;
+    font-family: 'Montserrat-Medium', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 17px;
   }
   .irepair-blog-rel .irepair-blog-rel__more {
     font-size: 14px;
