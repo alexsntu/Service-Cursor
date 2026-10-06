@@ -21,6 +21,8 @@
         "addressRegion" => "Москва",
         "addressCountry" => "RU"
     ],
+    "geo" => ["@type" => "GeoCoordinates", "latitude" => 55.758742, "longitude" => 37.632691],
+    "hasMap" => "https://yandex.ru/maps/org/irepair/1116056937/",
     "areaServed" => ["@type" => "City", "name" => "Москва"],
     "openingHoursSpecification" => [
         "@type" => "OpeningHoursSpecification",
