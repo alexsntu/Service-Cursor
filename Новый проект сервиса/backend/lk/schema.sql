@@ -52,9 +52,16 @@ CREATE TABLE IF NOT EXISTS irepair_lk_bonus_history (
   KEY order_id (order_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Замок: по одному заказу баллы списываются один раз
+-- Операция списания баллов по заказу: одна на заказ.
+-- status: pending — идёт (или оборвалась); done — списано; failed — не вышло, скидка снята, можно повторить;
+--         review — итог неизвестен, разбирает менеджер (в items_json — на какие позиции поставлена скидка).
 CREATE TABLE IF NOT EXISTS irepair_lk_spend_lock (
   order_id   BIGINT       NOT NULL PRIMARY KEY,
   phone      VARCHAR(15)  NOT NULL,
-  created_at INT UNSIGNED NOT NULL
+  status     VARCHAR(10)  NOT NULL DEFAULT 'pending',
+  amount     INT          NOT NULL DEFAULT 0,
+  items_json TEXT         NULL,
+  created_at INT UNSIGNED NOT NULL,
+  updated_at INT UNSIGNED NOT NULL DEFAULT 0,
+  KEY status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

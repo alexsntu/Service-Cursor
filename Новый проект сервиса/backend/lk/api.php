@@ -159,7 +159,8 @@ function lk_ro_orders(string $phone): ?array
         $rows = $r['data'] ?? [];
         foreach ($rows as $o) {
             // RemOnline молча игнорирует незнакомый фильтр и отдаёт заказы всех клиентов — поэтому сверяем телефон
-            $phones = array_map(static fn($p) => preg_replace('/\D+/', '', (string) $p), (array) ($o['client']['phone'] ?? []));
+            // номера приводим к одному виду (+7…, 8…, с пробелами и скобками → 7XXXXXXXXXX)
+            $phones = array_map(static fn($p) => lk_phone((string) $p), (array) ($o['client']['phone'] ?? []));
             if (in_array($phone, $phones, true)) {
                 $all[] = $o;
             }
@@ -327,6 +328,16 @@ switch ($action) {
             }
         }
 
+        // Заказы, по которым списание не завершено (идёт или ждёт разбора менеджером)
+        $locked = [];
+        if ($ids) {
+            $st = $pdo->prepare("SELECT order_id, status FROM irepair_lk_spend_lock WHERE status IN ('pending', 'review') AND order_id IN (" . implode(',', array_fill(0, count($ids), '?')) . ')');
+            $st->execute($ids);
+            foreach ($st as $h) {
+                $locked[(int) $h['order_id']] = $h['status'];
+            }
+        }
+
         $current = $history = $map = [];
         foreach ($raw ?? [] as $o) {
             $id = (int) ($o['id'] ?? 0);
@@ -348,7 +359,8 @@ switch ($action) {
                 $history[] = $item;
             } else {
                 $item['available'] = isset($spent[$id]) ? 0 : (int) min(floor($price * $bonus['debit_percent'] / 100), $bonus['points']);
-                $item['can_spend'] = !empty($cfg['spend_enabled']) && $statusId === (int) $cfg['spend_status'] && !isset($spent[$id]) && $item['available'] > 0;
+                $item['can_spend'] = !empty($cfg['spend_enabled']) && $statusId === (int) $cfg['spend_status'] && !isset($spent[$id]) && !isset($locked[$id]) && $item['available'] > 0;
+                $item['spend_review'] = isset($locked[$id]);
                 $current[] = $item;
             }
             $map[$id] = $statusId;
@@ -419,28 +431,43 @@ switch ($action) {
         if ((int) ($order['status']['id'] ?? 0) !== (int) $cfg['spend_status']) {
             lk_fail('bad_status', 409);
         }
-        // Один заказ — одно списание: строка-замок с уникальным order_id
-        try {
-            $pdo->prepare('INSERT INTO irepair_lk_spend_lock (order_id, phone, created_at) VALUES (?, ?, ?)')->execute([$orderId, $phone, $now]);
-        } catch (PDOException $e) {
-            lk_fail('already', 409);
-        }
-        $unlock = static function () use ($pdo, $orderId): void {
-            $pdo->prepare('DELETE FROM irepair_lk_spend_lock WHERE order_id = ?')->execute([$orderId]);
+        /*
+         * Состояние операции хранится в irepair_lk_spend_lock.status:
+         *   pending — идёт сейчас (или оборвалась посередине);
+         *   done    — баллы списаны, скидка стоит;
+         *   failed  — не получилось, скидка снята, можно повторить;
+         *   review  — итог неизвестен (скидка могла остаться, баллы могли списаться) → разбирает менеджер.
+         * Успех клиенту показываем только после подтверждения BonusPlus.
+         */
+        $setState = static function (string $status, int $amount = 0, array $applied = []) use ($pdo, $orderId, $now): void {
+            $pdo->prepare('UPDATE irepair_lk_spend_lock SET status = ?, amount = ?, items_json = ?, updated_at = ? WHERE order_id = ?')
+                ->execute([$status, $amount, json_encode($applied), $now, $orderId]);
         };
+        try {
+            $pdo->prepare("INSERT INTO irepair_lk_spend_lock (order_id, phone, status, created_at, updated_at) VALUES (?, ?, 'pending', ?, ?)")->execute([$orderId, $phone, $now, $now]);
+        } catch (PDOException $e) {
+            // повтор разрешён только после неудачи с полностью снятой скидкой
+            $st = $pdo->prepare("UPDATE irepair_lk_spend_lock SET status = 'pending', phone = ?, updated_at = ? WHERE order_id = ? AND status = 'failed'");
+            $st->execute([$phone, $now, $orderId]);
+            if ($st->rowCount() !== 1) {
+                $st = $pdo->prepare('SELECT status FROM irepair_lk_spend_lock WHERE order_id = ?');
+                $st->execute([$orderId]);
+                lk_fail($st->fetchColumn() === 'done' ? 'already' : 'review', 409);
+            }
+        }
 
         $bonus = lk_bonus_info($phone);
         [$code, $r] = lk_ro('GET', 'orders/' . $orderId . '/items');
         $items = ($code === 200 && is_array($r)) ? ($r['data'] ?? $r) : null;
         if (!$bonus['found'] || $bonus['points'] <= 0 || !$items) {
-            $unlock();
+            $setState('failed');
             lk_fail($items ? 'no_points' : 'service', $items ? 409 : 502);
         }
 
+        // 1. Скидка на позиции заказа в RemOnline. Что применили — сразу записываем, чтобы след остался при любом сбое
         $left = $bonus['points'];
         $total = 0;
-        $retail = [];
-        $hist = $pdo->prepare('INSERT INTO irepair_lk_bonus_history (order_id, item_id, amount, phone, created_at) VALUES (?, ?, ?, ?, ?)');
+        $applied = $retail = [];
         foreach ($items as $it) {
             if (!is_array($it) || $left <= 0) {
                 continue;
@@ -458,21 +485,59 @@ switch ($action) {
                 lk_log("списание: заказ $orderId, позиция " . (int) $it['id'] . ", RemOnline ответил $code");
                 continue;
             }
-            $hist->execute([$orderId, (int) $it['id'], $amount, $phone, $now]);
             $left -= $amount;
             $total += $amount;
+            $applied[] = ['item_id' => (int) $it['id'], 'amount' => $amount];
             $retail[] = ['sum' => (float) ceil($price), 'qnt' => 1, 'product' => (string) ($it['entity']['title'] ?? '')];
+            $setState('pending', $total, $applied);
         }
         if ($total <= 0) {
-            $unlock();
+            $setState('failed');
             lk_fail('service', 502);
         }
-        // Баллы со счёта снимает BonusPlus. Скидка в RemOnline уже стоит, поэтому при сбое — только запись в журнал.
+
+        // 2. Списание баллов в BonusPlus. Нет ясного ответа (ошибка, таймаут) — сверяем по остатку баллов
         [$code, $res] = lk_bonusplus('POST', 'retail', ['phone' => $phone, 'items' => $retail, 'bonusDebit' => (float) $total]);
-        if ($code < 200 || $code >= 300) {
+        $confirmed = $code >= 200 && $code < 300;
+        $unknown = false;
+        if (!$confirmed) {
             lk_log("списание: заказ $orderId, $total баллов — BonusPlus ответил $code: " . mb_substr(json_encode($res, JSON_UNESCAPED_UNICODE) ?: '', 0, 300));
+            $after = lk_bonus_info($phone);
+            if (!$after['found']) {
+                $unknown = true;                                   // остаток узнать не удалось
+            } elseif ($after['points'] <= $bonus['points'] - $total) {
+                $confirmed = true;                                 // баллы всё-таки списаны
+            }
         }
-        lk_out(['ok' => true, 'spent' => $total, 'bonusplus_ok' => $code >= 200 && $code < 300]);
+
+        if ($confirmed) {
+            $hist = $pdo->prepare('INSERT INTO irepair_lk_bonus_history (order_id, item_id, amount, phone, created_at) VALUES (?, ?, ?, ?, ?)');
+            foreach ($applied as $a) {
+                $hist->execute([$orderId, $a['item_id'], $a['amount'], $phone, $now]);
+            }
+            $setState('done', $total, $applied);
+            lk_out(['ok' => true, 'spent' => $total]);
+        }
+        if ($unknown) {
+            $setState('review', $total, $applied);
+            lk_log("списание: заказ $orderId — итог неизвестен, нужен разбор (скидка $total р стоит в RemOnline)");
+            lk_fail('review', 502);
+        }
+
+        // 3. Баллы не списаны → снимаем скидку в RemOnline
+        $reverted = true;
+        foreach ($applied as $a) {
+            [$code, $res] = lk_ro('PATCH', 'orders/' . $orderId . '/items/' . $a['item_id'], [
+                'discount' => ['type' => 'value', 'sponsor' => 'company', 'amount' => 0],
+                'comment' => 'Списание бонусов отменено',
+            ]);
+            if (!is_array($res) || !isset($res['id'])) {
+                $reverted = false;
+                lk_log("списание: заказ $orderId, позиция {$a['item_id']} — скидку снять не удалось, RemOnline ответил $code");
+            }
+        }
+        $setState($reverted ? 'failed' : 'review', $reverted ? 0 : $total, $reverted ? [] : $applied);
+        lk_fail($reverted ? 'bonus_failed' : 'review', 502);
 
     /* Личные данные */
     case 'save_profile':

@@ -18,7 +18,9 @@
     already: 'Баллы по этому заказу уже списаны',
     bad_status: 'По этому заказу баллы сейчас списать нельзя',
     no_points: 'Нет баллов для списания',
-    disabled: 'Списание баллов временно недоступно'
+    disabled: 'Списание баллов временно недоступно',
+    bonus_failed: 'Баллы списать не удалось, стоимость заказа не изменилась',
+    review: 'Списание по этому заказу проверяет менеджер'
   };
   var CHECK = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1 6.6l3 3.1L11 2.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
@@ -210,6 +212,7 @@
         isCurrent && !o.spent && o.available > 0 ? row('Доступно к списанию', points(o.available)) : null
       ]),
       o.spent > 0 ? el('div.success', { html: CHECK + '<span>Списано ' + points(o.spent).replace(/&/g, '&amp;') + '</span>' }) : null,
+      isCurrent && o.spend_review && !o.spent ? el('p.note', null, 'Списание баллов по этому заказу проверяет менеджер. Вопросы — по телефону 8 800 555-21-90.') : null,
       actions
     ]);
   }
