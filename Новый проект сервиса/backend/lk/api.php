@@ -566,7 +566,8 @@ switch ($action) {
         foreach (array_slice($rows, 0, 100) as $row) {
             $order = $row['order'] ?: ($byPurchase[$row['purchase']] ?? 0);   // начисление и списание одной продажи — один заказ
             $title = $row['title'] !== '' ? $row['title'] : ($row['amount'] > 0 ? 'Начисление' : 'Списание');
-            if (stripos($title, 'ручн') !== false || stripos($title, 'manual') !== false) {
+            // служебные названия ручных операций BonusPlus («Корректировка - списание») — клиенту понятными словами
+            if (mb_stripos($title, 'корректировка') !== false || mb_stripos($title, 'ручн') !== false || stripos($title, 'manual') !== false) {
                 $title = $row['amount'] > 0 ? 'Начисление баллов' : 'Списание баллов';
             }
             $out[] = ['date' => $row['ts'] ? date('d.m.Y', $row['ts']) : '', 'amount' => $row['amount'], 'title' => $title, 'order' => $order ? $label($order) : '', 'order_id' => $order && $label($order) !== '' ? $order : 0];
