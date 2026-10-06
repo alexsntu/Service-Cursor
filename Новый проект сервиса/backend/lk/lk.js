@@ -372,12 +372,52 @@
       saved
     ]);
 
+    /* Избранные услуги — избранное CS-Cart этого браузера (то же, что на странице /wishlist/) */
+    var favBody = el('div.fav', null, el('p.empty', null, 'Загружаем…'));
+    function loadFavorites() {
+      fetch('/index.php?dispatch=irepair_wishlist.list', { credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          favBody.innerHTML = '';
+          if (!res.ok || !res.items.length) {
+            favBody.appendChild(el('p.empty', null, ['Пока пусто. Нажмите на сердечко на странице услуги — она появится здесь. ', el('a', { href: '/catalog/' }, 'Перейти в каталог')]));
+            return;
+          }
+          res.items.forEach(function (it) {
+            var rowNode = el('div.fav-row', null, [
+              el('a.fav-img', { href: it.url, tabindex: '-1', 'aria-hidden': 'true' }, it.image ? el('img', { src: it.image, alt: '', loading: 'lazy' }) : null),
+              el('span.fav-main', null, [el('a.fav-name', { href: it.url }, it.name), el('span.fav-price', null, money(Math.round(it.price)))]),
+              el('button.fav-del', {
+                type: 'button', 'aria-label': 'Убрать из избранного', title: 'Убрать из избранного',
+                onclick: function () {
+                  rowNode.style.opacity = '0.4';
+                  // CS-Cart удаляет из избранного только POST-запросом со своим защитным ключом страницы
+                  var body = new URLSearchParams();
+                  body.set('dispatch', 'wishlist.delete');
+                  body.set('cart_id', it.cart_id);
+                  body.set('security_hash', (window.Tygh && window.Tygh.security_hash) || '');
+                  fetch('/index.php', { method: 'POST', credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body: body })
+                    .then(loadFavorites, loadFavorites);
+                }
+              }, '\u00d7')
+            ]);
+            favBody.appendChild(rowNode);
+          });
+        })
+        .catch(function () {
+          favBody.innerHTML = '';
+          favBody.appendChild(el('p.empty', null, 'Не удалось загрузить избранное. Обновите страницу.'));
+        });
+    }
+    var favorites = el('div.card', null, [el('h2.title', null, 'Избранные услуги'), favBody]);
+    loadFavorites();
+
     show(el('div.cabinet', null, [
       el('div.top', null, [
         el('div.hello', null, name ? 'Здравствуйте, ' + name : 'Здравствуйте'),
         el('button.logout', { type: 'button', onclick: function () { api('logout').then(function () { renderLogin(); }); } }, 'Выйти')
       ]),
-      el('div.grid', null, [el('div.col', null, [card, current]), el('div.col', null, [personal, history])])
+      el('div.grid', null, [el('div.col', null, [card, current, favorites]), el('div.col', null, [personal, history])])
     ]));
   }
 
