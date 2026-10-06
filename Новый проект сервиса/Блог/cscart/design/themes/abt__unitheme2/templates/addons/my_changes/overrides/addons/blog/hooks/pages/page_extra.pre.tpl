@@ -1,7 +1,8 @@
 {* iRepair: блог (переопределяет addons/blog/hooks/pages/page_extra.pre.tpl UniTheme2).
-   /blog/ (список статей) — как на старом сайте irepair.ru/blog/: серый фон, «Блог» + подзаголовок,
-   белые карточки во всю ширину: картинка слева, справа заголовок, анонс, «Читать полностью ›».
-   Статья — внизу «Другие статьи» (3 последние, кроме текущей). *}
+   Все превью статей — 4:3 (правило владельца, 2026-10-06).
+   /blog/ (список статей) — серый фон, «Блог» + подзаголовок, сетка карточек: превью 4:3 сверху,
+   дата, заголовок, анонс, «Читать полностью ›». Компьютер — 3 в ряд, планшет — 2, телефон — 1.
+   Статья — внизу «Другие статьи» (3 последние, кроме текущей): карточки с превью 4:3. *}
 {if $page.page_type == $smarty.const.PAGE_TYPE_BLOG}
 
     {if $subpages}
@@ -12,21 +13,22 @@
 
                 {$ut2_load_more=$settings.abt__ut2.load_more.blog == 'Y'}
                 {if $ut2_load_more}{include file="common/abt__ut2_pagination.tpl" type="{"`$runtime.controller`_`$runtime.mode`"}" position="top" object="pages"}{/if}
+                {$irp_bm = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"]}
                 <div class="irepair-blog__items">
                 {foreach from=$subpages item="subpage" name="subpages"}
                     {$irp_url = "pages.view?page_id=`$subpage.page_id`"|fn_url}
-                    <div class="irepair-blog__item"{if $ut2_load_more && $smarty.foreach.subpages.first} data-ut2-load-more="first-item"{/if}>
-                        {if $subpage.main_pair}
-                            <a class="irepair-blog__item-image" href="{$irp_url}" tabindex="-1" aria-hidden="true">
-                                {include file="common/image.tpl" obj_id=$subpage.page_id images=$subpage.main_pair image_width=560}
-                            </a>
-                        {/if}
+                    {$irp_bmi = ($subpage.timestamp|date_format:"%m")|intval}
+                    <article class="irepair-blog__item"{if $ut2_load_more && $smarty.foreach.subpages.first} data-ut2-load-more="first-item"{/if}>
+                        <a class="irepair-blog__item-image" href="{$irp_url}" tabindex="-1" aria-hidden="true">
+                            {if $subpage.main_pair}{include file="common/image.tpl" obj_id=$subpage.page_id images=$subpage.main_pair image_width=640}{/if}
+                        </a>
                         <div class="irepair-blog__item-content">
+                            <time class="irepair-blog__item-date" datetime="{$subpage.timestamp|date_format:"%Y-%m-%d"}">{$subpage.timestamp|date_format:"%e"|trim} {$irp_bm[$irp_bmi - 1]} {$subpage.timestamp|date_format:"%Y"}</time>
                             <h2 class="irepair-blog__item-title"><a href="{$irp_url}">{$subpage.page}</a></h2>
                             <p class="irepair-blog__item-text">{$subpage.spoiler|strip_tags|trim|truncate:150:"..." nofilter}</p>
                             <a class="irepair-blog__item-more" href="{$irp_url}"><span>Читать полностью</span><svg width="6" height="12" viewBox="0 0 6 12" fill="none" aria-hidden="true"><path d="M1 1.5L5 6L1 10.5" stroke="#37D97B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                         </div>
-                    </div>
+                    </article>
                 {/foreach}
                 </div>
                 {if $ut2_load_more}{include file="common/abt__ut2_pagination.tpl" type="{"`$runtime.controller`_`$runtime.mode`"}" position="bottom" object="pages"}{/if}
@@ -73,72 +75,99 @@
   color: #010306;
 }
 .irepair-blog .irepair-blog__items {
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  margin-top: 48px;
 }
 .irepair-blog .irepair-blog__item {
   display: flex;
-  align-items: center;
-  margin-top: 40px;
-  padding: 50px;
+  flex-direction: column;
+  overflow: hidden;
   background: #ffffff;
-  border-radius: 3px;
-  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.25s ease;
 }
+.irepair-blog .irepair-blog__item:hover {
+  box-shadow: 0 14px 40px rgba(32, 204, 190, 0.18);
+}
+/* превью 4:3 */
 .irepair-blog .irepair-blog__item-image {
   display: block;
   flex: 0 0 auto;
-  width: 45%;
-  min-width: 480px;
-  margin-right: 50px;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  border-radius: 3px;
+  background: #f0f0f2;
 }
 .irepair-blog .irepair-blog__item-image img {
   display: block;
   width: 100% !important;
   max-width: none;
-  height: auto;
+  height: 100% !important;
+  object-fit: cover;
 }
 .irepair-blog .irepair-blog__item-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
   min-width: 0;
+  padding: 22px 26px 26px;
+}
+.irepair-blog .irepair-blog__item-date {
+  display: block;
+  margin: 0 0 8px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  color: #939393;
 }
 .irepair-blog .irepair-blog__item-title,
 .irepair-blog .irepair-blog__item-title a {
-  margin: 0 0 24px;
+  margin: 0 0 12px;
   padding: 0;
   font-family: 'Montserrat-SemiBold', 'Montserrat-Bold', Arial, sans-serif !important;
-  font-size: 28px !important;
-  line-height: 30px !important;
+  font-size: 20px !important;
+  line-height: 26px !important;
   font-weight: 400 !important;
   text-transform: none;
 }
 .irepair-blog .irepair-blog__item-title a {
   margin: 0;
-  color: #000000;
+  color: #1d1d1f;
   text-decoration: none;
   transition: color 0.3s;
 }
 .irepair-blog .irepair-blog__item-title a:hover {
-  color: #37d97b;
+  color: #20a86b;
 }
 .irepair-blog .irepair-blog__item-text {
-  margin: 0 0 24px;
+  display: -webkit-box;
+  max-height: 72px; /* ровно 3 строки: тема добавляет абзацу отступ, из-за него выглядывала 4-я */
+  margin: 0 0 18px;
+  padding: 0 !important;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   font-family: 'Roboto', Arial, sans-serif !important;
-  font-size: 20px !important;
-  line-height: 28px !important;
-  font-weight: 300;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  font-weight: 400;
   color: #5c5b5b;
 }
 .irepair-blog .irepair-blog__item-more {
   display: inline-flex;
   align-items: center;
+  align-self: flex-start;
+  margin-top: auto;
   text-decoration: none;
 }
 .irepair-blog .irepair-blog__item-more span {
   margin-right: 10px;
   font-family: 'Roboto', Arial, sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 20px;
+  font-weight: 500;
   color: #37d97b;
   transition: color 0.3s;
 }
@@ -162,35 +191,9 @@
     line-height: 34px;
   }
   .irepair-blog .irepair-blog__items {
-    margin-top: 16px;
-  }
-  .irepair-blog .irepair-blog__item {
-    flex-wrap: wrap;
-    padding: 0;
-  }
-  /* картинка целиком (без обрезки): во всю ширину карточки, высота — по пропорциям */
-  .irepair-blog .irepair-blog__item-image {
-    width: 100%;
-    min-width: 100%;
-    margin-right: 0;
-    border-radius: 3px 3px 0 0;
-  }
-  .irepair-blog .irepair-blog__item-image img {
-    height: auto;
-  }
-  .irepair-blog .irepair-blog__item-content {
-    padding: 32px;
-  }
-  .irepair-blog .irepair-blog__item-title,
-  .irepair-blog .irepair-blog__item-title a {
-    font-size: 22px !important;
-    line-height: 26px !important;
-  }
-  .irepair-blog .irepair-blog__item-title {
-    margin-bottom: 16px;
-  }
-  .irepair-blog .irepair-blog__item-text {
-    font-size: 18px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 36px;
   }
 }
 @media (max-width: 767px) {
@@ -198,7 +201,7 @@
     padding: 0 16px;
   }
 }
-@media (max-width: 639px) {
+@media (max-width: 650px) {
   .irepair-blog {
     padding-bottom: 60px;
   }
@@ -214,20 +217,26 @@
   .irepair-blog .irepair-blog__desc br {
     display: none;
   }
+  .irepair-blog .irepair-blog__items {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .irepair-blog .irepair-blog__item {
+    border-radius: 16px;
+  }
   .irepair-blog .irepair-blog__item-content {
-    padding: 16px 16px 32px;
+    padding: 16px 18px 20px;
   }
   .irepair-blog .irepair-blog__item-title,
   .irepair-blog .irepair-blog__item-title a {
     font-size: 18px !important;
-    line-height: 22px !important;
-  }
-  .irepair-blog .irepair-blog__item-text {
-    font-size: 16px !important;
     line-height: 24px !important;
   }
-  .irepair-blog .irepair-blog__item-more span {
-    font-size: 16px;
+  .irepair-blog .irepair-blog__item-text {
+    max-height: 66px;
+    font-size: 15px !important;
+    line-height: 22px !important;
   }
 }
 </style>
@@ -253,11 +262,11 @@
                     {$irp_img = $irp_p.page_id|fn_get_image_pairs:"blog":"M":true:true}
                     {$irp_src = $irp_img.icon.image_path|default:$irp_img.detailed.image_path}
                     <a class="irepair-blog-rel__item" href="{$irp_url}">
-                        {if $irp_src}
-                            <span class="irepair-blog-rel__image"><img src="{$irp_src}" alt="{$irp_p.page}" loading="lazy"></span>
-                        {/if}
-                        <span class="irepair-blog-rel__name">{$irp_p.page}</span>
-                        <span class="irepair-blog-rel__more">Читать полностью ›</span>
+                        <span class="irepair-blog-rel__image">{if $irp_src}<img src="{$irp_src}" alt="{$irp_p.page}" loading="lazy">{/if}</span>
+                        <span class="irepair-blog-rel__body">
+                            <span class="irepair-blog-rel__name">{$irp_p.page}</span>
+                            <span class="irepair-blog-rel__more">Читать полностью ›</span>
+                        </span>
                     </a>
                 {/foreach}
                 </div>
@@ -289,17 +298,23 @@
 .irepair-blog-rel .irepair-blog-rel__item {
   display: flex;
   flex-direction: column;
-  padding: 0 0 24px;
   background: #ffffff;
-  border-radius: 3px;
-  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
   overflow: hidden;
   text-decoration: none;
+  transition: box-shadow 0.25s ease;
 }
+.irepair-blog-rel .irepair-blog-rel__item:hover {
+  box-shadow: 0 14px 40px rgba(32, 204, 190, 0.18);
+}
+/* превью 4:3 */
 .irepair-blog-rel .irepair-blog-rel__image {
   display: block;
-  aspect-ratio: 16 / 9;
+  flex: 0 0 auto;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
+  background: #f0f0f2;
 }
 .irepair-blog-rel .irepair-blog-rel__image img {
   display: block;
@@ -307,31 +322,64 @@
   height: 100%;
   object-fit: cover;
 }
+.irepair-blog-rel .irepair-blog-rel__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 20px 24px 24px;
+}
 .irepair-blog-rel .irepair-blog-rel__name {
-  display: block;
-  margin: 20px 24px 12px;
+  display: -webkit-box;
+  margin: 0 0 14px;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
   font-family: 'Montserrat-SemiBold', 'Montserrat-Bold', Arial, sans-serif;
   font-size: 18px;
   line-height: 24px;
-  color: #000000;
+  color: #1d1d1f;
   transition: color 0.3s;
 }
 .irepair-blog-rel .irepair-blog-rel__item:hover .irepair-blog-rel__name {
-  color: #37d97b;
+  color: #20a86b;
 }
 .irepair-blog-rel .irepair-blog-rel__more {
-  margin: auto 24px 0;
+  margin-top: auto;
   font-family: 'Roboto', Arial, sans-serif;
   font-size: 16px;
   line-height: 20px;
+  font-weight: 500;
   color: #37d97b;
 }
-@media (max-width: 900px) {
+/* телефон: компактные строки — превью 4:3 слева, заголовок справа */
+@media (max-width: 767px) {
   .irepair-blog-rel .irepair-blog-rel__items {
     grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
   }
-}
-@media (max-width: 639px) {
+  .irepair-blog-rel .irepair-blog-rel__item {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    padding: 10px;
+    border-radius: 16px;
+  }
+  .irepair-blog-rel .irepair-blog-rel__image {
+    flex: 0 0 36%;
+    border-radius: 10px;
+  }
+  .irepair-blog-rel .irepair-blog-rel__body {
+    padding: 0;
+  }
+  .irepair-blog-rel .irepair-blog-rel__name {
+    margin-bottom: 8px;
+    font-size: 15px;
+    line-height: 20px;
+  }
+  .irepair-blog-rel .irepair-blog-rel__more {
+    font-size: 14px;
+  }
   .irepair-blog-rel .irepair-blog-rel__title {
     font-size: 24px;
     line-height: 30px;
