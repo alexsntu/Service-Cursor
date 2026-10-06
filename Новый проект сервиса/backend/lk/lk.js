@@ -20,7 +20,8 @@
     no_points: 'Нет баллов для списания',
     disabled: 'Списание баллов временно недоступно',
     bonus_failed: 'Баллы списать не удалось, стоимость заказа не изменилась',
-    review: 'Списание по этому заказу проверяет менеджер'
+    review: 'Списание по этому заказу проверяет менеджер',
+    in_progress: 'Списание уже выполняется, подождите несколько секунд'
   };
   var CHECK = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M1 6.6l3 3.1L11 2.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 

@@ -519,9 +519,12 @@ switch ($action) {
             $st = $pdo->prepare("UPDATE irepair_lk_spend_lock SET status = 'pending', phone = ?, updated_at = ? WHERE order_id = ? AND status = 'failed'");
             $st->execute([$phone, $now, $orderId]);
             if ($st->rowCount() !== 1) {
-                $st = $pdo->prepare('SELECT status FROM irepair_lk_spend_lock WHERE order_id = ?');
+                $st = $pdo->prepare('SELECT status, updated_at FROM irepair_lk_spend_lock WHERE order_id = ?');
                 $st->execute([$orderId]);
-                lk_fail($st->fetchColumn() === 'done' ? 'already' : 'review', 409);
+                $lock = $st->fetch() ?: ['status' => '', 'updated_at' => 0];
+                // второй запрос, пока идёт первый (двойное нажатие) — не «разбор менеджером», а «уже выполняется»
+                $busy = $lock['status'] === 'pending' && $now - (int) $lock['updated_at'] < 120;
+                lk_fail($lock['status'] === 'done' ? 'already' : ($busy ? 'in_progress' : 'review'), 409);
             }
         }
 
