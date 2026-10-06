@@ -291,10 +291,25 @@
   cursor: pointer;
 }
 .irepair-lk .irepair-lk__modal-close:hover { color: #37d97b; }
-.irepair-lk .irepair-lk__items { margin-top: 18px; padding-top: 18px; border-top: 1px solid #ececec; }
-.irepair-lk .irepair-lk__item { padding: 12px 0; border-top: 1px solid #ececec; }
+.irepair-lk .irepair-lk__items { margin-top: 12px; padding: 14px 16px; border-radius: 14px; background: #f7f8f9; }
+.irepair-lk .irepair-lk__item { padding: 10px 0; border-top: 1px solid #e6e8ea; }
 .irepair-lk .irepair-lk__item:first-child { border-top: none; padding-top: 0; }
-.irepair-lk .irepair-lk__item-title { margin-bottom: 6px; font-weight: 500; font-size: 14px; }
+.irepair-lk .irepair-lk__item:last-child { padding-bottom: 0; }
+.irepair-lk .irepair-lk__item-head { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; font-weight: 500; }
+.irepair-lk .irepair-lk__item-title { overflow-wrap: anywhere; }
+.irepair-lk .irepair-lk__item-price { flex: none; white-space: nowrap; }
+.irepair-lk .irepair-lk__item .irepair-lk__rows li { font-size: 13px; padding: 4px 0 0; }
+.irepair-lk .irepair-lk__badge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(55, 217, 123, 0.14);
+  color: #14934b;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.irepair-lk .irepair-lk__badge-off { background: #ececec; color: #5c5b5b; }
 
 @media (max-width: 900px) {
   .irepair-lk .irepair-lk__grid { grid-template-columns: minmax(0, 1fr); }

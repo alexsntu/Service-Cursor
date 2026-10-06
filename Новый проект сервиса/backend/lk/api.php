@@ -13,6 +13,7 @@
 declare(strict_types=1);
 
 define('IREPAIR_LK', true);
+date_default_timezone_set('Europe/Moscow');
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 header('X-Robots-Tag: noindex, nofollow');
@@ -198,13 +199,49 @@ function lk_status_groups(): array
     return $map;
 }
 
-function lk_date($v): string
+function lk_ts($v): int
 {
     if ($v === null || $v === '') {
-        return '';
+        return 0;
     }
-    $ts = is_numeric($v) ? (int) ($v > 100000000000 ? $v / 1000 : $v) : strtotime((string) $v);
+    return (int) (is_numeric($v) ? ($v > 100000000000 ? $v / 1000 : $v) : strtotime((string) $v));
+}
+
+function lk_date($v): string
+{
+    $ts = lk_ts($v);
     return $ts ? date('d.m.Y', $ts) : '';
+}
+
+/** 1 месяц, 3 месяца, 6 месяцев */
+function lk_plural(int $n, array $forms): string
+{
+    $a = abs($n) % 100;
+    $b = $a % 10;
+    return $n . ' ' . ($a > 10 && $a < 20 ? $forms[2] : ($b === 1 ? $forms[0] : ($b >= 2 && $b <= 4 ? $forms[1] : $forms[2])));
+}
+
+/**
+ * Гарантия на позицию заказа по-русски. Если заказ закрыт — ещё и срок: с даты закрытия заказа по дату окончания.
+ * RemOnline отдаёт period + period_units (days / weeks / months / years).
+ */
+function lk_warranty($w, int $closedTs): array
+{
+    $period = (int) (is_array($w) ? ($w['period'] ?? 0) : 0);
+    $unit = strtolower((string) (is_array($w) ? ($w['period_units'] ?? '') : ''));
+    $forms = ['day' => ['день', 'дня', 'дней'], 'week' => ['неделя', 'недели', 'недель'], 'month' => ['месяц', 'месяца', 'месяцев'], 'year' => ['год', 'года', 'лет']];
+    $key = rtrim($unit, 's');
+    if ($period <= 0 || !isset($forms[$key])) {
+        return ['text' => '', 'from' => '', 'to' => '', 'active' => null];
+    }
+    $out = ['text' => lk_plural($period, $forms[$key]), 'from' => '', 'to' => '', 'active' => null];
+    if ($closedTs) {
+        $end = (new DateTime('@' . $closedTs))->setTimezone(new DateTimeZone('Europe/Moscow'))->modify('+' . $period . ' ' . $key);
+        $out['from'] = date('d.m.Y', $closedTs);
+        $out['to'] = $end->format('d.m.Y');
+        $out['active'] = $end->format('Y-m-d') >= date('Y-m-d');
+    }
+    return $out;
 }
 
 function lk_session(): ?array
@@ -378,6 +415,7 @@ switch ($action) {
                 'label' => (string) ($o['id_label'] ?? $id),
                 'price' => (int) round($price),
                 'date' => lk_date($o['created_at'] ?? null),
+                'closed' => lk_date($o['closed_at'] ?? null),
                 'device' => trim((string) ($o['custom_fields'][$cfg['device_field']] ?? '')),
                 // названия статусов в RemOnline служебные («ПРИМЕНИТЬ СКИДКУ!», «Создать заказ в МС») — клиенту показываем
                 // понятную подпись по группе статуса; если группы нет — название без приставки («С | Готов» → «Готов»)
@@ -393,7 +431,8 @@ switch ($action) {
                 $item['spend_review'] = isset($locked[$id]);
                 $current[] = $item;
             }
-            $map[$id] = $statusId;
+            // по этому списку проверяется доступ к заказу; дата закрытия нужна для срока гарантии (отказы — без гарантии)
+            $map[$id] = ['s' => $statusId, 'c' => $group === 7 ? 0 : lk_ts($o['closed_at'] ?? null)];
         }
         $pdo->prepare('UPDATE irepair_lk_sessions SET orders_json = ? WHERE token_hash = ?')->execute([json_encode($map), $s['token_hash']]);
 
@@ -433,7 +472,7 @@ switch ($action) {
             }
             $items[] = [
                 'title' => (string) ($it['entity']['title'] ?? ''),
-                'warranty' => trim(($it['warranty']['period'] ?? '') . ' ' . ($it['warranty']['period_units'] ?? '')),
+                'warranty' => lk_warranty($it['warranty'] ?? null, (int) ($own[$orderId]['c'] ?? 0)),
                 'price' => (int) round((float) ($it['price'] ?? 0)),
             ];
         }

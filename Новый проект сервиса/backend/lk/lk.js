@@ -194,15 +194,37 @@
     return el('li', null, [el('span.row-label', null, label), el('span.row-value', null, value)]);
   }
 
-  /* Заказ — сворачиваемая строка: в шапке номер, устройство, статус и сумма; подробности и кнопки — по нажатию */
+  /* Заказ — сворачиваемая строка: в шапке номер, устройство, статус и сумма; при раскрытии — все сведения и состав заказа */
   function orderCard(o, isCurrent, reload, open) {
-    var actions = el('div.order-actions', null, [
-      el('button.btn-light', { type: 'button', onclick: function () { openOrder(o); } }, 'Состав заказа')
-    ]);
-    if (isCurrent && o.can_spend) {
-      actions.appendChild(el('button.btn.btn-small', { type: 'button', onclick: function () { confirmSpend(o, reload); } }, 'Списать баллы'));
+    var items = el('div.items', null, el('p.empty', null, 'Загружаем состав заказа…'));
+    var loaded = false;
+
+    function warrantyLine(w) {
+      if (!w || !w.text) return null;
+      if (!w.to) return row('Гарантия', w.text);
+      return row('Гарантия ' + w.text, [
+        'с ' + w.from + ' по ' + w.to + ' ',
+        el('span.badge' + (w.active ? '' : '.badge-off'), null, w.active ? 'действует' : 'истекла')
+      ]);
     }
-    return el('details.order', { open: !!open }, [
+
+    function loadItems() {
+      if (loaded) return;
+      loaded = true;
+      api('order_items', { order_id: o.id }).then(function (res) {
+        items.innerHTML = '';
+        if (!res.ok) { loaded = false; items.appendChild(el('p.empty', null, errText(res))); return; }
+        if (!res.items.length) { items.appendChild(el('p.empty', null, 'В заказ пока не добавлены услуги.')); return; }
+        res.items.forEach(function (it) {
+          items.appendChild(el('div.item', null, [
+            el('div.item-head', null, [el('span.item-title', null, it.title), el('span.item-price', null, money(it.price))]),
+            el('ul.rows', null, warrantyLine(it.warranty))
+          ]));
+        });
+      });
+    }
+
+    var card = el('details.order', { open: !!open }, [
       el('summary.order-head', null, [
         el('span.order-main', null, [el('span.order-title', null, 'Заказ №' + o.label), o.device ? el('span.order-device', null, o.device) : null]),
         el('span.order-meta', null, [
@@ -213,16 +235,21 @@
       ]),
       el('div.order-body', null, [
         el('ul.rows', null, [
-          row('Дата', o.date),
+          row('Дата приёма', o.date),
+          o.closed ? row('Дата закрытия', o.closed) : null,
           row('Стоимость', money(o.price)),
           row('Кешбэк', points(o.cashback)),
           isCurrent && !o.spent && o.available > 0 ? row('Доступно к списанию', points(o.available)) : null
         ]),
         o.spent > 0 ? el('div.success', { html: CHECK + '<span>Списано ' + points(o.spent).replace(/&/g, '&amp;') + '</span>' }) : null,
         isCurrent && o.spend_review && !o.spent ? el('p.note', null, 'Списание баллов по этому заказу проверяет менеджер. Вопросы — по телефону 8 800 555-21-90.') : null,
-        actions
+        items,
+        isCurrent && o.can_spend ? el('div.order-actions', null, el('button.btn.btn-small', { type: 'button', onclick: function () { confirmSpend(o, reload); } }, 'Списать баллы')) : null
       ])
     ]);
+    card.addEventListener('toggle', function () { if (card.open) loadItems(); });
+    if (open) loadItems();
+    return card;
   }
 
   /* Список заказов: длинный хвост прячем под «Показать все» */
@@ -319,31 +346,6 @@
     overlay.appendChild(el('div.modal-card', null, [el('button.modal-close', { type: 'button', 'aria-label': 'Закрыть', onclick: close }, '×')].concat(children)));
     root.appendChild(overlay);
     return close;
-  }
-
-  function openOrder(o) {
-    var list = el('div.items', null, el('p.empty', null, 'Загружаем состав заказа…'));
-    modal([
-      el('h2.title', null, 'Заказ №' + o.label),
-      el('ul.rows', null, [
-        o.device ? row('Устройство', o.device) : null,
-        row('Дата', o.date),
-        row('Стоимость', money(o.price)),
-        row('Кешбэк', points(o.cashback))
-      ]),
-      list
-    ]);
-    api('order_items', { order_id: o.id }).then(function (res) {
-      list.innerHTML = '';
-      if (!res.ok) { list.appendChild(el('p.empty', null, errText(res))); return; }
-      if (!res.items.length) { list.appendChild(el('p.empty', null, 'В заказ пока не добавлены услуги.')); return; }
-      res.items.forEach(function (it) {
-        list.appendChild(el('div.item', null, [
-          el('div.item-title', null, it.title),
-          el('ul.rows', null, [it.warranty ? row('Гарантия', it.warranty) : null, row('Стоимость услуги', money(it.price))])
-        ]));
-      });
-    });
   }
 
   function confirmSpend(o, reload) {
