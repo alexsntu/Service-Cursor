@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS irepair_lk_clients (
   ro_client_id  BIGINT       NOT NULL DEFAULT 0,     -- клиент в RemOnline
   first_name    VARCHAR(100) NOT NULL DEFAULT '',
   last_name     VARCHAR(100) NOT NULL DEFAULT '',
+  name_custom   TINYINT(1)   NOT NULL DEFAULT 0,     -- 1: имя клиент поправил сам — при входе из RemOnline не перезаписываем
   email         VARCHAR(190) NOT NULL DEFAULT '',
   gender        VARCHAR(1)   NOT NULL DEFAULT '',    -- M / F
   birthday      DATE         NULL,
@@ -90,4 +91,13 @@ CREATE TABLE IF NOT EXISTS irepair_lk_favorites (
   product_id INT UNSIGNED NOT NULL,
   created_at INT UNSIGNED NOT NULL,
   PRIMARY KEY (phone, product_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Просмотренные услуги клиента (пишет аддон my_changes при открытии кабинета; храним последние 50)
+CREATE TABLE IF NOT EXISTS irepair_lk_viewed (
+  phone      VARCHAR(15)  NOT NULL,
+  product_id INT UNSIGNED NOT NULL,
+  viewed_at  INT UNSIGNED NOT NULL,
+  PRIMARY KEY (phone, product_id),
+  KEY phone_time (phone, viewed_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

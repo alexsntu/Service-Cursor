@@ -342,7 +342,10 @@
         : el('p.empty', { html: 'У вас нет ни одного выполненного заказа.<br>Но скоро будет :)' })
     ]);
 
-    /* Личные данные: сохраняются сразу при изменении поля */
+    /* Личные данные: сворачиваемый блок (как заказы), поля сохраняются сразу при изменении.
+       Имя правится только в кабинете — в RemOnline и BonusPlus не уходит. */
+    var firstName = el('input.input', { type: 'text', value: p.first_name, placeholder: 'Имя', autocomplete: 'given-name', maxlength: 100 });
+    var lastName = el('input.input', { type: 'text', value: p.last_name, placeholder: 'Фамилия', autocomplete: 'family-name', maxlength: 100 });
     var email = el('input.input', { type: 'email', value: p.email, placeholder: 'Email', autocomplete: 'email' });
     var birthday = el('input.input', { type: 'date', value: p.birthday || '', max: new Date().toISOString().slice(0, 10) });
     var gender = el('select.input', null, [
@@ -352,27 +355,49 @@
     ]);
     var saved = el('div.saved', { role: 'status' });
     var savedTimer;
+    var hello = el('div.hello', null, name ? 'Здравствуйте, ' + name : 'Здравствуйте');
+    var personName = el('span.person-name', null, name || 'Имя не указано');
     function save() {
-      api('save_profile', { email: email.value.trim(), birthday: birthday.value, gender: gender.value }).then(function (res) {
+      api('save_profile', {
+        first_name: firstName.value.trim(), last_name: lastName.value.trim(),
+        email: email.value.trim(), birthday: birthday.value, gender: gender.value
+      }).then(function (res) {
         clearTimeout(savedTimer);
         saved.className = 'irepair-lk__saved' + (res.ok ? ' irepair-lk__saved-ok' : ' irepair-lk__saved-err');
         saved.textContent = res.ok ? 'Сохранено' : errText(res);
-        if (res.ok) savedTimer = setTimeout(function () { saved.textContent = ''; }, 2500);
+        if (!res.ok) return;
+        savedTimer = setTimeout(function () { saved.textContent = ''; }, 2500);
+        var full = [firstName.value.trim(), lastName.value.trim()].join(' ').trim();
+        hello.textContent = full ? 'Здравствуйте, ' + full : 'Здравствуйте';
+        personName.textContent = full || 'Имя не указано';
       });
     }
-    [email, birthday, gender].forEach(function (f) { f.addEventListener('change', save); });
+    [firstName, lastName, email, birthday, gender].forEach(function (f) { f.addEventListener('change', save); });
     function field(label, input) { return el('label.field', null, [el('span.field-label', null, label), input]); }
 
-    var personal = el('div.card', null, [
-      el('h2.title', null, 'Личные данные'),
-      field('Телефон', el('input.input', { type: 'tel', value: p.phone, disabled: true })),
-      field('Email', email),
-      field('Дата рождения', birthday),
-      field('Пол', gender),
-      saved
+    var personal = el('details.card.person', null, [
+      el('summary.person-head', null, [
+        el('span.person-main', null, [
+          el('span.person-title', null, 'Личные данные'),
+          personName,
+          el('span.person-phone', null, p.phone)
+        ]),
+        el('span.person-edit', null, 'Изменить'),
+        el('span.order-arrow', { 'aria-hidden': 'true' })
+      ]),
+      el('div.person-body', null, [
+        field('Имя', firstName),
+        field('Фамилия', lastName),
+        el('p.note.person-note', null, 'Имя меняется только в личном кабинете. Чтобы изменить телефон, обратитесь в сервис.'),
+        field('Телефон', el('input.input', { type: 'tel', value: p.phone, disabled: true })),
+        field('Email', email),
+        field('Дата рождения', birthday),
+        field('Пол', gender),
+        saved
+      ])
     ]);
 
-    /* Избранные услуги — избранное CS-Cart этого браузера (то же, что на странице /wishlist/) */
+    /* Избранные услуги — избранное CS-Cart (страница /wishlist/), привязанное к клиенту кабинета */
     var favBody = el('div.fav', null, el('p.empty', null, 'Загружаем…'));
     function loadFavorites() {
       fetch('/index.php?dispatch=irepair_wishlist.list', { credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
@@ -412,12 +437,41 @@
     var favorites = el('div.card', null, [el('h2.title', null, 'Избранные услуги'), favBody]);
     loadFavorites();
 
+    /* Просмотренные услуги — сохранены за клиентом, последние первыми; показываем 4, остальные по кнопке */
+    var viewedBody = el('div.fav', null, el('p.empty', null, 'Загружаем…'));
+    var viewed = el('div.card', null, [el('h2.title', null, 'Просмотренные услуги'), viewedBody]);
+    fetch('/index.php?dispatch=irepair_wishlist.viewed', { credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        viewedBody.innerHTML = '';
+        if (!res.ok || !res.items.length) {
+          viewedBody.appendChild(el('p.empty', null, ['Здесь появятся услуги, которые вы смотрели на сайте. ', el('a', { href: '/catalog/' }, 'Перейти в каталог')]));
+          return;
+        }
+        var rows = res.items.map(function (it) {
+          return el('div.fav-row', null, [
+            el('a.fav-img', { href: it.url, tabindex: '-1', 'aria-hidden': 'true' }, it.image ? el('img', { src: it.image, alt: '', loading: 'lazy' }) : null),
+            el('span.fav-main', null, [el('a.fav-name', { href: it.url }, it.name), el('span.fav-price', null, money(Math.round(it.price)))])
+          ]);
+        });
+        if (rows.length <= 4) { rows.forEach(function (n) { viewedBody.appendChild(n); }); return; }
+        var rest = el('div.fav-rest', { hidden: true }, rows.slice(4));
+        var more = el('button.text-btn.more', { type: 'button' }, 'Показать все (' + rows.length + ')');
+        more.addEventListener('click', function () { rest.hidden = false; more.remove(); });
+        rows.slice(0, 4).forEach(function (n) { viewedBody.appendChild(n); });
+        viewedBody.appendChild(rest);
+        viewedBody.appendChild(more);
+      })
+      .catch(function () { viewedBody.innerHTML = ''; viewedBody.appendChild(el('p.empty', null, 'Не удалось загрузить список. Обновите страницу.')); });
+
     show(el('div.cabinet', null, [
       el('div.top', null, [
-        el('div.hello', null, name ? 'Здравствуйте, ' + name : 'Здравствуйте'),
-        el('button.logout', { type: 'button', onclick: function () { api('logout').then(function () { renderLogin(); }); } }, 'Выйти')
+        hello,
+        el('button.logout', { type: 'button', onclick: function () { api('logout').then(function () { releaseFavorites(); renderLogin(); }); } }, 'Выйти')
       ]),
-      el('div.grid', null, [el('div.col', null, [card, current, favorites]), el('div.col', null, [personal, history])])
+      // первый ряд — карта и личные данные одной высоты, второй — текущие заказы и история на одном уровне
+      el('div.grid.grid-top', null, [card, personal]),
+      el('div.grid', null, [el('div.col', null, [current, favorites]), el('div.col', null, [history, viewed])])
     ]));
   }
 
@@ -456,13 +510,22 @@
     });
   }
 
+  /* Клиент вышел из кабинета (или вход истёк): избранное, загруженное в этот браузер из его кабинета, убираем —
+     оно остаётся за клиентом и вернётся при следующем входе */
+  function releaseFavorites() {
+    var body = new URLSearchParams();
+    body.set('dispatch', 'irepair_wishlist.release');
+    body.set('security_hash', (window.Tygh && window.Tygh.security_hash) || '');
+    fetch('/index.php', { method: 'POST', credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' }, body: body }).catch(function () {});
+  }
+
   /* ---------- запуск ---------- */
 
   function loadCabinet(silent) {
     if (!silent) show(el('div.loading', null, 'Загружаем…'));
     api('me').then(function (res) {
       if (res.ok && res.auth) renderCabinet(res);
-      else if (res.ok) renderLogin();
+      else if (res.ok) { releaseFavorites(); renderLogin(); }
       else renderLogin('', errText(res));
     });
   }

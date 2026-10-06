@@ -180,8 +180,14 @@ function fn_my_changes_irepair_lk_phone()
 /**
  * Синхронизация избранного браузера с избранным клиента.
  *
- * @param bool $merge true — слияние (кабинет открыт): услуги клиента с других устройств добавляются в избранное
- *                    этого браузера. false — только запись изменений клиенту.
+ * Состояния браузера (метка в сессии irepair_fav_phone — чей список сейчас в браузере):
+ *   нет метки      — гостевой список (собран без входа в кабинет);
+ *   метка = клиент — список уже объединён с этим клиентом: браузер — точная копия, удаления тоже переносим;
+ *   метка ≠ клиент — в браузере остался список другого клиента: чужое не смешиваем.
+ *
+ * @param bool       $merge    true — кабинет открыт: привести браузер к списку клиента (гостевые услуги добавить клиенту,
+ *                             чужой список заменить своим). false — только записать изменения клиенту.
+ * @param array|null $wishlist Избранное, которое сейчас сохраняется (из хука); по умолчанию — из сессии
  */
 function fn_my_changes_irepair_fav_sync($merge = false, $wishlist = null)
 {
@@ -196,6 +202,7 @@ function fn_my_changes_irepair_fav_sync($merge = false, $wishlist = null)
     if ($wishlist === null) {
         $wishlist = isset($session['wishlist']) ? $session['wishlist'] : [];
     }
+    $owner = !empty($session['irepair_fav_phone']) ? (string) $session['irepair_fav_phone'] : '';
     $in_browser = [];
     foreach ((!empty($wishlist['products']) ? $wishlist['products'] : []) as $item) {
         if (!empty($item['product_id'])) {
@@ -203,34 +210,123 @@ function fn_my_changes_irepair_fav_sync($merge = false, $wishlist = null)
         }
     }
     $in_account = array_fill_keys(array_map('intval', db_get_fields('SELECT product_id FROM irepair_lk_favorites WHERE phone = ?s', $phone)), true);
-    // этот браузер уже объединён с избранным этого клиента → браузер — точная копия, удаления тоже переносим
-    $merged = isset($session['irepair_fav_phone']) && $session['irepair_fav_phone'] === $phone;
+
+    if ($owner !== '' && $owner !== $phone) {
+        // список другого клиента: клиенту ничего не пишем; при открытии кабинета заменяем список браузера своим
+        if ($merge) {
+            $session['wishlist'] = ['products' => []];
+            fn_my_changes_irepair_fav_fill($session, array_keys($in_account));
+            $session['irepair_fav_phone'] = $phone;
+        }
+        $busy = false;
+
+        return;
+    }
 
     foreach (array_diff_key($in_browser, $in_account) as $product_id => $_) {
         db_query('INSERT IGNORE INTO irepair_lk_favorites (phone, product_id, created_at) VALUES (?s, ?i, ?i)', $phone, $product_id, TIME);
     }
-    $missing = array_diff_key($in_account, $in_browser);
-    if ($merged) {
+    $missing = array_keys(array_diff_key($in_account, $in_browser));
+    if ($owner === $phone) {
         if ($missing) {
-            db_query('DELETE FROM irepair_lk_favorites WHERE phone = ?s AND product_id IN (?n)', $phone, array_keys($missing));
+            db_query('DELETE FROM irepair_lk_favorites WHERE phone = ?s AND product_id IN (?n)', $phone, $missing);
         }
     } elseif ($merge) {
         if ($missing) {
-            if (empty($session['wishlist'])) {
-                $session['wishlist'] = ['products' => []];
-            }
-            $auth = &Tygh::$app['session']['auth'];
-            $add = [];
-            foreach (array_keys($missing) as $product_id) {
-                $add[$product_id] = ['product_id' => $product_id, 'amount' => 1];
-            }
-            fn_add_product_to_wishlist($add, $session['wishlist'], $auth);
-            fn_save_cart_content($session['wishlist'], isset($auth['user_id']) ? $auth['user_id'] : 0, 'W');
+            fn_my_changes_irepair_fav_fill($session, $missing);
         }
         $session['irepair_fav_phone'] = $phone;
     }
 
     $busy = false;
+}
+
+/** Добавить услуги в избранное CS-Cart этого браузера и сохранить его */
+function fn_my_changes_irepair_fav_fill(&$session, array $product_ids)
+{
+    if (empty($session['wishlist'])) {
+        $session['wishlist'] = ['products' => []];
+    }
+    $auth = &Tygh::$app['session']['auth'];
+    $add = [];
+    foreach ($product_ids as $product_id) {
+        $add[$product_id] = ['product_id' => $product_id, 'amount' => 1];
+    }
+    if ($add) {
+        fn_add_product_to_wishlist($add, $session['wishlist'], $auth);
+    }
+    fn_save_cart_content($session['wishlist'], isset($auth['user_id']) ? $auth['user_id'] : 0, 'W');
+}
+
+/**
+ * Клиент вышел из кабинета (или вход истёк): убрать из этого браузера избранное, загруженное из кабинета.
+ * Список остаётся за клиентом в irepair_lk_favorites. Гостевое избранное (без входа в кабинет) не трогаем.
+ */
+function fn_my_changes_irepair_fav_release()
+{
+    $session = &Tygh::$app['session'];
+    if (fn_my_changes_irepair_lk_phone() !== '' || empty($session['irepair_fav_phone'])) {
+        return false;
+    }
+    $session['wishlist'] = ['products' => []];
+    unset($session['irepair_fav_phone']);
+    // просмотренные услуги клиента тоже убираем из браузера (они сохранены за клиентом)
+    if (!empty($session['irepair_viewed_phone'])) {
+        unset($session['recently_viewed_products'], $session['irepair_viewed_phone'], $session['irepair_viewed_seen']);
+    }
+    $auth = &Tygh::$app['session']['auth'];
+    fn_save_cart_content($session['wishlist'], isset($auth['user_id']) ? $auth['user_id'] : 0, 'W');
+
+    return true;
+}
+
+/**
+ * Просмотренные услуги клиента кабинета. CS-Cart хранит просмотренное в сессии браузера
+ * (recently_viewed_products, новые — первыми); при открытии кабинета новые просмотры дописываются клиенту
+ * в irepair_lk_viewed, и список отдаётся уже из таблицы — одинаковый на любом устройстве.
+ *
+ * @return int[] Идентификаторы услуг, последние просмотренные — первыми
+ */
+function fn_my_changes_irepair_viewed_sync($limit = 12)
+{
+    $phone = fn_my_changes_irepair_lk_phone();
+    $session = &Tygh::$app['session'];
+    $in_browser = !empty($session['recently_viewed_products']) ? array_values(array_map('intval', (array) $session['recently_viewed_products'])) : [];
+    if ($phone === '') {
+        return array_slice($in_browser, 0, $limit);
+    }
+    if (!empty($session['irepair_viewed_phone']) && $session['irepair_viewed_phone'] !== $phone) {
+        // в браузере остались просмотры другого клиента — клиенту их не пишем
+        $in_browser = [];
+        unset($session['recently_viewed_products'], $session['irepair_viewed_seen']);
+    }
+    // CS-Cart ставит просмотренную услугу в начало списка. Всё, что стоит перед услугой, бывшей первой при прошлой
+    // синхронизации, просмотрено после неё — только это и записываем (иначе старые просмотры каждый раз становились бы свежими)
+    $head = !empty($session['irepair_viewed_seen'][0]) ? (int) $session['irepair_viewed_seen'][0] : 0;
+    $fresh = [];
+    foreach ($in_browser as $product_id) {
+        if ($product_id === $head) {
+            break;
+        }
+        if ($product_id) {
+            $fresh[] = $product_id;
+        }
+    }
+    foreach ($fresh as $index => $product_id) {
+        db_query(
+            'INSERT INTO irepair_lk_viewed (phone, product_id, viewed_at) VALUES (?s, ?i, ?i) ON DUPLICATE KEY UPDATE viewed_at = VALUES(viewed_at)',
+            $phone, $product_id, TIME - $index
+        );
+    }
+    $session['irepair_viewed_seen'] = $in_browser;
+    $session['irepair_viewed_phone'] = $phone;
+    // хвост длиннее 50 записей не храним
+    $keep = db_get_field('SELECT viewed_at FROM irepair_lk_viewed WHERE phone = ?s ORDER BY viewed_at DESC LIMIT 49, 1', $phone);
+    if ($keep) {
+        db_query('DELETE FROM irepair_lk_viewed WHERE phone = ?s AND viewed_at < ?i', $phone, $keep);
+    }
+
+    return array_map('intval', db_get_fields('SELECT product_id FROM irepair_lk_viewed WHERE phone = ?s ORDER BY viewed_at DESC LIMIT ?i', $phone, $limit));
 }
 
 /** Хук: любое сохранение избранного CS-Cart → записать изменения клиенту кабинета */

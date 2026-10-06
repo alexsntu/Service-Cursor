@@ -358,7 +358,9 @@ switch ($action) {
         $pdo->prepare(
             'INSERT INTO irepair_lk_clients (phone, ro_client_id, first_name, last_name, email, created_at)
              VALUES (?, ?, ?, ?, ?, ?)
-             ON DUPLICATE KEY UPDATE ro_client_id = VALUES(ro_client_id), first_name = VALUES(first_name), last_name = VALUES(last_name)'
+             ON DUPLICATE KEY UPDATE ro_client_id = VALUES(ro_client_id),
+                first_name = IF(name_custom = 1, first_name, VALUES(first_name)),
+                last_name = IF(name_custom = 1, last_name, VALUES(last_name))'
         )->execute([$phone, (int) ($client['id'] ?? 0), mb_substr($first, 0, 100), mb_substr($lastName, 0, 100), mb_substr(trim((string) ($client['email'] ?? '')), 0, 190), $now]);
 
         $otp = (string) random_int(1000, 9999);
@@ -710,6 +712,11 @@ switch ($action) {
     /* Личные данные */
     case 'save_profile':
         $s = lk_require_session();
+        // Имя клиент может поправить сам: хранится только в кабинете, в RemOnline и BonusPlus не передаётся.
+        // Пустые имя и фамилия — вернуть имя из RemOnline (подтянется при следующем входе).
+        $clean = static fn($v): string => mb_substr(trim(preg_replace('/\s+/u', ' ', strip_tags((string) $v))), 0, 100);
+        $first = $clean($_POST['first_name'] ?? '');
+        $last = $clean($_POST['last_name'] ?? '');
         $email = trim((string) ($_POST['email'] ?? ''));
         $gender = (string) ($_POST['gender'] ?? '');
         $birthday = trim((string) ($_POST['birthday'] ?? ''));
@@ -727,7 +734,14 @@ switch ($action) {
         }
         $pdo->prepare('UPDATE irepair_lk_clients SET email = ?, gender = ?, birthday = ? WHERE phone = ?')
             ->execute([$email, $gender, $birthday === '' ? null : $birthday, $s['phone']]);
-        lk_out(['ok' => true]);
+        if (isset($_POST['first_name']) || isset($_POST['last_name'])) {
+            if ($first === '' && $last === '') {
+                $pdo->prepare('UPDATE irepair_lk_clients SET name_custom = 0 WHERE phone = ?')->execute([$s['phone']]);
+            } else {
+                $pdo->prepare('UPDATE irepair_lk_clients SET first_name = ?, last_name = ?, name_custom = 1 WHERE phone = ?')->execute([$first, $last, $s['phone']]);
+            }
+        }
+        lk_out(['ok' => true, 'first_name' => $first, 'last_name' => $last]);
 
     case 'logout':
         $s = lk_session();
