@@ -5,7 +5,8 @@
  * Повторяет кабинет старого сайта (OpenCart: account/login + account/account):
  *   вход по коду из СМС (sms.ru) → только для клиентов, которые есть в RemOnline;
  *   бонусы и уровень карты — BonusPlus; заказы и состав заказа — RemOnline;
- *   «Списать баллы» — скидка на позиции заказа в RemOnline + продажа со списанием в BonusPlus.
+ *   «Списать баллы» — скидка на позиции заказа в RemOnline + списание баллов в BonusPlus (без продажи);
+ *   продажу и кешбэк после закрытия заказа регистрирует accrue.php (запуск по расписанию).
  *
  * Все ключи и доступ к базе — в config.php рядом (в git не попадает, образец: config.sample.php).
  * Принимает только POST с заголовком X-Requested-With: irepair-lk, отвечает JSON.
@@ -539,7 +540,7 @@ switch ($action) {
         // 1. Скидка на позиции заказа в RemOnline. Что применили — сразу записываем, чтобы след остался при любом сбое
         $left = $bonus['points'];
         $total = 0;
-        $applied = $retail = [];
+        $applied = [];
         foreach ($items as $it) {
             if (!is_array($it) || $left <= 0) {
                 continue;
@@ -560,7 +561,6 @@ switch ($action) {
             $left -= $amount;
             $total += $amount;
             $applied[] = ['item_id' => (int) $it['id'], 'amount' => $amount];
-            $retail[] = ['sum' => (float) ceil($price), 'qnt' => 1, 'product' => (string) ($it['entity']['title'] ?? '')];
             $setState('pending', $total, $applied);
         }
         if ($total <= 0) {
@@ -568,8 +568,9 @@ switch ($action) {
             lk_fail('service', 502);
         }
 
-        // 2. Списание баллов в BonusPlus. Нет ясного ответа (ошибка, таймаут) — сверяем по остатку баллов
-        [$code, $res] = lk_bonusplus('POST', 'retail', ['phone' => $phone, 'items' => $retail, 'bonusDebit' => (float) $total]);
+        // 2. Списание баллов в BonusPlus — только списание, без регистрации продажи: продажу и начисление кешбэка
+        //    делает accrue.php после закрытия заказа (решение владельца). Нет ясного ответа — сверяем по остатку баллов.
+        [$code, $res] = lk_bonusplus('PATCH', 'customer/' . $phone . '/balance', ['amount' => -1 * $total]);
         $confirmed = $code >= 200 && $code < 300;
         $unknown = false;
         if (!$confirmed) {

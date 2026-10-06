@@ -72,3 +72,14 @@ CREATE TABLE IF NOT EXISTS irepair_lk_cache (
   v          MEDIUMTEXT   NOT NULL,
   expires_at INT UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Начисление кешбэка после закрытия заказа (accrue.php): один заказ — одна продажа в BonusPlus
+CREATE TABLE IF NOT EXISTS irepair_lk_accruals (
+  order_id   BIGINT        NOT NULL PRIMARY KEY,
+  phone      VARCHAR(15)   NOT NULL,
+  paid       DECIMAL(12,2) NOT NULL DEFAULT 0,      -- оплачено по заказу (после скидки баллами)
+  bonus      INT           NOT NULL DEFAULT 0,      -- начислено баллов
+  sale_id    BIGINT        NOT NULL DEFAULT 0,      -- продажа в BonusPlus
+  status     VARCHAR(10)   NOT NULL DEFAULT 'pending',  -- pending / done / review
+  created_at INT UNSIGNED  NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
