@@ -83,3 +83,11 @@ CREATE TABLE IF NOT EXISTS irepair_lk_accruals (
   status     VARCHAR(10)   NOT NULL DEFAULT 'pending',  -- pending / done / review
   created_at INT UNSIGNED  NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Избранные услуги клиента (копия избранного CS-Cart, привязанная к телефону; пишет аддон my_changes)
+CREATE TABLE IF NOT EXISTS irepair_lk_favorites (
+  phone      VARCHAR(15)  NOT NULL,
+  product_id INT UNSIGNED NOT NULL,
+  created_at INT UNSIGNED NOT NULL,
+  PRIMARY KEY (phone, product_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

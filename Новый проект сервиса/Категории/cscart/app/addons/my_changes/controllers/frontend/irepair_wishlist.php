@@ -2,13 +2,15 @@
 /**
  * iRepair: избранные услуги для личного кабинета (/personal/).
  * index.php?dispatch=irepair_wishlist.list → JSON со списком избранного CS-Cart текущего посетителя
- * (то же избранное, что на странице /wishlist/; хранится в сессии браузера). Только чтение:
- * удаление делает штатный wishlist.delete.
+ * (то же избранное, что на странице /wishlist/). Для клиента, вошедшего в кабинет, список привязан к телефону
+ * и перед выдачей объединяется с сохранённым (таблица irepair_lk_favorites). Удаление — штатный wishlist.delete.
  */
 
 defined('BOOTSTRAP') or die('Access denied');
 
 if ($mode === 'list') {
+    // клиент вошёл в кабинет — объединяем избранное этого браузера с сохранённым за клиентом (func.php)
+    fn_my_changes_irepair_fav_sync(true);
     $wishlist = Tygh::$app['session']['wishlist'] ?? [];
     $items = [];
 
