@@ -371,8 +371,11 @@ switch ($action) {
         $msg = 'Ваш код для входа: ' . $otp . "\n\n@" . $cfg['otp_domain'] . ' #' . $otp;
         [$code, $sms] = lk_http('POST', 'https://sms.ru/sms/send', [], http_build_query(['api_id' => $cfg['smsru']['api_id'], 'to' => $phone, 'msg' => $msg, 'json' => 1]));
         if (!is_array($sms) || ($sms['status'] ?? '') !== 'OK' || ($sms['sms'][$phone]['status'] ?? '') !== 'OK') {
-            lk_log('sms.ru: ' . json_encode(['http' => $code, 'status' => $sms['status'] ?? null, 'code' => $sms['sms'][$phone]['status_code'] ?? ($sms['status_code'] ?? null)]));
-            lk_fail('sms', 502);
+            $smsCode = (int) ($sms['sms'][$phone]['status_code'] ?? ($sms['status_code'] ?? 0));
+            lk_log('sms.ru: ' . json_encode(['http' => $code, 'status' => $sms['status'] ?? null, 'code' => $smsCode]));
+            // 230 — sms.ru: превышен суточный лимит сообщений на один номер (настраивается в кабинете sms.ru);
+            // 231 — лимит одинаковых сообщений на номер в минуту. Клиенту говорим об этом прямо, а не «попробуйте ещё раз».
+            lk_fail(in_array($smsCode, [230, 231], true) ? 'sms_limit' : 'sms', 502);
         }
         $log->execute([$phone, $ip, 1, $now]);
         $pdo->prepare('REPLACE INTO irepair_lk_otp (phone, code_hash, attempts, expires_at) VALUES (?, ?, 0, ?)')
