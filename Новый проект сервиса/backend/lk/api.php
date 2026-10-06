@@ -535,7 +535,7 @@ switch ($action) {
             if (stripos($title, 'ручн') !== false || stripos($title, 'manual') !== false) {
                 $title = $row['amount'] > 0 ? 'Начисление баллов' : 'Списание баллов';
             }
-            $out[] = ['date' => $row['ts'] ? date('d.m.Y', $row['ts']) : '', 'amount' => $row['amount'], 'title' => $title, 'order' => $order ? $label($order) : ''];
+            $out[] = ['date' => $row['ts'] ? date('d.m.Y', $row['ts']) : '', 'amount' => $row['amount'], 'title' => $title, 'order' => $order ? $label($order) : '', 'order_id' => $order && $label($order) !== '' ? $order : 0];
         }
         lk_out(['ok' => true, 'items' => $out]);
 

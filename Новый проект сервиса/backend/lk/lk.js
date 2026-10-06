@@ -225,7 +225,7 @@
       });
     }
 
-    var card = el('details.order', { open: !!open }, [
+    var card = el('details.order', { open: !!open, 'data-order-id': o.id }, [
       el('summary.order-head', null, [
         el('span.order-main', null, [el('span.order-title', null, 'Заказ №' + o.label), o.device ? el('span.order-device', null, o.device) : null]),
         el('span.order-meta', null, [
@@ -251,6 +251,21 @@
     card.addEventListener('toggle', function () { if (card.open) loadItems(); });
     if (open) loadItems();
     return card;
+  }
+
+  /* Раскрыть заказ в списке и прокрутить к нему (переход из истории баллов) */
+  function showOrder(id) {
+    var card = root.querySelector('[data-order-id="' + id + '"]');
+    if (!card) return;
+    var hiddenBox = card.parentNode;
+    if (hiddenBox.hidden) {                       // заказ под «Показать все заказы»
+      hiddenBox.hidden = false;
+      if (hiddenBox.nextSibling) hiddenBox.nextSibling.remove();
+    }
+    card.open = true;
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.classList.add('irepair-lk__order-flash');
+    setTimeout(function () { card.classList.remove('irepair-lk__order-flash'); }, 1800);
   }
 
   /* Список заказов: длинный хвост прячем под «Показать все» */
@@ -286,7 +301,13 @@
         res.items.forEach(function (it) {
           bonusList.appendChild(el('div.bonus-row', null, [
             el('span.bonus-main', null, [
-              el('span.bonus-title', null, it.title + (it.order ? ' · заказ №' + it.order : '')),
+              el('span.bonus-title', null, [
+                it.title,
+                it.order ? ' · ' : null,
+                // номер заказа — ссылка: раскрывает этот заказ ниже в кабинете
+                it.order_id ? el('button.text-btn.bonus-order', { type: 'button', onclick: function () { showOrder(it.order_id); } }, 'заказ №' + it.order)
+                  : (it.order ? 'заказ №' + it.order : null)
+              ]),
               el('span.bonus-date', null, it.date)
             ]),
             el('span.bonus-amount' + (it.amount > 0 ? '.bonus-plus' : ''), null, (it.amount > 0 ? '+' : '\u2212') + Math.abs(it.amount).toLocaleString('ru-RU'))
