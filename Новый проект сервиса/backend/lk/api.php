@@ -158,9 +158,13 @@ function lk_ro_orders(string $phone): ?array
         }
         $rows = $r['data'] ?? [];
         foreach ($rows as $o) {
-            $all[] = $o;
+            // RemOnline молча игнорирует незнакомый фильтр и отдаёт заказы всех клиентов — поэтому сверяем телефон
+            $phones = array_map(static fn($p) => preg_replace('/\D+/', '', (string) $p), (array) ($o['client']['phone'] ?? []));
+            if (in_array($phone, $phones, true)) {
+                $all[] = $o;
+            }
         }
-        if (count($rows) < 50 || count($all) >= (int) ($r['count'] ?? 0)) {
+        if (count($rows) < 50 || $page * 50 >= (int) ($r['count'] ?? 0)) {
             break;
         }
     }
@@ -335,7 +339,8 @@ switch ($action) {
                 'price' => (int) round($price),
                 'date' => lk_date($o['created_at'] ?? null),
                 'device' => trim((string) ($o['custom_fields'][$cfg['device_field']] ?? '')),
-                'status' => (string) ($o['status']['name'] ?? ''),
+                // у статусов в RemOnline служебная приставка («С | Готов») — клиенту показываем без неё
+                'status' => trim((string) preg_replace('/^.{1,3}\|\s*/u', '', (string) ($o['status']['name'] ?? ''))),
                 'cashback' => (int) floor($price * $bonus['cashback_percent'] / 100),
                 'spent' => $spent[$id] ?? 0,
             ];
