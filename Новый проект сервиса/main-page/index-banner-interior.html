@@ -1,10 +1,13 @@
-<!-- iRepair: главная — главный баннер, вариант на фото интерьера сервиса
+<!-- iRepair: главная — главный баннер, вариант на фото сервиса
      (прежний вариант — index-banner.html, оставлен без изменений).
-     Компьютер: высота 375 px, от шапки — 10 px.
-     Левая половина чёрная с текстом, фото стоит справа в своём размере (не растягивается) и от середины баннера
-     плавно уходит в темноту к левому краю. Фото отзеркалено: стойка с мастерами — справа.
-     Телефон: тот же отзеркаленный кадр со стойкой и мастерами, заголовок сверху, кнопка снизу, высота 380 px.
-     Фото: /images/content/index-banner/interior-desktop.webp (881 × 375), interior-mobile.webp (678 × 661). -->
+     Компьютер: высота 375 px, от шапки — 10 px. Левая часть чёрная с текстом, фото стоит справа и от середины
+     баннера плавно уходит в темноту к левому краю. Фото не растягивается: кадр сделан с запасом под чёткие экраны.
+     Телефон: фото во весь баннер, заголовок сверху, кнопка снизу, высота 380 px.
+     Сейчас стоит фото зала ожидания со стеной iRepair: /images/content/index-banner/lounge-desktop.webp и
+     lounge-mobile.webp. На сервере лежат ещё два набора — чтобы сменить фото, достаточно заменить в коде
+     слово lounge (оно встречается два раза) на:
+       reception — стойка с мастерами и стена iRepair (кадр из готового баннера 1920 × 768);
+       master    — мастер за стойкой и клиент. -->
 <div class="irepair-index-banner irepair-index-banner_interior">
   <div class="g-wrapper">
     <div class="irepair-index-banner__wrapper">
@@ -100,14 +103,14 @@
   overflow: hidden;
   background: #010306;
 }
-/* фото: правые 68 % баннера. Кадр 881 × 375 — при ширине баннера 1300 px показывается один к одному */
+/* фото: правые 68 % баннера (884 × 375 при ширине баннера 1300 px); кадр 1768 × 750 — вдвое больше, под чёткие экраны */
 .irepair-index-banner .irepair-index-banner__photo {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   width: 68%;
-  background: #010306 url('/images/content/index-banner/interior-desktop.webp') 100% 50% no-repeat;
+  background: #010306 url('/images/content/index-banner/lounge-desktop.webp') 100% 50% no-repeat;
   background-size: cover;
 }
 /* затемнение: левая треть чёрная, дальше к середине баннера плавно сходит на нет */
@@ -220,15 +223,15 @@
     padding: 26px 24px 24px;
     border-radius: 0;
   }
-  /* телефон: фото во весь баннер — отзеркаленный кадр со стойкой и мастерами */
+  /* телефон: фото во весь баннер */
   .irepair-index-banner .irepair-index-banner__photo {
     width: 100%;
-    background-image: url('/images/content/index-banner/interior-mobile.webp');
+    background-image: url('/images/content/index-banner/lounge-mobile.webp');
     background-position: 100% 50%;
   }
   /* затемнение сверху под заголовок и снизу под кнопку, середина фото открыта */
   .irepair-index-banner .irepair-index-banner__overlay {
-    background: linear-gradient(180deg, rgba(1, 3, 6, 0.86) 0%, rgba(1, 3, 6, 0.4) 28%, rgba(1, 3, 6, 0) 46%, rgba(1, 3, 6, 0) 62%, rgba(1, 3, 6, 0.5) 100%);
+    background: linear-gradient(180deg, rgba(1, 3, 6, 0.85) 0%, rgba(1, 3, 6, 0.55) 16%, rgba(1, 3, 6, 0) 34%, rgba(1, 3, 6, 0) 64%, rgba(1, 3, 6, 0.5) 100%);
   }
   .irepair-index-banner .irepair-index-banner__content {
     flex: 1;
