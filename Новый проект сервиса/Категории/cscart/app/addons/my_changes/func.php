@@ -336,3 +336,28 @@ function fn_my_changes_save_cart_content_pre(&$cart, $user_id, $type, $user_type
         fn_my_changes_irepair_fav_sync(false, $cart);
     }
 }
+
+/**
+ * Калькулятор на главной берёт цены из файла, собранного из услуг (/ajax/calc-prices.php, раз в сутки).
+ * Здесь только отметка «услуги меняли»: по ней файл пересоберётся при следующем обращении к калькулятору
+ * (не чаще раза в 5 минут), не дожидаясь ночи. Сама сборка — в /ajax/calc-prices.php.
+ */
+function fn_my_changes_irepair_calc_dirty()
+{
+    $dir = rtrim(\Tygh\Registry::get('config.dir.var'), '/') . '/irepair-calc';
+    if (is_dir($dir) || @mkdir($dir, 0755, true)) {
+        @touch($dir . '/dirty');
+    }
+}
+
+/** Хук: услугу создали или сохранили (админка, импорт, API) */
+function fn_my_changes_update_product_post($product_data, $product_id, $lang_code, $create)
+{
+    fn_my_changes_irepair_calc_dirty();
+}
+
+/** Хук: услугу удалили */
+function fn_my_changes_delete_product_post($product_id, $product_deleted)
+{
+    fn_my_changes_irepair_calc_dirty();
+}
