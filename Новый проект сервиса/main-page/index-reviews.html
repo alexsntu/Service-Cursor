@@ -1,84 +1,14 @@
+<!-- iRepair: главная — блок «Отзывы наших клиентов».
+     Отзывы показывает виджет SmartWidgets (код владельца): он сам подгружает отзывы, рейтинг и ссылки.
+     Наш здесь только заголовок в едином формате блоков главной и обёртка с отступами.
+     Прежний вариант с шестью отзывами, набранными вручную, — в истории git (версия от 2026-09-17). -->
 <div class="irepair-index-reviews">
   <div class="g-wrapper">
     <h2 class="irepair-index-reviews__title">Отзывы наших клиентов</h2>
-    <div class="irepair-index-reviews__rating">
-      <span class="irepair-index-reviews__stars">★★★★★</span>
-      <span class="irepair-index-reviews__rating-text">5,0 на Яндекс Картах</span>
+    <div class="irepair-index-reviews__widget">
+      <script src="https://res.smartwidgets.ru/app.js" async></script>
+      <div class="sw-app" data-app="675a9266d0c85dfa76eaac4882880c03"></div>
     </div>
-
-    <div class="irepair-index-reviews__grid">
-
-      <div class="irepair-index-reviews__card">
-        <div class="irepair-index-reviews__head">
-          <span class="irepair-index-reviews__avatar">А</span>
-          <div>
-            <div class="irepair-index-reviews__name">Александра Т.</div>
-            <div class="irepair-index-reviews__stars-sm">★★★★★</div>
-          </div>
-        </div>
-        <p class="irepair-index-reviews__text">Отличное место! Работают приятные вежливые ребята. Сам офис стильный, чистый, аккуратный.</p>
-      </div>
-
-      <div class="irepair-index-reviews__card">
-        <div class="irepair-index-reviews__head">
-          <span class="irepair-index-reviews__avatar">Ф</span>
-          <div>
-            <div class="irepair-index-reviews__name">Фёдор</div>
-            <div class="irepair-index-reviews__stars-sm">★★★★★</div>
-          </div>
-        </div>
-        <p class="irepair-index-reviews__text">Быстрая замена матрицы на MacBook Pro. После замены было ощущение нового ноута.</p>
-      </div>
-
-      <div class="irepair-index-reviews__card">
-        <div class="irepair-index-reviews__head">
-          <span class="irepair-index-reviews__avatar">Г</span>
-          <div>
-            <div class="irepair-index-reviews__name">Григорий Д.</div>
-            <div class="irepair-index-reviews__stars-sm">★★★★★</div>
-          </div>
-        </div>
-        <p class="irepair-index-reviews__text">Оперативно сбросили код доступа на iPhone 13. Работу выполнили за час по приемлемой цене.</p>
-      </div>
-
-      <div class="irepair-index-reviews__card">
-        <div class="irepair-index-reviews__head">
-          <span class="irepair-index-reviews__avatar">К</span>
-          <div>
-            <div class="irepair-index-reviews__name">Ксения Фёдорова</div>
-            <div class="irepair-index-reviews__stars-sm">★★★★★</div>
-          </div>
-        </div>
-        <p class="irepair-index-reviews__text">Решили проблему с дисплеем телефона. Место стильное и уютное, рекомендую данный сервис.</p>
-      </div>
-
-      <div class="irepair-index-reviews__card">
-        <div class="irepair-index-reviews__head">
-          <span class="irepair-index-reviews__avatar">А</span>
-          <div>
-            <div class="irepair-index-reviews__name">Александра П.</div>
-            <div class="irepair-index-reviews__stars-sm">★★★★★</div>
-          </div>
-        </div>
-        <p class="irepair-index-reviews__text">Ребята спасли меня, сделали всё быстро и аккуратно, по-человечески объяснили.</p>
-      </div>
-
-      <div class="irepair-index-reviews__card">
-        <div class="irepair-index-reviews__head">
-          <span class="irepair-index-reviews__avatar">К</span>
-          <div>
-            <div class="irepair-index-reviews__name">Константин</div>
-            <div class="irepair-index-reviews__stars-sm">★★★★★</div>
-          </div>
-        </div>
-        <p class="irepair-index-reviews__text">Замена матрицы на MacBook обошлась вдвое дешевле альтернативы. Персонал вежлив и информативен.</p>
-      </div>
-
-    </div>
-
-    <a class="irepair-index-reviews__cta" href="https://yandex.ru/maps/org/1116056937/reviews?utm_source=badge&amp;utm_medium=rating&amp;utm_campaign=v1" target="_blank" rel="noopener">
-      Смотреть все отзывы на Яндекс Картах
-    </a>
   </div>
 </div>
 
@@ -101,180 +31,42 @@
     width: 100%;
   }
 }
+/* заголовок — единый формат блоков главной */
+.irepair-index-reviews .irepair-index-reviews__title {
+  margin: 0 0 30px;
+  padding: 0;
+  text-align: center;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 38px;
+  line-height: 1.15;
+  font-weight: 400;
+  text-transform: none;
+  color: #1d1d1f;
+}
+/* место под виджет: пока он загружается, блок не схлопывается и страница не прыгает */
+.irepair-index-reviews .irepair-index-reviews__widget {
+  min-height: 500px;
+}
 @media (max-width: 767px) {
   .irepair-index-reviews .g-wrapper {
     padding: 0 16px;
   }
 }
+@media (max-width: 650px) {
+  .irepair-index-reviews {
+    margin-bottom: 56px;
+  }
+  .irepair-index-reviews .irepair-index-reviews__title {
+    margin-bottom: 18px;
+    font-size: 24px;
+  }
+  .irepair-index-reviews .irepair-index-reviews__widget {
+    min-height: 640px;
+  }
+}
 @media (max-width: 374px) {
   .irepair-index-reviews .g-wrapper {
     padding: 0 10px;
-  }
-}
-
-.irepair-index-reviews .irepair-index-reviews__title {
-  margin: 0 0 14px;
-  text-align: center;
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
-  font-size: 38px;
-  line-height: 1.15;
-  color: #1d1d1f;
-}
-
-.irepair-index-reviews__rating {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 40px;
-}
-.irepair-index-reviews__stars {
-  font-size: 20px;
-  letter-spacing: 2px;
-  background: linear-gradient(90deg, #37d97b 0%, #20ccbe 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: #20ccbe;
-}
-.irepair-index-reviews__rating-text {
-  font-family: 'Roboto', Arial, sans-serif;
-  font-weight: 400;
-  font-size: 15px;
-  color: #86868b;
-}
-
-.irepair-index-reviews__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.irepair-index-reviews__card {
-  background: #fff;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 8px 24px rgba(32, 204, 190, 0.08);
-}
-
-.irepair-index-reviews__head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.irepair-index-reviews__avatar {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 13px;
-  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
-  box-shadow: 0 6px 14px rgba(32, 204, 190, 0.26);
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
-  font-size: 16px;
-  color: #fff;
-}
-
-.irepair-index-reviews__name {
-  font-family: 'Roboto', Arial, sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  color: #1d1d1f;
-  margin-bottom: 3px;
-}
-
-.irepair-index-reviews__stars-sm {
-  font-size: 12px;
-  letter-spacing: 1px;
-  background: linear-gradient(90deg, #37d97b 0%, #20ccbe 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: #20ccbe;
-}
-
-.irepair-index-reviews__text {
-  margin: 0;
-  font-family: 'Roboto', Arial, sans-serif;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #3a3a3c;
-}
-
-.irepair-index-reviews__cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 36px auto 0;
-  max-width: 360px;
-  padding: 15px 28px;
-  border-radius: 999px;
-  background: transparent;
-  border: 1px solid #d2d2d7;
-  color: #1d1d1f;
-  font-family: 'Roboto', Arial, sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-.irepair-index-reviews__cta:hover {
-  background-color: #fff;
-  border-color: #37d97b;
-  color: #37d97b;
-}
-
-@media (max-width: 1024px) {
-  .irepair-index-reviews__grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 650px) {
-  .irepair-index-reviews {
-    margin-top: -20px;
-    margin-bottom: 48px;
-  }
-  .irepair-index-reviews .irepair-index-reviews__title {
-    font-size: 22px;
-    margin-bottom: 10px;
-  }
-  .irepair-index-reviews__rating {
-    margin-bottom: 24px;
-  }
-  .irepair-index-reviews__stars {
-    font-size: 16px;
-  }
-  .irepair-index-reviews__rating-text {
-    font-size: 13px;
-  }
-  .irepair-index-reviews__grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  .irepair-index-reviews__card {
-    padding: 18px;
-    border-radius: 16px;
-  }
-  .irepair-index-reviews__avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 11px;
-    font-size: 14px;
-  }
-  .irepair-index-reviews__cta {
-    margin-top: 24px;
-    width: 100%;
-    max-width: none;
-    padding: 15px;
-    font-size: 14px;
   }
 }
 </style>
