@@ -136,6 +136,9 @@
 
                                 {assign var="list_buttons" value="list_buttons_`$obj_id`"}
                                 {$smarty.capture.$list_buttons nofilter}
+
+                                {* своё окно «Поделиться» (стандартное от темы скрыто стилями ниже) *}
+                                {include file="addons/my_changes/components/irepair_share.tpl"}
                             </div>
                             {if $capture_buttons}{/capture}{/if}
 
@@ -390,6 +393,63 @@
   width: auto;
   min-height: 52px;
   margin: 0;
+}
+
+/* кнопка — на всю ширину колонки; «Отложить» и «Поделиться» — одной строкой под ней */
+.irepair-card3 .irepair-card3__side .ut2-pb__button {
+  gap: 16px 24px;
+}
+/* обёртка кнопки «растворяется», чтобы «Отложить» (внутри неё) и «Поделиться» (снаружи) встали в один ряд */
+.irepair-card3 .irepair-card3__side .ut2-pb__button > [id^="add_to_cart_update_"] {
+  display: contents;
+}
+.irepair-card3 .irepair-card3__side .ut2-pb__button > [id^="add_to_cart_update_"] > div {
+  flex: 1 1 100%;
+  width: 100%;
+}
+.irepair-card3 .irepair-card3__side .ut2-pb__button .ty-btn__add-to-cart {
+  display: block;
+  width: 100%;
+  max-width: none;
+}
+/* на кнопке вместо корзины — значок в стиле Apple Care: красное яблоко в белом кружке */
+.irepair-card3 .irepair-card3__side .ty-btn__add-to-cart .ut2-icon-use_icon_cart {
+  display: none;
+}
+.irepair-card3 .irepair-card3__side .ty-btn__add-to-cart > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.irepair-card3 .irepair-card3__side .ty-btn__add-to-cart > span::before {
+  content: '';
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ffffff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fa233b' d='M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701'/%3E%3C/svg%3E") center 46% / 15px 15px no-repeat;
+}
+/* «Отложить» и «Поделиться» — в одном стиле; стандартное «Поделиться» темы скрыто */
+.irepair-card3 .irepair-card3__side .ut2-pb__share {
+  display: none;
+}
+.irepair-card3 .irepair-card3__side .ut2-add-to-wish {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #3e3e3e;
+}
+.irepair-card3 .irepair-card3__side .ut2-add-to-wish:hover {
+  color: #1fb86a;
+}
+.irepair-card3 .irepair-card3__side .ut2-add-to-wish i,
+.irepair-card3 .irepair-card3__side .ut2-add-to-wish i span::before {
+  color: inherit;
 }
 
 @media (max-width: 1180px) {
