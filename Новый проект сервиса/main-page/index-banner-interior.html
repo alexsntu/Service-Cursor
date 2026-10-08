@@ -2,12 +2,11 @@
      (прежний вариант — index-banner.html, оставлен без изменений).
      Компьютер: высота 375 px, от шапки — 10 px. Левая часть чёрная с текстом, фото стоит справа и от середины
      баннера плавно уходит в темноту к левому краю. Фото не растягивается: кадр сделан с запасом под чёткие экраны.
-     Телефон: фото во весь баннер, заголовок сверху, кнопка снизу, высота 380 px.
-     Сейчас стоит фото зала ожидания со стеной iRepair: /images/content/index-banner/lounge-desktop.webp и
-     lounge-mobile.webp. На сервере лежат ещё два набора — чтобы сменить фото, достаточно заменить в коде
-     слово lounge (оно встречается два раза) на:
-       reception — стойка с мастерами и стена iRepair (кадр из готового баннера 1920 × 768);
-       master    — мастер за стойкой и клиент. -->
+     Фото — зал ожидания со стеной iRepair: /images/content/index-banner/lounge-desktop.webp.
+     Телефон: своё фото — мастер за стойкой (master-mobile.webp) во весь баннер, заголовок сверху, кнопка снизу,
+     высота 380 px.
+     На сервере есть и другие кадры: lounge-mobile, reception-desktop / reception-mobile (стойка с мастерами),
+     master-desktop — чтобы сменить фото, достаточно поменять имя файла в коде. -->
 <div class="irepair-index-banner irepair-index-banner_interior">
   <div class="g-wrapper">
     <div class="irepair-index-banner__wrapper">
@@ -223,10 +222,10 @@
     padding: 26px 24px 24px;
     border-radius: 0;
   }
-  /* телефон: фото во весь баннер */
+  /* телефон: своё фото во весь баннер — мастер за стойкой */
   .irepair-index-banner .irepair-index-banner__photo {
     width: 100%;
-    background-image: url('/images/content/index-banner/lounge-mobile.webp');
+    background-image: url('/images/content/index-banner/master-mobile.webp');
     background-position: 100% 50%;
   }
   /* затемнение сверху под заголовок и снизу под кнопку, середина фото открыта */
