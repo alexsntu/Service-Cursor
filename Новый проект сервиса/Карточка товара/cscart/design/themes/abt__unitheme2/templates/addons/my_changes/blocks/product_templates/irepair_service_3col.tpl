@@ -236,8 +236,9 @@
 }
 .irepair-card3 .irepair-card3__grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr) minmax(0, 420px);
-  gap: 20px 56px;
+  /* три равные колонки — каждая ровно треть ширины */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 48px;
   align-items: start;
   margin-bottom: 64px;
 }
