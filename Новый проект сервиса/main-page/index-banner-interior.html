@@ -1,10 +1,10 @@
 <!-- iRepair: главная — главный баннер, вариант на фото интерьера сервиса
      (прежний вариант — index-banner.html, оставлен без изменений).
-     Компьютер: низкий баннер (230 px), чтобы на первом экране помещались и баннер, и блок категорий; от шапки — 10 px.
+     Компьютер: высота 375 px, от шапки — 10 px.
      Левая половина чёрная с текстом, фото стоит справа в своём размере (не растягивается) и от середины баннера
      плавно уходит в темноту к левому краю. Фото отзеркалено: стойка с мастерами — справа.
-     Телефон: кадр со стеной iRepair (не отзеркален, логотип читается), заголовок сверху, кнопка снизу, высота 380 px.
-     Фото: /images/content/index-banner/interior-desktop.webp (881 × 280), interior-mobile.webp (678 × 661). -->
+     Телефон: тот же отзеркаленный кадр со стойкой и мастерами, заголовок сверху, кнопка снизу, высота 380 px.
+     Фото: /images/content/index-banner/interior-desktop.webp (881 × 375), interior-mobile.webp (678 × 661). -->
 <div class="irepair-index-banner irepair-index-banner_interior">
   <div class="g-wrapper">
     <div class="irepair-index-banner__wrapper">
@@ -66,7 +66,7 @@
 }
 /* сверху 26 px: у страницы под шапкой свой зазор, в сумме от шапки до баннера остаётся 10 px */
 .irepair-index-banner {
-  margin: 26px 0 40px;
+  margin: 26px 0 32px;
 }
 .irepair-index-banner .g-wrapper {
   max-width: 1370px;
@@ -94,13 +94,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  min-height: 230px;
-  padding: 26px 40px 26px 56px;
+  min-height: 375px;
+  padding: 44px 40px 44px 64px;
   border-radius: 24px;
   overflow: hidden;
   background: #010306;
 }
-/* фото: правые 68 % баннера. Кадр 881 × 280 — при ширине баннера 1300 px показывается один к одному */
+/* фото: правые 68 % баннера. Кадр 881 × 375 — при ширине баннера 1300 px показывается один к одному */
 .irepair-index-banner .irepair-index-banner__photo {
   position: absolute;
   top: 0;
@@ -130,19 +130,18 @@
   margin: 0;
   padding: 0;
   font-family: 'Montserrat-SemiBold', Arial, sans-serif;
-  font-size: 36px;
+  font-size: 44px;
   line-height: 1.1;
   font-weight: 400;
   color: #fff;
   white-space: nowrap;
 }
-/* пункты — в одну строку */
 .irepair-index-banner .irepair-index-banner__content ul {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
+  flex-direction: column;
+  gap: 16px;
   list-style: none;
-  margin: 14px 0 0;
+  margin: 28px 0 0;
   padding: 0;
 }
 .irepair-index-banner .irepair-index-banner__content ul li {
@@ -151,7 +150,7 @@
   padding: 0 0 0 18px;
   font-family: 'Roboto', Arial, sans-serif;
   font-weight: 300;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 20px;
   color: #fff;
   white-space: nowrap;
@@ -170,8 +169,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 24px;
-  padding: 14px 34px;
+  margin-top: 36px;
+  padding: 16px 40px;
   border-radius: 999px;
   background-color: #37d97b;
   color: #fff;
@@ -199,10 +198,8 @@
   .irepair-index-banner .irepair-index-banner__content h1 {
     font-size: 30px;
   }
-  /* на узком экране пункты — столбиком, текст занимает меньше половины */
   .irepair-index-banner .irepair-index-banner__content ul {
-    flex-direction: column;
-    gap: 8px;
+    gap: 12px;
   }
 }
 
@@ -223,11 +220,11 @@
     padding: 26px 24px 24px;
     border-radius: 0;
   }
-  /* телефон: фото во весь баннер, кадр со стеной iRepair */
+  /* телефон: фото во весь баннер — отзеркаленный кадр со стойкой и мастерами */
   .irepair-index-banner .irepair-index-banner__photo {
     width: 100%;
     background-image: url('/images/content/index-banner/interior-mobile.webp');
-    background-position: 50% 50%;
+    background-position: 100% 50%;
   }
   /* затемнение сверху под заголовок и снизу под кнопку, середина фото открыта */
   .irepair-index-banner .irepair-index-banner__overlay {
