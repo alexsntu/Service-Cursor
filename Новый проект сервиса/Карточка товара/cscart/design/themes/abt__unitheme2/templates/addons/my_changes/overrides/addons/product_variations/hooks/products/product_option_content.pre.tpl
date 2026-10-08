@@ -1,7 +1,9 @@
 {* iRepair (my_changes, 2026-10-02): копия шаблона UnitTheme2 addons/product_variations/hooks/products/product_option_content.pre.tpl
    с ОДНОЙ правкой — в выпадающем списке (select) у атрибута data-ca-products-product-option-content-enable-caching
    не было закрывающей кавычки, браузер «съедал» первый вариант списка (напр. Intel | A2141 у MacBook Pro 16).
-   После обновления темы — сверить с оригиналом. *}
+   После обновления темы — сверить с оригиналом.
+   iRepair (2026-10-08): для макета «3 колонки» (шаблон ставит $irp_card3) — короткая подпись выбора («Тип запчасти»)
+   и цена варианта внутри плитки, как на старом сайте. В остальных шаблонах вывод прежний. *}
 {if $product.variation_features_variants && $product.detailed_params.info_type === "D"}
     {script src="js/addons/product_variations/picker_features.js"}
     <div id="features_{$obj_prefix}{$obj_id}_AOC">
@@ -45,12 +47,17 @@
             {$purpose_create_variations = "\Tygh\Addons\ProductVariations\Product\FeaturePurposes::CREATE_VARIATION_OF_CATALOG_ITEM"|constant}
             {$total_varints_with_images = 0}
 
+            {* iRepair: цены всех вариантов группы — для плиток макета «3 колонки» *}
+            {if $irp_card3 && $product.variation_group_id}
+                {$irp_matrix = $product.variation_group_id|fn_my_changes_irepair_variation_matrix}
+            {/if}
+
             {foreach $product.variation_features_variants as $feature}
 
                 {$is_feature_default_style = !in_array($feature.feature_style, [$feature_style_images, $feature_style_labels, $feature_style_dropdown])}
                 <div class="ty-control-group ty-product-options__item clearfix">
                     <div class="ut2{if $feature.feature_style === $feature_style_images}-vimg{else}-vopt{/if}__wrap">
-                    <label class="ty-control-group__label ty-product-options__item-label">{$feature.description}:</label>
+                    <label class="ty-control-group__label ty-product-options__item-label">{if $irp_card3}{$feature.description|regex_replace:'/^(Тип запчасти).*$/u':'\\1'|regex_replace:'/\s+(iPhone|MacBook|iPad|iMac|Apple Watch)$/u':''}{else}{$feature.description}{/if}:</label>
                         {if $feature.feature_style === $feature_style_images}
                             {foreach $feature.variants as $variant}
                                 {if $feature.variant_id != $variant.variant_id}
@@ -197,6 +204,10 @@
                                         <span class="ty-product-option-checkbox">{$feature.prefix}</span>
                                         <bdi>{$variant.variant}</bdi>
                                         <span class="ty-product-option-checkbox">{$feature.suffix}</span>
+                                        {* iRepair: цена варианта в плитке (макет «3 колонки») *}
+                                        {if $irp_card3 && $irp_matrix.products[$variant.product.product_id].price}
+                                            <span class="irepair-card3__vprice">{include file="common/price.tpl" value=$irp_matrix.products[$variant.product.product_id].price}</span>
+                                        {/if}
                                     </label>
 
                                 {* hidden variation *}
