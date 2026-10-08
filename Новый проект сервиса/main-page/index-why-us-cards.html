@@ -1,0 +1,190 @@
+<!-- iRepair: главная — блок «Почему выбирают нас», вариант с иллюстрациями
+     (прежний вариант с иконками — index-why-us.html, оставлен без изменений).
+     Четыре карточки: сверху цветная иллюстрация, под ней название и пояснение.
+     Компьютер: 4 в ряд. Телефон: лента с прокруткой пальцем, следующая карточка выглядывает.
+     Иллюстрации: /images/content/index-why/*.webp (600 × 400). -->
+<div class="irepair-index-reasons">
+  <div class="g-wrapper">
+    <h2 class="irepair-index-reasons__title">Почему выбирают нас</h2>
+  </div>
+  <div class="irepair-index-reasons__scroller">
+    <div class="irepair-index-reasons__track">
+
+      <div class="irepair-index-reasons__card">
+        <span class="irepair-index-reasons__pic irepair-index-reasons__pic_blue"><img src="/images/content/index-why/diagnostics.webp" alt="" width="600" height="400" loading="lazy"></span>
+        <span class="irepair-index-reasons__text">
+          <span class="irepair-index-reasons__name">Бесплатная диагностика</span>
+          <span class="irepair-index-reasons__desc">Проводим бесплатную диагностику перед любым ремонтом</span>
+        </span>
+      </div>
+
+      <div class="irepair-index-reasons__card">
+        <span class="irepair-index-reasons__pic irepair-index-reasons__pic_mint"><img src="/images/content/index-why/warranty.webp" alt="" width="600" height="400" loading="lazy"></span>
+        <span class="irepair-index-reasons__text">
+          <span class="irepair-index-reasons__name">Гарантия</span>
+          <span class="irepair-index-reasons__desc">После ремонта — гарантия до 100 дней</span>
+        </span>
+      </div>
+
+      <div class="irepair-index-reasons__card">
+        <span class="irepair-index-reasons__pic irepair-index-reasons__pic_pink"><img src="/images/content/index-why/express.webp" alt="" width="600" height="400" loading="lazy"></span>
+        <span class="irepair-index-reasons__text">
+          <span class="irepair-index-reasons__name">Экспресс-ремонт</span>
+          <span class="irepair-index-reasons__desc">Если нужно срочно — сделаем прямо при вас</span>
+        </span>
+      </div>
+
+      <div class="irepair-index-reasons__card">
+        <span class="irepair-index-reasons__pic irepair-index-reasons__pic_blue"><img src="/images/content/index-why/parts.webp" alt="" width="600" height="400" loading="lazy"></span>
+        <span class="irepair-index-reasons__text">
+          <span class="irepair-index-reasons__name">Оригинальные запчасти</span>
+          <span class="irepair-index-reasons__desc">Оригинал или качественный аналог — на выбор</span>
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+.irepair-index-reasons,
+.irepair-index-reasons * {
+  box-sizing: border-box;
+}
+.irepair-index-reasons {
+  margin-top: -72px; /* как у прежнего блока: компенсирует отступы обёрток CS-Cart */
+  margin-bottom: 80px;
+}
+.irepair-index-reasons .g-wrapper,
+.irepair-index-reasons .irepair-index-reasons__scroller {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 0 35px;
+}
+/* заголовок — единый формат блоков главной */
+.irepair-index-reasons .irepair-index-reasons__title {
+  margin: 0 0 30px;
+  padding: 0;
+  text-align: center;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 38px;
+  line-height: 1.15;
+  font-weight: 400;
+  text-transform: none;
+  color: #1d1d1f;
+}
+
+/* компьютер: 4 карточки в ряд */
+.irepair-index-reasons .irepair-index-reasons__track {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.irepair-index-reasons .irepair-index-reasons__card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #f5f5f7;
+  color: #1d1d1f;
+}
+/* иллюстрация: цвет подложки совпадает с фоном самой картинки, чтобы не было швов */
+.irepair-index-reasons .irepair-index-reasons__pic {
+  display: block;
+  flex: 0 0 auto;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+}
+.irepair-index-reasons .irepair-index-reasons__pic_blue { background: #c0eaf9; }
+.irepair-index-reasons .irepair-index-reasons__pic_pink { background: #fbd0e0; }
+.irepair-index-reasons .irepair-index-reasons__pic_mint { background: #c6efea; }
+.irepair-index-reasons .irepair-index-reasons__pic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+.irepair-index-reasons .irepair-index-reasons__text {
+  display: block;
+  padding: 20px 22px 24px;
+}
+.irepair-index-reasons .irepair-index-reasons__name {
+  display: block;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 20px;
+  line-height: 1.25;
+  color: #1d1d1f;
+}
+.irepair-index-reasons .irepair-index-reasons__desc {
+  display: block;
+  margin-top: 8px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 22px;
+  color: #6e6e73;
+}
+
+@media (max-width: 1100px) {
+  .irepair-index-reasons .irepair-index-reasons__track {
+    gap: 12px;
+  }
+  .irepair-index-reasons .irepair-index-reasons__text {
+    padding: 16px 16px 20px;
+  }
+  .irepair-index-reasons .irepair-index-reasons__name {
+    font-size: 17px;
+  }
+  .irepair-index-reasons .irepair-index-reasons__desc {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+/* планшет и телефон: лента с прокруткой пальцем, карточки «прилипают», следующая выглядывает */
+@media (max-width: 900px) {
+  .irepair-index-reasons .g-wrapper {
+    padding: 0 16px;
+  }
+  .irepair-index-reasons .irepair-index-reasons__scroller {
+    max-width: none;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+    scrollbar-width: none;
+  }
+  .irepair-index-reasons .irepair-index-reasons__scroller::-webkit-scrollbar {
+    display: none;
+  }
+  .irepair-index-reasons .irepair-index-reasons__track {
+    display: flex;
+    gap: 10px;
+    width: max-content;
+    padding: 0 16px 4px;
+  }
+  .irepair-index-reasons .irepair-index-reasons__card {
+    flex: 0 0 auto;
+    width: 40vw;
+    scroll-snap-align: start;
+    border-radius: 20px;
+  }
+}
+@media (max-width: 650px) {
+  /* у страницы на телефоне поля по 20 px — растягиваем ленту до краёв экрана */
+  .irepair-index-reasons {
+    margin: -20px -20px 20px;
+  }
+  .irepair-index-reasons .irepair-index-reasons__title {
+    margin-bottom: 18px;
+    font-size: 24px;
+  }
+  /* 1,5 карточки на экране */
+  .irepair-index-reasons .irepair-index-reasons__card {
+    width: 62vw;
+    border-radius: 18px;
+  }
+}
+</style>
