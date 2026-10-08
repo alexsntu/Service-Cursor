@@ -394,7 +394,11 @@
     var titleParts = [devices[currentDevice].m[currentModel]];
     if (currentConfig && configOptions.length > 1) titleParts.push('(' + currentConfig.label + ')');
     titleParts.push('—', currentService);
-    if (option.q) titleParts.push('(' + option.q + ')');
+    // у варианта могут быть свои скобки («AASP (Замена дисплея в сборе)») — тогда пишем через тире, без двойных скобок
+    if (option.q) {
+      if (option.q.indexOf('(') === -1) titleParts.push('(' + option.q + ')');
+      else titleParts.push('—', option.q);
+    }
     ctaBtn.dataset.service = titleParts.join(' ');
     ctaBtn.dataset.price = option.p;
   }
