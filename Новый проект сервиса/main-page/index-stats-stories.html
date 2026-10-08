@@ -1,0 +1,289 @@
+<!-- iRepair: главная — блок «iRepair в цифрах», вариант «сторис» на фото сотрудников и сервиса
+     (прежний вариант с иконками — index-stats.html, оставлен без изменений).
+     Четыре вертикальные карточки 3:4: фото во всю карточку, снизу затемнение, поверх — число, подпись и пояснение.
+     Компьютер: 4 в ряд. Телефон: лента с прокруткой пальцем, следующая карточка выглядывает.
+     Числа «набегают» от нуля, когда блок появляется на экране; клиенты и годы считаются сами (как в прежнем блоке).
+     Фото: /images/content/index-stats/*.webp (720 × 960). -->
+<div class="irepair-index-facts">
+  <div class="g-wrapper">
+    <h2 class="irepair-index-facts__title">iRepair в цифрах</h2>
+  </div>
+  <div class="irepair-index-facts__scroller">
+    <div class="irepair-index-facts__track">
+
+      <div class="irepair-index-facts__card">
+        <img class="irepair-index-facts__img" src="/images/content/index-stats/clients.webp" alt="Мастер iRepair с отремонтированным MacBook" width="720" height="960" loading="lazy">
+        <span class="irepair-index-facts__text">
+          <span class="irepair-index-facts__number" data-role="stat-clients">54&nbsp;000</span>
+          <span class="irepair-index-facts__label">Довольных клиентов</span>
+          <span class="irepair-index-facts__sublabel">Растём каждый час</span>
+        </span>
+      </div>
+
+      <div class="irepair-index-facts__card">
+        <img class="irepair-index-facts__img" src="/images/content/index-stats/years.webp" alt="Команда сервисного центра iRepair" width="720" height="960" loading="lazy">
+        <span class="irepair-index-facts__text">
+          <span class="irepair-index-facts__number" data-role="stat-years">15</span>
+          <span class="irepair-index-facts__label">Лет опыта</span>
+          <span class="irepair-index-facts__sublabel">Сервис открыт с 2011</span>
+        </span>
+      </div>
+
+      <div class="irepair-index-facts__card">
+        <img class="irepair-index-facts__img" src="/images/content/index-stats/minutes.webp" alt="Инженер iRepair за микроскопом" width="720" height="960" loading="lazy">
+        <span class="irepair-index-facts__text">
+          <span class="irepair-index-facts__number" data-static="45">45</span>
+          <span class="irepair-index-facts__label">Минут</span>
+          <span class="irepair-index-facts__sublabel">Среднее время ремонта</span>
+        </span>
+      </div>
+
+      <div class="irepair-index-facts__card">
+        <img class="irepair-index-facts__img" src="/images/content/index-stats/hours.webp" alt="Мастера iRepair" width="720" height="960" loading="lazy">
+        <span class="irepair-index-facts__text">
+          <span class="irepair-index-facts__number" data-static="168">168</span>
+          <span class="irepair-index-facts__label">Часов в неделю</span>
+          <span class="irepair-index-facts__sublabel">Мы думаем о вас</span>
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var section = document.querySelector('.irepair-index-facts');
+  if (!section) return;
+
+  var clientsEl = section.querySelector('[data-role="stat-clients"]');
+  var yearsEl = section.querySelector('[data-role="stat-years"]');
+
+  var startYear = 2011;
+  var totalYears = new Date().getFullYear() - startYear;
+
+  var baseClients = 54000;
+  var startDate = new Date('2024-01-01T00:00:00').getTime();
+  var totalClients = baseClients + Math.floor((Date.now() - startDate) / (1000 * 60 * 60));
+
+  function animateValue(el, end, duration) {
+    if (!el) return;
+    var startTimestamp = null;
+    function step(timestamp) {
+      if (!startTimestamp) startTimestamp = timestamp;
+      var progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      el.textContent = Math.floor(progress * end).toLocaleString('ru-RU');
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function runAnimations() {
+    animateValue(clientsEl, totalClients, 2500);
+    animateValue(yearsEl, totalYears, 1500);
+    var staticEls = section.querySelectorAll('[data-static]');
+    for (var i = 0; i < staticEls.length; i++) {
+      animateValue(staticEls[i], parseInt(staticEls[i].getAttribute('data-static'), 10), 2000);
+    }
+  }
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          runAnimations();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(section);
+  } else {
+    runAnimations();
+  }
+})();
+</script>
+
+<style>
+.irepair-index-facts,
+.irepair-index-facts * {
+  box-sizing: border-box;
+}
+.irepair-index-facts {
+  margin-top: -92px;
+  margin-bottom: 80px;
+}
+.irepair-index-facts .g-wrapper,
+.irepair-index-facts .irepair-index-facts__scroller {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 0 35px;
+}
+/* заголовок — единый формат блоков главной */
+.irepair-index-facts .irepair-index-facts__title {
+  margin: 0 0 30px;
+  padding: 0;
+  text-align: center;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 38px;
+  line-height: 1.15;
+  font-weight: 400;
+  text-transform: none;
+  color: #1d1d1f;
+}
+
+/* компьютер: 4 карточки в ряд */
+.irepair-index-facts .irepair-index-facts__track {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.irepair-index-facts .irepair-index-facts__card {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #1d1d1f;
+  color: #ffffff;
+}
+.irepair-index-facts .irepair-index-facts__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center top;
+}
+/* затемнение снизу — чтобы белый текст читался на любом фото */
+.irepair-index-facts .irepair-index-facts__card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 62%;
+  background: linear-gradient(180deg, rgba(1, 3, 6, 0) 0%, rgba(1, 3, 6, 0.55) 45%, rgba(1, 3, 6, 0.88) 100%);
+  pointer-events: none;
+}
+.irepair-index-facts .irepair-index-facts__text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: block;
+  padding: 0 22px 22px;
+}
+.irepair-index-facts .irepair-index-facts__number {
+  display: block;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 52px;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+.irepair-index-facts .irepair-index-facts__label {
+  display: block;
+  margin-top: 8px;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
+}
+.irepair-index-facts .irepair-index-facts__sublabel {
+  display: block;
+  margin-top: 4px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 19px;
+  color: rgba(255, 255, 255, 0.78);
+}
+/* зелёная полоска-акцент над числом */
+.irepair-index-facts .irepair-index-facts__number::before {
+  content: '';
+  display: block;
+  width: 34px;
+  height: 4px;
+  margin-bottom: 14px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #36d97b 0%, #19d4e0 100%);
+}
+
+@media (max-width: 1100px) {
+  .irepair-index-facts .irepair-index-facts__track {
+    gap: 12px;
+  }
+  .irepair-index-facts .irepair-index-facts__text {
+    padding: 0 16px 18px;
+  }
+  .irepair-index-facts .irepair-index-facts__number {
+    font-size: 40px;
+  }
+  .irepair-index-facts .irepair-index-facts__label {
+    font-size: 16px;
+    line-height: 20px;
+  }
+  .irepair-index-facts .irepair-index-facts__sublabel {
+    font-size: 13px;
+    line-height: 17px;
+  }
+}
+
+/* планшет и телефон: лента с прокруткой пальцем, карточки «прилипают», следующая выглядывает */
+@media (max-width: 900px) {
+  .irepair-index-facts .g-wrapper {
+    padding: 0 16px;
+  }
+  .irepair-index-facts .irepair-index-facts__scroller {
+    max-width: none;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+    scrollbar-width: none;
+  }
+  .irepair-index-facts .irepair-index-facts__scroller::-webkit-scrollbar {
+    display: none;
+  }
+  .irepair-index-facts .irepair-index-facts__track {
+    display: flex;
+    gap: 10px;
+    width: max-content;
+    padding: 0 16px 4px;
+  }
+  .irepair-index-facts .irepair-index-facts__card {
+    flex: 0 0 auto;
+    width: 38vw;
+    scroll-snap-align: start;
+    border-radius: 20px;
+  }
+}
+@media (max-width: 650px) {
+  /* у страницы на телефоне поля по 20 px — растягиваем ленту до краёв экрана */
+  .irepair-index-facts {
+    margin: -70px -20px 40px;
+  }
+  .irepair-index-facts .irepair-index-facts__title {
+    margin-bottom: 18px;
+    font-size: 24px;
+  }
+  /* 1,6 карточки на экране: одна целиком и больше половины следующей */
+  .irepair-index-facts .irepair-index-facts__card {
+    width: 58vw;
+    border-radius: 18px;
+  }
+  .irepair-index-facts .irepair-index-facts__number {
+    font-size: 38px;
+  }
+  .irepair-index-facts .irepair-index-facts__number::before {
+    width: 28px;
+    height: 3px;
+    margin-bottom: 10px;
+  }
+}
+</style>
