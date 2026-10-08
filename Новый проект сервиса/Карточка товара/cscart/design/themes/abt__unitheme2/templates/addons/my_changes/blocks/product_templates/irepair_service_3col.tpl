@@ -420,13 +420,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
+}
+/* текст кнопки крупнее стандартного (у темы 14 px) */
+.irepair-card3 .irepair-card3__side .ty-btn__add-to-cart,
+.irepair-card3 .irepair-card3__side .ty-btn__add-to-cart bdi {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 500;
+}
+.irepair-card3 .irepair-card3__side .ut2-pb__button .ty-btn__add-to-cart {
+  min-height: 58px;
 }
 .irepair-card3 .irepair-card3__side .ty-btn__add-to-cart > span::before {
   content: '';
-  flex: 0 0 26px;
-  width: 26px;
-  height: 26px;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath fill='%23ffffff' d='M8.99993 0C4.0294 0 0 4.0295 0 9C0 13.9705 4.0294 18 8.99993 18C13.9706 18 18 13.9705 18 9C18 4.0295 13.9706 0 8.99993 0ZM14.6436 9.29157C14.0103 10.0803 13.6876 11.0734 13.7365 12.0837L13.7986 13.3716C13.982 14.559 12.746 15.4569 11.6736 14.9155L10.4679 14.4584C9.52217 14.0997 8.47783 14.0997 7.532 14.4584L6.32644 14.9155C5.25384 15.4569 4.01782 14.559 4.20136 13.3716L4.26351 12.0837C4.31229 11.0734 3.98958 10.0803 3.35641 9.29157L2.5492 8.28623C1.70273 7.43329 2.17482 5.98039 3.36095 5.78803L4.60483 5.4492C5.58083 5.18339 6.42565 4.56952 6.98 3.72374L7.68675 2.64523C8.23627 1.57678 9.764 1.57678 10.3135 2.64523L11.0201 3.7236C11.5743 4.56966 12.4194 5.18353 13.3953 5.4492L14.6392 5.78803C15.8252 5.98039 16.2973 7.43315 15.4509 8.28623L14.6436 9.29157Z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 /* «Отложить» и «Поделиться» — в одном стиле; стандартное «Поделиться» темы скрыто */
