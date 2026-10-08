@@ -207,8 +207,10 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    height: 500px;
-    padding: 36px 24px 32px;
+    /* 380 px (было 500): на экране телефона под баннером целиком помещается блок категорий */
+    height: 380px;
+    min-height: 0; /* иначе действует планшетный минимум 480 px */
+    padding: 26px 24px 24px;
     border-radius: 0;
     background-image: url('/images/content/index-banner/indexBanner-mobile.webp');
   }

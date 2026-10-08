@@ -221,8 +221,11 @@
   }
 }
 @media (max-width: 650px) {
+  /* на телефоне у страницы поля по 20 px и баннер стоит вплотную: блок растягиваем до краёв экрана
+     и отодвигаем заголовок от баннера (как в прежнем варианте блока) */
   .irepair-index-stories {
-    margin-bottom: 22px;
+    margin: -20px -20px 22px;
+    padding-top: 44px;
   }
   .irepair-index-stories .irepair-index-stories__title {
     margin-bottom: 18px;
