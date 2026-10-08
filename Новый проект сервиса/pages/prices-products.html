@@ -1,0 +1,973 @@
+<!-- iRepair: страница «Стоимость услуг» (/prices/), вариант «данные из услуг сайта»
+     (прежний вариант на файле из таблицы — prices.html, оставлен без изменений). H1 выводит CS-Cart — в коде его нет.
+     Цены, модели, серии, конфигурации и варианты берутся из услуг (товаров) CS-Cart — из того же файла, что и
+     калькулятор на главной: /ajax/calc-prices.php (исходник — main-page/scripts/calc-prices.php, пересборка раз в сутки
+     и после правки услуг). Поменяли цену или добавили услугу — страница подхватит сама, перевставлять код не нужно.
+     Выбор модели — как в корневых категориях: пилюли серий, нажатие раскрывает модели серии. -->
+<div class="irepair-page-prices">
+  <div class="g-wrapper">
+
+    <div class="irepair-page-prices__hero">
+      <p class="irepair-page-prices__lede">Выберите устройство и модель — покажем актуальные цены на все услуги ремонта. Точная стоимость уточняется после бесплатной диагностики.</p>
+    </div>
+
+    <div class="irepair-page-prices__picker">
+      <!-- вкладки устройств, серии и модели рисует скрипт по данным -->
+      <div class="irepair-page-prices__tabs" data-role="tabs"></div>
+
+      <div class="irepair-page-prices__pills" data-role="models"></div>
+
+      <div class="irepair-page-prices__pills irepair-page-prices__pills_config" data-role="configs" hidden></div>
+    </div>
+
+    <h2 class="irepair-page-prices__results-title" data-role="results-title" hidden></h2>
+
+    <div class="irepair-page-prices__results" data-role="results">
+      <p class="irepair-page-prices__placeholder" data-role="placeholder">Выберите модель, чтобы увидеть цены</p>
+    </div>
+
+    <div class="irepair-page-prices__cta">
+      <a class="irepair-page-prices__cta-btn" href="/#form-calc">Рассчитать точную стоимость</a>
+      <button type="button" class="irepair-page-prices__cta-btn irepair-page-prices__cta-btn_ghost" data-call-popup-trigger>Заказать звонок</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.irepair-page-prices');
+  if (!root) return;
+
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function smoothScrollToElement(el, duration) {
+    var startY = window.pageYOffset || document.documentElement.scrollTop;
+    var marginTop = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+    var targetY = el.getBoundingClientRect().top + startY - marginTop;
+    var distance = targetY - startY;
+    var startTime = null;
+    function step(timestamp) {
+      if (startTime === null) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      window.scrollTo(0, startY + distance * easeOutCubic(progress));
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  function byRole(name) {
+    return root.querySelector('[data-role="' + name + '"]');
+  }
+
+  function make(tag, className, text) {
+    var el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text !== undefined) el.textContent = text;
+    return el;
+  }
+
+  var tabsWrap = byRole('tabs');
+  var modelsWrap = byRole('models');
+  var configsWrap = byRole('configs');
+  var resultsWrap = byRole('results');
+  var resultsTitle = byRole('results-title');
+  var placeholder = byRole('placeholder');
+
+  // Тот же файл, что у калькулятора на главной (собирается из услуг сайта раз в сутки и после правок услуг):
+  //   devices — [ { k: ключ, t: подпись вкладки, m: [модели], g: [ { t: серия, m: [№ моделей] } ] } ]
+  //   rows    — [ { d: № устройства, m: [№ моделей], s: услуга, p: цена, o: место в списке, u: ссылка,
+  //                c: конфигурация, q: вариант (тип запчасти и т. п.), a: 1 — цена «от» } ]
+  var DATA_URL = '/ajax/calc-prices.php';
+  var devices = [];
+  var rows = [];
+
+  var currentDevice = 0;
+  var currentModel = -1;
+  var openSeries = -1;
+  var configOptions = [];
+  var currentConfig = null;
+
+  // --- Конфигурации (логика та же, что в калькуляторе) -------------------------------------------
+  // У MacBook и iPad конфигурация записана как «чип | номера моделей». В разных услугах одни и те же номера
+  // сгруппированы по-разному, поэтому сравниваем номера, а не строки целиком.
+  var A_NUMBER = /^A\d\d\d\d$/;
+  var parsedCache = Object.create(null);
+
+  function parseConfig(raw) {
+    if (parsedCache[raw]) return parsedCache[raw];
+    var bar = raw.lastIndexOf('|');
+    var left = bar === -1 ? '' : raw.slice(0, bar).trim();
+    var nums = (bar === -1 ? raw : raw.slice(bar + 1)).trim().split(/\s*\/\s*/);
+    var parsed = { raw: raw, nums: null, chip: Object.create(null) };
+    if (nums.every(function (n) { return A_NUMBER.test(n); })) {
+      var chips = left ? left.split(' / ') : [];
+      parsed.nums = nums;
+      nums.forEach(function (n, i) {
+        parsed.chip[n] = chips.length === nums.length ? chips[i].trim() : left;
+      });
+    }
+    parsedCache[raw] = parsed;
+    return parsed;
+  }
+
+  function rowHasModel(row, device, model) {
+    return row.d === device && row.m.indexOf(model) !== -1;
+  }
+
+  function matchesConfig(row, option) {
+    if (!row.c || !option) return true;
+    if (!option.nums) return row.c === option.raw;
+    var parsed = parseConfig(row.c);
+    return !!parsed.nums && parsed.nums.indexOf(option.nums[0]) !== -1;
+  }
+
+  function configSortKey(label) {
+    if (/Intel/i.test(label)) return 0;
+    var m = label.match(/(\d+)/);
+    return m ? Number(m[1]) : 99;
+  }
+
+  function getConfigOptions(device, model) {
+    var raws = [];
+    rows.forEach(function (row) {
+      if (row.c && rowHasModel(row, device, model) && raws.indexOf(row.c) === -1) raws.push(row.c);
+    });
+    var options = [];
+    var signature = Object.create(null);   // номер модели → в каких конфигурациях он встречается
+    var order = [];
+    raws.forEach(function (raw) {
+      var parsed = parseConfig(raw);
+      if (!parsed.nums) {
+        options.push({ raw: raw, nums: null, label: raw });
+        return;
+      }
+      parsed.nums.forEach(function (n) {
+        if (!signature[n]) {
+          signature[n] = [];
+          order.push(n);
+        }
+        signature[n].push(raw);
+      });
+    });
+    // номера, которые везде встречаются вместе, — одна пилюля
+    var groups = Object.create(null);
+    var groupOrder = [];
+    order.forEach(function (n) {
+      var key = signature[n].join('\n');
+      if (!groups[key]) {
+        groups[key] = [];
+        groupOrder.push(key);
+      }
+      groups[key].push(n);
+    });
+    groupOrder.forEach(function (key) {
+      var nums = groups[key];
+      var label = '';
+      signature[nums[0]].forEach(function (raw) {
+        if (!label && parseConfig(raw).nums.length === nums.length) label = raw;
+      });
+      if (!label) {
+        var chips = [];
+        nums.forEach(function (n) {
+          var chip = '';
+          signature[n].forEach(function (raw) {
+            var c = parseConfig(raw).chip[n];
+            if (c && (!chip || c.length < chip.length)) chip = c;
+          });
+          if (chip && chips.indexOf(chip) === -1) chips.push(chip);
+        });
+        label = (chips.length ? chips.join(' / ') + ' | ' : '') + nums.join(' / ');
+      }
+      options.push({ raw: '', nums: nums, label: label });
+    });
+    options.sort(function (a, b) {
+      var la = a.label.replace('|', ' ');
+      var lb = b.label.replace('|', ' ');
+      return (configSortKey(a.label) - configSortKey(b.label)) || (la < lb ? -1 : la > lb ? 1 : 0);
+    });
+    return options;
+  }
+
+  // 12 390 ₽ — разряды и знак рубля через неразрывный пробел, цена всегда в одну строку
+  function formatPrice(p, approx) {
+    var formatted = String(Math.round(Number(p))).replace(/\B(?=(\d\d\d)+(?!\d))/g, ' ');
+    return (approx ? 'от ' : '') + formatted + ' ₽';
+  }
+
+  // Разделы прайса — по словам в названии услуги (первое совпавшее правило); остальное — «Другие услуги».
+  // Порядок разделов и услуг внутри — как в списке услуг модели на сайте (место услуги в категории).
+  var CATEGORY_RULES = [
+    [ 'Экран и стекло', /дисплея|матрицы|стекла/i ],
+    [ 'Аккумулятор', /аккумулятор/i ],
+    [ 'Камера и Face ID', /камеры|face.?id/i ],
+    [ 'Звук', /динамик|микрофон/i ],
+    [ 'Клавиатура и тачпад', /клавиатур|клавиш|тачпад|тачбар/i ],
+    [ 'Разъёмы и кнопки', /разъ[её]ма|шлейфа|кнопок/i ],
+    [ 'Корпус', /корпуса/i ],
+    [ 'Чистка и защита от влаги', /влаги|пыли|жидкост|термопаст|охлаждени/i ],
+    [ 'Накопитель', /ssd|hdd/i ],
+    [ 'Плата и питание', /материнской платы|контроллера питания|не включается/i ],
+    [ 'Программные услуги', /прошивк|ios|macos|данных|резервной|оригинальност/i ]
+  ];
+
+  function categorize(serviceName) {
+    for (var i = 0; i < CATEGORY_RULES.length; i++) {
+      if (CATEGORY_RULES[i][1].test(serviceName)) return CATEGORY_RULES[i][0];
+    }
+    return 'Другие услуги';
+  }
+
+  // --- Вкладки, серии и модели ---------------------------------------------------------------------
+  function buildTabs() {
+    tabsWrap.innerHTML = '';
+    devices.forEach(function (device, i) {
+      var btn = make('button', 'irepair-page-prices__tab' + (i === currentDevice ? ' active' : ''), device.t);
+      btn.type = 'button';
+      btn.setAttribute('data-device', i);
+      tabsWrap.appendChild(btn);
+    });
+  }
+
+  function seriesOf(device) {
+    return (device.g && device.g.length) ? device.g : device.m.map(function (name, i) { return { t: name, m: [i] }; });
+  }
+
+  function modelPill(index, extraClass) {
+    var btn = make('button', 'irepair-page-prices__pill' + (extraClass ? ' ' + extraClass : ''), devices[currentDevice].m[index]);
+    btn.type = 'button';
+    btn.setAttribute('data-model', index);
+    if (index === currentModel) btn.classList.add('active');
+    return btn;
+  }
+
+  // Пилюли серий; нажатие раскрывает модели серии сразу под её строкой. Серия из одной модели (MacBook 12)
+  // и устройства без серий (часы, iMac) — обычные пилюли моделей.
+  function renderModels() {
+    modelsWrap.innerHTML = '';
+    var device = devices[currentDevice];
+    var series = seriesOf(device);
+    var hasSeries = series.some(function (g) { return g.m.length > 1; });
+    modelsWrap.classList.toggle('irepair-page-prices__pills_series', hasSeries);
+
+    series.forEach(function (group, gi) {
+      if (!hasSeries) {
+        modelsWrap.appendChild(modelPill(group.m[0]));
+        return;
+      }
+      if (group.m.length === 1) {
+        modelsWrap.appendChild(modelPill(group.m[0], 'irepair-page-prices__pill_series'));
+        return;
+      }
+      var btn = make('button', 'irepair-page-prices__pill irepair-page-prices__pill_series', group.t);
+      btn.type = 'button';
+      btn.setAttribute('data-series', gi);
+      btn.setAttribute('aria-expanded', gi === openSeries ? 'true' : 'false');
+      if (gi === openSeries) btn.classList.add('is-open');
+      if (group.m.indexOf(currentModel) !== -1) btn.classList.add('has-active');
+      modelsWrap.appendChild(btn);
+      if (gi === openSeries) {
+        var panel = make('div', 'irepair-page-prices__panel');
+        group.m.forEach(function (mi) { panel.appendChild(modelPill(mi)); });
+        modelsWrap.appendChild(panel);
+      }
+    });
+  }
+
+  function selectDevice(index) {
+    currentDevice = index;
+    var series = seriesOf(devices[index]);
+    // сразу показываем цены первой модели: первая серия раскрыта, первая модель выбрана
+    openSeries = series.length && series[0].m.length > 1 ? 0 : -1;
+    currentModel = series.length ? series[0].m[0] : -1;
+    renderModels();
+    renderConfigsAndResults();
+  }
+
+  function renderConfigsAndResults() {
+    configOptions = currentModel === -1 ? [] : getConfigOptions(currentDevice, currentModel);
+    configsWrap.innerHTML = '';
+    if (configOptions.length > 1) {
+      configOptions.forEach(function (option, i) {
+        var btn = make('button', 'irepair-page-prices__pill irepair-page-prices__pill_config' + (i === 0 ? ' active' : ''), option.label);
+        btn.type = 'button';
+        btn.setAttribute('data-config', i);
+        configsWrap.appendChild(btn);
+      });
+      configsWrap.hidden = false;
+    } else {
+      configsWrap.hidden = true;
+    }
+    currentConfig = configOptions.length ? configOptions[0] : null;
+    renderResults();
+  }
+
+  // --- Прайс ---------------------------------------------------------------------------------------
+  function renderResults() {
+    resultsWrap.innerHTML = '';
+    if (currentModel === -1) {
+      resultsTitle.hidden = true;
+      resultsWrap.appendChild(placeholder);
+      return;
+    }
+
+    var modelName = devices[currentDevice].m[currentModel];
+    var configName = currentConfig && configOptions.length > 1 ? currentConfig.label : '';
+    resultsTitle.textContent = 'Цены на ремонт ' + modelName + (configName ? ' · ' + configName : '');
+    resultsTitle.hidden = false;
+
+    var options = rows.filter(function (row) {
+      return rowHasModel(row, currentDevice, currentModel) && matchesConfig(row, currentConfig);
+    });
+    if (!options.length) {
+      resultsWrap.appendChild(make('p', 'irepair-page-prices__placeholder', 'Для этой модели пока нет цен — уточните стоимость по телефону'));
+      return;
+    }
+
+    // раздел → услуга → строки вариантов; место раздела и услуги — по самой ранней услуге
+    var categories = [];
+    var catIndex = Object.create(null);
+    options.forEach(function (row) {
+      var catName = categorize(row.s);
+      if (!(catName in catIndex)) {
+        catIndex[catName] = categories.length;
+        categories.push({ name: catName, place: row.o, services: [], byName: Object.create(null) });
+      }
+      var cat = categories[catIndex[catName]];
+      if (row.o < cat.place) cat.place = row.o;
+      if (!(row.s in cat.byName)) {
+        cat.byName[row.s] = cat.services.length;
+        cat.services.push({ name: row.s, place: row.o, rows: [] });
+      }
+      var service = cat.services[cat.byName[row.s]];
+      if (row.o < service.place) service.place = row.o;
+      service.rows.push(row);
+    });
+    categories.sort(function (a, b) { return a.place - b.place; });
+
+    function makeDots() {
+      return make('span', 'irepair-page-prices__row-dots');
+    }
+
+    function makeOrderBtn(catName, serviceName, row) {
+      var btn = make('button', 'irepair-page-prices__order', 'Оформить заявку');
+      btn.type = 'button';
+      btn.setAttribute('data-call-popup-trigger', '');
+      btn.setAttribute('aria-label', 'Оформить заявку: ' + serviceName);
+      // у варианта могут быть свои скобки («AASP (Замена дисплея в сборе)») — тогда пишем через тире
+      var variant = !row.q ? '' : (row.q.indexOf('(') === -1 ? ' (' + row.q + ')' : ' — ' + row.q);
+      btn.dataset.service = catName + ' — ' + serviceName + variant + ' — ' + modelName + (configName ? ' · ' + configName : '');
+      btn.dataset.price = row.p;
+      return btn;
+    }
+
+    categories.forEach(function (cat) {
+      cat.services.sort(function (a, b) { return a.place - b.place; });
+
+      var block = make('div', 'irepair-page-prices__category');
+      block.appendChild(make('h3', 'irepair-page-prices__category-title', cat.name));
+      var list = make('div', 'irepair-page-prices__list');
+
+      cat.services.forEach(function (service) {
+        service.rows.sort(function (a, b) { return a.p - b.p; });
+        var cheapest = service.rows[0];
+        var item = make('div', 'irepair-page-prices__row');
+
+        // название услуги — ссылка на её страницу; на телефоне вся строка ведёт туда же
+        var main = make('div', 'irepair-page-prices__row-main');
+        var mainName = make(cheapest.u ? 'a' : 'span', 'irepair-page-prices__row-name', service.name);
+        if (cheapest.u) mainName.setAttribute('href', cheapest.u);
+        var mainRight = make('span', 'irepair-page-prices__row-right');
+        mainRight.appendChild(make('span', 'irepair-page-prices__row-price',
+          formatPrice(cheapest.p, cheapest.a || service.rows.length > 1)));
+        mainRight.appendChild(makeOrderBtn(cat.name, service.name, cheapest));
+        main.appendChild(mainName);
+        main.appendChild(makeDots());
+        main.appendChild(mainRight);
+        item.appendChild(main);
+
+        if (service.rows.length > 1) {
+          service.rows.forEach(function (row) {
+            var variant = make('div', 'irepair-page-prices__row-variant');
+            var vRight = make('span', 'irepair-page-prices__row-right');
+            vRight.appendChild(make('span', '', formatPrice(row.p, row.a)));
+            vRight.appendChild(makeOrderBtn(cat.name, service.name, row));
+            variant.appendChild(make('span', 'irepair-page-prices__row-vname', row.q || 'Стандарт'));
+            variant.appendChild(makeDots());
+            variant.appendChild(vRight);
+            item.appendChild(variant);
+          });
+        }
+
+        list.appendChild(item);
+      });
+
+      block.appendChild(list);
+      resultsWrap.appendChild(block);
+    });
+  }
+
+  // --- События -------------------------------------------------------------------------------------
+  tabsWrap.addEventListener('click', function (e) {
+    var btn = e.target.closest('.irepair-page-prices__tab');
+    if (!btn || !devices.length) return;
+    Array.prototype.forEach.call(tabsWrap.querySelectorAll('.irepair-page-prices__tab'), function (t) {
+      t.classList.toggle('active', t === btn);
+    });
+    selectDevice(Number(btn.getAttribute('data-device')));
+  });
+
+  modelsWrap.addEventListener('click', function (e) {
+    var btn = e.target.closest('.irepair-page-prices__pill');
+    if (!btn) return;
+
+    // серия: раскрыть её модели (повторное нажатие — свернуть); выбранная модель и цены не меняются
+    if (btn.hasAttribute('data-series')) {
+      var gi = Number(btn.getAttribute('data-series'));
+      openSeries = openSeries === gi ? -1 : gi;
+      renderModels();
+      return;
+    }
+
+    currentModel = Number(btn.getAttribute('data-model'));
+    // модель без серии выбрана — раскрытую серию сворачиваем, чтобы список оставался компактным
+    if (btn.classList.contains('irepair-page-prices__pill_series')) openSeries = -1;
+    renderModels();
+    renderConfigsAndResults();
+    // MacBook, iPad и Watch — после выбора модели сперва прокручиваем к выбору конфигурации
+    // (её ещё нужно выбрать), а не сразу к результатам. Без конфигурации — сразу к заголовку.
+    setTimeout(function () {
+      smoothScrollToElement(configsWrap.hidden ? resultsTitle : configsWrap, 500);
+    }, 50);
+  });
+
+  configsWrap.addEventListener('click', function (e) {
+    var btn = e.target.closest('.irepair-page-prices__pill');
+    if (!btn) return;
+    currentConfig = configOptions[Number(btn.getAttribute('data-config'))];
+    Array.prototype.forEach.call(configsWrap.querySelectorAll('.irepair-page-prices__pill'), function (b) {
+      b.classList.toggle('active', b === btn);
+    });
+    renderResults();
+    setTimeout(function () { smoothScrollToElement(resultsTitle, 500); }, 50);
+  });
+
+  function showLoadError() {
+    placeholder.textContent = 'Не удалось загрузить цены. Позвоните нам — подскажем стоимость.';
+  }
+
+  fetch(DATA_URL)
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      devices = data.devices || [];
+      rows = data.rows || [];
+      if (!devices.length) {
+        showLoadError();
+        return;
+      }
+      buildTabs();
+      selectDevice(0);
+    })
+    .catch(showLoadError);
+})();
+</script>
+
+<style>
+.irepair-page-prices,
+.irepair-page-prices * {
+  box-sizing: border-box;
+}
+.irepair-page-prices {
+  margin-top: -20px;
+  margin-bottom: 80px;
+  padding-top: 32px;
+}
+.irepair-page-prices .g-wrapper {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 0 35px;
+}
+@media (max-width: 1370px) {
+  .irepair-page-prices .g-wrapper {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .irepair-page-prices .g-wrapper {
+    padding: 0 16px;
+  }
+}
+@media (max-width: 374px) {
+  .irepair-page-prices .g-wrapper {
+    padding: 0 10px;
+  }
+}
+
+.irepair-page-prices__hero {
+  max-width: 720px;
+  margin: 0 0 32px;
+}
+.irepair-page-prices__lede {
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #6e6e73;
+}
+
+.irepair-page-prices__picker {
+  max-width: 900px;
+  margin: 0 auto 28px;
+  padding: 28px 28px 32px;
+  border-radius: 28px;
+  background: linear-gradient(160deg, #eafaf2 0%, #e3f7f5 45%, #eaf3fb 100%);
+}
+
+.irepair-page-prices__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.irepair-page-prices__tab {
+  flex: 1 1 0;
+  min-width: 90px;
+  padding: 12px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.3));
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1d1d1f;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.irepair-page-prices__tab.active {
+  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(32, 204, 190, 0.32);
+}
+
+.irepair-page-prices__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.irepair-page-prices__pills_config {
+  margin-top: 14px;
+  padding-top: 14px;
+  scroll-margin-top: 100px;
+  border-top: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.irepair-page-prices__pill {
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.45));
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: 0 6px 16px rgba(32, 204, 190, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1d1d1f;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+.irepair-page-prices__pill:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7));
+  border-color: rgba(55, 217, 123, 0.55);
+  box-shadow: 0 10px 24px rgba(32, 204, 190, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+.irepair-page-prices__pill.active {
+  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(32, 204, 190, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+.irepair-page-prices__pill_config {
+  font-size: 13px;
+  padding: 8px 16px;
+}
+
+.irepair-page-prices .irepair-page-prices__results-title {
+  max-width: 900px;
+  margin: 0 auto 20px;
+  scroll-margin-top: 100px;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 22px;
+  color: #1d1d1f;
+}
+
+.irepair-page-prices__results {
+  max-width: 900px;
+  margin: 0 auto 48px;
+  min-height: 60px;
+}
+
+.irepair-page-prices__placeholder {
+  margin: 20px 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 14px;
+  color: #939393;
+}
+
+.irepair-page-prices__category {
+  margin-bottom: 24px;
+  padding: 8px 28px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(32, 204, 190, 0.08);
+}
+.irepair-page-prices .irepair-page-prices__category-title {
+  margin: 0;
+  padding: 20px 0 4px;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 18px;
+  color: #1d1d1f;
+}
+
+.irepair-page-prices__row {
+  padding: 14px 28px;
+  margin: 0 -28px;
+  border-top: 1px solid #eef2f1;
+  border-radius: 12px;
+  transition: background 0.15s ease;
+}
+.irepair-page-prices__row:first-child {
+  border-top: none;
+}
+.irepair-page-prices__row:hover {
+  background: #f8fbfa;
+}
+.irepair-page-prices__row-main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.irepair-page-prices__row-name {
+  flex: 0 1 auto;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1d1d1f;
+}
+.irepair-page-prices__row-dots {
+  flex: 1 1 auto;
+  min-width: 20px;
+  margin: 0 2px 5px;
+  border-bottom: 1px dotted #d7dedb;
+}
+.irepair-page-prices__row-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+.irepair-page-prices__row-main .irepair-page-prices__row-price {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1d1d1f;
+  white-space: nowrap;
+}
+.irepair-page-prices__row-variant {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 8px;
+  padding-left: 18px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  color: #a1a1a6;
+}
+.irepair-page-prices__row-variant .irepair-page-prices__row-dots {
+  border-bottom-color: #e8ebea;
+}
+.irepair-page-prices__row-variant .irepair-page-prices__row-right span {
+  white-space: nowrap;
+}
+
+.irepair-page-prices__order {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #d2ebe2;
+  background: #fff;
+  color: #20ccbe;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.irepair-page-prices__order:hover {
+  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
+  border-color: transparent;
+  color: #fff;
+}
+
+.irepair-page-prices__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.irepair-page-prices__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #37d97b 0%, #20ccbe 100%);
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+.irepair-page-prices__cta-btn:hover {
+  opacity: 0.88;
+  color: #fff;
+}
+.irepair-page-prices__cta-btn_ghost {
+  background: #fff;
+  border: 1px solid #d2d2d7;
+  color: #1d1d1f;
+}
+.irepair-page-prices__cta-btn_ghost:hover {
+  opacity: 1;
+  border-color: #37d97b;
+  color: #37d97b;
+}
+
+@media (max-width: 650px) {
+  .irepair-page-prices {
+    margin-top: -20px;
+    margin-bottom: 48px;
+    padding-top: 20px;
+  }
+  .irepair-page-prices__lede {
+    font-size: 14px;
+  }
+  .irepair-page-prices__hero {
+    margin-bottom: 24px;
+  }
+  .irepair-page-prices .irepair-page-prices__results-title {
+    font-size: 18px;
+    margin: 0 16px 16px;
+  }
+  .irepair-page-prices__picker {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding: 20px 16px 24px;
+    border-radius: 0;
+  }
+  .irepair-page-prices__tab {
+    font-size: 13px;
+    padding: 11px 6px;
+  }
+  .irepair-page-prices__pill {
+    font-size: 13px;
+    padding: 9px 16px;
+  }
+  .irepair-page-prices__results {
+    margin-bottom: 32px;
+  }
+  .irepair-page-prices__category {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding: 4px 16px;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 8px solid #f8fbfa;
+  }
+  .irepair-page-prices .irepair-page-prices__category-title {
+    font-size: 16px;
+    padding: 16px 0 4px;
+  }
+  .irepair-page-prices__row {
+    padding: 12px 16px;
+    margin: 0 -16px;
+    border-radius: 0;
+  }
+  .irepair-page-prices__row-name {
+    font-size: 14px;
+  }
+  .irepair-page-prices__row-main .irepair-page-prices__row-price {
+    font-size: 14px;
+  }
+  .irepair-page-prices__order {
+    padding: 5px 10px;
+    font-size: 10.5px;
+  }
+  .irepair-page-prices__cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .irepair-page-prices__cta-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 14px;
+  }
+}
+
+/* --- вариант «данные из услуг сайта»: вкладки из данных, выбор «серия → модели», ссылки на услуги --- */
+/* вкладки и пилюли появляются после загрузки данных — держим высоту, чтобы страница не прыгала */
+.irepair-page-prices .irepair-page-prices__tabs {
+  min-height: 44px;
+}
+.irepair-page-prices .irepair-page-prices__tab {
+  white-space: nowrap;
+}
+/* скрытый ряд конфигураций не должен оставлять черту и отступ */
+.irepair-page-prices .irepair-page-prices__pills[hidden] {
+  display: none;
+}
+.irepair-page-prices .irepair-page-prices__pills[data-role="models"] {
+  min-height: 40px;
+}
+/* серии — тёмные пилюли, как в корневых категориях; раскрытая серия — зелёная */
+.irepair-page-prices .irepair-page-prices__pill_series {
+  border-color: transparent;
+  background: #1d1d1f;
+  color: #ffffff;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.irepair-page-prices .irepair-page-prices__pill_series:hover {
+  border-color: transparent;
+  background: #37d97b;
+  box-shadow: none;
+}
+.irepair-page-prices .irepair-page-prices__pill_series.is-open,
+.irepair-page-prices .irepair-page-prices__pill_series.active {
+  background: linear-gradient(103.87deg, #36d97b 29.3%, #19d4e0 96.89%);
+  box-shadow: 0 10px 24px rgba(32, 204, 190, 0.3);
+}
+/* свёрнутая серия, в которой выбрана модель, — зелёная обводка */
+.irepair-page-prices .irepair-page-prices__pill_series.has-active:not(.is-open) {
+  box-shadow: 0 0 0 2px #e9f8f2, 0 0 0 4px #37d97b;
+}
+/* модели раскрытой серии — отдельной строкой сразу под её пилюлей */
+.irepair-page-prices .irepair-page-prices__panel {
+  display: flex;
+  flex-wrap: wrap;
+  flex-basis: 100%;
+  gap: 8px;
+  margin: 2px 0;
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.irepair-page-prices .irepair-page-prices__panel .irepair-page-prices__pill {
+  padding: 9px 18px;
+  border-color: #e3e8e6;
+  background: #ffffff;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.irepair-page-prices .irepair-page-prices__panel .irepair-page-prices__pill:hover {
+  border-color: #37d97b;
+}
+.irepair-page-prices .irepair-page-prices__panel .irepair-page-prices__pill.active {
+  border-color: transparent;
+  background: linear-gradient(135deg, #5ee596 0%, #37d97b 55%, #20ccbe 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(32, 204, 190, 0.28);
+}
+/* название услуги — ссылка на её страницу */
+.irepair-page-prices a.irepair-page-prices__row-name {
+  color: #1d1d1f;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.irepair-page-prices a.irepair-page-prices__row-name:hover {
+  color: #1fb86a;
+}
+@media (max-width: 650px) {
+  /* пять вкладок в одну строку: ширина по тексту */
+  .irepair-page-prices .irepair-page-prices__tabs {
+    flex-wrap: nowrap;
+    gap: 5px;
+  }
+  .irepair-page-prices .irepair-page-prices__tab {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 11px 8px;
+  }
+  .irepair-page-prices .irepair-page-prices__pills {
+    gap: 8px;
+  }
+  .irepair-page-prices .irepair-page-prices__panel {
+    gap: 6px;
+    padding: 10px;
+    border-radius: 18px;
+  }
+  .irepair-page-prices .irepair-page-prices__panel .irepair-page-prices__pill {
+    padding: 8px 14px;
+  }
+  /* телефон — прайс без кнопки «Оформить заявку»: вся строка ведёт на услугу, справа серая стрелка
+     (правило владельца для всех списков цен) */
+  .irepair-page-prices .irepair-page-prices__order {
+    display: none;
+  }
+  .irepair-page-prices .irepair-page-prices__row {
+    position: relative;
+    padding-right: 38px;
+  }
+  .irepair-page-prices a.irepair-page-prices__row-name::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  .irepair-page-prices .irepair-page-prices__row::after {
+    content: '';
+    position: absolute;
+    top: 17px;
+    right: 18px;
+    width: 7px;
+    height: 7px;
+    border-top: 1.6px solid #b4b9b7;
+    border-right: 1.6px solid #b4b9b7;
+    transform: rotate(45deg);
+    pointer-events: none;
+  }
+}
+@media (max-width: 374px) {
+  .irepair-page-prices .irepair-page-prices__tab {
+    padding: 10px 5px;
+    font-size: 12px;
+  }
+}
+</style>

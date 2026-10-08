@@ -287,9 +287,22 @@ function irc_build()
             return strcmp($series_key[$a], $series_key[$b]) ?: strnatcasecmp(trim($cats[$b]['category']), trim($cats[$a]['category']));
         });
         $names = [];
+        $groups = [];      // серии: [название, [№ моделей]] — для выбора «серия → модели» на странице цен
+        $group_of = [];
         foreach ($ids as $i => $cid) {
             $model_idx[$cid] = $i;
             $names[] = preg_replace('/^Ремонт\s+/u', '', $clean($cats[$cid]['category']));
+            // серия — родительская категория; модель прямо под устройством (MacBook 12, часы, iMac) — сама себе серия
+            $parent = (int) $cats[$cid]['parent_id'];
+            $gkey = $parent === $root ? 'm' . $cid : 's' . $parent;
+            if (!isset($group_of[$gkey])) {
+                $group_of[$gkey] = count($groups);
+                $groups[] = [
+                    't' => $parent === $root ? $names[$i] : preg_replace('/^Ремонт\s+/u', '', $clean($cats[$parent]['category'])),
+                    'm' => [],
+                ];
+            }
+            $groups[$group_of[$gkey]]['m'][] = $i;
         }
         $device_idx[$root] = count($devices);
         $devices[] = [
@@ -297,6 +310,7 @@ function irc_build()
             't' => isset($known[$root]) ? $known[$root][1] : preg_replace('/^Ремонт\s+/u', '', $clean($cats[$root]['category'])),
             'cl' => isset($known[$root]) ? $known[$root][3] : '',
             'm' => $names,
+            'g' => $groups,
         ];
     }
     foreach ($rows as &$row) {
