@@ -326,10 +326,49 @@
       });
     });
 
+    /* Шкала уровней: отрезки между уровнями равной длины, заполнение — по сумме ремонтов внутри отрезка */
+    function levelScale() {
+      var levels = b.levels || [];
+      if (levels.length < 2) return null;
+      var total = Number(b.total || 0), last = levels.length - 1, pos = last;
+      for (var i = 0; i < last; i++) {
+        if (total < levels[i + 1].from) {
+          pos = i + (total - levels[i].from) / ((levels[i + 1].from - levels[i].from) || 1);
+          break;
+        }
+      }
+      var percent = Math.max(0, Math.min(100, pos / last * 100));
+      var fill = el('div.level-fill');
+      fill.style.width = percent.toFixed(1) + '%';
+      var marks = levels.map(function (l, i) {
+        var mark = el('div.level-mark' + (total >= l.from ? '.level-mark-on' : ''), null, [
+          el('span.level-name', null, l.name),
+          el('span.level-from', null, i ? 'от ' + money(l.from) : 'старт')
+        ]);
+        return mark;
+      });
+      var note = b.next && b.to_next > 0
+        ? ['До уровня ', el('b', null, b.next), ' осталось ', el('b', null, money(b.to_next))]
+        : 'У вас максимальный уровень программы';
+      return el('div.level', null, [
+        el('div.level-note', null, note),
+        el('div.level-bar', { role: 'progressbar', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': Math.round(percent) }, fill),
+        el('div.level-marks', null, marks),
+        el('div.level-total', null, 'Сумма ремонтов: ' + money(total))
+      ]);
+    }
+
     var card = b.found
       ? el('div.card.loyalty.loyalty-' + (b.card || 'silver').toLowerCase(), null, [
-          el('div.loyalty-top', null, [el('div.loyalty-tier', null, b.card), el('div.loyalty-points', null, points(b.points))]),
+          el('div.loyalty-top', null, [
+            el('div.loyalty-tier', null, b.card),
+            el('div.loyalty-sum', null, [
+              el('div.loyalty-points', null, points(b.points)),
+              b.saved > 0 ? el('div.loyalty-saved', null, ['Вы сэкономили ', el('b', null, money(b.saved))]) : null
+            ])
+          ]),
           el('div.loyalty-text', null, 'Кешбэк ' + b.cashback_percent + '% · оплата баллами до ' + b.debit_percent + '% стоимости ремонта'),
+          levelScale(),
           el('div.loyalty-links', null, [bonusToggle, el('a.loyalty-link', { href: '/programma-loyalnosti/' }, 'Подробнее о программе лояльности')]),
           bonusList
         ])

@@ -146,7 +146,42 @@ function lk_bonus_info(string $phone): array
         'points' => is_array($r) ? (int) floor((float) ($r['availableBonuses'] ?? 0)) : 0,
         'cashback_percent' => (float) $tier['cashback'],
         'debit_percent' => $debit,
+        // сумма ремонтов, от которой считается уровень, и сколько осталось до следующего
+        'total' => is_array($r) ? (int) floor((float) ($r['purchasesTotalSum'] ?? 0)) : 0,
+        'next' => is_array($r) && isset($cfg['tiers'][strtoupper((string) ($r['nextCardName'] ?? ''))]) ? strtoupper((string) $r['nextCardName']) : '',
+        'to_next' => is_array($r) ? (int) ceil((float) ($r['purchasesSumToNextCard'] ?? 0)) : 0,
+        // баллы, списанные в оплату через продажу (так списывал старый сайт); списания нового кабинета добавляются в «me»
+        'saved' => is_array($r) ? (int) round((float) ($r['totalBonusDebit'] ?? 0)) : 0,
     ];
+}
+
+/**
+ * Уровни программы лояльности: название → сумма ремонтов, с которой выдаётся карта (из BonusPlus, «Лояльность → Карты»).
+ * Меняются редко — храним сутки в базе; если BonusPlus не ответил, берём известные значения.
+ */
+function lk_bonus_levels(): array
+{
+    global $pdo, $now, $cfg;
+    $st = $pdo->prepare("SELECT v FROM irepair_lk_cache WHERE k = 'bonus_levels' AND expires_at > ?");
+    $st->execute([$now]);
+    $cached = json_decode((string) $st->fetchColumn(), true);
+    if (is_array($cached) && $cached) {
+        return $cached;
+    }
+    [$code, $r] = lk_bonusplus('GET', 'account/filter');
+    $levels = [];
+    foreach (($code === 200 && is_array($r)) ? ($r['cards'] ?? []) : [] as $card) {
+        $name = is_array($card) ? strtoupper(trim((string) ($card['name'] ?? ''))) : '';
+        if (isset($cfg['tiers'][$name])) {
+            $levels[] = ['name' => $name, 'from' => (int) ($card['issuePurchasesSum'] ?? 0)];
+        }
+    }
+    if (count($levels) < 2) {
+        return [['name' => 'SILVER', 'from' => 0], ['name' => 'GOLD', 'from' => 60000], ['name' => 'PLATINUM', 'from' => 150000]];
+    }
+    usort($levels, static fn($x, $y) => $x['from'] <=> $y['from']);
+    $pdo->prepare("REPLACE INTO irepair_lk_cache (k, v, expires_at) VALUES ('bonus_levels', ?, ?)")->execute([json_encode($levels), $now + 86400]);
+    return $levels;
 }
 
 /**
@@ -422,6 +457,13 @@ switch ($action) {
         // клиента сервиса ещё нет в программе лояльности — заводим карту при первом входе
         if (!$bonus['found'] && lk_bonus_ensure($phone, (string) ($c['first_name'] ?? ''), (string) ($c['last_name'] ?? ''), (string) ($c['email'] ?? ''))) {
             $bonus = lk_bonus_info($phone);
+        }
+        if ($bonus['found']) {
+            $bonus['levels'] = lk_bonus_levels();
+            // списания нового кабинета идут в BonusPlus корректировкой баланса и в его «списано всего» не попадают
+            $st = $pdo->prepare("SELECT COALESCE(SUM(amount), 0) FROM irepair_lk_spend_lock WHERE phone = ? AND status = 'done'");
+            $st->execute([$phone]);
+            $bonus['saved'] += (int) $st->fetchColumn();
         }
         $raw = lk_ro_orders($phone);
 
