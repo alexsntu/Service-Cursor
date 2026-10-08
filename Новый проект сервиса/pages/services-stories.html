@@ -1,0 +1,305 @@
+<!-- iRepair: страница «Услуги» (/services/), вариант «сторис» на фото сотрудников и сервиса
+     (прежний вариант с иконками — services.html, оставлен без изменений). H1 выводит CS-Cart — в коде его нет.
+     Пять вертикальных карточек 3:4: фото во всю карточку, снизу затемнение, поверх — название услуги и описание.
+     Компьютер: 3 в ряд, вторая строка из двух по центру. Телефон: лента с прокруткой пальцем, следующая выглядывает.
+     Фото: /images/content/services/*.webp (720 × 960). -->
+<div class="irepair-page-svc">
+  <div class="g-wrapper">
+    <div class="irepair-page-svc__hero">
+      <p class="irepair-page-svc__lede">iRepair — сервисный центр Apple в Москве. У нас работают высококвалифицированные специалисты с большим опытом работы, что гарантирует быстрое и качественное оказание любых услуг. Наш сервис оснащён лучшим оборудованием, позволяющим осуществлять самый сложный ремонт.</p>
+    </div>
+  </div>
+
+  <div class="irepair-page-svc__scroller">
+    <div class="irepair-page-svc__track">
+
+      <div class="irepair-page-svc__card">
+        <img class="irepair-page-svc__img" src="/images/content/services/display.webp" alt="Мастер iRepair в сервисном центре" width="720" height="960" loading="lazy">
+        <span class="irepair-page-svc__text">
+          <span class="irepair-page-svc__name">Восстановление дисплея</span>
+          <span class="irepair-page-svc__desc">Замена стекла или дисплея в сборе — быстро восстановим экран после трещин, тёмных пятен и других повреждений.</span>
+        </span>
+      </div>
+
+      <div class="irepair-page-svc__card">
+        <img class="irepair-page-svc__img" src="/images/content/services/component.webp" alt="Инженер iRepair разбирает MacBook" width="720" height="960" loading="lazy">
+        <span class="irepair-page-svc__text">
+          <span class="irepair-page-svc__name">Компонентный ремонт</span>
+          <span class="irepair-page-svc__desc">Модульная замена отдельных запчастей устройства — аккумулятор, дисплей, камера, динамики и другие компоненты.</span>
+        </span>
+      </div>
+
+      <div class="irepair-page-svc__card">
+        <img class="irepair-page-svc__img" src="/images/content/services/bga.webp" alt="Инженер iRepair за микроскопом" width="720" height="960" loading="lazy">
+        <span class="irepair-page-svc__text">
+          <span class="irepair-page-svc__name">BGA-пайка</span>
+          <span class="irepair-page-svc__desc">Самый сложный ремонтный процесс в электронике — ремонт устройства на уровне микросхем, например материнской платы.</span>
+        </span>
+      </div>
+
+      <div class="irepair-page-svc__card">
+        <img class="irepair-page-svc__img" src="/images/content/services/software.webp" alt="Специалист iRepair за ноутбуком" width="720" height="960" loading="lazy">
+        <span class="irepair-page-svc__text">
+          <span class="irepair-page-svc__name">Программный ремонт</span>
+          <span class="irepair-page-svc__desc">Перепрошивка устройства, устранение системных неполадок, восстановление и извлечение данных.</span>
+        </span>
+      </div>
+
+      <a class="irepair-page-svc__card" href="/trade-in/">
+        <img class="irepair-page-svc__img" src="/images/content/services/trade-in.webp" alt="Сотрудники iRepair у витрины с техникой Apple" width="720" height="960" loading="lazy">
+        <span class="irepair-page-svc__text">
+          <span class="irepair-page-svc__name">Trade-in</span>
+          <span class="irepair-page-svc__desc">Обмениваем старые устройства на новые с доплатой — принимаем технику разных поколений и состояний.</span>
+          <span class="irepair-page-svc__more">Подробнее <svg width="6" height="12" viewBox="0 0 6 12" fill="none" aria-hidden="true"><path d="M1 1.5L5 6L1 10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </span>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="g-wrapper">
+    <div class="irepair-page-svc__cta">
+      <a class="irepair-page-svc__cta-btn" href="/#form-calc">Рассчитать стоимость ремонта</a>
+      <button type="button" class="irepair-page-svc__cta-btn irepair-page-svc__cta-btn_ghost" data-call-popup-trigger>Заказать звонок</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.irepair-page-svc,
+.irepair-page-svc * {
+  box-sizing: border-box;
+}
+.irepair-page-svc {
+  margin-bottom: 80px;
+}
+.irepair-page-svc .g-wrapper,
+.irepair-page-svc .irepair-page-svc__scroller {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 0 35px;
+}
+.irepair-page-svc .irepair-page-svc__hero {
+  max-width: 720px;
+  margin: 0 0 40px;
+}
+.irepair-page-svc .irepair-page-svc__lede {
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #6e6e73;
+}
+
+/* компьютер: 3 карточки в ряд, вторая строка (2 карточки) — по центру */
+.irepair-page-svc .irepair-page-svc__track {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+.irepair-page-svc .irepair-page-svc__card {
+  position: relative;
+  display: block;
+  flex: 0 0 31.5%;
+  max-width: 31.5%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #1d1d1f;
+  color: #ffffff;
+  text-decoration: none;
+}
+.irepair-page-svc .irepair-page-svc__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center top;
+}
+/* затемнение снизу — чтобы белый текст читался на любом фото */
+.irepair-page-svc .irepair-page-svc__card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 68%;
+  background: linear-gradient(180deg, rgba(1, 3, 6, 0) 0%, rgba(1, 3, 6, 0.6) 45%, rgba(1, 3, 6, 0.9) 100%);
+  pointer-events: none;
+}
+.irepair-page-svc .irepair-page-svc__text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: block;
+  padding: 0 26px 26px;
+}
+.irepair-page-svc .irepair-page-svc__name {
+  display: block;
+  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
+  font-size: 26px;
+  line-height: 1.2;
+  color: #ffffff;
+}
+/* зелёная полоска-акцент над названием */
+.irepair-page-svc .irepair-page-svc__name::before {
+  content: '';
+  display: block;
+  width: 34px;
+  height: 4px;
+  margin-bottom: 14px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #36d97b 0%, #19d4e0 100%);
+}
+.irepair-page-svc .irepair-page-svc__desc {
+  display: block;
+  margin-top: 10px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 22px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.irepair-page-svc .irepair-page-svc__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #4ae58a;
+}
+.irepair-page-svc a.irepair-page-svc__card {
+  transition: box-shadow 0.25s ease;
+}
+.irepair-page-svc a.irepair-page-svc__card:hover {
+  color: #ffffff;
+  box-shadow: 0 14px 34px rgba(32, 204, 190, 0.3);
+}
+
+.irepair-page-svc .irepair-page-svc__cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 44px;
+}
+.irepair-page-svc .irepair-page-svc__cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #37d97b 0%, #20ccbe 100%);
+  color: #fff;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+.irepair-page-svc .irepair-page-svc__cta-btn:hover {
+  opacity: 0.88;
+  color: #fff;
+}
+.irepair-page-svc .irepair-page-svc__cta-btn_ghost {
+  background: #fff;
+  border: 1px solid #d2d2d7;
+  color: #1d1d1f;
+}
+.irepair-page-svc .irepair-page-svc__cta-btn_ghost:hover {
+  opacity: 1;
+  border-color: #37d97b;
+  color: #37d97b;
+}
+
+@media (max-width: 1100px) {
+  .irepair-page-svc .irepair-page-svc__track {
+    gap: 14px;
+  }
+  .irepair-page-svc .irepair-page-svc__text {
+    padding: 0 18px 20px;
+  }
+  .irepair-page-svc .irepair-page-svc__name {
+    font-size: 21px;
+  }
+  .irepair-page-svc .irepair-page-svc__desc {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+/* планшет и телефон: лента с прокруткой пальцем, карточки «прилипают», следующая выглядывает */
+@media (max-width: 900px) {
+  .irepair-page-svc .g-wrapper {
+    padding: 0 16px;
+  }
+  .irepair-page-svc .irepair-page-svc__scroller {
+    max-width: none;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+    scrollbar-width: none;
+  }
+  .irepair-page-svc .irepair-page-svc__scroller::-webkit-scrollbar {
+    display: none;
+  }
+  .irepair-page-svc .irepair-page-svc__track {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 10px;
+    width: max-content;
+    padding: 0 16px 4px;
+  }
+  .irepair-page-svc .irepair-page-svc__card {
+    flex: 0 0 auto;
+    width: 44vw;
+    max-width: none;
+    scroll-snap-align: start;
+    border-radius: 20px;
+  }
+}
+@media (max-width: 650px) {
+  /* у страницы на телефоне поля по 20 px — растягиваем ленту до краёв экрана */
+  .irepair-page-svc {
+    margin: -20px -20px 48px;
+    padding-top: 20px;
+  }
+  .irepair-page-svc .irepair-page-svc__hero {
+    margin-bottom: 24px;
+  }
+  .irepair-page-svc .irepair-page-svc__lede {
+    font-size: 14px;
+  }
+  /* 1,3 карточки на экране: одна целиком и треть следующей — описанию нужно место */
+  .irepair-page-svc .irepair-page-svc__card {
+    width: 72vw;
+    border-radius: 18px;
+  }
+  .irepair-page-svc .irepair-page-svc__name {
+    font-size: 21px;
+  }
+  .irepair-page-svc .irepair-page-svc__cta {
+    margin-top: 28px;
+  }
+  .irepair-page-svc .irepair-page-svc__cta-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 14px;
+  }
+}
+</style>
