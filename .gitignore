@@ -2,3 +2,7 @@
 credentials.local.md
 *.local.md
 *credentials*
+
+# Резервные копии сайта (архивы с базой клиентов, ~0,45 ГБ каждый) — никогда не коммитить
+/backups/
+*.tar.gz.gpg

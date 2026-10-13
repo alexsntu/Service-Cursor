@@ -1,5 +1,5 @@
 #!/bin/bash
-# iRepair: учебное восстановление — поднять из последней копии на Яндекс Диске РАБОТАЮЩУЮ копию сайта рядом с основным.
+# iRepair: учебное восстановление — поднять из последней копии (/root/irepair-backup/, туда же можно положить архив с Mac владельца) РАБОТАЮЩУЮ копию сайта рядом с основным.
 # На сервере: /root/irepair-restore-drill.sh up | down
 #   up   — скачать последнюю копию, развернуть файлы в отдельную папку и базу в отдельную базу,
 #          поднять под временным именем restore.dev.irepair.ru (в DNS его нет — открывается только с подстановкой адреса сервера);
@@ -27,10 +27,9 @@ if [ "$MODE" = "down" ]; then down; exit 0; fi
 set -e
 rm -rf "$TMP" "$DIR"; mkdir -p "$TMP/dl" "$TMP/out"
 T0=$(date +%s)
-F=$(rclone lsf yadisk:iRepair-backup/daily/ | sort | tail -1)
-echo "1. копия с Диска: $F"
-rclone copy "yadisk:iRepair-backup/daily/$F" "$TMP/dl/"
-gpg --batch --pinentry-mode loopback --passphrase-file /root/.irepair-backup.pass -d "$TMP/dl/$F" 2>/dev/null | tar xzf - -C "$TMP/out"
+F=$(ls -1 /root/irepair-backup/irepair-*.tar.gz.gpg | sort | tail -1)
+echo "1. копия: $F"
+gpg --batch --pinentry-mode loopback --passphrase-file /root/.irepair-backup.pass -d "$F" 2>/dev/null | tar xzf - -C "$TMP/out"
 
 echo "2. файлы → $DIR"
 mv "$TMP/out/site" "$DIR"
