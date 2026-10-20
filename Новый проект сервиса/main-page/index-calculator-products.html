@@ -645,7 +645,7 @@
 .irepair-index-calc__field[hidden] {
   display: none !important;
 }
-/* плашка цены (ПК): «Стоимость ремонта» — цена — кнопка на одной линии, цифры высотой с кнопку (56px) */
+/* плашка цены (ПК): «Стоимость ремонта» — цена — кнопка на одной линии, цена по центру по высоте кнопки */
 .irepair-index-calc__result {
   margin-top: 28px;
   display: flex;
@@ -664,10 +664,12 @@
   color: rgba(255, 255, 255, 0.7);
   white-space: nowrap;
 }
+/* сумма — тем же шрифтом и размером, что «К оплате» в карточке услуги (32/40, на телефоне 28/36) */
 .irepair-index-calc__result-price {
-  font-family: 'Montserrat-SemiBold', Arial, sans-serif;
-  font-size: 48px;
-  line-height: 56px;
+  font-family: 'Montserrat-SemiBold', 'Montserrat-Bold', Arial, sans-serif;
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 400;
   color: #fff;
   white-space: nowrap;
 }
@@ -736,8 +738,7 @@
   .irepair-index-calc__quality-desc {
     text-align: left;
   }
-  /* плашка цены (телефон): надпись, цена, кнопка столбиком; отступы между ними = отступам от краёв плашки (18px);
-     цифры высотой с кнопку (52px) */
+  /* плашка цены (телефон): надпись, цена, кнопка столбиком; отступы между ними = отступам от краёв плашки (18px) */
   .irepair-index-calc__result {
     flex-direction: column;
     align-items: stretch;
@@ -750,8 +751,8 @@
     line-height: 20px;
   }
   .irepair-index-calc__result-price {
-    font-size: 44px;
-    line-height: 52px;
+    font-size: 28px;
+    line-height: 36px;
   }
   .irepair-index-calc__cta {
     width: 100%;

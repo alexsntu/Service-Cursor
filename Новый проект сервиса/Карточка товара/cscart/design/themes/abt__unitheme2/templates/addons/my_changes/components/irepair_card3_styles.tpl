@@ -102,6 +102,16 @@
   cursor: pointer;
   transition: border-color 0.2s ease;
 }
+/* название варианта мельче (13 px) и с узкими боковыми отступами: длинные названия
+   («AASP (Замена дисплея в сборе)», MacBook) помещаются в плитку; на узком экране — перенос, а не вылет за рамку.
+   Селектор сильнее правила сетки плиток из irepair_variant_note.tpl */
+.irepair-card3 .irepair-card3__mid .cm-picker-product-variation-features .ty-product-options__item .ty-product-options__radio--label {
+  padding-left: 4px;
+  padding-right: 4px;
+  font-size: 13px;
+  line-height: 18px;
+  white-space: normal;
+}
 .irepair-card3 .irepair-card3__mid .ty-product-options__radio--label::before,
 .irepair-card3 .irepair-card3__mid .ty-product-options__radio--label::after,
 .irepair-card3 .irepair-card3__mid .ty-product-options__radio--label .ty-product-option-checkbox:empty {
@@ -204,8 +214,11 @@
   flex: 1 1 100%;
   width: 100%;
 }
+/* flex, а не block: иначе значок и текст встают по базовой линии и сидят на ~3 px выше центра */
 .irepair-card3 .irepair-card3__side .ut2-pb__button .ty-btn__add-to-cart {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: none;
 }
